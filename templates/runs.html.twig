@@ -1,0 +1,20 @@
+{% extends "base.html.twig" %}
+{% block content %}
+    <h2>Overview of runs of {{ title }}</h2>
+    <div id="accordion" class="panel-group">
+{% for run in runs %}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{ loop.index }}">({{ run.statuscode }}) {{ run.timestamp }}</a>
+            </h4>
+        </div>
+        <div  id="collapse{{ loop.index }}" class="panel-collapse collapse">
+            <div class="panel-body">
+                <code>{{ run.result }}</code>
+            </div>
+        </div>
+    </div>
+{% endfor %}
+</table>
+{% endblock %}

@@ -1,0 +1,14 @@
+{
+    "name": "jeroened/jeroen-e-d-web-dev-webcron",
+    "description": "Description of project JeroenED-WebDev-Webcron.",
+    "authors": [
+        {
+            "name": "Jeroen De Meerleer",
+            "email": "me@jeroened.be"
+        }
+    ],
+    "require": {
+        "guzzlehttp/guzzle": "6.2.3",
+        "twig/twig": "v2.3.0"
+    }
+}

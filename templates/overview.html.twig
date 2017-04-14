@@ -1,0 +1,10 @@
+{% extends "base.html.twig" %}
+{% block content %}
+    <h2>Overview of your cronjobs</h2>
+<table class="table">
+    <tr><th>ID</th><th>Name</th><th>Delay</th><th>Next run</th><th></th></tr>
+{% for job in jobs %}
+        <tr><td>{{ job.jobID }}</td><td>{{ job.name }}</td><td>{{ job.delay }}</td><td>{{ job.nextrun }}</td><td><a href="runs.php?jobID={{ job.jobID }}">View runs</a></tr>
+{% endfor %}
+</table>
+{% endblock %}
