@@ -29,9 +29,11 @@ session_start();
 error_reporting("E_ALL");
 ini_set("display_errors", "on");
 //echo $_SERVER["REQUEST_URI"]; exit;
-if(!isset($_SESSION['userID']) && (explode("?", $_SERVER["REQUEST_URI"])[0] != "/index.php" && $_SERVER["REQUEST_URI"] != "/")) {
-    header("location:index.php");
-    exit;
+if(php_sapi_name() !== 'cli' ) {
+	if (!isset($_SESSION['userID']) && (explode("?", $_SERVER["REQUEST_URI"])[0] != "/index.php" && $_SERVER["REQUEST_URI"] != "/")) {
+	    header("location:index.php");
+	    exit;
+	}
 }
 
 require_once "config.inc.php";
