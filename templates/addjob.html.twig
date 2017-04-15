@@ -16,29 +16,29 @@
         </div>
     {% endif %}
   
-    <div class="form-group col-sm-12">
+    <div class="form-group">
         <label for="name">Name</label>
         <input type="text" name="name" class="form-control" id="name" placeholder="blah">
     </div>
-    <div class="form-group col-sm-12">
+    <div class="form-group">
         <label for="url">url</label>
         <input type="url" name="url" class="form-control" id="url" placeholder="https://">
     </div>
 
     <div class="form-group">
-        <div class="col-sm-2">
-            <label for="name">Delay (in seconds)</label>
-            <select class="form-control" id="patternDropdown">
-                <option data-val="60"><a href="#">Every minute</a></option>
-                <option data-val="3600"><a href="#">Every hour</a></option>
-                <option data-val="86400"><a href="#">Every day</a></option>
-                <option data-val="604800"><a href="#">Every week</a></option>
-                <option data-val="2419200"><a href="#">Every 4 weeks</a></option>
-                <option data-val="custom"><a href="#">Custom</a></option>
-             </select>
-        </div>
-        <div class="col-sm-10">
-            <label for="name">&nbsp;</label>
+        <label for="name">Delay (in seconds)</label>
+        <div class="input-group">
+            <div class="input-group-btn">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Pattern <span class="caret"></span></button>
+                <ul class="dropdown-menu" id="patternDropdown">
+                    <li data-val="60"><a href="#">Every minute</a></li>
+                    <li data-val="3600"><a href="#">Every hour</a></li>
+                    <li data-val="86400"><a href="#">Every day</a></li>
+                    <li data-val="604800"><a href="#">Every week</a></li>
+                    <li data-val="2419200"><a href="#">Every 4 weeks</a></li>
+                    <li data-val="custom"><a href="#">Custom</a></li>
+                 </ul>
+            </div><!-- /btn-group -->
             <input type="number" class="form-control" id="delay" name="delay">
         </div>
     </div>

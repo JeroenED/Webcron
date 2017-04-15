@@ -24,7 +24,7 @@
 
 
 $(document).ready(function() {
-   $("body").on("change", "#patternDropdown", function() {
-       if(this.value != "custom") { $("input#delay").val($("option:selected", this).data("val")); }
+   $("body").on("click", "#patternDropdown li", function() {
+       if(this.value != "custom") { $("input#delay").val($(this).data("val")); }
    }); 
 });
