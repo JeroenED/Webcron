@@ -28,7 +28,9 @@ session_start();
 
 error_reporting("E_ALL");
 ini_set("display_errors", "on");
-//echo $_SERVER["REQUEST_URI"]; exit;
+if (!file_exists("config.inc.php")) {
+    die ("Cannot find config file");
+}
 if(php_sapi_name() !== 'cli' ) {
 	if (!isset($_SESSION['userID']) && (explode("?", $_SERVER["REQUEST_URI"])[0] != "/index.php" && $_SERVER["REQUEST_URI"] != "/")) {
 	    header("location:index.php");
