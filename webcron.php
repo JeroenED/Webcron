@@ -26,7 +26,7 @@
 
 require_once "include/initialize.inc.php";
 
-$stmt = $db->query('SELECT jobID, url, delay FROM jobs WHERE nextrun < ' . time());
+$stmt = $db->query('SELECT jobID, url, delay, nextrun FROM jobs WHERE nextrun < ' . time());
 $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 $client = new \GuzzleHttp\Client();
@@ -41,8 +41,11 @@ foreach ($results as $result) {
     $stmt = $db->prepare("INSERT INTO runs(job, statuscode, result, timestamp)  VALUES(?, ?, ?, ?)");
     $stmt->execute(array($result['jobID'], $statuscode, $body, time()));
     
+    $nextrun = $result['nextrun'] + $result['delay'];
+    if ($nextrun < time() ) { $nextrun = time() + $result['delay']; }
+
     $nexttime = $db->prepare("UPDATE jobs SET nextrun = ? WHERE jobID = ?");
-    $nexttime->execute(array(time() + $result["delay"], $result["jobID"]));
+    $nexttime->execute(array($nextrun, $result["jobID"]));
 
 }
 
