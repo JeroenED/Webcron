@@ -1,0 +1,52 @@
+{% extends "base.html.twig" %}
+
+{% block content %}
+<form class="form-horizontal" method="post" action="/editjob.php?jobID={{ jobID }}">
+    {% if not error == "" %}
+        <div class="alert alert-danger fade in">
+            <a href="#" class="close" data-dismiss="alert">&times;</a>
+            <strong>Error!</strong> {{ error }}
+        </div>
+    {% endif %}
+    
+
+  
+    <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" name="name" class="form-control" id="name" placeholder="blah" value="{{ name }}">
+    </div>
+    <div class="form-group">
+        <label for="url">url</label>
+        <input type="url" name="url" class="form-control" id="url" placeholder="https://" value="{{ url }}">
+    </div>
+
+    <div class="form-group">
+        <label for="name">Delay (in seconds)</label>
+        <div class="input-group">
+            <div class="input-group-btn">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Pattern <span class="caret"></span></button>
+                <ul class="dropdown-menu" id="patternDropdown">
+                    <li data-val="60"><a href="#">Every minute</a></li>
+                    <li data-val="3600"><a href="#">Every hour</a></li>
+                    <li data-val="86400"><a href="#">Every day</a></li>
+                    <li data-val="604800"><a href="#">Every week</a></li>
+                    <li data-val="2419200"><a href="#">Every 4 weeks</a></li>
+                    <li data-val="custom"><a href="#">Custom</a></li>
+                 </ul>
+            </div><!-- /btn-group -->
+            <input type="number" class="form-control" id="delay" name="delay"  value="{{ delay }}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="nextrun">Next run</label>
+        <div class="input-group date" id="nextrunselector">
+            <span class="input-group-addon">
+                <span class="glyphicon glyphicon-calendar"></span>
+            </span>
+            <input type="text" class="form-control" name="nextrun" value="{{ nextrun }}">
+        </div>
+    </div>
+    <button type="submit" class="btn btn-default">Submit</button>
+</form>
+
+{% endblock %}

@@ -37,6 +37,14 @@ if (isset($_GET['action'])) {
         $message = "Job was sucessfully deleted";
     }
 }
+    
+$message = "";
+if ($_GET["message"]) {
+    switch ($_GET["message"]) {
+        case "edited":
+            $message = "The cronjob has been edited"; break;
+    }
+}
 
 $allJobs = $db->prepare("SELECT * FROM jobs WHERE user = ?");
 $allJobs->execute(array($_SESSION["userID"]));
