@@ -62,6 +62,8 @@ elseif ($_SERVER["REQUEST_METHOD"] == "POST") {
     $url = $_POST['url'];
     $name = $_POST['name'];
     $delay = $_POST['delay'];
+    $nextrunObj = new DateTime($_POST['nextrun']);
+    $nextrun = $nextrunObj->getTimestamp();
     
     if(filter_var($url, FILTER_VALIDATE_URL) === FALSE) {
         header("location:addjob.php?error=invalidurl");
@@ -72,10 +74,14 @@ elseif ($_SERVER["REQUEST_METHOD"] == "POST") {
         header("location:addjob.php?error=invaliddelay");
         exit;
     }
+    if(!is_numeric($nextrun)) {
+        header("location:addjob.php?error=invalidnextrun");
+        exit;
+    }
     
   
     $stmt = $db->prepare("INSERT INTO jobs(user, name, url, delay, nextrun)  VALUES(?, ?, ?, ?, ?)");
-    $stmt->execute(array($_SESSION["userID"], $name, $url, $delay, time()+$delay));
+    $stmt->execute(array($_SESSION["userID"], $name, $url, $delay, $nextrun));
     
     header("location:addjob.php?message=added");
     exit;
