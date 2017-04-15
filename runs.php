@@ -26,6 +26,15 @@
 
 require_once "include/initialize.inc.php";
 
+$jobnameqry = $db->prepare("SELECT name, user FROM jobs WHERE jobID = ?");
+$jobnameqry->execute(array($_GET['jobID']));
+$jobnameResult = $jobnameqry->fetchAll(PDO::FETCH_ASSOC);
+if ($jobnameResult[0]["user"] != $_SESSION["userID"]) {
+    header("location:/overview.php");
+    exit;
+}
+$jobName = $jobnameResult[0]['name'];
+
 $runsForJob = $db->prepare("SELECT runs.*, jobs.name FROM runs, jobs WHERE runs.job = jobs.jobID AND runs.job = ?");
 $runsForJob->execute(array($_GET['jobID']));
 $runsForJobResult = $runsForJob->fetchAll(PDO::FETCH_ASSOC);
@@ -36,7 +45,6 @@ $twig = new Twig_Environment($loader, array('cache' => 'cache', "debug" => true)
 //var_dump($alljobsResult);
 //exit;
 
-$jobName = $runsForJobResult[0]['name'];
 $runsForJobRendered = array();$count = 0;
 foreach($runsForJobResult as $key=>$value) {
     $runsForJobRendered[$count]["runID"] = $value["runID"];

@@ -1,6 +1,6 @@
 {% extends "base.html.twig" %}
 {% block content %}
-    <h2>Overview of runs of {{ title }}</h2>
+    <h2>Overview of runs for {{ title }}</h2>
     <div id="accordion" class="panel-group">
 {% for run in runs %}
     <div class="panel panel-default">
@@ -16,5 +16,5 @@
         </div>
     </div>
 {% endfor %}
-</table>
+    </div>
 {% endblock %}
