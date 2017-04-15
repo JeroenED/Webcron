@@ -26,6 +26,12 @@
 
 require_once "include/initialize.inc.php";
 
+if(file_exists('cache/webcron.lock'))
+{
+    die('Script is already running');
+}
+touch('cache/webcron.lock');
+
 $stmt = $db->query('SELECT jobID, url, delay, nextrun FROM jobs WHERE nextrun < ' . time());
 $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -48,5 +54,7 @@ foreach ($results as $result) {
     $nexttime->execute(array($nextrun, $result["jobID"]));
 
 }
+
+unlink('cache/webcron.lock');
 
 require_once 'include/finalize.inc.php';
