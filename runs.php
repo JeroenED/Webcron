@@ -36,7 +36,7 @@ $twig = new Twig_Environment($loader, array('cache' => 'cache', "debug" => true)
 //var_dump($alljobsResult);
 //exit;
 
-$jobName = $runsForJobResult[0]['jobname'];
+$jobName = $runsForJobResult[0]['name'];
 $runsForJobRendered = array();$count = 0;
 foreach($runsForJobResult as $key=>$value) {
     $runsForJobRendered[$count]["runID"] = $value["runID"];
