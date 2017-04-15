@@ -26,6 +26,18 @@
 
 require_once "include/initialize.inc.php";
 
+$message = "";
+if (isset($_GET['action'])) {
+    $jobID = $_GET['jobID'];
+    if ($_GET['action'] == "delete") {
+        $deletestmt = $db->prepare("DELETE FROM jobs WHERE jobID = ? ");
+        $deletestmt->execute(array($jobID));
+        $delete2stmt = $db->prepare("DELETE FROM runs WHERE job = ? ");
+        $delete2stmt->execute(array($jobID));
+        $message = "Job was sucessfully deleted";
+    }
+}
+
 $allJobs = $db->prepare("SELECT * FROM jobs WHERE user = ?");
 $allJobs->execute(array($_SESSION["userID"]));
 $allJobsResult = $allJobs->fetchAll(PDO::FETCH_ASSOC);
@@ -46,7 +58,7 @@ foreach($allJobsResult as $key=>$value) {
     $count++;
 }
 
-$twig_vars = array('jobs' => $allJobsRendered);
+$twig_vars = array('jobs' => $allJobsRendered, 'message' => $message);
 
 //echo $twig->render('overview.html.twig', array('the' => 'variables', 'go' => 'here'));
 echo $twig->render('overview.html.twig', $twig_vars);

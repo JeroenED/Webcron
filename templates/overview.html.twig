@@ -1,10 +1,34 @@
 {% extends "base.html.twig" %}
 {% block content %}
     <h2>Overview of your cronjobs</h2>
+    {% if not message == "" %}
+        <div class="alert alert-success fade in">
+            <a href="#" class="close" data-dismiss="alert">&times;</a>
+            {{ message }}
+        </div>
+    {% endif %}
 <table class="table">
-    <tr><th>ID</th><th>Name</th><th>Delay</th><th>Next run</th><th></th></tr>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Delay</th>
+        <th>Next run</th>
+        <th></th>
+    </tr>
 {% for job in jobs %}
-        <tr><td>{{ job.jobID }}</td><td>{{ job.name }}</td><td>{{ job.delay }}</td><td>{{ job.nextrun }}</td><td><a href="runs.php?jobID={{ job.jobID }}">View runs</a></tr>
+        <tr>
+            <td>{{ job.jobID }}</td>
+            <td>{{ job.name }}</td>
+            <td>{{ job.delay }}</td>
+            <td>{{ job.nextrun }}</td>
+            <td>
+                <div class="btn-group" role="group" aria-label="...">
+                    <a href="runs.php?jobID={{ job.jobID }}" class="btn btn-default"><span class="glyphicon glyphicon-align-justify"></span></a>
+                    <a href="overview.php?jobID={{ job.jobID }}&action=edit" class="btn btn-default"><span class="glyphicon glyphicon-edit"><span></a>
+                    <a onclick="return confirm('Are you sure you want to delete this job?')" href="overview.php?jobID={{ job.jobID }}&action=delete" class="btn btn-default"><span class="glyphicon glyphicon-remove"></span></a>
+                </div>
+            </td>
+        </tr>
 {% endfor %}
 </table>
 {% endblock %}
