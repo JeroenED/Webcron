@@ -1,4 +1,6 @@
-/* 
+<?php
+
+/*
  * The MIT License
  *
  * Copyright 2017 Jeroen De Meerleer <me@jeroened.be>.
@@ -22,26 +24,29 @@
  * THE SOFTWARE.
  */
 
+require_once "include/initialize.inc.php";
 
-$(document).ready(function() {
-   $("body").on("click", "#patternDropdown li", function() {
-       if(this.value != "custom") { $("input#delay").val($(this).data("val")); }
-   });
-   $('#nextrunselector').datetimepicker();
-   
-   $("body").on("click", ".runcron", function() {
-       fullurl = "/runnow.php?jobID=" + $(this).data("id");
-       $.ajax(fullurl).done(function(data) {
-           results = JSON.parse(data);
-           
-           if(results["error"] !== undefined) {
-               $("#resulttitle").html("Error");
-               $("#resultbody").text(results["error"]);
-           } else {
-               $("#resulttitle").html("Success");
-               $("#resultbody").text(results["message"]);
-           }
-           $('#resultmodal').modal('show');
-       })
-   });
-});
+if(!isset($_GET['jobID'])) {
+    header("location:/overview.php");
+    exit;
+}
+$jobID = $_GET['jobID'];
+
+$jobnameqry = $db->prepare("SELECT * FROM jobs WHERE jobID = ?");
+$jobnameqry->execute(array($_GET['jobID']));
+$jobnameResult = $jobnameqry->fetchAll(PDO::FETCH_ASSOC);
+if ($jobnameResult[0]["user"] != $_SESSION["userID"]) {
+    die(json_encode(array("error" => "You dirty hacker!")));
+}
+
+
+$client = new \GuzzleHttp\Client();
+
+$res = $client->request('GET', $jobnameResult[0]['url']);
+
+$stmt = $db->prepare("INSERT INTO runs(job, statuscode, result, timestamp)  VALUES(?, ?, ?, ?)");
+$stmt->execute(array($jobID, $statuscode, $body, $timestamp));
+
+echo json_encode(array("message" => "Cronjob succesfully ran"));
+
+require_once 'include/finalize.inc.php';
