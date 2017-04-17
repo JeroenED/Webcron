@@ -24,24 +24,26 @@
 
 
 $(document).ready(function() {
-   $("body").on("click", "#patternDropdown li", function() {
-       if(this.value != "custom") { $("input#delay").val($(this).data("val")); }
-   });
-   $('#nextrunselector').datetimepicker();
+    $("body").on("click", "#patternDropdown li", function() {
+        if(this.value != "custom") { $("input#delay").val($(this).data("val")); }
+    });
+    $('#nextrunselector').datetimepicker();
    
-   $("body").on("click", ".runcron", function() {
-       fullurl = "/runnow.php?jobID=" + $(this).data("id");
-       $.ajax(fullurl).done(function(data) {
-           results = JSON.parse(data);
+    $("body").on("click", ".runcron", function() {
+        $("#ajax_loader").show();
+        fullurl = "/runnow.php?jobID=" + $(this).data("id");
+        $.ajax(fullurl).done(function(data) {
+            results = JSON.parse(data);
            
-           if(results["error"] !== undefined) {
-               $("#resulttitle").html("Error");
-               $("#resultbody").text(results["error"]);
-           } else {
-               $("#resulttitle").html("Success");
-               $("#resultbody").text(results["message"]);
-           }
-           $('#resultmodal').modal('show');
-       })
+            if(results["error"] !== undefined) {
+                $("#resulttitle").html("Error");
+                $("#resultbody").text(results["error"]);
+            } else {
+                $("#resulttitle").html("Success");
+                $("#resultbody").text(results["message"]);
+            }
+            $("#ajax_loader").hide();
+            $('#resultmodal').modal('show');
+        });
    });
 });
