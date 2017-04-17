@@ -44,6 +44,10 @@ $client = new \GuzzleHttp\Client();
 
 $res = $client->request('GET', $jobnameResult[0]['url']);
 
+$statuscode = $res->getStatusCode();
+$body = $res->getBody();
+$timestamp = time();
+
 $stmt = $db->prepare("INSERT INTO runs(job, statuscode, result, timestamp)  VALUES(?, ?, ?, ?)");
 $stmt->execute(array($jobID, $statuscode, $body, $timestamp));
 
