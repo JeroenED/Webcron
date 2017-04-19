@@ -1,7 +1,7 @@
 {% extends "base.html.twig" %}
 {% block title %}Edit job {{ name }}{% endblock %}
 {% block content %}
-<form class="form-horizontal" method="post" action="/editjob.php?jobID={{ jobID }}">
+<form method="post" action="/editjob.php?jobID={{ jobID }}">
     {% if not error == "" %}
         <div class="alert alert-danger fade in">
             <a href="#" class="close" data-dismiss="alert">&times;</a>
