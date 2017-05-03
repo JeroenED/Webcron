@@ -9,6 +9,6 @@
     ],
     "require": {
         "guzzlehttp/guzzle": "6.2.3",
-        "twig/twig": "v2.3.0"
+        "twig/twig": "~1.0"
     }
 }

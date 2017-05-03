@@ -28,6 +28,12 @@ session_start();
 
 error_reporting("E_ALL");
 ini_set("display_errors", "on");
+
+if( ini_get('safe_mode') ){
+   die("Cannot run in safe mode");
+}
+
+set_time_limit(600);
 if (!file_exists("config.inc.php")) {
     die ("Cannot find config file");
 }
