@@ -32,29 +32,74 @@ if(file_exists('cache/webcron.lock'))
 }
 touch('cache/webcron.lock');
 
-$stmt = $db->query('SELECT jobID, url, delay, nextrun FROM jobs WHERE nextrun < ' . time());
-$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+/**
+ * Reboot finalize
+ */
+if (file_exists("cache/get-services.trigger")) {
+    $rebootjobs = unserialize(file_get_contents("cache/get-services.trigger"));
+    $services = array();
+    exec("systemctl list-unit-files | cat", $services);;
+    $services = implode("\n", $services);
+    
+    foreach($rebootjobs as $job) {
+        $stmt = $db->query("SELECT jobID, delay, nextrun FROM jobs WHERE jobID = " . $job);
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC)[0];
+        
+        $stmt = $db->prepare("INSERT INTO runs(job, statuscode, result, timestamp)  VALUES(?, ?, ?, ?)");
+        $stmt->execute(array($result['jobID'], '200', $services, time()));
 
+        $nextrun = $result['nextrun'] + $result['delay'];
+        if ($nextrun < time() ) { $nextrun = time() + $result['delay']; }
+
+        $nexttime = $db->prepare("UPDATE jobs SET nextrun = ? WHERE jobID = ?");
+        $nexttime->execute(array($nextrun, $result["jobID"]));
+    }
+    unlink("cache/get-services.trigger");
+}
+
+$stmt = $db->query('SELECT jobID, url, delay, nextrun, type FROM jobs WHERE nextrun < ' . time());
+$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 $client = new \GuzzleHttp\Client();
 
+$rebootjobs = array();
 foreach ($results as $result) {
-    
-    $res = $client->request('GET', $result['url']);
-    
-    $statuscode = $res->getStatusCode();
-    $body = $res->getBody();
-    
-    $stmt = $db->prepare("INSERT INTO runs(job, statuscode, result, timestamp)  VALUES(?, ?, ?, ?)");
-    $stmt->execute(array($result['jobID'], $statuscode, $body, time()));
-    
-    $nextrun = $result['nextrun'] + $result['delay'];
-    if ($nextrun < time() ) { $nextrun = time() + $result['delay']; }
 
-    $nexttime = $db->prepare("UPDATE jobs SET nextrun = ? WHERE jobID = ?");
-    $nexttime->execute(array($nextrun, $result["jobID"]));
+    if($result["type"] == "web") {
+        $res = $client->request('GET', $result['url']);
+    
+        $statuscode = $res->getStatusCode();
+        $body = $res->getBody();
+    } elseif ($result["type"] == "bash") {
+ 
+        if($result["url"] != "reboot") {
+            $body = '';
+            $result = 0;
+            exec($result["url"], $body, $result);
+        } else {
+            $rebootjobs[] = $result['jobID'];
+            touch("cache/reboot.trigger");
+            $nosave = true;
+        }
+    }
+    if($nosave !== true) {
+        $stmt = $db->prepare("INSERT INTO runs(job, statuscode, result, timestamp)  VALUES(?, ?, ?, ?)");
+        $stmt->execute(array($result['jobID'], $statuscode, $body, time()));
 
+        $nextrun = $result['nextrun'] + $result['delay'];
+        if ($nextrun < time() ) { $nextrun = time() + $result['delay']; }
+
+        $nexttime = $db->prepare("UPDATE jobs SET nextrun = ? WHERE jobID = ?");
+        $nexttime->execute(array($nextrun, $result["jobID"]));
+    }
+    $nosave = false;
 }
 
 unlink('cache/webcron.lock');
 
+if(file_exists("cache/reboot.trigger")) {
+    unlink("cache/reboot.trigger");
+    $rebootser = serialize($rebootjobs);
+    file_put_contents("cache/get-services.trigger", $rebootser);
+    exec("systemctl reboot");
+}
 require_once 'include/finalize.inc.php';
