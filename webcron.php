@@ -38,7 +38,7 @@ touch('cache/webcron.lock');
 if (file_exists("cache/get-services.trigger")) {
     $rebootjobs = unserialize(file_get_contents("cache/get-services.trigger"));
     $services = array();
-    exec("systemctl list-unit-files | cat", $services);;
+    exec("systemctl list-unit-files | cat", $services);
     $services = implode("\n", $services);
     
     foreach($rebootjobs as $job) {
@@ -64,12 +64,12 @@ $client = new \GuzzleHttp\Client();
 $rebootjobs = array();
 foreach ($results as $result) {
 
-    if($result["type"] == "web") {
+    if (filter_var($result["type"], FILTER_VALIDATE_URL)) {
         $res = $client->request('GET', $result['url']);
     
         $statuscode = $res->getStatusCode();
         $body = $res->getBody();
-    } elseif ($result["type"] == "bash") {
+    } else {
  
         if($result["url"] != "reboot") {
             $body = '';
