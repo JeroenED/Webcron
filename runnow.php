@@ -52,8 +52,9 @@ if (filter_var($result["url"], FILTER_VALIDATE_URL)) {
  
     if($result["url"] != "reboot") {
         $body = '';
-        $result = 0;
-        exec($result["url"], $body, $result);
+        $statuscode = 0;
+        exec($result["url"], $body, $statuscode);
+        $body = implode("\n", $body);
     } else {
         $rebootjobs[] = $result['jobID'];
         touch("cache/reboot.trigger");
