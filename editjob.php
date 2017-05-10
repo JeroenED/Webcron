@@ -63,7 +63,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 elseif ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     if (empty($_POST['name']) || empty($_POST['url'] || empty($_POST['delay']))) {
-        header("location:addjob.php?error=emptyfields");
+        header("location:editjob.php?error=emptyfields");
         exit;
     }
     
