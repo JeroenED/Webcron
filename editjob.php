@@ -73,11 +73,6 @@ elseif ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nextrunObj = new DateTime($_POST['nextrun']);
     $nextrun = $nextrunObj->getTimestamp();
     
-    if(filter_var($url, FILTER_VALIDATE_URL) === FALSE) {
-        header("location:editjob.php?jobID=" . $jobID . "&error=invalidurl");
-        exit;
-    }
-    
     if(!is_numeric($delay)) {
         header("location:editjob.php?jobID=" . $jobID . "&error=invaliddelay");
         exit;
