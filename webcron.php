@@ -48,7 +48,7 @@ if (file_exists("cache/get-services.trigger")) {
         $stmt = $db->prepare("INSERT INTO runs(job, statuscode, result, timestamp)  VALUES(?, ?, ?, ?)");
         $stmt->execute(array($result['jobID'], '200', $services, time()));
 
-        $nextrun = $result['nextrun'] + $result['delay'];
+        $nextrun = ($result['nextrun'] < time()) ? $result['nextrun'] + $result['delay'] : $result['nextrun'];
         if ($nextrun < time() ) { $nextrun = time() + $result['delay']; }
 
         $nexttime = $db->prepare("UPDATE jobs SET nextrun = ? WHERE jobID = ?");
