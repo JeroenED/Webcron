@@ -39,7 +39,7 @@ if ($jobnameResult[0]["user"] != $_SESSION["userID"]) {
     die(json_encode(array("error" => "You dirty hacker!")));
 }
 $nosave = false;
-if (filter_var($result["url"], FILTER_VALIDATE_URL)) {
+if (filter_var($jobnameResult[0]["url"], FILTER_VALIDATE_URL)) {
     $client = new \GuzzleHttp\Client();
 
     $res = $client->request('GET', $jobnameResult[0]['url']);
@@ -50,13 +50,14 @@ if (filter_var($result["url"], FILTER_VALIDATE_URL)) {
 
 } else {
  
-    if($result["url"] != "reboot") {
+    if($jobnameResult[0]["url"] != "reboot") {
         $body = '';
         $statuscode = 0;
-        exec($result["url"], $body, $statuscode);
+        exec($jobnameResult[0]["url"], $body, $statuscode);
         $body = implode("\n", $body);
+        $timestamp = time();
     } else {
-        $rebootjobs[] = $result['jobID'];
+        $rebootjobs[] = $jobnameResult[0]['jobID'];
         touch("cache/reboot.trigger");
         $nosave = true;
     }
