@@ -39,7 +39,7 @@ if ($jobnameResult[0]["user"] != $_SESSION["userID"]) {
     die(json_encode(array("error" => "You dirty hacker!")));
 }
 $nosave = false;
-if (filter_var($result["type"], FILTER_VALIDATE_URL)) {
+if (filter_var($result["url"], FILTER_VALIDATE_URL)) {
     $client = new \GuzzleHttp\Client();
 
     $res = $client->request('GET', $jobnameResult[0]['url']);

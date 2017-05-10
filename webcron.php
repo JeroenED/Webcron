@@ -57,7 +57,7 @@ if (file_exists("cache/get-services.trigger")) {
     unlink("cache/get-services.trigger");
 }
 
-$stmt = $db->query('SELECT jobID, url, delay, nextrun, type FROM jobs WHERE nextrun < ' . time());
+$stmt = $db->query('SELECT jobID, url, delay, nextrun FROM jobs WHERE nextrun < ' . time());
 $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 $client = new \GuzzleHttp\Client();
 
