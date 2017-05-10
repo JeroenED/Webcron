@@ -62,6 +62,10 @@ $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 $client = new \GuzzleHttp\Client();
 
 $rebootjobs = array();
+if (file_exists("cache/get-services.trigger")) {
+    $rebootjobs = unserialize(file_get_contents("cache/get-services.trigger"));
+}
+
 foreach ($results as $result) {
 
     if (filter_var($result["type"], FILTER_VALIDATE_URL)) {

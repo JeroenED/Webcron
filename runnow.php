@@ -38,19 +38,40 @@ $jobnameResult = $jobnameqry->fetchAll(PDO::FETCH_ASSOC);
 if ($jobnameResult[0]["user"] != $_SESSION["userID"]) {
     die(json_encode(array("error" => "You dirty hacker!")));
 }
+$nosave = false;
+if (filter_var($result["type"], FILTER_VALIDATE_URL)) {
+    $client = new \GuzzleHttp\Client();
+
+    $res = $client->request('GET', $jobnameResult[0]['url']);
+
+    $statuscode = $res->getStatusCode();
+    $body = $res->getBody();
+    $timestamp = time();
+
+} else {
+ 
+    if($result["url"] != "reboot") {
+        $body = '';
+        $result = 0;
+        exec($result["url"], $body, $result);
+    } else {
+        $rebootjobs[] = $result['jobID'];
+        touch("cache/reboot.trigger");
+        $nosave = true;
+    }
+}
+if($nosave !== true) {
+    $stmt = $db->prepare("INSERT INTO runs(job, statuscode, result, timestamp)  VALUES(?, ?, ?, ?)");
+    $stmt->execute(array($jobID, $statuscode, $body, $timestamp));
+}
 
 
-$client = new \GuzzleHttp\Client();
-
-$res = $client->request('GET', $jobnameResult[0]['url']);
-
-$statuscode = $res->getStatusCode();
-$body = $res->getBody();
-$timestamp = time();
-
-$stmt = $db->prepare("INSERT INTO runs(job, statuscode, result, timestamp)  VALUES(?, ?, ?, ?)");
-$stmt->execute(array($jobID, $statuscode, $body, $timestamp));
-
-echo json_encode(array("message" => "Cronjob succesfully ran"));
+if(file_exists("cache/reboot.trigger")) {
+    $rebootser = serialize($rebootjobs);
+    file_put_contents("cache/get-services.trigger", $rebootser);
+    echo json_encode(array("message" => "Reboot is scheduled. Programmer's fuel is awaiting"));
+} else {
+   echo json_encode(array("message" => "Cronjob succesfully ran"));
+}
 
 require_once 'include/finalize.inc.php';
