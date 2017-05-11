@@ -39,7 +39,7 @@ if (file_exists("cache/get-services.trigger")) {
     if (file_exists("cache/reboot-time.trigger") && file_get_contents("cache/reboot-time.trigger") < time()) { 
         $rebootjobs = unserialize(file_get_contents("cache/get-services.trigger"));
         $services = array();
-        exec("systemctl list-unit-files | cat", $services);
+        exec("sudo systemctl list-units --all | cat", $services);
         $services = implode("\n", $services);
 
         foreach($rebootjobs as $job) {
