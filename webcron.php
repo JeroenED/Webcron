@@ -36,25 +36,28 @@ touch('cache/webcron.lock');
  * Reboot finalize
  */
 if (file_exists("cache/get-services.trigger")) {
-    $rebootjobs = unserialize(file_get_contents("cache/get-services.trigger"));
-    $services = array();
-    exec("systemctl list-unit-files | cat", $services);
-    $services = implode("\n", $services);
-    
-    foreach($rebootjobs as $job) {
-        $stmt = $db->query("SELECT jobID, delay, nextrun FROM jobs WHERE jobID = " . $job);
-        $result = $stmt->fetchAll(PDO::FETCH_ASSOC)[0];
-        
-        $stmt = $db->prepare("INSERT INTO runs(job, statuscode, result, timestamp)  VALUES(?, ?, ?, ?)");
-        $stmt->execute(array($result['jobID'], '200', $services, time()));
+    if (file_exists("cache/reboot-time.trigger") && file_get_contents("cache/reboot-time.trigger") < time()) { 
+        $rebootjobs = unserialize(file_get_contents("cache/get-services.trigger"));
+        $services = array();
+        exec("systemctl list-unit-files | cat", $services);
+        $services = implode("\n", $services);
 
-        $nextrun = ($result['nextrun'] < time()) ? $result['nextrun'] + $result['delay'] : $result['nextrun'];
-        if ($nextrun < time() ) { $nextrun = time() + $result['delay']; }
+        foreach($rebootjobs as $job) {
+            $stmt = $db->query("SELECT jobID, delay, nextrun FROM jobs WHERE jobID = " . $job);
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC)[0];
 
-        $nexttime = $db->prepare("UPDATE jobs SET nextrun = ? WHERE jobID = ?");
-        $nexttime->execute(array($nextrun, $result["jobID"]));
+            $stmt = $db->prepare("INSERT INTO runs(job, statuscode, result, timestamp)  VALUES(?, ?, ?, ?)");
+            $stmt->execute(array($result['jobID'], '200', $services, time()));
+
+            $nextrun = ($result['nextrun'] < time()) ? $result['nextrun'] + $result['delay'] : $result['nextrun'];
+            if ($nextrun < time() ) { $nextrun = time() + $result['delay']; }
+
+            $nexttime = $db->prepare("UPDATE jobs SET nextrun = ? WHERE jobID = ?");
+            $nexttime->execute(array($nextrun, $result["jobID"]));
+        }
+        unlink("cache/get-services.trigger");
+        unlink("cache/reboot-time.trigger");
     }
-    unlink("cache/get-services.trigger");
 }
 
 $stmt = $db->query('SELECT jobID, url, delay, nextrun FROM jobs WHERE nextrun < ' . time());
@@ -81,9 +84,11 @@ foreach ($results as $result) {
             exec($result["url"], $body, $statuscode);
             $body = implode("\n", $body);
         } else {
-            $rebootjobs[] = $result['jobID'];
-            touch("cache/reboot.trigger");
-            $nosave = true;
+            if (!file_exists('cache/get-services.trigger')) {
+                $rebootjobs[] = $result['jobID'];
+                touch("cache/reboot.trigger");
+                $nosave = true;
+            }
         }
     }
     if($nosave !== true) {
@@ -105,6 +110,7 @@ if(file_exists("cache/reboot.trigger")) {
     unlink("cache/reboot.trigger");
     $rebootser = serialize($rebootjobs);
     file_put_contents("cache/get-services.trigger", $rebootser);
-    exec("systemctl reboot");
+    file_put_contents("cache/reboot-time.trigger", time() + (5 * 60));
+    exec('sudo shutdown -r +5 "A reboot has been scheduled. Please save your work."');
 }
 require_once 'include/finalize.inc.php';
