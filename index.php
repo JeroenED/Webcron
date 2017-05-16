@@ -75,7 +75,7 @@ elseif ($_SERVER["REQUEST_METHOD"] == "POST") {
         $_SESSION['userID'] = $user[0]['userID'];
         
         if ($autologin = "autologin") {
-            $autologin = hash("sha512", $user[0]["name"] . $user[0]["password"] . session_id());
+            $autologin = hash("sha512", time() . $user[0]["name"] . $user[0]["password"] . session_id());
             setcookie("secure_auth", $autologin, time() + (60 * 60 * 24 * 365));
             setcookie("secure_auth_name", $user[0]["name"] , time() + (60 * 60 * 24 * 365));
         
