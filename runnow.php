@@ -53,7 +53,7 @@ if (filter_var($jobnameResult[0]["url"], FILTER_VALIDATE_URL)) {
     if($jobnameResult[0]["url"] != "reboot") {
         $body = '';
         $statuscode = 0;
-        exec($jobnameResult[0]["url"], $body, $statuscode);
+        exec($jobnameResult[0]["url"] . " 2>&1", $body, $statuscode);
         $body = implode("\n", $body);
         $timestamp = time();
     } else {

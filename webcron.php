@@ -81,7 +81,7 @@ foreach ($results as $result) {
         if($result["url"] != "reboot") {
             $body = '';
             $statuscode = 0;
-            exec($result["url"], $body, $statuscode);
+            exec($result["url"] . " 2>&1", $body, $statuscode);
             $body = implode("\n", $body);
         } else {
             if (!file_exists('cache/get-services.trigger')) {
