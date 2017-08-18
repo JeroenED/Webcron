@@ -60,6 +60,7 @@ elseif ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     
     $url = $_POST['url'];
+    $host = $_POST['host'];
     $name = $_POST['name'];
     $delay = $_POST['delay'];
     $nextrunObj = new DateTime($_POST['nextrun']);
@@ -75,8 +76,8 @@ elseif ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     
   
-    $stmt = $db->prepare("INSERT INTO jobs(user, name, url, delay, nextrun)  VALUES(?, ?, ?, ?, ?)");
-    $stmt->execute(array($_SESSION["userID"], $name, $url, $delay, $nextrun));
+    $stmt = $db->prepare("INSERT INTO jobs(user, name, url, host, delay, nextrun)  VALUES(?, ?, ?, ?, ?, ?)");
+    $stmt->execute(array($_SESSION["userID"], $name, $url, $host, $delay, $nextrun));
     
     header("location:addjob.php?message=added");
     exit;

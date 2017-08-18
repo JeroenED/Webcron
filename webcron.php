@@ -60,7 +60,7 @@ if (file_exists("cache/get-services.trigger")) {
     }
 }
 
-$stmt = $db->query('SELECT jobID, url, delay, nextrun FROM jobs WHERE nextrun < ' . time());
+$stmt = $db->query('SELECT jobID, url, host, delay, nextrun FROM jobs WHERE nextrun < ' . time());
 $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 $client = new \GuzzleHttp\Client();
 
@@ -81,7 +81,8 @@ foreach ($results as $result) {
         if($result["url"] != "reboot") {
             $body = '';
             $statuscode = 0;
-            exec($result["url"] . " 2>&1", $body, $statuscode);
+            $url = "ssh " . $result['host'] . " '" . $result['url'] . "'";
+            exec($url, $body, $statuscode);
             $body = implode("\n", $body);
         } else {
             if (!file_exists('cache/get-services.trigger')) {
