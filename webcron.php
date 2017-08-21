@@ -38,19 +38,19 @@ touch('cache/webcron.lock');
 if (file_exists("cache/get-services.trigger")) {
     if (file_exists("cache/reboot-time.trigger") && file_get_contents("cache/reboot-time.trigger") < time()) { 
         $rebootjobs = unserialize(file_get_contents("cache/get-services.trigger"));
-        $services = array();
-        exec("sudo systemctl list-units | cat", $services);
-        $services = implode("\n", $services);
-
+        
         foreach($rebootjobs as $job) {
-            $stmt = $db->query("SELECT jobID, delay, nextrun FROM jobs WHERE jobID = " . $job);
-            $result = $stmt->fetchAll(PDO::FETCH_ASSOC)[0];
-
+            
+            $services = array();
+            $url = "ssh " . $job['host'] . " '" . "sudo systemctl list-units | cat" . "'";
+            exec($url, $services);
+            $services = implode("\n", $services);
+            
             $stmt = $db->prepare("INSERT INTO runs(job, statuscode, result, timestamp)  VALUES(?, ?, ?, ?)");
-            $stmt->execute(array($result['jobID'], '200', $services, time()));
+            $stmt->execute(array($job['jobID'], '200', $services, time()));
 
-            $nextrun = ($result['nextrun'] < time()) ? $result['nextrun'] + $result['delay'] : $result['nextrun'];
-            if ($nextrun < time() ) { $nextrun = time() + $result['delay']; }
+            $nextrun = ($job['nextrun'] < time()) ? $job['nextrun'] + $job['delay'] : $job['nextrun'];
+            if ($nextrun < time() ) { $nextrun = time() + $job['delay']; }
 
             $nexttime = $db->prepare("UPDATE jobs SET nextrun = ? WHERE jobID = ?");
             $nexttime->execute(array($nextrun, $result["jobID"]));
@@ -85,11 +85,16 @@ foreach ($results as $result) {
             exec($url, $body, $statuscode);
             $body = implode("\n", $body);
         } else {
-            if (!file_exists('cache/get-services.trigger')) {
-                $rebootjobs[] = $result['jobID'];
+            $rebootjobs = array();
+            if (file_exists('cache/get-services.trigger')) {
+                $rebootjobs = unserialize(file_get_contents('cache/get-services.trigger'));
+            }
+            if (!job_in_array($result['jobID'], $rebootjobs)) {
+                $rebootjobs[] = $result;
                 touch("cache/reboot.trigger");
                 $nosave = true;
             }
+
         }
     }
     if($nosave !== true) {
@@ -112,6 +117,11 @@ if(file_exists("cache/reboot.trigger")) {
     $rebootser = serialize($rebootjobs);
     file_put_contents("cache/get-services.trigger", $rebootser);
     file_put_contents("cache/reboot-time.trigger", time() + (5 * 60));
-    exec('sudo shutdown -r +5 "A reboot has been scheduled. Please save your work."');
+    $rebooted_hosts = array();
+    foreach($rebootjobs as $job) {
+        
+        $url = "ssh " . $job['host'] . " '" . 'sudo shutdown -r +5 "A reboot has been scheduled. Please save your work."' . "'";
+        exec($url);
+    }
 }
 require_once 'include/finalize.inc.php';

@@ -53,13 +53,20 @@ if (filter_var($jobnameResult[0]["url"], FILTER_VALIDATE_URL)) {
     if($jobnameResult[0]["url"] != "reboot") {
         $body = '';
         $statuscode = 0;
-        exec($jobnameResult[0]["url"] . " 2>&1", $body, $statuscode);
+        $url = "ssh " . $jobnameResult[0]['host'] . " '" . $jobnameResult[0]['url'] . "'";
+        exec($url, $body, $statuscode);
         $body = implode("\n", $body);
         $timestamp = time();
     } else {
-        $rebootjobs[] = $jobnameResult[0]['jobID'];
-        touch("cache/reboot.trigger");
-        $nosave = true;
+        $rebootjobs = array();
+        if (file_exists('cache/get-services.trigger')) {
+            $rebootjobs = unserialize(file_get_contents('cache/get-services.trigger'));
+        }
+        if (!job_in_array($jobnameResult[0]['jobID'], $rebootjobs)) {
+            $rebootjobs[] = $jobnameResult[0];
+            touch("cache/reboot.trigger");
+            $nosave = true;
+        }
     }
 }
 if($nosave !== true) {

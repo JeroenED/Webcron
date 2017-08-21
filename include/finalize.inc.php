@@ -23,3 +23,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+
+function job_in_array($id, $jobs) {
+    foreach ($jobs as $job) {
+        if ($job['jobID'] == $id) return true;
+    }
+
+    return false;
+}
