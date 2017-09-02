@@ -42,7 +42,7 @@ if (file_exists("cache/get-services.trigger")) {
         foreach($rebootjobs as $job) {
             
             $services = array();
-            $url = "ssh " . $job['host'] . " '" . "sudo systemctl list-units | cat" . "'";
+            $url = "ssh " . $job['host'] . " '" . "sudo systemctl list-units | cat" . "' 2>&1";
             exec($url, $services);
             $services = implode("\n", $services);
             
@@ -81,7 +81,7 @@ foreach ($results as $result) {
         if($result["url"] != "reboot") {
             $body = '';
             $statuscode = 0;
-            $url = "ssh " . $result['host'] . " '" . $result['url'] . "'";
+            $url = "ssh " . $result['host'] . " '" . $result['url'] . "' 2>&1";
             exec($url, $body, $statuscode);
             $body = implode("\n", $body);
         } else {

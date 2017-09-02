@@ -53,7 +53,7 @@ if (filter_var($jobnameResult[0]["url"], FILTER_VALIDATE_URL)) {
     if($jobnameResult[0]["url"] != "reboot") {
         $body = '';
         $statuscode = 0;
-        $url = "ssh " . $jobnameResult[0]['host'] . " '" . $jobnameResult[0]['url'] . "'";
+        $url = "ssh " . $jobnameResult[0]['host'] . " '" . $jobnameResult[0]['url'] . "' 2>&1";
         exec($url, $body, $statuscode);
         $body = implode("\n", $body);
         $timestamp = time();
