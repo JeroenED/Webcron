@@ -3,7 +3,7 @@
 /* 
  * The MIT License
  *
- * Copyright 2017 Jeroen De Meerleer <me@jeroened.be>.
+ * Copyright 2017 Jeroen De Meerleer.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,3 +23,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+
+function job_in_array($id, $jobs) {
+    foreach ($jobs as $job) {
+        if ($job['jobID'] == $id) return true;
+    }
+
+    return false;
+}
