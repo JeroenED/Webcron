@@ -46,4 +46,8 @@ $(document).ready(function() {
             $('#resultmodal').modal('show');
         });
    });
+   $("body").on("change", ".input[name=url]", function() {
+       $(".label[for=expected]").html("Capture services after reboot? (1: yes; 0: no)");
+       $(".input[name=url]").attr("placeholder", "1");
+   })
 });

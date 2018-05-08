@@ -40,27 +40,22 @@ if (file_exists("cache/get-services.trigger")) {
         $rebootjobs = unserialize(file_get_contents("cache/get-services.trigger"));
         
         foreach($rebootjobs as $job) {
-            
-            $services = array();
-            $url = "ssh " . $job['host'] . " '" . "sudo systemctl list-units | cat" . "' 2>&1";
-            exec($url, $services);
-            $services = implode("\n", $services);
-            
-            $stmt = $db->prepare("INSERT INTO runs(job, statuscode, result, timestamp)  VALUES(?, ?, ?, ?)");
-            $stmt->execute(array($job['jobID'], '200', $services, time()));
+            if($job['expected'] != 0) {
+                $services = array();
+                $url = "ssh " . $job['host'] . " '" . "sudo systemctl list-units | cat" . "' 2>&1";
+                exec($url, $services);
+                $services = implode("\n", $services);
 
-            $nextrun = ($job['nextrun'] < time()) ? $job['nextrun'] + $job['delay'] : $job['nextrun'];
-            if ($nextrun < time() ) { $nextrun = time() + $job['delay']; }
-
-            $nexttime = $db->prepare("UPDATE jobs SET nextrun = ? WHERE jobID = ?");
-            $nexttime->execute(array($nextrun, $result["jobID"]));
+                $stmt = $db->prepare("INSERT INTO runs(job, statuscode, result, timestamp)  VALUES(?, ?, ?, ?)");
+                $stmt->execute(array($job['jobID'], '200', $services, time()));
+            }
         }
         unlink("cache/get-services.trigger");
         unlink("cache/reboot-time.trigger");
     }
 }
 
-$stmt = $db->query('SELECT jobID, url, host, delay, nextrun FROM jobs WHERE nextrun < ' . time());
+$stmt = $db->query('SELECT jobID, url, host, delay, nextrun, expected FROM jobs WHERE nextrun < ' . time());
 $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 $client = new \GuzzleHttp\Client();
 
@@ -97,16 +92,15 @@ foreach ($results as $result) {
 
         }
     }
-    if($nosave !== true) {
+    if($nosave !== true && $statuscode != $result["expected"]) {
         $stmt = $db->prepare("INSERT INTO runs(job, statuscode, result, timestamp)  VALUES(?, ?, ?, ?)");
         $stmt->execute(array($result['jobID'], $statuscode, $body, time()));
-
-        $nextrun = $result['nextrun'] + $result['delay'];
-        if ($nextrun < time() ) { $nextrun = time() + $result['delay']; }
-
-        $nexttime = $db->prepare("UPDATE jobs SET nextrun = ? WHERE jobID = ?");
-        $nexttime->execute(array($nextrun, $result["jobID"]));
     }
+    $nextrun = $result['nextrun'] + $result['delay'];
+    if ($nextrun < time() ) { $nextrun = time() + $result['delay']; }
+
+    $nexttime = $db->prepare("UPDATE jobs SET nextrun = ? WHERE jobID = ?");
+    $nexttime->execute(array($nextrun, $result["jobID"]));
     $nosave = false;
 }
 

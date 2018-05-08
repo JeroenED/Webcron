@@ -40,6 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     $url = $jobnameResult[0]['url'];
     $host = $jobnameResult[0]['host'];
     $delay = $jobnameResult[0]['delay'];
+    $expected = $jobnameResult[0]['expected'];
     $nextrun = date("m/d/Y h:i A", $jobnameResult[0]['nextrun']);
 
 
@@ -59,7 +60,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     }
 
     
-    echo $twig->render('editjob.html.twig', array("name" => $name, "url" => $url, "host" => $host, "delay" => $delay, "nextrun" => $nextrun, "jobID" => $jobID, "error" => $error));
+    echo $twig->render('editjob.html.twig', array("name" => $name, "url" => $url, "host" => $host, "delay" => $delay, "expected" => $expected, nextrun => $nextrun, "jobID" => $jobID, "error" => $error));
 }
 elseif ($_SERVER["REQUEST_METHOD"] == "POST") {
     
@@ -72,6 +73,7 @@ elseif ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = $_POST['name'];
     $delay = $_POST['delay'];
     $host = $_POST['host'];
+    $expected = $_POST['expected'];
     $nextrunObj = new DateTime($_POST['nextrun']);
     $nextrun = $nextrunObj->getTimestamp();
     
@@ -85,8 +87,8 @@ elseif ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     
   
-    $stmt = $db->prepare("UPDATE jobs SET name = ?, url = ?, host = ?, delay = ?, nextrun = ? WHERE jobID = ?");
-    $stmt->execute(array($name, $url, $host, $delay, $nextrun, $jobID));
+    $stmt = $db->prepare("UPDATE jobs SET name = ?, url = ?, host = ?, delay = ?, nextrun = ?, expected = ? WHERE jobID = ?");
+    $stmt->execute(array($name, $url, $host, $delay, $nextrun, $expected, $jobID));
     
     header("location:overview.php?message=edited");
     exit;
