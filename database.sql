@@ -35,6 +35,7 @@ CREATE TABLE IF NOT EXISTS `jobs` (
   `name` text NOT NULL,
   `url` text NOT NULL,
   `delay` int(11) NOT NULL,
+  `expected` int(11) NOT NULL,
   `nextrun` int(11) NOT NULL,
   PRIMARY KEY (`jobID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
