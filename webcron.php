@@ -26,11 +26,11 @@
 
 require_once "include/initialize.inc.php";
 
-if(file_exists('cache/webcron.lock'))
+if(file_exists('/tmp/webcron.lock'))
 {
     die('Script is already running');
 }
-touch('cache/webcron.lock');
+touch('/tmp/webcron.lock');
 
 /**
  * Reboot finalize
@@ -104,7 +104,7 @@ foreach ($results as $result) {
     $nosave = false;
 }
 
-unlink('cache/webcron.lock');
+unlink('/tmp/webcron.lock');
 
 if(file_exists("cache/reboot.trigger")) {
     unlink("cache/reboot.trigger");
