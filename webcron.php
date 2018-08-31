@@ -96,8 +96,11 @@ foreach ($results as $result) {
         $stmt = $db->prepare("INSERT INTO runs(job, statuscode, result, timestamp)  VALUES(?, ?, ?, ?)");
         $stmt->execute(array($result['jobID'], $statuscode, $body, time()));
     }
-    $nextrun = $result['nextrun'] + $result['delay'];
-    if ($nextrun < time() ) { $nextrun = time() + $result['delay']; }
+
+    $nextrun = $result['nextrun'];
+    do {
+        $nextrun = $nextrun + $result['delay'];
+    } while ($nextrun < time())
 
     $nexttime = $db->prepare("UPDATE jobs SET nextrun = ? WHERE jobID = ?");
     $nexttime->execute(array($nextrun, $result["jobID"]));
