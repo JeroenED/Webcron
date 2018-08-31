@@ -35,7 +35,11 @@ if ($jobnameResult[0]["user"] != $_SESSION["userID"]) {
 }
 $jobName = $jobnameResult[0]['name'];
 
-$runsForJob = $db->prepare("SELECT runs.*, jobs.name FROM runs, jobs WHERE runs.job = jobs.jobID AND runs.job = ?");
+$runsForJobQry = "SELECT runs.*, jobs.name FROM runs, jobs WHERE runs.job = jobs.jobID AND runs.job = ?";
+if(!isset($_GET['allruns']) || $_GET['allruns'] == 1) {
+	$runsForJobQry .= " AND runs.statuscode = jobs.expected";
+}
+$runsForJob = $db->prepare($runsForJobQry);
 $runsForJob->execute(array($_GET['jobID']));
 $runsForJobResult = $runsForJob->fetchAll(PDO::FETCH_ASSOC);
 
