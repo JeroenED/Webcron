@@ -37,8 +37,8 @@ $jobName = $jobnameResult[0]['name'];
 
 $runsForJobQry = "SELECT runs.*, jobs.name FROM runs, jobs WHERE runs.job = jobs.jobID AND runs.job = ?";
 $allruns = true;
-if(!isset($_GET['allruns']) || $_GET['allruns'] == 1) {
-	$runsForJobQry .= " AND runs.statuscode = jobs.expected";
+if(!(isset($_GET['allruns']) && $_GET['allruns'] == 1)) {
+	$runsForJobQry .= " AND runs.statuscode <> jobs.expected";
 	$allruns = false;
 }
 $runsForJob = $db->prepare($runsForJobQry);

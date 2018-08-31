@@ -5,7 +5,7 @@
 {% if allruns %}
     <p><a href="runs.php?jobID={{ jobID }}&allruns=0">Only show failed runs</a></p>
 {% elseif not allruns %}
-    <p><a href="runs.php?jobID={{ jobID }}&allruns=1">Only all failed runs</a></p>
+    <p><a href="runs.php?jobID={{ jobID }}&allruns=1">Show all runs</a></p>
 {% endif %}
     <div id="accordion" class="panel-group">
 {% for run in runs %}
