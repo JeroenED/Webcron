@@ -35,7 +35,13 @@ if ($jobnameResult[0]["user"] != $_SESSION["userID"]) {
 }
 $jobName = $jobnameResult[0]['name'];
 
-$runsForJob = $db->prepare("SELECT runs.*, jobs.name FROM runs, jobs WHERE runs.job = jobs.jobID AND runs.job = ?");
+$runsForJobQry = "SELECT runs.*, jobs.name FROM runs, jobs WHERE runs.job = jobs.jobID AND runs.job = ?";
+$allruns = true;
+if(!(isset($_GET['allruns']) && $_GET['allruns'] == 1)) {
+	$runsForJobQry .= " AND runs.statuscode <> jobs.expected";
+	$allruns = false;
+}
+$runsForJob = $db->prepare($runsForJobQry);
 $runsForJob->execute(array($_GET['jobID']));
 $runsForJobResult = $runsForJob->fetchAll(PDO::FETCH_ASSOC);
 
@@ -55,7 +61,7 @@ foreach($runsForJobResult as $key=>$value) {
     $count++;
 }
 
-$twig_vars = array('runs' => $runsForJobRendered, "title" => $jobName);
+$twig_vars = array('jobID' => $_GET['jobID'], 'runs' => $runsForJobRendered, 'allruns' => $allruns, "title" => $jobName);
 
 //echo $twig->render('overview.html.twig', array('the' => 'variables', 'go' => 'here'));
 echo $twig->render('runs.html.twig', $twig_vars);

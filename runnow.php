@@ -69,7 +69,7 @@ if (filter_var($jobnameResult[0]["url"], FILTER_VALIDATE_URL)) {
         }
     }
 }
-if($nosave !== true && $statuscode != $jobnameResult[0]["expected"]) {
+if($nosave !== true) {
     $stmt = $db->prepare("INSERT INTO runs(job, statuscode, result, timestamp)  VALUES(?, ?, ?, ?)");
     $stmt->execute(array($jobID, $statuscode, $body, $timestamp));
 }

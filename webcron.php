@@ -92,7 +92,7 @@ foreach ($results as $result) {
 
         }
     }
-    if($nosave !== true && $statuscode != $result["expected"]) {
+    if($nosave !== true) {
         $stmt = $db->prepare("INSERT INTO runs(job, statuscode, result, timestamp)  VALUES(?, ?, ?, ?)");
         $stmt->execute(array($result['jobID'], $statuscode, $body, time()));
     }
