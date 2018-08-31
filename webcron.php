@@ -100,7 +100,7 @@ foreach ($results as $result) {
     $nextrun = $result['nextrun'];
     do {
         $nextrun = $nextrun + $result['delay'];
-    } while ($nextrun < time())
+    } while ($nextrun < time());
 
     $nexttime = $db->prepare("UPDATE jobs SET nextrun = ? WHERE jobID = ?");
     $nexttime->execute(array($nextrun, $result["jobID"]));
