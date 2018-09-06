@@ -51,5 +51,6 @@ $(document).ready(function() {
             $("label[for=expected]").html("Capture services after reboot? (1: yes; 0: no)");
             $("input[name=expected]").attr("placeholder", "1");
         }
-    })
+    });
+    $("input[name=url]").focusout();
 });
