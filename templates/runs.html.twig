@@ -2,12 +2,13 @@
 {% block title %}Overview of run for {{ title }}{% endblock %}
 {% block content %}
     <h2>Overview of runs for {{ title }}</h2>
+    <p>
+        <a href="editjob.php?jobID={{ jobID }}">Edit job</a>
 {% if rebootjob %}
-{% elseif allruns %}
-    <p><a href="runs.php?jobID={{ jobID }}&allruns=0">Only show failed runs</a></p>
-{% elseif not allruns %}
-    <p><a href="runs.php?jobID={{ jobID }}&allruns=1">Show all runs</a></p>
+{% elseif allruns %} | <a href="runs.php?jobID={{ jobID }}&allruns=0">Only show failed runs</a>
+{% elseif not allruns %} | <a href="runs.php?jobID={{ jobID }}&allruns=1">Show all runs</a>
 {% endif %}
+    </p>
     <div id="accordion" class="panel-group">
 {% for run in runs %}
     <div class="panel panel-default">
