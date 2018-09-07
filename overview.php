@@ -3,7 +3,7 @@
 /* 
  * The MIT License
  *
- * Copyright 2017 Jeroen De Meerleer <me@jeroened.be>.
+ * Copyright 2017-2018 Jeroen De Meerleer <me@jeroened.be>.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -46,7 +46,7 @@ if ($_GET["message"]) {
     }
 }
 
-$allJobs = $db->prepare("SELECT * FROM jobs WHERE user = ?");
+$allJobs = $db->prepare("SELECT * FROM jobs WHERE user = ? ORDER BY name ASC");
 $allJobs->execute(array($_SESSION["userID"]));
 $allJobsResult = $allJobs->fetchAll(PDO::FETCH_ASSOC);
 
@@ -68,7 +68,6 @@ foreach($allJobsResult as $key=>$value) {
 
 $twig_vars = array('jobs' => $allJobsRendered, 'message' => $message);
 
-//echo $twig->render('overview.html.twig', array('the' => 'variables', 'go' => 'here'));
 echo $twig->render('overview.html.twig', $twig_vars);
 
 
