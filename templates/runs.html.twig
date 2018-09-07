@@ -2,7 +2,8 @@
 {% block title %}Overview of run for {{ title }}{% endblock %}
 {% block content %}
     <h2>Overview of runs for {{ title }}</h2>
-{% if allruns %}
+{% if rebootjob %}
+{% elseif allruns %}
     <p><a href="runs.php?jobID={{ jobID }}&allruns=0">Only show failed runs</a></p>
 {% elseif not allruns %}
     <p><a href="runs.php?jobID={{ jobID }}&allruns=1">Show all runs</a></p>
@@ -12,7 +13,7 @@
     <div class="panel panel-default">
         <div class="panel-heading">
             <h4 class="panel-title">
-                <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{ loop.index }}">({{ run.statuscode }}) {{ run.timestamp }}</a>
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{ loop.index }}">{% if not rebootjob %}({{ run.statuscode }}){% endif %} {{ run.timestamp }}</a>
             </h4>
         </div>
         <div  id="collapse{{ loop.index }}" class="panel-collapse collapse">

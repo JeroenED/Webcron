@@ -45,9 +45,12 @@ $(document).ready(function() {
             $("#ajax_loader").hide();
             $('#resultmodal').modal('show');
         });
-   });
-   $("body").on("change", ".input[name=url]", function() {
-       $(".label[for=expected]").html("Capture services after reboot? (1: yes; 0: no)");
-       $(".input[name=url]").attr("placeholder", "1");
-   })
+    });
+    $("body").on("focusout", "input[name=url]", function() {
+        if($("input[name=url]").val() == "reboot") {
+            $("label[for=expected]").html("Capture services after reboot? (1: yes; 0: no)");
+            $("input[name=expected]").attr("placeholder", "1");
+        }
+    });
+    $("input[name=url]").focusout();
 });

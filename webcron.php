@@ -40,15 +40,13 @@ if (file_exists("cache/get-services.trigger")) {
         $rebootjobs = unserialize(file_get_contents("cache/get-services.trigger"));
         
         foreach($rebootjobs as $job) {
-            if($job['expected'] != 0) {
-                $services = array();
-                $url = "ssh " . $job['host'] . " '" . "sudo systemctl list-units | cat" . "' 2>&1";
-                exec($url, $services);
-                $services = implode("\n", $services);
+            $services = array();
+            $url = "ssh " . $job['host'] . " '" . "sudo systemctl list-units | cat" . "' 2>&1";
+            exec($url, $services);
+            $services = implode("\n", $services);
 
-                $stmt = $db->prepare("INSERT INTO runs(job, statuscode, result, timestamp)  VALUES(?, ?, ?, ?)");
-                $stmt->execute(array($job['jobID'], '200', $services, time()));
-            }
+            $stmt = $db->prepare("INSERT INTO runs(job, statuscode, result, timestamp)  VALUES(?, ?, ?, ?)");
+            $stmt->execute(array($job['jobID'], '0', $services, time()));
         }
         unlink("cache/get-services.trigger");
         unlink("cache/reboot-time.trigger");

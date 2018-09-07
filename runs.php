@@ -3,7 +3,7 @@
 /* 
  * The MIT License
  *
- * Copyright 2017 Jeroen De Meerleer <me@jeroened.be>.
+ * Copyright 2017-2018 Jeroen De Meerleer <me@jeroened.be>.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,7 +26,7 @@
 
 require_once "include/initialize.inc.php";
 
-$jobnameqry = $db->prepare("SELECT name, user FROM jobs WHERE jobID = ?");
+$jobnameqry = $db->prepare("SELECT name, user, url FROM jobs WHERE jobID = ?");
 $jobnameqry->execute(array($_GET['jobID']));
 $jobnameResult = $jobnameqry->fetchAll(PDO::FETCH_ASSOC);
 if ($jobnameResult[0]["user"] != $_SESSION["userID"]) {
@@ -34,8 +34,9 @@ if ($jobnameResult[0]["user"] != $_SESSION["userID"]) {
     exit;
 }
 $jobName = $jobnameResult[0]['name'];
+$rebootjob = $jobnameResult[0]['url'] == 'reboot' ? true : false;
 
-$runsForJobQry = "SELECT runs.*, jobs.name FROM runs, jobs WHERE runs.job = jobs.jobID AND runs.job = ?";
+$runsForJobQry = "SELECT runs.*, jobs.jobID FROM runs, jobs WHERE runs.job = jobs.jobID AND runs.job = ?";
 $allruns = true;
 if(!(isset($_GET['allruns']) && $_GET['allruns'] == 1)) {
 	$runsForJobQry .= " AND runs.statuscode <> jobs.expected";
@@ -48,9 +49,6 @@ $runsForJobResult = $runsForJob->fetchAll(PDO::FETCH_ASSOC);
 $loader = new Twig_Loader_Filesystem('templates');
 $twig = new Twig_Environment($loader, array('cache' => 'cache', "debug" => true));
 
-//var_dump($alljobsResult);
-//exit;
-
 $runsForJobRendered = array();$count = 0;
 foreach($runsForJobResult as $key=>$value) {
     $runsForJobRendered[$count]["runID"] = $value["runID"];
@@ -61,7 +59,7 @@ foreach($runsForJobResult as $key=>$value) {
     $count++;
 }
 
-$twig_vars = array('jobID' => $_GET['jobID'], 'runs' => $runsForJobRendered, 'allruns' => $allruns, "title" => $jobName);
+$twig_vars = array('jobID' => $_GET['jobID'], 'rebootjob' => $rebootjob, 'runs' => $runsForJobRendered, 'allruns' => $allruns, "title" => $jobName);
 
 //echo $twig->render('overview.html.twig', array('the' => 'variables', 'go' => 'here'));
 echo $twig->render('runs.html.twig', $twig_vars);
