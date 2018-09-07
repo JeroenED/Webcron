@@ -10,7 +10,6 @@
     {% endif %}
 <table class="table">
     <tr>
-        <th>ID</th>
         <th>Name</th>
         <th>Delay</th>
         <th>Next run</th>
@@ -18,7 +17,6 @@
     </tr>
 {% for job in jobs %}
         <tr>
-            <td>{{ job.jobID }}</td>
             <td>{{ job.name }}</td>
             <td>{{ job.delay }}</td>
             <td>{{ job.nextrun }}</td>
