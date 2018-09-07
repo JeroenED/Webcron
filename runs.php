@@ -3,7 +3,7 @@
 /* 
  * The MIT License
  *
- * Copyright 2017 Jeroen De Meerleer <me@jeroened.be>.
+ * Copyright 2017-2018 Jeroen De Meerleer <me@jeroened.be>.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -34,9 +34,9 @@ if ($jobnameResult[0]["user"] != $_SESSION["userID"]) {
     exit;
 }
 $jobName = $jobnameResult[0]['name'];
-$rebootjob = $jobnameResult[0]['name'] ? true : false;
+$rebootjob = $jobnameResult[0]['url'] == 'reboot' ? true : false;
 
-$runsForJobQry = "SELECT runs.*, FROM runs, jobs WHERE runs.job = jobs.jobID AND runs.job = ?";
+$runsForJobQry = "SELECT runs.*, jobs.jobID FROM runs, jobs WHERE runs.job = jobs.jobID AND runs.job = ?";
 $allruns = true;
 if(!(isset($_GET['allruns']) && $_GET['allruns'] == 1)) {
 	$runsForJobQry .= " AND runs.statuscode <> jobs.expected";
@@ -48,9 +48,6 @@ $runsForJobResult = $runsForJob->fetchAll(PDO::FETCH_ASSOC);
 
 $loader = new Twig_Loader_Filesystem('templates');
 $twig = new Twig_Environment($loader, array('cache' => 'cache', "debug" => true));
-
-//var_dump($alljobsResult);
-//exit;
 
 $runsForJobRendered = array();$count = 0;
 foreach($runsForJobResult as $key=>$value) {

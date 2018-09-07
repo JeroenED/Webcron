@@ -46,7 +46,7 @@ if (file_exists("cache/get-services.trigger")) {
             $services = implode("\n", $services);
 
             $stmt = $db->prepare("INSERT INTO runs(job, statuscode, result, timestamp)  VALUES(?, ?, ?, ?)");
-            $stmt->execute(array($job['jobID'], '1', $services, time()));
+            $stmt->execute(array($job['jobID'], '0', $services, time()));
         }
         unlink("cache/get-services.trigger");
         unlink("cache/reboot-time.trigger");
