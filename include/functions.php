@@ -88,3 +88,12 @@ function parse_config_type($type) {
     }
     return $r_var;
 }
+
+function clean_database() {
+	global $db;
+
+	$oldestrun = time() - (60 * 60 * 24 * get_configvalue('dbclean.expireruns'));
+
+	$stmt = $db->prepare("DELETE FROM runs WHERE timestamp < ?");
+	$stmt->execute(array($oldestrun));
+}

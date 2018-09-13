@@ -105,6 +105,8 @@ foreach ($results as $result) {
     $nosave = false;
 }
 
+clean_database();
+
 unlink('/tmp/webcron.lock');
 
 if(file_exists("cache/reboot.trigger")) {
