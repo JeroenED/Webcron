@@ -38,7 +38,7 @@ if (isset($_GET['action'])) {
     }
 }
     
-if (isset($_GET["message"]) {
+if (isset($_GET["message"])) {
     $message = "";
     switch ($_GET["message"]) {
         case "edited":
