@@ -5,7 +5,7 @@ Webcron management is an easy-to-use interface to manage cronjob running on a pu
 
 ## Requirements
 * Webserver able to run PHP
-* PHP 5.6 or greater
+* PHP 7.0 or greater
 * MySQL/MariaDB
 * Ability to add a system cronjob for installation (You can maybe ask you webhost?)
 
