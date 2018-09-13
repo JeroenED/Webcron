@@ -38,8 +38,8 @@ if (isset($_GET['action'])) {
     }
 }
     
-$message = "";
-if ($_GET["message"]) {
+if (isset($_GET["message"])) {
+    $message = "";
     switch ($_GET["message"]) {
         case "edited":
             $message = "The cronjob has been edited"; break;

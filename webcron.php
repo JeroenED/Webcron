@@ -105,17 +105,19 @@ foreach ($results as $result) {
     $nosave = false;
 }
 
+clean_database();
+
 unlink('/tmp/webcron.lock');
 
 if(file_exists("cache/reboot.trigger")) {
     unlink("cache/reboot.trigger");
     $rebootser = serialize($rebootjobs);
     file_put_contents("cache/get-services.trigger", $rebootser);
-    file_put_contents("cache/reboot-time.trigger", time() + (5 * 60));
+    file_put_contents("cache/reboot-time.trigger", time() + (get_configvalue('jobs.reboottime') * 60));
     $rebooted_hosts = array();
     foreach($rebootjobs as $job) {
         
-        $url = "ssh " . $job['host'] . " '" . 'sudo shutdown -r +5 "A reboot has been scheduled. Please save your work."' . "'";
+        $url = "ssh " . $job['host'] . " '" . 'sudo shutdown -r +' . get_configvalue('jobs.reboottime') . ' "A reboot has been scheduled. Please save your work."' . "'";
         exec($url);
     }
 }

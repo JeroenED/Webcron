@@ -1,22 +1,14 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.0
+-- version 4.6.6deb5
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Gegenereerd op: 15 apr 2017 om 06:49
--- Serverversie: 5.5.52-MariaDB
--- PHP-versie: 7.1.4
+-- Generation Time: Sep 12, 2018 at 12:23 PM
+-- Server version: 10.1.34-MariaDB-0ubuntu0.18.04.1
+-- PHP Version: 5.6.37-1+ubuntu18.04.1+deb.sury.org+1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
-START TRANSACTION;
 SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
 
 --
 -- Database: `jeroened_webcron`
@@ -25,7 +17,32 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Tabelstructuur voor tabel `jobs`
+-- Table structure for table `config`
+--
+
+DROP TABLE IF EXISTS `config`;
+CREATE TABLE IF NOT EXISTS `config` (
+  `conf` varchar(100) NOT NULL,
+  `category` varchar(50) NOT NULL,
+  `type` varchar(50) NOT NULL,
+  `label` text NOT NULL,
+  `description` text NOT NULL,
+  `value` varchar(100) NOT NULL,
+  PRIMARY KEY (`conf`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `config`
+--
+
+INSERT INTO `config` (`conf`, `category`, `type`, `label`, `description`, `value`) VALUES
+('dbclean.expireruns', 'Database Cleanup', 'number(0,-1)', 'Retention value', 'How many days does the database keep the runs', '30'),
+('jobs.reboottime', 'Jobs', 'number(0,30)', 'Reboot delay', 'The amount of delay in minutes between scheduling a reboot and the actual reboot', '5');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `jobs`
 --
 
 DROP TABLE IF EXISTS `jobs`;
@@ -34,16 +51,17 @@ CREATE TABLE IF NOT EXISTS `jobs` (
   `user` int(11) NOT NULL,
   `name` text NOT NULL,
   `url` text NOT NULL,
+  `host` varchar(50) NOT NULL DEFAULT 'localhost',
   `delay` int(11) NOT NULL,
-  `expected` int(11) NOT NULL,
   `nextrun` int(11) NOT NULL,
+  `expected` int(11) NOT NULL DEFAULT '200',
   PRIMARY KEY (`jobID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Tabelstructuur voor tabel `runs`
+-- Table structure for table `runs`
 --
 
 DROP TABLE IF EXISTS `runs`;
@@ -59,7 +77,7 @@ CREATE TABLE IF NOT EXISTS `runs` (
 -- --------------------------------------------------------
 
 --
--- Tabelstructuur voor tabel `users`
+-- Table structure for table `users`
 --
 
 DROP TABLE IF EXISTS `users`;
@@ -71,8 +89,3 @@ CREATE TABLE IF NOT EXISTS `users` (
   `autologin` text NOT NULL,
   PRIMARY KEY (`userID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

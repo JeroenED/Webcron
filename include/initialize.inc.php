@@ -26,10 +26,10 @@
 
 session_start();
 
-require_once "include/functions.php";
-
-error_reporting("E_ALL");
+error_reporting(E_ALL);
 ini_set("display_errors", "on");
+
+require_once "include/functions.php";
 
 if( ini_get('safe_mode') ){
    die("Cannot run in safe mode");
