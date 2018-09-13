@@ -1,0 +1,30 @@
+{% extends "base.html.twig" %}
+{% block title %}configuration{% endblock %}
+{% block content %}
+    <h2>Webcron configuration</h2>
+{% if not message == "" %}
+    <div class="alert alert-success fade in">
+        <a href="#" class="close" data-dismiss="alert">&times;</a>
+        {{ message }}
+    </div>
+{% endif %}
+{% if not error == "" %}
+	<div class="alert alert-danger fade in">
+    	<a href="#" class="close" data-dismiss="alert">&times;</a>
+      	<strong>Error!</strong> {{ error }}
+    </div>
+{% endif %}
+    <form method="post" action="config.php">
+{% for cat in config %}
+        <h3>{{ cat.name }}</h3>
+{% for confval in cat.conf %}
+        <div class="form-group">
+            <p><label for="{{ confval.conf }}">{{ confval.label }}</label><p>
+            <p><input class="form-control" id="{{ confval.conf }}" name="{{ confval.conf }}" type="{{ confval.type.type }}"{% for args in confval.type.args %} {{ args | raw }}{% endfor %}value="{{ confval.value }}">
+            <p class="description">{{ confval.description }}</p>
+        </div>
+{% endfor %}
+{% endfor %}
+		<button type="submit" class="btn btn-default">Submit</button>
+	</form>
+{% endblock %}
