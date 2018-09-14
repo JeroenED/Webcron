@@ -99,4 +99,7 @@ function clean_database() {
 
 	$stmt = $db->prepare("DELETE FROM runs WHERE timestamp < ?");
 	$stmt->execute(array($oldestrun));
+
+	$stmt = $db->prepare("UPDATE config SET value = ? WHERE conf = ?");
+   	$stmt->execute(array('dbclean.lastrun', $time()));
 }
