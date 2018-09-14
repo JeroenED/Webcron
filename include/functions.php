@@ -48,7 +48,8 @@ function load_config_categorized() {
 	    $configCategorized[$value['category']][$count]['label'] = $value['label'];
 	    $configCategorized[$value['category']][$count]['description'] = $value['description'];
 	    $configCategorized[$value['category']][$count]['type'] = parse_config_type($value['type']);
-	    $count++;
+
+	    if ($configCategorized[$value['category']][$count]['type']['type'] != 'hidden') $count++;
 	}
 
 	// into a easy twig array
@@ -74,18 +75,20 @@ function get_configvalue($conf) {
 }
 
 function parse_config_type($type) {
-    $splittype = explode('(', substr($type, 0, -1));
+    $splittype = explode('(', explode(')', $type)[0]);
 
     $r_var['type'] = $splittype[0];
-    $splitargs = explode(',', $splittype[1]);
+    if (isset($splittype[1])) {
+    	$splitargs = explode(',', $splittype[1]);
 
-    switch($r_var['type'])
-    {
-        case 'number':
-            $r_var['args'][] = $splitargs[0] != '-1' ? 'min="' . $splitargs[0] . '"' : '';
-            $r_var['args'][] = $splitargs[1] != '-1' ? 'max="' . $splitargs[1] . '"' : '';
-            break;
-    }
+	    switch($r_var['type'])
+	    {
+	        case 'number':
+	            $r_var['args'][] = isset($splitargs[0]) ? 'min="' . $splitargs[0] . '"' : '';
+	            $r_var['args'][] = isset($splitargs[1]) ? 'max="' . $splitargs[1] . '"' : '';
+	            break;
+	    }
+	}
     return $r_var;
 }
 
