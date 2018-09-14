@@ -31,7 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     $twig = new Twig_Environment($loader, array('cache' => 'cache', "debug" => true));
     
     $error = "";
-    if ($_GET["error"]) {
+    if (isset($_GET["error"])) {
         switch ($_GET["error"]) {
             case "emptyfields":
                 $error = "Some fields were empty"; break;
@@ -43,7 +43,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     }
     
     $message = "";
-    if ($_GET["message"]) {
+    if (isset($_GET["message"])) {
         switch ($_GET["message"]) {
             case "added":
                 $message = "The cronjob has been added"; break;
