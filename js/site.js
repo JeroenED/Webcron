@@ -27,7 +27,7 @@ $(document).ready(function() {
     $("body").on("click", "#patternDropdown li", function() {
         if(this.value != "custom") { $("input#delay").val($(this).data("val")); }
     });
-    $('#nextrunselector').datetimepicker();
+    $('#nextrunselector').datetimepicker( { format: 'MM/DD/YYYY HH:mm:ss' } );
    
     $("body").on("click", ".runcron", function() {
         $("#ajax_loader").show();

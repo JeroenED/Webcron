@@ -41,7 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     $host = $jobnameResult[0]['host'];
     $delay = $jobnameResult[0]['delay'];
     $expected = $jobnameResult[0]['expected'];
-    $nextrun = date("m/d/Y h:i A", $jobnameResult[0]['nextrun']);
+    $nextrun = date("m/d/Y H:i:s", $jobnameResult[0]['nextrun']);
 
 
     $loader = new Twig_Loader_Filesystem('templates');

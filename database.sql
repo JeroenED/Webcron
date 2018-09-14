@@ -36,7 +36,9 @@ CREATE TABLE IF NOT EXISTS `config` (
 --
 
 INSERT INTO `config` (`conf`, `category`, `type`, `label`, `description`, `value`) VALUES
-('dbclean.expireruns', 'Database Cleanup', 'number(0,-1)', 'Retention value', 'How many days does the database keep the runs', '30'),
+('dbclean.delay', 'Database Cleanup', 'number(0)', 'Cleanup Delay', 'How many days until the database cleanup is triggered', '7'),
+('dbclean.expireruns', 'Database Cleanup', 'number(0)', 'Retention value', 'How many days does the database keep the runs', '30'),
+('dbclean.lastrun', 'Database Cleanup', 'hidden', 'Last run', 'Last run of database cleanup', UNIX_TIMESTAMP()),
 ('jobs.reboottime', 'Jobs', 'number(0,30)', 'Reboot delay', 'The amount of delay in minutes between scheduling a reboot and the actual reboot', '5');
 
 -- --------------------------------------------------------
