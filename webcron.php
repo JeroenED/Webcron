@@ -105,7 +105,7 @@ foreach ($results as $result) {
     $nosave = false;
 }
 
-if (get_configvalue('dbclean.lastrun') + (60 * 60 * 24 * get_configvalue('dbclean.delay')) < time()) clean_database();
+if ((get_configvalue('dbclean.enabled') == 'true') && (get_configvalue('dbclean.lastrun') + (60 * 60 * 24 * get_configvalue('dbclean.delay')) < time())) clean_database();
 
 unlink('/tmp/webcron.lock');
 
