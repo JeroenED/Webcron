@@ -26,7 +26,7 @@
 
 require_once "include/initialize.inc.php";
 
-if(file_exists('/tmp/webcron.lock') && file_get_contents('/tmp/webcron.lock') + 0 < time() - get_configvalue('master.crashtimeout'))
+if(file_exists('/tmp/webcron.lock') && file_get_contents('/tmp/webcron.lock') + get_configvalue('master.crashtimeout') > time() )
 {
     die('Script is already running');
 }
