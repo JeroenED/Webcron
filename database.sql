@@ -41,6 +41,7 @@ INSERT INTO `config` (`conf`, `category`, `type`, `label`, `description`, `value
 ('dbclean.enabled', 'Database Cleanup', 'text', 'Enabled', 'Database cleanup enabled? (true: yes; false: no)', 'false'),
 ('dbclean.lastrun', 'Database Cleanup', 'hidden', 'Last run', 'Last run of database cleanup', UNIX_TIMESTAMP()),
 ('jobs.reboottime', 'Jobs', 'number(0,30)', 'Reboot delay', 'The amount of delay in minutes between scheduling a reboot and the actual reboot', '5');
+('master.crashtimeout', 'Master script', 'number()', 'Master script crash timeout', 'The amount of time in seconds after we can assume the master script is crashed', '3600');
 
 -- --------------------------------------------------------
 
