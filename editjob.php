@@ -41,7 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     $host = $jobnameResult[0]['host'];
     $delay = $jobnameResult[0]['delay'];
     $expected = $jobnameResult[0]['expected'];
-    $nextrun = date("m/d/Y H:i:s", $jobnameResult[0]['nextrun']);
+    $nextrun = date("d/m/Y H:i:s", $jobnameResult[0]['nextrun']);
 
 
     $loader = new Twig_Loader_Filesystem('templates');
@@ -74,7 +74,7 @@ elseif ($_SERVER["REQUEST_METHOD"] == "POST") {
     $delay = $_POST['delay'];
     $host = $_POST['host'];
     $expected = $_POST['expected'];
-    $nextrunObj = new DateTime($_POST['nextrun']);
+    $nextrunObj = DateTime::createFromFormat("d/m/Y H:i:s", $_POST['nextrun']);
     $nextrun = $nextrunObj->getTimestamp();
     
     if(!is_numeric($delay)) {
