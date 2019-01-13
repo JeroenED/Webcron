@@ -42,7 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     $twig = new Twig_Environment($loader, array('cache' => 'cache', "debug" => true));
     
     $error = "";
-    if ($_GET["error"]) {
+    if (isset($_GET["error"])) {
         switch ($_GET["error"]) {
             case "emptyfields":
                 $error = "Some fields were empty"; break;
@@ -52,7 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     }
     
   
-    echo $twig->render('index.html.twig', array("message" => $message, "error" => $error));
+    echo $twig->render('index.html.twig', array("error" => $error));
 }
 elseif ($_SERVER["REQUEST_METHOD"] == "POST") {
     
