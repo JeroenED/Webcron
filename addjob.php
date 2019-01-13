@@ -64,7 +64,7 @@ elseif ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = $_POST['name'];
     $delay = $_POST['delay'];
     $expected = $_POST['expected'];
-    $nextrunObj = new DateTime($_POST['nextrun']);
+    $nextrunObj = DateTime::createFromFormat("d/m/Y H:i:s", $_POST['nextrun']);
     $nextrun = $nextrunObj->getTimestamp();
     
     if(!is_numeric($delay)) {
