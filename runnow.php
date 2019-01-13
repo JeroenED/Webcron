@@ -42,7 +42,7 @@ $nosave = false;
 if (filter_var($jobnameResult[0]["url"], FILTER_VALIDATE_URL)) {
     $client = new \GuzzleHttp\Client();
 
-    $res = $client->request('GET', $jobnameResult[0]['url']);
+    $res = $client->request('GET', $jobnameResult[0]['url'], ['http_errors' => false]);
 
     $statuscode = $res->getStatusCode();
     $body = $res->getBody();

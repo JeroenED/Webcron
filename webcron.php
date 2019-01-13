@@ -67,7 +67,7 @@ if (file_exists("cache/get-services.trigger")) {
 foreach ($results as $result) {
 
     if (filter_var($result["url"], FILTER_VALIDATE_URL)) {
-        $res = $client->request('GET', $result['url']);
+        $res = $client->request('GET', $result['url'], ['http_errors' => false]);
     
         $statuscode = $res->getStatusCode();
         $body = $res->getBody();
