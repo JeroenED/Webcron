@@ -34,7 +34,7 @@ if ($jobnameResult[0]["user"] != $_SESSION["userID"]) {
     exit;
 }
 $jobName = $jobnameResult[0]['name'];
-$rebootjob = stristr($jobnameResult[0]["url"],"reboot") ? true : false;
+$rebootjob = strpos($jobnameResult[0]["url"],"reboot") === 0 ? true : false;
 
 $runsForJobQry = "SELECT runs.*, jobs.jobID FROM runs, jobs WHERE runs.job = jobs.jobID AND runs.job = ?";
 $allruns = true;
