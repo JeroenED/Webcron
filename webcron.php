@@ -81,7 +81,7 @@ foreach ($results as $result) {
         $body = $res->getBody();
     } else {
  
-        if($result["url"] != "reboot") {
+        if(!stristr($result["url"],"reboot")) {
             $body = '';
             $statuscode = 0;
             $url = "ssh " . $result['host'] . " '" . $result['url'] . "' 2>&1";
