@@ -3,3 +3,4 @@ cache/*
 nbproject/private/
 vendor/
 config.inc.php
+\.idea/
