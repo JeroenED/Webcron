@@ -47,7 +47,7 @@ $(document).ready(function() {
         });
     });
     $("body").on("focusout", "input[name=url]", function() {
-        if($("input[name=url]").val() == "reboot") {
+        if($("input[name=url]").val().indexOf("reboot") !== -1) {
             $("label[for=expected]").html("Capture services after reboot? (1: yes; 0: no)");
             $("input[name=expected]").attr("placeholder", "1");
         }
