@@ -43,13 +43,14 @@ function load_config_categorized() {
 	$configCategorized = array();
 	$count = 0;
 	foreach($allConfigResult as $key=>$value) {
-	    $configCategorized[$value['category']][$count]['conf'] = $value['conf'];
-	    $configCategorized[$value['category']][$count]['value'] = $value['value'];
-	    $configCategorized[$value['category']][$count]['label'] = $value['label'];
-	    $configCategorized[$value['category']][$count]['description'] = $value['description'];
-	    $configCategorized[$value['category']][$count]['type'] = parse_config_type($value['type']);
-
-	    if ($configCategorized[$value['category']][$count]['type']['type'] != 'hidden') $count++;
+        if ($value['type'] != "hidden") {
+            $configCategorized[$value['category']][$count]['conf'] = $value['conf'];
+            $configCategorized[$value['category']][$count]['value'] = $value['value'];
+            $configCategorized[$value['category']][$count]['label'] = $value['label'];
+            $configCategorized[$value['category']][$count]['description'] = $value['description'];
+            $configCategorized[$value['category']][$count]['type'] = parse_config_type($value['type']);
+        }
+	    $count++;
 	}
 
 	// into a easy twig array
