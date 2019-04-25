@@ -42,8 +42,16 @@ if (file_exists("cache/get-services.trigger")) {
         
         foreach($rebootjobs as $job) {
             $services = array();
-            $url = "ssh " . $job['host'] . " '" . "sudo systemctl list-units | cat" . "' 2>&1";
+            parse_str(str_replace("reboot ", "", $job['url']), $rebootcommands);
+            $cmd = $rebootcommands['services'];
+
+            if ($cmd == '') {
+                $cmd = "sudo systemctl list-units | cat";
+            }
+            $url = "ssh " . $job['host'] . " '" . $cmd . "' 2>&1";
             exec($url, $services);
+
+            $cmd = '';
             $services = implode("\n", $services);
 
             $stmt = $db->prepare("INSERT INTO runs(job, statuscode, result, timestamp)  VALUES(?, ?, ?, ?)");
@@ -86,6 +94,8 @@ foreach ($results as $result) {
             }
             if (!job_in_array($result['jobID'], $rebootjobs)) {
                 $rebootjobs[] = $result;
+                $rebootser = serialize($rebootjobs);
+                file_put_contents("cache/get-services.trigger", $rebootser);
                 touch("cache/reboot.trigger");
                 $nosave = true;
             }
@@ -118,9 +128,15 @@ if(file_exists("cache/reboot.trigger")) {
     file_put_contents("cache/reboot-time.trigger", time() + (get_configvalue('jobs.reboottime') * 60));
     $rebooted_hosts = array();
     foreach($rebootjobs as $job) {
-        
-        $url = "ssh " . $job['host'] . " '" . 'sudo shutdown -r +' . get_configvalue('jobs.reboottime') . ' "A reboot has been scheduled. Please save your work."' . "'";
+        parse_str(str_replace("reboot ", "", $job['url']), $rebootcommands);
+        $cmd = $rebootcommands['cmd'];
+
+        if ($cmd == '') {
+            $cmd = 'sudo shutdown -r +' . get_configvalue('jobs.reboottime') . ' "A reboot has been scheduled. Please save your work."';
+        }
+        $url = "ssh " . $job['host'] . " '" . $cmd . "'";
         exec($url);
+        $cmd = '';
     }
 }
 require_once 'include/finalize.inc.php';
