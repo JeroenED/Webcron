@@ -125,14 +125,14 @@ if(file_exists("cache/reboot.trigger")) {
     unlink("cache/reboot.trigger");
     $rebootser = serialize($rebootjobs);
     file_put_contents("cache/get-services.trigger", $rebootser);
-    file_put_contents("cache/reboot-time.trigger", time() + (get_configvalue('jobs.reboottime') * 60));
+    file_put_contents("cache/reboot-time.trigger", time() + ((get_configvalue('jobs.reboottime') + get_configvalue('jobs.rebootwait')) * 60));
     $rebooted_hosts = array();
     foreach($rebootjobs as $job) {
         parse_str(str_replace("reboot ", "", $job['url']), $rebootcommands);
         $cmd = $rebootcommands['cmd'];
 
         if ($cmd == '') {
-            $cmd = 'sudo shutdown -r +' . get_configvalue('jobs.reboottime') . ' "A reboot has been scheduled. Please save your work."';
+            $cmd = 'sudo shutdown -r +' . get_configvalue('jobs.rebootwait') . ' "A reboot has been scheduled. Please save your work."';
         }
         $url = "ssh " . $job['host'] . " '" . $cmd . "'";
         exec($url);
