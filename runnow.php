@@ -49,7 +49,7 @@ if (filter_var($jobnameResult[0]["url"], FILTER_VALIDATE_URL)) {
     $timestamp = time();
 
 } else {
-    if(!stristr($jobnameResult[0]["url"],"reboot")) {
+    if(strpos($jobnameResult[0]["url"],"reboot") !== 0) {
         $body = '';
         $statuscode = 0;
         $url = "ssh " . $jobnameResult[0]['host'] . " '" . $jobnameResult[0]['url'] . "' 2>&1";
