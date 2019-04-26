@@ -132,8 +132,10 @@ if(file_exists("cache/reboot.trigger")) {
         $cmd = $rebootcommands['cmd'];
 
         if ($cmd == '') {
-            $cmd = 'sudo shutdown -r +' . get_configvalue('jobs.rebootwait') . ' "A reboot has been scheduled. Please save your work."';
+            $cmd = 'sudo shutdown -r -t{}+ "A reboot has been scheduled. Please save your work."';
         }
+
+        $cmd = str_replace("{}+", get_configvalue('jobs.rebootwait'), $cmd);
         $url = "ssh " . $job['host'] . " '" . $cmd . "'";
         exec($url);
         $cmd = '';

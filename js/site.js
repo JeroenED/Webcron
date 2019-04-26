@@ -46,11 +46,16 @@ $(document).ready(function() {
             $('#resultmodal').modal('show');
         });
     });
-    $("body").on("focusout", "input[name=url]", function() {
-        if($("input[name=url]").val().startsWith("reboot") !== -1) {
+    $("body").on("input", "input[name=url]", function() {
+        if($("input[name=url]").val().startsWith("reboot")) {
+            $("#url-description").html("This job triggers a reboot. Please use <pre>reboot cmd={{command}}&services={{command}}</pre> to modify the reboot and get services commands. You can use {}+ in the reboot command to use the Reboot wait configuration value");
             $("label[for=expected]").html("Capture services after reboot? (1: yes; 0: no)");
             $("input[name=expected]").attr("placeholder", "1");
+        } else {
+            $("#url-description").html("");
+            $("label[for=expected]").html("Expected exit code");
+            $("input[name=expected]").attr("placeholder", "200");
         }
     });
-    $("input[name=url]").focusout();
+    $("input[name=url]").trigger("input");
 });

@@ -40,8 +40,8 @@ INSERT INTO `config` (`conf`, `category`, `type`, `label`, `description`, `value
 ('dbclean.expireruns', 'Database Cleanup', 'number(0)', 'Retention', 'How many days does the database keep the runs', '30'),
 ('dbclean.enabled', 'Database Cleanup', 'text', 'Enabled', 'Database cleanup enabled? (true: yes; false: no)', 'false'),
 ('dbclean.lastrun', 'Database Cleanup', 'hidden', 'Last run', 'Last run of database cleanup', UNIX_TIMESTAMP()),
-('jobs.reboottime', 'Jobs', 'number(0,30)', 'Reboot delay', 'Time to wait until a reboot should be finished', '5');
-('jobs.rebootwait', 'Jobs', 'number(0,30)', 'Reboot delay', 'The amount of delay in minutes between scheduling a reboot and the actual reboot', '5');
+('jobs.reboottime', 'Jobs', 'number(0)', 'Reboot time', 'The amount of time in seconds for the systems to perform a reboot', '300'),
+('jobs.rebootwait', 'Jobs', 'number(0)', 'Reboot wait', 'The amount of time in seconds between scheduling a reboot and the actual reboot', '300'),
 ('master.crashtimeout', 'Master script', 'number()', 'Master script crash timeout', 'The amount of time in seconds after we can assume the master script is crashed', '3600');
 
 -- --------------------------------------------------------
