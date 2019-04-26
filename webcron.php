@@ -42,7 +42,12 @@ if (file_exists("cache/get-services.trigger")) {
         
         foreach($rebootjobs as $job) {
             $services = array();
-            parse_str(str_replace("reboot ", "", $job['url']), $rebootcommands);
+            $rebooter = preg_replace("/reboot /", "", $job['url'], 1);
+            $rebooter = urlencode($rebooter);
+            $rebooter = str_replace("cmd%3D", "cmd=", $rebooter);
+            $rebooter = str_replace("services%3D", "services=", $rebooter);
+            $rebooter = str_replace("%26", "&", $rebooter);
+            parse_str($rebooter, $rebootcommands);
             $cmd = $rebootcommands['services'];
 
             if ($cmd == '') {
@@ -128,13 +133,18 @@ if(file_exists("cache/reboot.trigger")) {
     file_put_contents("cache/reboot-time.trigger", time() + ((get_configvalue('jobs.reboottime') + get_configvalue('jobs.rebootwait')) * 60));
     $rebooted_hosts = array();
     foreach($rebootjobs as $job) {
-        parse_str(str_replace("reboot ", "", $job['url']), $rebootcommands);
+        $rebooter = preg_replace("/reboot /", "", $job['url'], 1);
+        $rebooter = urlencode($rebooter);
+        $rebooter = str_replace("cmd%3D", "cmd=", $rebooter);
+        $rebooter = str_replace("services%3D", "services=", $rebooter);
+        $rebooter = str_replace("%26", "&", $rebooter);
+        parse_str($rebooter, $rebootcommands);
         $cmd = $rebootcommands['cmd'];
 
         if ($cmd == '') {
             $cmd = 'sudo shutdown -r +' . get_configvalue('jobs.rebootwait') . ' "A reboot has been scheduled. Please save your work."';
         }
-        $url = "ssh " . $job['host'] . " '" . $cmd . "'";
+        $url = "ssh " . $job['host'] . " '" . $cmd . " &'";
         exec($url);
         $cmd = '';
     }
