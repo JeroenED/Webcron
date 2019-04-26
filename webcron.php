@@ -128,28 +128,33 @@ unlink('/tmp/webcron.lock');
 
 if(file_exists("cache/reboot.trigger")) {
     unlink("cache/reboot.trigger");
+    $count=0;
+    foreach($rebootjobs as $job) {
+        if (!(isset($job['done']) && $job['done'] == true)) {
+            $rebooter = preg_replace("/reboot /", "", $job['url'], 1);
+            $rebooter = urlencode($rebooter);
+            $rebooter = str_replace("cmd%3D", "cmd=", $rebooter);
+            $rebooter = str_replace("services%3D", "services=", $rebooter);
+            $rebooter = str_replace("%26", "&", $rebooter);
+            parse_str($rebooter, $rebootcommands);
+            $cmd = $rebootcommands['cmd'];
+
+            if ($cmd == '') {
+                $cmd = 'sudo shutdown -r +{}+ "A reboot has been scheduled. Please save your work."';
+                $cmd = str_replace("{}+", intdiv(get_configvalue('jobs.rebootwait'), 60), $cmd);
+            }
+
+            $cmd = str_replace("{}+", get_configvalue('jobs.rebootwait'), $cmd);
+            $url = "ssh " . $job['host'] . " '" . $cmd . " &'";
+            exec($url);
+            $cmd = '';
+            $rebootjobs[$count]['done'] = true;
+        }
+        $count++;
+    }
+
     $rebootser = serialize($rebootjobs);
     file_put_contents("cache/get-services.trigger", $rebootser);
     file_put_contents("cache/reboot-time.trigger", time() + (get_configvalue('jobs.reboottime') + get_configvalue('jobs.rebootwait')));
-    $rebooted_hosts = array();
-    foreach($rebootjobs as $job) {
-        $rebooter = preg_replace("/reboot /", "", $job['url'], 1);
-        $rebooter = urlencode($rebooter);
-        $rebooter = str_replace("cmd%3D", "cmd=", $rebooter);
-        $rebooter = str_replace("services%3D", "services=", $rebooter);
-        $rebooter = str_replace("%26", "&", $rebooter);
-        parse_str($rebooter, $rebootcommands);
-        $cmd = $rebootcommands['cmd'];
-
-        if ($cmd == '') {
-            $cmd = 'sudo shutdown -r +{}+ "A reboot has been scheduled. Please save your work."';
-            $cmd = str_replace("{}+", intdiv(get_configvalue('jobs.rebootwait'), 60), $cmd);
-        }
-
-        $cmd = str_replace("{}+", get_configvalue('jobs.rebootwait'), $cmd);
-        $url = "ssh " . $job['host'] . " '" . $cmd . " &'";
-        exec($url);
-        $cmd = '';
-    }
 }
 require_once 'include/finalize.inc.php';
