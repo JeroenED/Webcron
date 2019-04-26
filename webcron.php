@@ -130,7 +130,7 @@ if(file_exists("cache/reboot.trigger")) {
     unlink("cache/reboot.trigger");
     $rebootser = serialize($rebootjobs);
     file_put_contents("cache/get-services.trigger", $rebootser);
-    file_put_contents("cache/reboot-time.trigger", time() + ((get_configvalue('jobs.reboottime') + get_configvalue('jobs.rebootwait')) * 60));
+    file_put_contents("cache/reboot-time.trigger", time() + (get_configvalue('jobs.reboottime') + get_configvalue('jobs.rebootwait')));
     $rebooted_hosts = array();
     foreach($rebootjobs as $job) {
         $rebooter = preg_replace("/reboot /", "", $job['url'], 1);
@@ -142,7 +142,8 @@ if(file_exists("cache/reboot.trigger")) {
         $cmd = $rebootcommands['cmd'];
 
         if ($cmd == '') {
-            $cmd = 'sudo shutdown -r -t{}+ "A reboot has been scheduled. Please save your work."';
+            $cmd = 'sudo shutdown -r +{}+ "A reboot has been scheduled. Please save your work."';
+            $cmd = str_replace("{}+", intdiv(get_configvalue('jobs.rebootwait'), 60), $cmd);
         }
 
         $cmd = str_replace("{}+", get_configvalue('jobs.rebootwait'), $cmd);
