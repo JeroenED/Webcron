@@ -81,7 +81,7 @@ elseif ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (!$eternal) {
         $lastrunObj = DateTime::createFromFormat("d/m/Y H:i:s", $_POST['lastrun']);
-        $lastrun = $nextrunObj->getTimestamp();
+        $lastrun = $lastrunObj->getTimestamp();
     } else {
         $lastrun = -1;
     }
