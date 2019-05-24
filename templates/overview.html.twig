@@ -17,7 +17,7 @@
         <th></th>
     </tr>
 {% for job in jobs %}
-        <tr>
+        <tr{% if(job.norun == true) %} class="norun"{% endif %}>
             <td>{{ job.name }}</td>
             <td>{{ job.host }}</td>
             <td>{{ job.delay }}</td>
