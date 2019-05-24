@@ -61,7 +61,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     }
 
     
-    echo $twig->render('editjob.html.twig', array("name" => $name, "url" => $url, "host" => $host, "delay" => $delay, "expected" => $expected, 'nextrun' => $nextrun, "jobID" => $jobID, "error" => $error));
+    echo $twig->render('editjob.html.twig', array("name" => $name, "url" => $url, "host" => $host, "delay" => $delay, "expected" => $expected, 'nextrun' => $nextrun, 'lastrun' => $lastrun, "jobID" => $jobID, "error" => $error));
 }
 elseif ($_SERVER["REQUEST_METHOD"] == "POST") {
     
