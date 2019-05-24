@@ -67,7 +67,7 @@ if (file_exists("cache/get-services.trigger")) {
     }
 }
 
-$stmt = $db->prepare('SELECT * FROM jobs WHERE nextrun <= 1558742600 and (nextrun <= lastrun OR lastrun = -1)');
+$stmt = $db->prepare('SELECT * FROM jobs WHERE nextrun <= ? and (nextrun <= lastrun OR lastrun = -1)');
 $stmt->execute(array(time()));
 $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 $client = new \GuzzleHttp\Client();
