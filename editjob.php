@@ -42,6 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     $delay = $jobnameResult[0]['delay'];
     $expected = $jobnameResult[0]['expected'];
     $nextrun = date("d/m/Y H:i:s", $jobnameResult[0]['nextrun']);
+    $lastrun = ($jobnameResult[0]['lastrun'] == -1) ? -1 : date("d/m/Y H:i:s", $jobnameResult[0]['lastrun']);
 
 
     $loader = new Twig_Loader_Filesystem('templates');
@@ -74,8 +75,16 @@ elseif ($_SERVER["REQUEST_METHOD"] == "POST") {
     $delay = $_POST['delay'];
     $host = $_POST['host'];
     $expected = $_POST['expected'];
+    $eternal = (isset($_POST['eternal']) && $_POST['eternal'] == true) ? true : false;
     $nextrunObj = DateTime::createFromFormat("d/m/Y H:i:s", $_POST['nextrun']);
     $nextrun = $nextrunObj->getTimestamp();
+
+    if (!$eternal) {
+        $lastrunObj = DateTime::createFromFormat("d/m/Y H:i:s", $_POST['lastrun']);
+        $lastrun = $nextrunObj->getTimestamp();
+    } else {
+        $lastrun = -1;
+    }
     
     if(!is_numeric($delay)) {
         header("location:editjob.php?jobID=" . $jobID . "&error=invaliddelay");
@@ -85,10 +94,14 @@ elseif ($_SERVER["REQUEST_METHOD"] == "POST") {
         header("location:editjob.php?jobID=" . $jobID . "&error=invalidnextrun");
         exit;
     }
+    if(!is_numeric($lastrun)) {
+        header("location:editjob.php?jobID=" . $jobID . "&error=invalidlastrun");
+        exit;
+    }
     
   
-    $stmt = $db->prepare("UPDATE jobs SET name = ?, url = ?, host = ?, delay = ?, nextrun = ?, expected = ? WHERE jobID = ?");
-    $stmt->execute(array($name, $url, $host, $delay, $nextrun, $expected, $jobID));
+    $stmt = $db->prepare("UPDATE jobs SET name = ?, url = ?, host = ?, delay = ?, nextrun = ?, expected = ?, lastrun = ? WHERE jobID = ?");
+    $stmt->execute(array($name, $url, $host, $delay, $nextrun, $expected, $lastrun, $jobID));
     
     header("location:overview.php?message=edited");
     exit;
