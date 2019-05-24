@@ -59,6 +59,7 @@ CREATE TABLE IF NOT EXISTS `jobs` (
   `host` varchar(50) NOT NULL DEFAULT 'localhost',
   `delay` int(11) NOT NULL,
   `nextrun` int(11) NOT NULL,
+  `lastrun` int(11) NOT NULL DEFAULT '-1',
   `expected` int(11) NOT NULL DEFAULT '200',
   PRIMARY KEY (`jobID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

@@ -64,9 +64,17 @@ elseif ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = $_POST['name'];
     $delay = $_POST['delay'];
     $expected = $_POST['expected'];
+    $eternal = (isset($_POST['eternal']) && $_POST['eternal'] == true) ? true : false;
     $nextrunObj = DateTime::createFromFormat("d/m/Y H:i:s", $_POST['nextrun']);
     $nextrun = $nextrunObj->getTimestamp();
-    
+
+    if (!$eternal) {
+        $lastrunObj = DateTime::createFromFormat("d/m/Y H:i:s", $_POST['lastrun']);
+        $lastrun = $lastrunObj->getTimestamp();
+    } else {
+        $lastrun = -1;
+    }
+
     if(!is_numeric($delay)) {
         header("location:addjob.php?error=invaliddelay");
         exit;
@@ -75,7 +83,10 @@ elseif ($_SERVER["REQUEST_METHOD"] == "POST") {
         header("location:addjob.php?error=invalidnextrun");
         exit;
     }
-    
+    if(!is_numeric($lastrun)) {
+        header("location:addjob.php?error=invalidlastrun");
+        exit;
+    }
   
     $stmt = $db->prepare("INSERT INTO jobs(user, name, url, host, delay, nextrun, expected)  VALUES(?, ?, ?, ?, ?, ?, ?)");
     $stmt->execute(array($_SESSION["userID"], $name, $url, $host, $delay, $nextrun, $expected));
