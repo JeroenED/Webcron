@@ -62,6 +62,7 @@ foreach($allJobsResult as $key=>$value) {
     $allJobsRendered[$count]["name"] = $value["name"];
     $allJobsRendered[$count]["host"] = $value["host"];
     $allJobsRendered[$count]["nextrun"] = date("d/m/Y H:i:s", $value["nextrun"]);
+    $allJobsRendered[$count]["norun"] = ($value['nextrun'] > $value['lastrun'] && $value['lastrun'] > 0) ? true : false;
     $allJobsRendered[$count]["delay"] = secondsToInterval($value["delay"]);
     
     $count++;
