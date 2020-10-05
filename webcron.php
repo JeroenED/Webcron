@@ -30,15 +30,15 @@ if(file_exists('/tmp/webcron.lock') && file_get_contents('/tmp/webcron.lock') + 
 {
     die('Script is already running');
 }
-unlink('/tmp/webcron.lock');
+if(file_exists('/tmp/webcron.lock')) unlink('/tmp/webcron.lock');
 file_put_contents('/tmp/webcron.lock', time());
 
 /**
  * Reboot finalize
  */
-if (file_exists("cache/get-services.trigger")) {
-    if (file_exists("cache/reboot-time.trigger") && file_get_contents("cache/reboot-time.trigger") < time()) { 
-        $rebootjobs = unserialize(file_get_contents("cache/get-services.trigger"));
+if (file_exists(__DIR__ . "/cache/get-services.trigger")) {
+    if (file_exists(__DIR__ . "/cache/reboot-time.trigger") && file_get_contents(__DIR__ . "/cache/reboot-time.trigger") < time()) {
+        $rebootjobs = json_decode(file_get_contents(__DIR__ . "/cache/get-services.trigger"), true);
         
         foreach($rebootjobs as $job) {
             $services = array();
@@ -62,8 +62,8 @@ if (file_exists("cache/get-services.trigger")) {
             $stmt = $db->prepare("INSERT INTO runs(job, statuscode, result, timestamp)  VALUES(?, ?, ?, ?)");
             $stmt->execute(array($job['jobID'], '0', $services, time()));
         }
-        unlink("cache/get-services.trigger");
-        unlink("cache/reboot-time.trigger");
+        unlink(__DIR__ . "/cache/get-services.trigger");
+        unlink(__DIR__ . "/cache/reboot-time.trigger");
     }
 }
 
@@ -73,8 +73,8 @@ $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 $client = new \GuzzleHttp\Client();
 
 $rebootjobs = array();
-if (file_exists("cache/get-services.trigger")) {
-    $rebootjobs = unserialize(file_get_contents("cache/get-services.trigger"));
+if (file_exists(__DIR__ . "/cache/get-services.trigger")) {
+    $rebootjobs = json_decode(file_get_contents(__DIR__ . "/cache/get-services.trigger"), true);
 }
 
 foreach ($results as $result) {
@@ -85,29 +85,30 @@ foreach ($results as $result) {
         $statuscode = $res->getStatusCode();
         $body = $res->getBody();
     } else {
- 
-        if(strpos($result["url"],"reboot") !== 0) {
+	    if(strpos($result["url"],"reboot") !== 0) {
+            $nosave = false;
             $body = '';
             $statuscode = 0;
             $url = "ssh " . $result['host'] . " '" . $result['url'] . "' 2>&1";
             exec($url, $body, $statuscode);
             $body = implode("\n", $body);
         } else {
-            $rebootjobs = array();
-            if (file_exists('cache/get-services.trigger')) {
-                $rebootjobs = unserialize(file_get_contents('cache/get-services.trigger'));
+ 	        $rebootjobs = array();
+            if (file_exists(__DIR__ . '/cache/get-services.trigger')) {
+                $rebootjobs = json_decode(file_get_contents(__DIR__ . '/cache/get-services.trigger'), true);
             }
             if (!job_in_array($result['jobID'], $rebootjobs)) {
+                echo "no hope";
                 $rebootjobs[] = $result;
-                $rebootser = serialize($rebootjobs);
-                file_put_contents("cache/get-services.trigger", $rebootser);
-                touch("cache/reboot.trigger");
+                $rebootser = json_encode($rebootjobs);
+                file_put_contents(__DIR__ . "/cache/get-services.trigger", $rebootser);
+                touch(__DIR__ . "/cache/reboot.trigger");
                 $nosave = true;
             }
 
         }
     }
-    if($nosave !== true) {
+    if(!$nosave) {
         $stmt = $db->prepare("INSERT INTO runs(job, statuscode, result, timestamp)  VALUES(?, ?, ?, ?)");
         $stmt->execute(array($result['jobID'], $statuscode, $body, time()));
     }
@@ -126,10 +127,11 @@ if ((get_configvalue('dbclean.enabled') == 'true') && (get_configvalue('dbclean.
 
 unlink('/tmp/webcron.lock');
 
-if(file_exists("cache/reboot.trigger")) {
-    unlink("cache/reboot.trigger");
+if(file_exists(__DIR__ . "/cache/reboot.trigger")) {
+    unlink(__DIR__ . "/cache/reboot.trigger");
     $count=0;
     foreach($rebootjobs as $job) {
+        print_r($job);
         if (!(isset($job['done']) && $job['done'] == true)) {
             $rebooter = preg_replace("/reboot /", "", $job['url'], 1);
             $rebooter = urlencode($rebooter);
@@ -145,8 +147,8 @@ if(file_exists("cache/reboot.trigger")) {
 
             $cmd = str_replace("{m}+", intdiv(get_configvalue('jobs.rebootwait'), 60), $cmd);
             $cmd = str_replace("{s}+", get_configvalue('jobs.rebootwait'), $cmd);
-            
             $url = "ssh " . $job['host'] . " '" . $cmd . " &'";
+            echo $url;
             exec($url);
             $cmd = '';
             $rebootjobs[$count]['done'] = true;
@@ -154,8 +156,8 @@ if(file_exists("cache/reboot.trigger")) {
         $count++;
     }
 
-    $rebootser = serialize($rebootjobs);
-    file_put_contents("cache/get-services.trigger", $rebootser);
-    file_put_contents("cache/reboot-time.trigger", time() + (get_configvalue('jobs.reboottime') + get_configvalue('jobs.rebootwait')));
+    $rebootser = json_encode($rebootjobs);
+    file_put_contents(__DIR__ . "/cache/get-services.trigger", $rebootser);
+    file_put_contents(__DIR__ . "/cache/reboot-time.trigger", time() + (get_configvalue('jobs.reboottime') + get_configvalue('jobs.rebootwait')));
 }
 require_once 'include/finalize.inc.php';
