@@ -9,5 +9,4 @@ $kernel->setProjectDir(__DIR__);
 $kernel->setConfigDir(__DIR__ . '/config/');
 $kernel->setTemplateDir(__DIR__ . '/templates/');
 
-$db = DriverManager::getConnection(['url' => $_ENV['DATABASE']]);
 $kernel->handle()->send();

@@ -1,6 +1,6 @@
 cache/*
 !cache/.gitkeep
-nbproject/private/
 vendor/
-config.inc.php
+webcron.old/config.inc.php
 \.idea/
+.env
