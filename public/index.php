@@ -2,7 +2,7 @@
 
 use JeroenED\Framework\Kernel;
 
-require_once 'bootstrap.php';
+require_once '../bootstrap.php';
 
 $kernel = new Kernel();
 $kernel->setProjectDir(__DIR__);
