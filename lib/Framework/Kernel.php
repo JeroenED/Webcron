@@ -1,15 +1,19 @@
 <?php
 
-
 namespace JeroenED\Framework;
 
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DriverManager;
 use http\Exception\InvalidArgumentException;
+use Symfony\Component\Config\FileLocator;
+use Symfony\Component\Routing\Loader\YamlFileLoader;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\RouteCollection;
+use Symfony\Component\Routing\RequestContext;
+use Symfony\Component\Routing\Matcher\UrlMatcher;
+use Symfony\Component\Dotenv\Dotenv;
 
 class Kernel
 {
@@ -90,7 +94,7 @@ class Kernel
 
     public function getDbCon(): Connection
     {
-        $db = DriverManager::getConnection(['url' => $_ENV['DATABASE']]);
+        return DriverManager::getConnection(['url' => $_ENV['DATABASE']]);
     }
 
     private function createResponse($request, $routes): Response

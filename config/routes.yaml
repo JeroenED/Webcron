@@ -1,4 +1,9 @@
-login:
-  path: '/login/'
+default:
+  path: '/'
   defaults:
-    _controller: JeroenED\Webcron\Controller\SecurityController::loginAction
+    _controller: JeroenED\Webcron\Controller\DefaultController::defaultAction
+
+login:
+   path: '/login'
+   defaults:
+     _controller: JeroenED\Webcron\Controller\SecurityController::loginAction
