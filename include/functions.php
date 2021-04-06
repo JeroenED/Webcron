@@ -1,29 +1,5 @@
 <?php
 
-/* 
- * The MIT License
- *
- * Copyright 2017 Jeroen De Meerleer.
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
-
 function job_in_array($id, $jobs) {
     foreach ($jobs as $job) {
         if ($job['jobID'] == $id) return true;
@@ -35,14 +11,12 @@ function job_in_array($id, $jobs) {
 function load_config_categorized() {
 	global $db;
 
-	$allConfig = $db->prepare("SELECT * FROM config ORDER BY category ASC");
-	$allConfig->execute();
-	$allConfigResult = $allConfig->fetchAll(PDO::FETCH_ASSOC);
+	$allConfig = $db->prepare("SELECT * FROM config ORDER BY category ASC")->execute()->fetchAllAssociative();
 
 	// Separate lines into categories
 	$configCategorized = array();
 	$count = 0;
-	foreach($allConfigResult as $key=>$value) {
+	foreach($allConfig as $key=>$value) {
         if ($value['type'] != "hidden") {
             $configCategorized[$value['category']][$count]['conf'] = $value['conf'];
             $configCategorized[$value['category']][$count]['value'] = $value['value'];
@@ -67,11 +41,9 @@ function load_config_categorized() {
 function get_configvalue($conf) {
 	global $db;
 
-	$config = $db->prepare("SELECT value FROM config WHERE conf = ?");
-	$config->execute(array($conf));
-	$configResult = $config->fetch(PDO::FETCH_ASSOC);
+	$config = $db->prepare("SELECT value FROM config WHERE conf = :conf")->execute([':conf' => $conf])->fetchAssociative();
 
-	return $configResult['value'];
+	return $config['value'];
 
 }
 
@@ -96,11 +68,9 @@ function parse_config_type($type) {
 function clean_database() {
 	global $db;
 
-	$oldestrun = time() - (60 * 60 * 24 * get_configvalue('dbclean.expireruns'));
+	$oldestrun = time() - (get_configvalue('dbclean.expireruns') * 60 * 60 * 24);
 
-	$stmt = $db->prepare("DELETE FROM runs WHERE timestamp < ?");
-	$stmt->execute(array($oldestrun));
+    $db->prepare("DELETE FROM runs WHERE timestamp < :oldestrun")->execute([':oldestrun' => $oldestrun]);
 
-	$stmt = $db->prepare("UPDATE config SET value = ? WHERE conf = ?");
-   	$stmt->execute(array(time(), 'dbclean.lastrun'));
+    $db->prepare("UPDATE config SET value = :value WHERE conf = :conf")->execute([':value' => time(), ':conf' => 'dbclean.lastrun']);
 }

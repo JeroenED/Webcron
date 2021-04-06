@@ -1,6 +1,6 @@
 {
-    "name": "jeroened/jeroen-e-d-web-dev-webcron",
-    "description": "Description of project JeroenED-WebDev-Webcron.",
+    "name": "jeroened/webcron",
+    "description": "A simple webapp to manage webcrons",
     "authors": [
         {
             "name": "Jeroen De Meerleer",
@@ -9,6 +9,18 @@
     ],
     "require": {
         "guzzlehttp/guzzle": "^6",
-        "twig/twig": "^2"
+        "twig/twig": "^2.14",
+        "doctrine/dbal": "^3.0",
+        "symfony/routing": "^5.2",
+        "symfony/dotenv": "^5.2",
+        "symfony/yaml": "^5.2",
+        "symfony/http-foundation": "^5.2",
+        "symfony/config": "^5.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "JeroenED\\Framework\\": "lib/Framework/",
+            "JeroenED\\Webcron\\": "src/"
+        }
     }
 }
