@@ -1,12 +1,22 @@
 # Webcron Management
-(c) 2017 Jeroen De Meerleer <me@jeroened.be>
+(c) 2017, 2021 Jeroen De Meerleer <me@jeroened.be>
 
 Webcron management is an easy-to-use interface to manage cronjob running on a publicly available http-location.
 
+## Status update
+I'm currently in the process of rewriting the application to more modern standards. The current main branch is very unstable at the moment. Please don't use it.
+
+I encourage everyone to wait for the new version as upgrading will probably be very difficult.
+
+### What will change with the rewrite?
+* All urls will change. eg. /login/ and /jobs/5/edit/ instead of /login.php and editjob.php?jobId=5
+* Dropping support for directly calling webcron.php from url-bar
+* Daemonized main-script which will enable running cronjobs by seconds
+
 ## Requirements
 * Webserver able to run PHP
-* PHP 7.0 or greater
-* MySQL/MariaDB
+* PHP 8.0 or greater
+* MySQL/MariaDB (Or sqLite)
 * Ability to add a system cronjob for installation (You can maybe ask you webhost?)
 
 ## Instalation
@@ -35,23 +45,3 @@ TL;DR
 
 ### Can I schedule a reboot every week?
 Yes, you can do this by creating a job with `reboot` as "url". When this job needs to run, the reboot is triggered to run at the very end. At the first run of the master script a list of active and terribly failed services is pushed to the job so you can check this if something is wrong.
-
-## Licence
-
-    Permission is hereby granted, free of charge, to any person obtaining a copy
-    of this software and associated documentation files (the "Software"), to deal
-    in the Software without restriction, including without limitation the rights
-    to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-    copies of the Software, and to permit persons to whom the Software is
-    furnished to do so, subject to the following conditions:
-
-    The above copyright notice and this permission notice shall be included in
-    all copies or substantial portions of the Software.
-
-    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-    THE SOFTWARE.
