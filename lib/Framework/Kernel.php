@@ -4,11 +4,12 @@
 namespace JeroenED\Framework;
 
 
+use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\DriverManager;
 use http\Exception\InvalidArgumentException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\RouteCollection;
-use Symfony\Component\Yaml\Yaml;
 
 class Kernel
 {
@@ -85,6 +86,11 @@ class Kernel
     private function parseRequest(): Request
     {
         return Request::createFromGlobals();
+    }
+
+    public function getDbCon(): Connection
+    {
+        $db = DriverManager::getConnection(['url' => $_ENV['DATABASE']]);
     }
 
     private function createResponse($request, $routes): Response

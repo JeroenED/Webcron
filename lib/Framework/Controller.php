@@ -3,6 +3,7 @@
 namespace JeroenED\Framework;
 
 
+use Doctrine\DBAL\Connection;
 use http\Env\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Twig\Environment;
@@ -12,14 +13,21 @@ abstract class Controller
 {
     private $twig;
     private $request;
+    private $database;
+    private $kernel;
 
     public function __construct(Request $request, Kernel $kernel)
     {
         $loader = new FilesystemLoader([$kernel->getTemplateDir()]);
         $this->twig = new Environment($loader);
         $this->request = $request;
+        $this->kernel = $kernel;
     }
 
+    public function getDbCon(): Connection
+    {
+        return $this->kernel->getDbCon();
+    }
     /**
      * @return Request
      */
