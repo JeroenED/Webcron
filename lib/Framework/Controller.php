@@ -4,7 +4,7 @@ namespace JeroenED\Framework;
 
 
 use Doctrine\DBAL\Connection;
-use http\Env\Request;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
