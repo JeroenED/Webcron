@@ -70,7 +70,7 @@ class Kernel
     public function handle(): Response
     {
         $this->parseDotEnv($this->getProjectDir() . '/.env');
-        $routes = $this->parseRoutes($this->getConfigDir(), '/routes.yaml');
+        $routes = $this->parseRoutes($this->getConfigDir(), 'routes.yaml');
         $request = $this->parseRequest();
         return $this->createResponse($request, $routes);
     }
