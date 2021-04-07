@@ -28,6 +28,7 @@ abstract class Controller
     {
         return $this->kernel->getDbCon();
     }
+
     /**
      * @return Request
      */
@@ -53,5 +54,10 @@ abstract class Controller
     {
         $response = new Response($this->twig->render($template, $vars));
         return $response;
+    }
+
+    public function generateRoute(string $route): string
+    {
+        return $this->kernel->getRouter()->getUrlForRoute($route);
     }
 }

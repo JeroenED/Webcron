@@ -7,3 +7,9 @@ login:
    path: '/login'
    defaults:
      _controller: JeroenED\Webcron\Controller\SecurityController::loginAction
+
+login_check:
+  path: '/login_check'
+  methods: ['POST']
+  defaults:
+    _controller: JeroenED\Webcron\Controller\SecurityController::loginCheckAction
