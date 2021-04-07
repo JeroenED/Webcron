@@ -20,6 +20,7 @@ class Kernel
     private string $configDir;
     private string $projectDir;
     private string $templateDir;
+    private Router $router;
 
     /**
      * @return string
@@ -59,7 +60,9 @@ class Kernel
     public function getTemplateDir(): string
     {
         return $this->templateDir;
-    }/**
+    }
+
+    /**
      * @param string $templateDir
      */
     public function setTemplateDir(string $templateDir): void
@@ -67,12 +70,21 @@ class Kernel
         $this->templateDir = $templateDir;
     }
 
+    /**
+     * @return Router
+     */
+    public function getRouter(): Router
+    {
+        return $this->router;
+    }
+
     public function handle(): Response
     {
         $this->parseDotEnv($this->getProjectDir() . '/.env');
-        $routes = $this->parseRoutes($this->getConfigDir(), 'routes.yaml');
+        $this->router = new Router();
+        $this->router->parseRoutes($this->getConfigDir(), 'routes.yaml');
         $request = $this->parseRequest();
-        return $this->createResponse($request, $routes);
+        return $this->router->route($request, $this);
     }
 
     private function parseDotEnv(string $path): void
@@ -81,36 +93,14 @@ class Kernel
         $dotenv->loadEnv($path);
     }
 
-    private function parseRoutes(string $dir, string $file): RouteCollection
-    {
-        $routeloader = new YamlFileLoader(new FileLocator($dir));
-        return $routeloader->load($file);
-    }
-
     private function parseRequest(): Request
     {
-        return Request::createFromGlobals();
+        $request = Request::createFromGlobals();
+        return $request;
     }
 
     public function getDbCon(): Connection
     {
         return DriverManager::getConnection(['url' => $_ENV['DATABASE']]);
-    }
-
-    private function createResponse($request, $routes): Response
-    {
-        $requestContext = RequestContext::fromUri($request->getUri());
-        $matcher = new UrlMatcher($routes, $requestContext);
-        $method = $matcher->match($request->getPathInfo());
-        $controller = explode('::', $method['_controller']);
-        $controllerObj = new ('\\' . $controller[0])($request, $this);
-        $action = $controller[1];
-        $response = $controllerObj->$action();
-
-        if ($response instanceof Response) {
-            return $response;
-        } else {
-            throw new InvalidArgumentException();
-        }
     }
 }

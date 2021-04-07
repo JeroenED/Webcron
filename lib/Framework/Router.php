@@ -1,0 +1,51 @@
+<?php
+
+
+namespace JeroenED\Framework;
+
+
+use http\Exception\InvalidArgumentException;
+use Symfony\Component\Config\FileLocator;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Generator\UrlGenerator;
+use Symfony\Component\Routing\Loader\YamlFileLoader;
+use Symfony\Component\Routing\Matcher\UrlMatcher;
+use Symfony\Component\Routing\RequestContext;
+use Symfony\Component\Routing\RouteCollection;
+
+class Router
+{
+    private RouteCollection $routes;
+    private RequestContext $requestContext;
+
+    public function route(Request $request, Kernel $kernel): Response
+    {
+        $requestContext = new RequestContext();
+        $this->requestContext = $requestContext->fromRequest($request);
+        $matcher = new UrlMatcher($this->routes, $this->requestContext);
+        $method = $matcher->match($request->getPathInfo());
+        $controller = explode('::', $method['_controller']);
+        $controllerObj = new ('\\' . $controller[0])($request, $kernel);
+        $action = $controller[1];
+        $response = $controllerObj->$action();
+
+        if ($response instanceof Response) {
+            return $response;
+        } else {
+            throw new InvalidArgumentException();
+        }
+    }
+
+    public function parseRoutes(string $dir, string $file): void
+    {
+        $routeloader = new YamlFileLoader(new FileLocator($dir));
+        $this->routes =  $routeloader->load($file);
+    }
+
+    public function getUrlForRoute(string $route, array $params = []): string
+    {
+        $matcher = new UrlGenerator($this->routes, $this->requestContext);
+        return $matcher->generate($route, $params, UrlGenerator::ABSOLUTE_URL);
+    }
+}

@@ -16,4 +16,10 @@ class SecurityController extends Controller
         }
         return $this->render('security/login.html.twig');
     }
+
+    public function loginCheckAction(): Response
+    {
+        $_SESSION['isAuthenticated'] = true;
+        return new Response('Not yet implemented', 425);
+    }
 }
