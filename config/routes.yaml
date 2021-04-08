@@ -1,7 +1,7 @@
 default:
   path: '/'
   defaults:
-    _controller: JeroenED\Webcron\Controller\DefaultController::defaultAction
+    _controller: JeroenED\Webcron\Controller\JobController::defaultAction
 
 login:
    path: '/login'
@@ -13,3 +13,13 @@ login_check:
   methods: ['POST']
   defaults:
     _controller: JeroenED\Webcron\Controller\SecurityController::loginCheckAction
+
+job_index:
+  path: '/job'
+  defaults:
+    _controller: JeroenED\Webcron\Controller\JobController::defaultAction
+
+job_view:
+  path: '/job/{id}'
+  defaults:
+    _controller: JeroenED\Webcron\Controller\JobController::viewAction
