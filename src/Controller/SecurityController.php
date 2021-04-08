@@ -27,6 +27,7 @@ class SecurityController extends Controller
             $_SESSION['isAuthenticated'] = true;
             return new RedirectResponse($this->generateRoute('default'));
         }
+        $this->addFlash('danger', 'Username or password incorrect');
         return new RedirectResponse($this->generateRoute('login'));
     }
 }

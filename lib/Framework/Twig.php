@@ -30,7 +30,7 @@ class Twig
 
     public function addFunctions()
     {
-        $path = new TwigFunction('path', function(string $route, array $params) {
+        $path = new TwigFunction('path', function(string $route, array $params = []) {
             return $this->kernel->getRouter()->getUrlForRoute($route, $params);
         });
         $this->environment->addFunction($path);
