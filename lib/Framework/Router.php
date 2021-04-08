@@ -28,7 +28,9 @@ class Router
         $controller = explode('::', $method['_controller']);
         $controllerObj = new ('\\' . $controller[0])($request, $kernel);
         $action = $controller[1];
-        $response = $controllerObj->$action();
+        unset($method['_controller']);
+        unset($method['_route']);
+        $response = $controllerObj->$action(...$method);
 
         if ($response instanceof Response) {
             return $response;
