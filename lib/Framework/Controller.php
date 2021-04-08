@@ -18,8 +18,7 @@ abstract class Controller
 
     public function __construct(Request $request, Kernel $kernel)
     {
-        $loader = new FilesystemLoader([$kernel->getTemplateDir()]);
-        $this->twig = new Environment($loader);
+        $this->twig = new Twig($kernel);
         $this->request = $request;
         $this->kernel = $kernel;
     }
