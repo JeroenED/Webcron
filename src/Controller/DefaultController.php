@@ -16,6 +16,6 @@ class DefaultController extends Controller
         }
         $jobRepo = new Job($this->getDbCon());
         $jobs = $jobRepo->getAllJobs();
-        return $this->render('job/overview.html.twig', ['jobs' => $jobs]);
+        return $this->render('job/index.html.twig', ['jobs' => $jobs]);
     }
 }
