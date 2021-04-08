@@ -19,14 +19,14 @@
 {% for job in jobs %}
         <tr{% if(job.norun == true) %} class="norun"{% endif %}>
             <td>{{ job.name }}</td>
-            <td>{{ job.host }}</td>
+            <td>{{ job.data.host }}</td>
             <td>{{ job.delay }}</td>
             <td>{{ job.nextrun }}</td>
             <td>
-                <a href="#" data-id="{{ job.jobID }}" class="runcron btn btn-default"><span class="glyphicon glyphicon-play"><span></a>
-                <a href="runs.php?jobID={{ job.jobID }}" class="btn btn-default"><span class="glyphicon glyphicon-align-justify"></span></a>
-                <a href="editjob.php?jobID={{ job.jobID }}" class="btn btn-default"><span class="glyphicon glyphicon-edit"><span></a>
-                <a onclick="return confirm('Are you sure you want to delete this job?')" href="overview.php?jobID={{ job.jobID }}&action=delete" class="btn btn-default"><span class="glyphicon glyphicon-remove"></span></a>
+                <a href="#" data-id="{{ job.id }}" class="runcron btn btn-default"><span class="glyphicon glyphicon-play"><span></a>
+                <a href="runs.php?jobID={{ job.id }}" class="btn btn-default"><span class="glyphicon glyphicon-align-justify"></span></a>
+                <a href="editjob.php?jobID={{ job.id }}" class="btn btn-default"><span class="glyphicon glyphicon-edit"><span></a>
+                <a onclick="return confirm('Are you sure you want to delete this job?')" href="overview.php?id={{ job.id }}&action=delete" class="btn btn-default"><span class="glyphicon glyphicon-remove"></span></a>
             </td>
         </tr>
 {% endfor %}

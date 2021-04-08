@@ -7,8 +7,9 @@ use JeroenED\Framework\Kernel;
 require_once '../bootstrap.php';
 
 $kernel = new Kernel();
-$kernel->setProjectDir(__DIR__ . '/..');
-$kernel->setConfigDir(__DIR__ . '/../config/');
-$kernel->setTemplateDir(__DIR__ . '/../templates/');
+chdir(__DIR__ . '/..');
+$kernel->setProjectDir(getcwd());
+$kernel->setConfigDir(getcwd() . '/config/');
+$kernel->setTemplateDir(getcwd() . '/templates/');
 
 $kernel->handle()->send();
