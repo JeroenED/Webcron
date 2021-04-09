@@ -52,7 +52,7 @@ abstract class Controller
     public function render(string $template, array $vars = []): Response
     {
         if(empty($_SERVER['HTTP_X_REQUESTED_WITH']) || strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) != 'xmlhttprequest') {
-            $vars['flashes'] = $_SESSION['flashes'];
+            $vars['flashes'] = $_SESSION['flashes'] ?? [] ;
             $_SESSION['flashes'] = [];
         }
         $response = new Response($this->twig->render($template, $vars));
