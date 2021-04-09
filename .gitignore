@@ -5,3 +5,4 @@ webcron.old/config.inc.php
 \.idea/
 .env
 storage/database.sqlite
+.DS_Store
