@@ -26,7 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         }
     }
     
-    echo $twig->render('addjob.html.twig', array("message" => $message, "error" => $error));
+    echo $twig->render('add.html.twig', array("message" => $message, "error" => $error));
 }
 elseif ($_SERVER["REQUEST_METHOD"] == "POST") {
     

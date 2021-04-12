@@ -24,4 +24,9 @@ class JobController extends Controller
     {
         return new Response('Not implemented yet', Response::HTTP_TOO_EARLY);
     }
+
+    public function addAction()
+    {
+        return $this->render('job/add.html.twig');
+    }
 }

@@ -1,0 +1,49 @@
+{% extends "base.html.twig" %}
+{% block title %}Add job{% endblock %}
+{% block content %}
+    <h2>Add a cronjob</h2>
+<form method="post" class="form-horizontal" action="{{ path('job_add') }}">
+
+    <div class="mb-3">
+        <label for="name">Name</label>
+        <input type="text" name="name" class="form-control" id="name" placeholder="System update">
+    </div>
+    <div class="mb-3">
+        <label for="url">url</label>
+        <input type="text" name="url" class="form-control" id="url" placeholder="http://example.com/ or 'sudo yum update -y'">
+    </div>
+    
+    <div class="mb-3">
+        <label for="host">host</label>
+        <input type="text" name="host" class="form-control" id="host" placeholder="localhost">
+    </div>
+
+    <div class="mb-3">
+        <label for="name">Delay (in seconds)</label>
+        <input type="number" class="form-control" id="delay" name="delay">
+    </div>
+    <div class="mb-3">
+        <label for="nextrun">Next run</label>
+        <input type="text" id="nextrunselector" class="form-control datetimepicker-input" data-target="#nextrunselector" data-toggle="datetimepicker" name="nextrun">
+    </div>
+    <div class="mb-3">
+        <label for="lastrun">Last run</label>
+        <input type="datetime-local" id="nextrunselector" class="form-control" name="nextrun">
+    </div>
+    <div class="mb-3">
+        <label for="expected">Expected exit code</label>
+        <input type="text" name="expected" class="form-control" id="host" placeholder="200">
+    </div>
+    <button type="submit" class="btn btn-outline-primary">Submit</button>
+</form>
+
+{% endblock %}
+
+{% block extrastyles %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.39.0/css/tempusdominus-bootstrap-4.min.css" integrity="sha512-3JRrEUwaCkFUBLK1N8HehwQgu8e23jTH4np5NHOmQOobuC4ROQxFwFgBLTnhcnQRMs84muMh0PnnwXlPq5MGjg==" crossorigin="anonymous" />
+{% endblock %}
+
+{% block extrascripts %}
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.0/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.39.0/js/tempusdominus-bootstrap-4.min.js" integrity="sha512-k6/Bkb8Fxf/c1Tkyl39yJwcOZ1P4cRrJu77p83zJjN2Z55prbFHxPs9vN7q3l3+tSMGPDdoH51AEU8Vgo1cgAA==" crossorigin="anonymous"></script>
+{% endblock %}
