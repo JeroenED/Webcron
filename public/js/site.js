@@ -2,8 +2,8 @@ $(document).ready(function() {
     $("body").on("click", "#patternDropdown li", function() {
         if(this.value != "custom") { $("input#delay").val($(this).data("val")); }
     });
-    $('#nextrunselector').datetimepicker( { format: 'DD/MM/YYYY HH:mm:ss' } );
-    $('#lastrunselector').datetimepicker( { format: 'DD/MM/YYYY HH:mm:ss' } );
+    $('#nextrunselector').datetimepicker({format: 'L LTS'});
+    $('#lastrunselector').datetimepicker({format: 'L LTS'});
    
     $("body").on("click", ".runcron", function() {
         $("#ajax_loader").show();

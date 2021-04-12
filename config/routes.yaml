@@ -28,3 +28,10 @@ job_view:
   path: '/job/{id}'
   defaults:
     _controller: JeroenED\Webcron\Controller\JobController::viewAction
+  requirements:
+    id: \d+
+
+job_add:
+  path: '/job/add'
+  defaults:
+    _controller: JeroenED\Webcron\Controller\JobController::addAction
