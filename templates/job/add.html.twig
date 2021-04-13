@@ -11,7 +11,21 @@
     </div>
     <div class="mb-3">
         <label for="name">Delay (in seconds)</label>
-        <input type="number" class="form-control" id="delay" name="delay">
+        <div class="input-group">
+            <div class="dropdown input-group-prepend">
+                <button class="btn btn-outline-primary dropdown-toggle" type="button" id="delayButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Patterns
+                </button>
+                <div class="dropdown-menu" aria-labelledby="delayButton">
+                    <a class="dropdown-item delaypattern-item" href="#" data-time="60">Every minute</a>
+                    <a class="dropdown-item delaypattern-item" href="#" data-time="3600">Every hour</a>
+                    <a class="dropdown-item delaypattern-item" href="#" data-time="86400">Every day</a>
+                    <a class="dropdown-item delaypattern-item" href="#" data-time="604800">Every week</a>
+                    <a class="dropdown-item delaypattern-item" href="#" data-time="2419200">Every 4 weeks</a>
+                </div>
+            </div>
+            <input type="number" class="form-control" id="delay" name="delay">
+        </div>
     </div>
     <div class="mb-3">
         <label for="nextrun">Next run</label>

@@ -2,6 +2,7 @@ $(function() {
     initDatePickers();
     initCronType();
     initSecretInputs();
+    initDelayPattern();
 });
 
 function initDatePickers()
@@ -25,5 +26,14 @@ function initSecretInputs()
     $('.addsecret-btn').on('click', function() {
         $('.secret-group:first-child').clone().appendTo('.secrets').removeClass('hidden');
         $('.secrets-description').removeClass('hidden');
+    })
+}
+
+
+function initDelayPattern()
+{
+    $('.delaypattern-item').on('click', function() {
+        let time = $(this).data('time');
+        $('#delay').val(time);
     })
 }
