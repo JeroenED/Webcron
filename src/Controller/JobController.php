@@ -22,7 +22,8 @@ class JobController extends Controller
 
     public function viewAction($id)
     {
-        return new Response('Not implemented yet', Response::HTTP_TOO_EARLY);
+        $jobRepo = new Job($this->getDbCon());
+        $job = $jobRepo->getJob($id);
     }
 
     public function addAction()

@@ -4,6 +4,7 @@
     <h2>Add a cronjob</h2>
 <form method="post" class="form-horizontal" action="{{ path('job_add') }}">
 
+    <h3>General info</h3>
     <div class="mb-3">
         <label for="name">Name</label>
         <input type="text" name="name" class="form-control" id="name" placeholder="System update">
@@ -14,16 +15,18 @@
     </div>
     <div class="mb-3">
         <label for="nextrun">Next run</label>
-        <input type="text" id="nextrunselector" class="form-control datetimepicker-input" data-target="#nextrunselector" data-toggle="datetimepicker" name="nextrun">
+        <input type="text" autocomplete="off" id="nextrunselector" class="form-control datetimepicker-input" data-target="#nextrunselector" data-toggle="datetimepicker" name="nextrun">
     </div>
     <div class="mb-3">
         <label for="lastrun">Last run</label>
-        <input type="text" id="lastrunselector" class="form-control datetimepicker-input" data-target="#lastrunselector" data-toggle="datetimepicker" name="lastrun">
+        <input type="text" autocomplete="off" id="lastrunselector" class="form-control datetimepicker-input" data-target="#lastrunselector" data-toggle="datetimepicker" name="lastrun">
     </div>
+
+    <h3>Job details</h3>
     <div class="mb-3">
         <div class="dropdown">
             <button class="btn btn-outline-primary dropdown-toggle" type="button" id="crontypeButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Cronjob type
+                Job type
             </button>
             <div class="dropdown-menu" aria-labelledby="crontypeButton">
                 <a class="dropdown-item crontype-item" href="#" data-type="local">Local</a>
@@ -35,11 +38,38 @@
         </div>
     </div>
 
-    <div class="crontype-http crontype-inputs">
+    <div class="crontype-http crontype-inputs hidden">
         <div class="mb-3">
             <label for="url">Url</label>
             <input type="text" name="url" class="form-control" id="url" placeholder="https://scripts.example.com/">
         </div>
+        <div class="mb-3">
+            <label for="basicauth-username">Username for Basic-Auth</label>
+            <input type="text" name="basicauth-username" class="form-control" id="basicauth-username" placeholder="www-data">
+        </div>
+        <div class="mb-3">
+            <label for="basicauth-password">Password for Basic-Auth</label>
+            <input type="hidden" name="secretid[]" value="basicauth-password">
+            <input type="password" name="secretval[]" class="form-control" placeholder="correct horse battery staple">
+            <small id="basicauth-password-help" class="form-text text-muted">This field is being saved as a secret</small>
+        </div>
+    </div>
+
+    <h3>Secrets</h3>
+    <div class="secrets mb-3">
+        <div class="input-group secret-group hidden">
+            <input type="text" name="secretid[]" class="form-control" placeholder="name">
+            <input type="password" name="secretval[]" class="form-control" placeholder="value">
+        </div>
+    </div>
+
+    <div class="secrets-description mb-3 hidden">
+        <p>
+            You can add secrets by using {secret-name} in job details
+        </p>
+    </div>
+    <div class="mb-3">
+        <a href="#" class="btn btn-outline-primary addsecret-btn">Add secret</a>
     </div>
     <input type="hidden" name="type" class="crontype" value=""><button type="submit" class="btn btn-outline-primary">Submit</button>
 </form>

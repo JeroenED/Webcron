@@ -40,34 +40,24 @@ class User
         return false;
     }
 
-    public function createAutologinToken($password): string {
-        $method = $_ENV['ENCRYPTION_METHOD'];
-        $key = hash($_ENV['HASHING_METHOD'], $_ENV['SECRET'], true);
-        $iv = openssl_random_pseudo_bytes(16);
+    public function createAutologinToken($password): string
+    {
         $time = time();
-
-        $ciphertext = openssl_encrypt($password . substr($time, -7), $method, $key, OPENSSL_RAW_DATA, $iv);
-        $hash = hash_hmac($_ENV['HASHING_METHOD'], $ciphertext . $iv, $key, true);
-        return base64_encode(json_encode(['time' => $time, 'password' => base64_encode($iv . $hash . $ciphertext)]));
+        $password = substr($time, -7) . $password;
+        $encrypted = Secret::encrypt($password);
+        return base64_encode(json_encode(['time' => $time, 'password' => base64_encode($encrypted)]));
     }
 
     public function getPassFromAutologinToken($token) {
         $extracted = json_decode(base64_decode($token), true);
-        $method = $_ENV['ENCRYPTION_METHOD'];
         $encrypted = base64_decode($extracted['password']);
-        $iv = substr($encrypted, 0, 16);
-        $hash = substr($encrypted, 16, 32);
-        $ciphertext = substr($encrypted, 48);
-        $key = hash($_ENV['HASHING_METHOD'], $_ENV['SECRET'], true);
 
-        if (!hash_equals(hash_hmac($_ENV['HASHING_METHOD'], $ciphertext . $iv, $key, true), $hash)) return null;
-
-        $decryption = openssl_decrypt($ciphertext, $method, $key, OPENSSL_RAW_DATA, $iv);
+        $decrypted = Secret::decrypt($encrypted);
 
         return (
             (($extracted['time'] + $_ENV['COOKIE_LIFETIME']) > time()) &&
-            substr($extracted['time'], -7) == substr($decryption, -7)
+            substr($extracted['time'], -7) == substr($decrypted, -7)
         )
-            ? substr($decryption, 0, -7) : null;
+            ? substr($decrypted, 0, -7) : null;
     }
 }
