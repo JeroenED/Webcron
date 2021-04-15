@@ -49,6 +49,10 @@ class Job
 
         switch($data['type'])
         {
+            case 'local':
+                $data['command'] = $values['command'];
+                $data['host'] = 'localhost';
+                break;
             case 'http':
                 $parsedUrl = parse_url($values['url']);
                 $data['url'] = $values['url'];
