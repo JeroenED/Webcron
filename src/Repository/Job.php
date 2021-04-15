@@ -53,6 +53,16 @@ class Job
                 $data['command'] = $values['command'];
                 $data['host'] = 'localhost';
                 break;
+            case 'ssh':
+                $data['host'] = $values['host'];
+                $data['user'] = $values['user'];
+                if(!empty($_FILES['privkey']['tmp_name'])) {
+                    $newsecretkey = count($values['secretval']);
+                    $values['secretid'][$newsecretkey] = 'ssh-privkey';
+                    $values['secretval'][$newsecretkey] = base64_encode(file_get_contents($_FILES['privkey']['tmp_name']));
+                }
+                $data['command'] = $values['command'];
+                break;
             case 'http':
                 $parsedUrl = parse_url($values['url']);
                 $data['url'] = $values['url'];

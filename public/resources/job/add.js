@@ -3,6 +3,7 @@ $(function() {
     initCronType();
     initSecretInputs();
     initDelayPattern();
+    bsCustomFileInput.init()
 });
 
 function initDatePickers()
@@ -18,6 +19,9 @@ function initCronType()
         $('.crontype').val(type);
         $('.crontype-inputs:not(.hidden)').addClass('hidden');
         $('.crontype-' + type).removeClass('hidden');
+
+        $('.crontype-inputs:not(.hidden) input').prop('disabled', false);
+        $('.crontype-inputs.hidden input').prop('disabled', true);
     })
 }
 
