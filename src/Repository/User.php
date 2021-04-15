@@ -43,7 +43,7 @@ class User
     public function createAutologinToken($password): string
     {
         $time = time();
-        $password = substr($time, -7) . $password;
+        $password = $password . substr($time, -7) ;
         $encrypted = Secret::encrypt($password);
         return base64_encode(json_encode(['time' => $time, 'password' => base64_encode($encrypted)]));
     }
