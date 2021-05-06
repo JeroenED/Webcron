@@ -56,10 +56,17 @@ class Job
             case 'ssh':
                 $data['host'] = $values['host'];
                 $data['user'] = $values['user'];
+                if(!empty($values['privkey-password'])) {
+                    $newsecretkey = count($values['var-value']);
+                    $values['var-id'][$newsecretkey] = 'privkey-password';
+                    $values['var-issecret'][$newsecretkey] = true;
+                    $values['var-value'][$newsecretkey] = $values['privkey-password'];
+                }
                 if(!empty($_FILES['privkey']['tmp_name'])) {
-                    $newsecretkey = count($values['secretval']);
-                    $values['secretid'][$newsecretkey] = 'ssh-privkey';
-                    $values['secretval'][$newsecretkey] = base64_encode(file_get_contents($_FILES['privkey']['tmp_name']));
+                    $newsecretkey = count($values['var-value']);
+                    $values['var-id'][$newsecretkey] = 'ssh-privkey';
+                    $values['var-issecret'][$newsecretkey] = true;
+                    $values['var-value'][$newsecretkey] = base64_encode(file_get_contents($_FILES['privkey']['tmp_name']));
                 }
                 $data['command'] = $values['command'];
                 break;
@@ -70,13 +77,27 @@ class Job
                 if(empty($parsedUrl['host'])) {
                     return ['success' => false, 'message' => 'Some data was invalid'];
                 }
+                if(!empty($values['basicauth-password'])) {
+                    $newsecretkey = count($values['var-value']);
+                    $values['var-id'][$newsecretkey] = 'basicauth-password';
+                    $values['var-issecret'][$newsecretkey] = true;
+                    $values['var-value'][$newsecretkey] = $values['basicauth-password'];
+                }
                 $data['host'] = $parsedUrl['host'];
                 break;
         }
 
-        if(!empty($values['secretval'])) {
-            foreach($values['secretval'] as $key => $name) {
-                if(!empty($name)) $data['secrets'][$values['secretid'][$key]] = base64_encode(Secret::encrypt($values['secretval'][$key]));
+        if(!empty($values['var-value'])) {
+            foreach($values['var-value'] as $key => $name) {
+                if(!empty($name)) {
+                    if(isset($values['var-issecret'][$key])) {
+                        $data['vars'][$values['var-id'][$key]]['issecret'] = true;
+                        $data['vars'][$values['var-id'][$key]]['value'] = base64_encode(Secret::encrypt($values['var-value'][$key]));
+                    } else {
+                        $data['vars'][$values['var-id'][$key]]['issecret'] = false;
+                        $data['vars'][$values['var-id'][$key]]['value'] = $values['var-value'][$key];
+                    }
+                }
             }
         }
 
@@ -95,9 +116,11 @@ class Job
         $jobRslt = $jobStmt->execute([':id' => $id])->fetchAssociative();
 
         $jobRslt['data'] = json_decode($jobRslt['data'], true);
-        if(!empty($jobRslt['data']['secrets'])) {
-            foreach ($jobRslt['data']['secrets'] as $key => &$value) {
-                $value = ($withSecrets) ? Secret::decrypt(base64_decode($value)) : '';
+        if(!empty($jobRslt['data']['vars'])) {
+            foreach ($jobRslt['data']['vars'] as $key => &$value) {
+                if ($value['issecret']) {
+                    $value['value'] = ($withSecrets) ? Secret::decrypt(base64_decode($value['value'])) : '';
+                }
             }
         }
 

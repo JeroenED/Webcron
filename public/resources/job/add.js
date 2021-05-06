@@ -1,7 +1,7 @@
 $(function() {
     initDatePickers();
     initCronType();
-    initSecretInputs();
+    initVarInputs();
     initDelayPattern();
     bsCustomFileInput.init()
 });
@@ -25,11 +25,21 @@ function initCronType()
     })
 }
 
-function initSecretInputs()
+function initVarInputs()
 {
-    $('.addsecret-btn').on('click', function() {
-        $('.secret-group:first-child').clone().appendTo('.secrets').removeClass('hidden');
-        $('.secrets-description').removeClass('hidden');
+    $('.addvar-btn').on('click', function() {
+        let index = $('.var-group').length;
+        $('.var-group:first-child').clone().appendTo('.vars').removeClass('hidden');
+        $('.var-group:last-child').data({index: index});
+        $('.var-group:last-child .var-issecret').prop('name', 'var-issecret[' + index + ']');
+        $('.var-group:last-child .var-id').prop('name', 'var-id[' + index + ']');
+        $('.var-group:last-child .var-value').prop('name', 'var-value[' + index + ']');
+        $('.vars-description').removeClass('hidden');
+    })
+    $(document).on('click', '.var-issecret', function() {
+        let ischecked = $(this).prop('checked');
+        $(this).parents('.var-group').find('.var-value').prop('type', ischecked ? 'password' : 'text');
+
     })
 }
 
