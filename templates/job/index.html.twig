@@ -15,7 +15,7 @@
         <tr{% if(job.norun == true) %} class="norun"{% endif %}>
             <td>{{ job.name }}</td>
             <td>{{ job.data.host }}</td>
-            <td>{{ job.delay | interval }}</td>
+            <td>{{ job.interval | interval }}</td>
             <td>{{ job.nextrun |  date("d/m/Y H:i:s") }}</td>
             <td class="text-end">
                 <a href="#" data-id="{{ job.id }}" class="runcron btn btn-outline-primary"><i class="fa fa-play" aria-hidden="true"></i></a>

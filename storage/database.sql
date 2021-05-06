@@ -3,7 +3,7 @@ CREATE TABLE job (
      id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
      name TEXT(25) NOT NULL,
      "data" TEXT NOT NULL,
-     delay INTEGER,
+     interval INTEGER,
      nextrun INTEGER,
      lastrun INTEGER
 );

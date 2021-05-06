@@ -2,7 +2,7 @@ $(function() {
     initDatePickers();
     initCronType();
     initVarInputs();
-    initDelayPattern();
+    initIntervalPattern();
     bsCustomFileInput.init()
 });
 
@@ -44,10 +44,10 @@ function initVarInputs()
 }
 
 
-function initDelayPattern()
+function initIntervalPattern()
 {
-    $('.delaypattern-item').on('click', function() {
+    $('.intervalpattern-item').on('click', function() {
         let time = $(this).data('time');
-        $('#delay').val(time);
+        $('#interval').val(time);
     })
 }

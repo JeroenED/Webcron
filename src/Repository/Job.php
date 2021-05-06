@@ -32,7 +32,7 @@ class Job
     {
         if(empty($values['type']) ||
             empty($values['name']) ||
-            empty($values['delay']) ||
+            empty($values['interval']) ||
             empty($values['nextrun'])
         ) {
             return ['success' => false, 'message' => 'Some fields are empty'];
@@ -118,10 +118,10 @@ class Job
         }
 
         $data = json_encode($data);
-        $addJobSql = "INSERT INTO job(name, data, delay, nextrun, lastrun) VALUES (:name, :data, :delay, :nextrun, :lastrun)";
+        $addJobSql = "INSERT INTO job(name, data, interval, nextrun, lastrun) VALUES (:name, :data, :interval, :nextrun, :lastrun)";
 
         $addJobStmt = $this->dbcon->prepare($addJobSql);
-        $addJobStmt->execute([':name' => $values['name'], ':data' => $data, ':delay' => $values['delay'], ':nextrun' => $values['nextrun'], ':lastrun' => $values['lastrun'], ]);
+        $addJobStmt->execute([':name' => $values['name'], ':data' => $data, ':interval' => $values['interval'], ':nextrun' => $values['nextrun'], ':lastrun' => $values['lastrun'], ]);
 
         return ['success' => true, 'message' => 'Cronjob succesfully added'];
     }
