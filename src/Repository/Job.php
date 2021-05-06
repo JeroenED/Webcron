@@ -70,6 +70,22 @@ class Job
                 }
                 $data['command'] = $values['command'];
                 break;
+            case 'reboot':
+                $data['reboot-command'] = $values['reboot-command'];
+                $data['getservices-command'] = $values['getservices-command'];
+                $data['reboot-duration'] = $values['reboot-duration'];
+                if(!empty($values['reboot-delay'])) {
+                    $newsecretkey = count($values['var-value']);
+                    $values['var-id'][$newsecretkey] = 'reboot-delay';
+                    $values['var-issecret'][$newsecretkey] = false;
+                    $values['var-value'][$newsecretkey] = (int)$values['reboot-delay'];
+
+                    $newsecretkey = count($values['var-value']);
+                    $values['var-id'][$newsecretkey] = 'reboot-delay-secs';
+                    $values['var-issecret'][$newsecretkey] = false;
+                    $values['var-value'][$newsecretkey] = (int)$values['reboot-delay'] * 60;
+                }
+                break;
             case 'http':
                 $parsedUrl = parse_url($values['url']);
                 $data['url'] = $values['url'];
@@ -90,7 +106,7 @@ class Job
         if(!empty($values['var-value'])) {
             foreach($values['var-value'] as $key => $name) {
                 if(!empty($name)) {
-                    if(isset($values['var-issecret'][$key])) {
+                    if(isset($values['var-issecret'][$key]) && $values['var-issecret'][$key] != false) {
                         $data['vars'][$values['var-id'][$key]]['issecret'] = true;
                         $data['vars'][$values['var-id'][$key]]['value'] = base64_encode(Secret::encrypt($values['var-value'][$key]));
                     } else {

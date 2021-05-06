@@ -95,6 +95,31 @@
         </div>
     </div>
 
+    <div class="crontype-reboot crontype-inputs hidden">
+        <div class="mb-3">
+            <label for="reboot-command">Reboot command</label>
+            <input type="text" name="reboot-command" class="form-control" id="command" placeholder="systemctl reboot">
+            <small id="reboot-command-help" class="form-text text-muted">Use {reboot-delay} or {reboot-delay-secs} to add the delay in your command</small>
+        </div>
+
+        <div class="mb-3">
+            <label for="getservices-command">Get services command</label>
+            <input type="text" name="getservices-command" class="form-control" id="command" placeholder="systemctl list-units">
+        </div>
+
+        <div class="mb-3">
+            <label for="reboot-delay">Reboot delay (in minutes)</label>
+            <input type="number" name="reboot-delay" class="form-control" placeholder="5">
+            <small id="reboot-delay-help" class="form-text text-muted">Delay between triggering reboot and actual reboot</small>
+        </div>
+
+        <div class="mb-3">
+            <label for="reboot-duration">Reboot duration (in minutes)</label>
+            <input type="number" name="reboot-duration" class="form-control" placeholder="10">
+            <small id="reboot-duration-help" class="form-text text-muted">The amount of time the system takes to actually reboot</small>
+        </div>
+    </div>
+
     <div class="crontype-http crontype-inputs hidden">
         <div class="mb-3">
             <label for="url">Url</label>
