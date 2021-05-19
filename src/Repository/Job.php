@@ -52,6 +52,7 @@ class Job
         {
             case 'command':
                 $data['command'] = $values['command'];
+                $data['response'] = $values['response'];
                 break;
             case 'reboot':
                 $data['reboot-command'] = $values['reboot-command'];
@@ -72,6 +73,7 @@ class Job
             case 'http':
                 $parsedUrl = parse_url($values['url']);
                 $data['url'] = $values['url'];
+                $data['response'] = $values['response'];
                 $data['basicauth-username'] = $values['basicauth-username'];
                 if(empty($parsedUrl['host'])) {
                     return ['success' => false, 'message' => 'Some data was invalid'];

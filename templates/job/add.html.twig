@@ -67,6 +67,11 @@
             <label for="command">Command</label>
             <input type="text" name="command" class="form-control" id="command" placeholder="sudo apt update">
         </div>
+
+        <div class="mb-3">
+            <label for="response">Expected exit code</label>
+            <input type="text" name="response" class="form-control" id="response" placeholder="0">
+        </div>
     </div>
 
     <div class="crontype-reboot crontype-inputs hidden">
@@ -110,6 +115,16 @@
             <input type="password" name="basicauth-password" class="form-control" placeholder="correct horse battery staple">
             <small id="basicauth-password-help" class="form-text text-muted">This field is being saved as a secret</small>
         </div>
+
+        <div class="mb-3">
+            <label for="response">Expected response status code</label>
+            <input type="text" name="response" class="form-control" id="response" placeholder="200">
+        </div>
+    </div>
+
+    <div class="hosttype-localhost hosttype-inputs hidden">
+        <h4>Localhost details</h4>
+        <h5>No options</h5>
     </div>
 
     <div class="hosttype-ssh hosttype-inputs hidden">
@@ -132,7 +147,6 @@
             </div>
             <small id="custom-file-help" class="form-text text-muted">This file is being saved as a secret</small>
         </div>
-
 
         <div class="mb-3">
             <label for="privkey-password">Password for private key</label>
