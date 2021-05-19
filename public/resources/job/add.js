@@ -1,6 +1,7 @@
 $(function() {
     initDatePickers();
     initCronType();
+    initHostType();
     initVarInputs();
     initIntervalPattern();
     bsCustomFileInput.init()
@@ -22,6 +23,30 @@ function initCronType()
 
         $('.crontype-inputs:not(.hidden) input').prop('disabled', false);
         $('.crontype-inputs.hidden input').prop('disabled', true);
+
+        if(type != 'http') {
+            $('.croncategory-group').addClass('btn-group');
+            $('.hosttype-group').removeClass('hidden');
+        } else {
+            $('.croncategory-group').removeClass('btn-group');
+            $('.hosttype-group').addClass('hidden');
+            $('.hosttype-inputs').addClass('hidden');
+
+            $('.hosttype-inputs:not(.hidden) input').prop('disabled', false);
+            $('.hosttype-inputs.hidden input').prop('disabled', true);
+        }
+    })
+}
+function initHostType()
+{
+    $('.hosttype-item').on('click', function() {
+        let type = $(this).data('type');
+        $('.hosttype').val(type);
+        $('.hosttype-inputs:not(.hidden)').addClass('hidden');
+        $('.hosttype-' + type).removeClass('hidden');
+
+        $('.hosttype-inputs:not(.hidden) input').prop('disabled', false);
+        $('.hosttype-inputs.hidden input').prop('disabled', true);
     })
 }
 
