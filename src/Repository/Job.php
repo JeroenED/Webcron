@@ -30,7 +30,7 @@ class Job
 
     public function addJob(array $values)
     {
-        if(empty($values['type']) ||
+        if(empty($values['crontype']) ||
             empty($values['name']) ||
             empty($values['interval']) ||
             empty($values['nextrun'])
@@ -45,29 +45,12 @@ class Job
         }
 
         $values['nextrun'] = DateTime::createFromFormat('m/d/Y g:i:s A', $values['nextrun'])->getTimestamp();
-        $data['type'] = $values['type'];
+        $data['crontype'] = $values['crontype'];
+        $data['hosttype'] = $values['hosttype'];
 
-        switch($data['type'])
+        switch($data['crontype'])
         {
-            case 'local':
-                $data['command'] = $values['command'];
-                $data['host'] = 'localhost';
-                break;
-            case 'ssh':
-                $data['host'] = $values['host'];
-                $data['user'] = $values['user'];
-                if(!empty($values['privkey-password'])) {
-                    $newsecretkey = count($values['var-value']);
-                    $values['var-id'][$newsecretkey] = 'privkey-password';
-                    $values['var-issecret'][$newsecretkey] = true;
-                    $values['var-value'][$newsecretkey] = $values['privkey-password'];
-                }
-                if(!empty($_FILES['privkey']['tmp_name'])) {
-                    $newsecretkey = count($values['var-value']);
-                    $values['var-id'][$newsecretkey] = 'ssh-privkey';
-                    $values['var-issecret'][$newsecretkey] = true;
-                    $values['var-value'][$newsecretkey] = base64_encode(file_get_contents($_FILES['privkey']['tmp_name']));
-                }
+            case 'command':
                 $data['command'] = $values['command'];
                 break;
             case 'reboot':
@@ -103,6 +86,28 @@ class Job
                 break;
         }
 
+        switch($data['hosttype']) {
+            case 'local':
+                $data['host'] = 'localhost';
+                break;
+            case 'ssh':
+                $data['host'] = $values['host'];
+                $data['user'] = $values['user'];
+                if(!empty($values['privkey-password'])) {
+                $newsecretkey = count($values['var-value']);
+                $values['var-id'][$newsecretkey] = 'privkey-password';
+                $values['var-issecret'][$newsecretkey] = true;
+                $values['var-value'][$newsecretkey] = $values['privkey-password'];
+                }
+                if(!empty($_FILES['privkey']['tmp_name'])) {
+                    $newsecretkey = count($values['var-value']);
+                    $values['var-id'][$newsecretkey] = 'ssh-privkey';
+                    $values['var-issecret'][$newsecretkey] = true;
+                    $values['var-value'][$newsecretkey] = base64_encode(file_get_contents($_FILES['privkey']['tmp_name']));
+                }
+                break;
+        }
+
         if(!empty($values['var-value'])) {
             foreach($values['var-value'] as $key => $name) {
                 if(!empty($name)) {
@@ -121,7 +126,7 @@ class Job
         $addJobSql = "INSERT INTO job(name, data, interval, nextrun, lastrun) VALUES (:name, :data, :interval, :nextrun, :lastrun)";
 
         $addJobStmt = $this->dbcon->prepare($addJobSql);
-        $addJobStmt->execute([':name' => $values['name'], ':data' => $data, ':interval' => $values['interval'], ':nextrun' => $values['nextrun'], ':lastrun' => $values['lastrun'], ]);
+        $addJobStmt->executeQuery([':name' => $values['name'], ':data' => $data, ':interval' => $values['interval'], ':nextrun' => $values['nextrun'], ':lastrun' => $values['lastrun'], ]);
 
         return ['success' => true, 'message' => 'Cronjob succesfully added'];
     }

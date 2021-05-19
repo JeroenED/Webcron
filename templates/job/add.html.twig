@@ -37,58 +37,32 @@
     </div>
 
     <h3>Job details</h3>
-    <div class="mb-3">
-        <div class="dropdown">
+    <div class="mb-3 btn-group">
+        <div class="dropdown croncategory-group crontype-group">
             <button class="btn btn-outline-primary dropdown-toggle" type="button" id="crontypeButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Job type
             </button>
             <div class="dropdown-menu" aria-labelledby="crontypeButton">
-                <a class="dropdown-item crontype-item" href="#" data-type="local">Local</a>
-                <a class="dropdown-item crontype-item" href="#" data-type="ssh">Ssh</a>
-                <a class="dropdown-item crontype-item" href="#" data-type="docker">Docker</a>
-                <a class="dropdown-item crontype-item" href="#" data-type="docker-ssh">Docker over SSH</a>
+                <a class="dropdown-item crontype-item" href="#" data-type="command">Command</a>
                 <a class="dropdown-item crontype-item" href="#" data-type="reboot">Reboot</a>
-                <a class="dropdown-item crontype-item" href="#" data-type="reboot-ssh">Reboot over SSH</a>
                 <a class="dropdown-item crontype-item" href="#" data-type="http">Http request</a>
             </div>
         </div>
-    </div>
-
-    <div class="crontype-local crontype-inputs hidden">
-        <div class="mb-3">
-            <label for="command">Command</label>
-            <input type="text" name="command" class="form-control" id="command" placeholder="sudo apt update">
-        </div>
-    </div>
-
-    <div class="crontype-ssh crontype-inputs hidden">
-        <div class="mb-3">
-            <label for="host">Hostname</label>
-            <input type="text" name="host" class="form-control" id="host" placeholder="ssh.abc.xyz">
-        </div>
-
-        <div class="mb-3">
-            <label for="user">Username</label>
-            <input type="text" name="user" class="form-control" id="user" placeholder="larry">
-        </div>
-
-        <div class="mb-3">
-            <label for="privkey">Private key</label>
-            <div class="custom-file">
-                <input type="file" class="custom-file-input" id="privkey" name="privkey">
-                <label class="custom-file-label" for="privkey">Choose file</label>
+        <div class="dropdown croncategory-group hidden hosttype-group">
+            <button class="btn btn-outline-primary dropdown-toggle" type="button" id="hosttypeButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Host type
+            </button>
+            <div class="dropdown-menu" aria-labelledby="hosttypeButton">
+                <a class="dropdown-item hosttype-item" href="#" data-type="localhost">Localhost</a>
+                <a class="dropdown-item hosttype-item" href="#" data-type="ssh">SSH</a>
+                <a class="dropdown-item hosttype-item" href="#" data-type="docker">Docker</a>
+                <a class="dropdown-item hosttype-item" href="#" data-type="docker-ssh">Docker over SSH</a>
             </div>
-            <small id="basicauth-password-help" class="form-text text-muted">This file is being saved as a secret</small>
         </div>
+    </div>
 
-
-        <div class="mb-3">
-            <label for="privkey-password">Password for private key</label>
-            <input type="password" name="privkey-password" class="form-control" placeholder="correct horse battery staple">
-            <small id="privkey-password-help" class="form-text text-muted">If private key is empty this field is being used as ssh-password</small>
-            <small id="privkey-password-help-2" class="form-text text-muted">This field is being saved as a secret</small>
-        </div>
-
+    <div class="crontype-command crontype-inputs hidden">
+        <h4>Command details</h4>
         <div class="mb-3">
             <label for="command">Command</label>
             <input type="text" name="command" class="form-control" id="command" placeholder="sudo apt update">
@@ -96,6 +70,7 @@
     </div>
 
     <div class="crontype-reboot crontype-inputs hidden">
+        <h4>Reboot job details</h4>
         <div class="mb-3">
             <label for="reboot-command">Reboot command</label>
             <input type="text" name="reboot-command" class="form-control" id="command" placeholder="systemctl reboot">
@@ -121,6 +96,7 @@
     </div>
 
     <div class="crontype-http crontype-inputs hidden">
+        <h4>HTTP request details</h4>
         <div class="mb-3">
             <label for="url">Url</label>
             <input type="text" name="url" class="form-control" id="url" placeholder="https://scripts.example.com/">
@@ -133,6 +109,36 @@
             <label for="basicauth-password">Password for Basic-Auth</label>
             <input type="password" name="basicauth-password" class="form-control" placeholder="correct horse battery staple">
             <small id="basicauth-password-help" class="form-text text-muted">This field is being saved as a secret</small>
+        </div>
+    </div>
+
+    <div class="hosttype-ssh hosttype-inputs hidden">
+        <h4>SSH host details</h4>
+        <div class="mb-3">
+            <label for="host">Hostname</label>
+            <input type="text" name="host" class="form-control" id="host" placeholder="ssh.abc.xyz">
+        </div>
+
+        <div class="mb-3">
+            <label for="user">Username</label>
+            <input type="text" name="user" class="form-control" id="user" placeholder="larry">
+        </div>
+
+        <div class="mb-3">
+            <label for="privkey">Private key</label>
+            <div class="custom-file">
+                <input type="file" class="custom-file-input" id="privkey" name="privkey">
+                <label class="custom-file-label" for="privkey">Choose file</label>
+            </div>
+            <small id="custom-file-help" class="form-text text-muted">This file is being saved as a secret</small>
+        </div>
+
+
+        <div class="mb-3">
+            <label for="privkey-password">Password for private key</label>
+            <input type="password" name="privkey-password" class="form-control" placeholder="correct horse battery staple">
+            <small id="privkey-password-help" class="form-text text-muted">If private key is empty this field is being used as ssh-password</small>
+            <small id="privkey-password-help-2" class="form-text text-muted">This field is being saved as a secret</small>
         </div>
     </div>
 
@@ -159,7 +165,7 @@
     <div class="mb-3">
         <a href="#" class="btn btn-outline-primary addvar-btn">Add variable</a>
     </div>
-    <input type="hidden" name="type" class="crontype" value=""><button type="submit" class="btn btn-outline-primary">Submit</button>
+    <input type="hidden" name="crontype" class="crontype" value=""><input type="hidden" name="hosttype" class="hosttype" value=""><button type="submit" class="btn btn-outline-primary">Submit</button>
 </form>
 
 {% endblock %}
