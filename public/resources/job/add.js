@@ -17,6 +17,7 @@ function initCronType()
 {
     $('.crontype-item').on('click', function() {
         let type = $(this).data('type');
+        $('#crontypeButton').html($(this).html());
         $('.crontype').val(type);
         $('.crontype-inputs:not(.hidden)').addClass('hidden');
         $('.crontype-' + type).removeClass('hidden');
@@ -28,6 +29,9 @@ function initCronType()
             $('.croncategory-group').addClass('btn-group');
             $('.hosttype-group').removeClass('hidden');
         } else {
+            let hosttypebtn = $('#hosttypeButton')
+            hosttypebtn.html(hosttypebtn.data('default-text'))
+
             $('.croncategory-group').removeClass('btn-group');
             $('.hosttype-group').addClass('hidden');
             $('.hosttype-inputs').addClass('hidden');
@@ -40,6 +44,8 @@ function initCronType()
 function initHostType()
 {
     $('.hosttype-item').on('click', function() {
+
+        $('#hosttypeButton').html($(this).html());
         let type = $(this).data('type');
         $('.hosttype').val(type);
         $('.hosttype-inputs:not(.hidden)').addClass('hidden');
