@@ -47,6 +47,7 @@ class Job
         $values['nextrun'] = DateTime::createFromFormat('m/d/Y g:i:s A', $values['nextrun'])->getTimestamp();
         $data['crontype'] = $values['crontype'];
         $data['hosttype'] = $values['hosttype'];
+        $data['containertype'] = $values['containertype'];
 
         switch($data['crontype'])
         {
@@ -107,6 +108,14 @@ class Job
                     $values['var-issecret'][$newsecretkey] = true;
                     $values['var-value'][$newsecretkey] = base64_encode(file_get_contents($_FILES['privkey']['tmp_name']));
                 }
+                break;
+        }
+
+
+        switch($data['containertype']) {
+            case 'docker':
+                $data['service'] = $values['service'];
+                $data['user'] = $values['user'];
                 break;
         }
 

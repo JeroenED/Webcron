@@ -2,6 +2,7 @@ $(function() {
     initDatePickers();
     initCronType();
     initHostType();
+    initContainerType();
     initVarInputs();
     initIntervalPattern();
     bsCustomFileInput.init()
@@ -15,6 +16,7 @@ function initDatePickers()
 
 function initCronType()
 {
+    $('.crontype-group button').data('default-text', $('.crontype-group button').html());
     $('.crontype-item').on('click', function() {
         let type = $(this).data('type');
         $('#crontypeButton').html($(this).html());
@@ -27,22 +29,42 @@ function initCronType()
 
         if(type != 'http') {
             $('.croncategory-group').addClass('btn-group');
-            $('.hosttype-group').removeClass('hidden');
+            $('.croncategory-group').removeClass('hidden');
         } else {
-            let hosttypebtn = $('#hosttypeButton')
-            hosttypebtn.html(hosttypebtn.data('default-text'))
+            $('.croncategory-group:not(.crontype-group) button').each(function() {
+                $(this).html($(this).data('default-text'))
+            })
 
             $('.croncategory-group').removeClass('btn-group');
-            $('.hosttype-group').addClass('hidden');
-            $('.hosttype-inputs').addClass('hidden');
+            $('.croncategory-group:not(.crontype-group)').addClass('hidden');
+            $('.croncategory-inputs:not(.crontype-inputs)').addClass('hidden');
 
-            $('.hosttype-inputs:not(.hidden) input').prop('disabled', false);
-            $('.hosttype-inputs.hidden input').prop('disabled', true);
+            $('.croncategory-inputs:not(.hidden) input').prop('disabled', false);
+            $('.croncategory-inputs.hidden input').prop('disabled', true);
         }
     })
 }
+function initContainerType()
+{
+
+    $('.containertype-group button').data('default-text', $('.containertype-group button').html());
+    $('.containertype-item').on('click', function() {
+
+        $('#containertypeButton').html($(this).html());
+        let type = $(this).data('type');
+        $('.containertype').val(type);
+        $('.containertype-inputs:not(.hidden)').addClass('hidden');
+        $('.containertype-' + type).removeClass('hidden');
+
+        $('.containertype-inputs:not(.hidden) input').prop('disabled', false);
+        $('.containertype-inputs.hidden input').prop('disabled', true);
+    })
+}
+
 function initHostType()
 {
+
+    $('.hosttype-group button').data('default-text', $('.hosttype-group button').html());
     $('.hosttype-item').on('click', function() {
 
         $('#hosttypeButton').html($(this).html());
