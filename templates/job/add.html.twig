@@ -39,7 +39,7 @@
     <h3>Job details</h3>
     <div class="mb-3 btn-group">
         <div class="dropdown croncategory-group crontype-group">
-            <button class="btn btn-outline-primary dropdown-toggle" data-default-text="Job type" type="button" id="crontypeButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <button class="btn btn-outline-primary dropdown-toggle" data-default-text="" type="button" id="crontypeButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Job type
             </button>
             <div class="dropdown-menu" aria-labelledby="crontypeButton">
@@ -48,20 +48,29 @@
                 <a class="dropdown-item crontype-item" href="#" data-type="http">Http request</a>
             </div>
         </div>
+
         <div class="dropdown croncategory-group hidden hosttype-group">
-            <button class="btn btn-outline-primary dropdown-toggle" data-default-text="Host type" type="button" id="hosttypeButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <button class="btn btn-outline-primary dropdown-toggle" data-default-text="" type="button" id="hosttypeButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Host type
             </button>
             <div class="dropdown-menu" aria-labelledby="hosttypeButton">
-                <a class="dropdown-item hosttype-item" href="#" data-type="localhost">Localhost</a>
+                <a class="dropdown-item hosttype-item" href="#" data-type="local">Local</a>
                 <a class="dropdown-item hosttype-item" href="#" data-type="ssh">SSH</a>
-                <a class="dropdown-item hosttype-item" href="#" data-type="docker">Docker</a>
-                <a class="dropdown-item hosttype-item" href="#" data-type="docker-ssh">Docker over SSH</a>
+            </div>
+        </div>
+
+        <div class="dropdown croncategory-group hidden containertype-group">
+            <button class="btn btn-outline-primary dropdown-toggle" data-default-text="" type="button" id="containertypeButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Container
+            </button>
+            <div class="dropdown-menu" aria-labelledby="containertypeButton">
+                <a class="dropdown-item containertype-item" href="#" data-type="none">None</a>
+                <a class="dropdown-item containertype-item" href="#" data-type="docker">Docker</a>
             </div>
         </div>
     </div>
 
-    <div class="crontype-command crontype-inputs hidden">
+    <div class="crontype-command crontype-inputs croncategory-inputs hidden">
         <h4>Command details</h4>
         <div class="mb-3">
             <label for="command">Command</label>
@@ -74,7 +83,7 @@
         </div>
     </div>
 
-    <div class="crontype-reboot crontype-inputs hidden">
+    <div class="crontype-reboot crontype-inputs croncategory-inputs hidden">
         <h4>Reboot job details</h4>
         <div class="mb-3">
             <label for="reboot-command">Reboot command</label>
@@ -100,7 +109,7 @@
         </div>
     </div>
 
-    <div class="crontype-http crontype-inputs hidden">
+    <div class="crontype-http crontype-inputs croncategory-inputs hidden">
         <h4>HTTP request details</h4>
         <div class="mb-3">
             <label for="url">Url</label>
@@ -122,12 +131,12 @@
         </div>
     </div>
 
-    <div class="hosttype-localhost hosttype-inputs hidden">
+    <div class="hosttype-local hosttype-inputs croncategory-inputs hidden">
         <h4>Localhost details</h4>
         <h5>No options</h5>
     </div>
 
-    <div class="hosttype-ssh hosttype-inputs hidden">
+    <div class="hosttype-ssh hosttype-inputs croncategory-inputs hidden">
         <h4>SSH host details</h4>
         <div class="mb-3">
             <label for="host">Hostname</label>
@@ -156,6 +165,22 @@
         </div>
     </div>
 
+    <div class="containertype-none containertype-inputs croncategory-inputs hidden">
+    </div>
+
+    <div class="containertype-docker containertype-inputs croncategory-inputs hidden">
+        <h4>Docker container details</h4>
+        <div class="mb-3">
+            <label for="service">Service</label>
+            <input type="text" name="service" class="form-control" id="service" placeholder="mysql">
+        </div>
+
+        <div class="mb-3">
+            <label for="user">Username</label>
+            <input type="text" name="user" class="form-control" id="user" placeholder="larry">
+        </div>
+    </div>
+
     <h3>Variables</h3>
     <div class="vars mb-3">
         <div class="input-group var-group hidden">
@@ -179,7 +204,11 @@
     <div class="mb-3">
         <a href="#" class="btn btn-outline-primary addvar-btn">Add variable</a>
     </div>
-    <input type="hidden" name="crontype" class="crontype" value=""><input type="hidden" name="hosttype" class="hosttype" value=""><button type="submit" class="btn btn-outline-primary">Submit</button>
+
+    <input type="hidden" name="crontype" class="crontype" value="">
+    <input type="hidden" name="hosttype" class="hosttype" value="">
+    <input type="hidden" name="containertype" class="containertype" value="">
+    <button type="submit" class="btn btn-outline-primary">Submit</button>
 </form>
 
 {% endblock %}
