@@ -13,7 +13,7 @@ class Secret
         $iv = openssl_random_pseudo_bytes(16);
 
         $ciphertext = openssl_encrypt($plaintext, $method, $key, OPENSSL_RAW_DATA, $iv);
-        $hash = hash_hmac('sha256', $ciphertext . $iv, $key, true);
+        $hash = hash_hmac($_ENV['HASHING_METHOD'], $ciphertext . $iv, $key, true);
 
         return $iv . $hash . $ciphertext;
     }
