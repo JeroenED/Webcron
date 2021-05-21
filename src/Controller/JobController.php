@@ -26,6 +26,27 @@ class JobController extends Controller
         $job = $jobRepo->getJob($id);
     }
 
+    public function editAction($id)
+    {
+        if($this->getRequest()->getMethod() == 'GET') {
+            $jobRepo = new Job($this->getDbCon());
+            $job = $jobRepo->getJob($id, true);
+            return $this->render('job/edit.html.twig', $job);
+        } elseif($this->getRequest()->getMethod() == 'POST') {
+            $allValues = $this->getRequest()->request->all();
+            $jobRepo = new Job($this->getDbCon());
+
+            try {
+                $joboutput = $jobRepo->editJob($id, $allValues);
+            } catch (\InvalidArgumentException $e) {
+                $this->addFlash('danger', $e->getMessage());
+                return new RedirectResponse($this->generateRoute('job_edit', ['id' => $allValues['id']]));
+            }
+            $this->addFlash('success', $joboutput['message']);
+            return new RedirectResponse($this->generateRoute('job_index'));
+        }
+    }
+
     public function addAction()
     {
         if($this->getRequest()->getMethod() == 'GET') {
@@ -33,14 +54,15 @@ class JobController extends Controller
         } elseif ($this->getRequest()->getMethod() == 'POST') {
             $allValues = $this->getRequest()->request->all();
             $jobRepo = new Job($this->getDbCon());
-            $joboutput = $jobRepo->addJob($allValues);
-            if($joboutput['success']) {
-                $this->addFlash('success', $joboutput['message']);
-                return new RedirectResponse($this->generateRoute('job_index'));
-            } else {
-                $this->addFlash('danger', $joboutput['message']);
+            try {
+                $joboutput = $jobRepo->addJob($allValues);
+            } catch (\InvalidArgumentException $e) {
+                $this->addFlash('danger', $e->getMessage());
                 return new RedirectResponse($this->generateRoute('job_add'));
             }
+            $this->addFlash('success', $joboutput['message']);
+            return new RedirectResponse($this->generateRoute('job_index'));
+
         } else {
             return new Response('Not implemented yet', Response::HTTP_TOO_EARLY);
         }

@@ -35,30 +35,62 @@ class Job
             empty($values['interval']) ||
             empty($values['nextrun'])
         ) {
-            return ['success' => false, 'message' => 'Some fields are empty'];
+            throw new \InvalidArgumentException('Some fields are empty');
         }
 
+        $data = $this->prepareJob($values);
+        $data['data'] = json_encode($data['data']);
+        $addJobSql = "INSERT INTO job(name, data, interval, nextrun, lastrun) VALUES (:name, :data, :interval, :nextrun, :lastrun)";
+
+        $addJobStmt = $this->dbcon->prepare($addJobSql);
+        $addJobStmt->executeQuery([':name' => $data['name'], ':data' => $data['data'], ':interval' => $data['interval'], ':nextrun' => $data['nextrun'], ':lastrun' => $data['lastrun'], ]);
+
+        return ['success' => true, 'message' => 'Cronjob succesfully added'];
+    }
+
+    public function editJob(int $id, array $values)
+    {
+        if(empty($values['crontype']) ||
+            empty($values['name']) ||
+            empty($values['interval']) ||
+            empty($values['nextrun'])
+        ) {
+            throw new \InvalidArgumentException('Some fields are empty');
+        }
+
+        $data = $this->prepareJob($values);
+        $data['data'] = json_encode($data['data']);
+        $editJobSql = "UPDATE job set name = :name, data = :data, interval = :interval, nextrun = :nextrun, lastrun = :lastrun WHERE id = :id";
+
+        $editJobStmt = $this->dbcon->prepare($editJobSql);
+        $editJobStmt->executeQuery([':name' => $data['name'], ':data' => $data['data'], ':interval' => $data['interval'], ':nextrun' => $data['nextrun'], ':lastrun' => $data['lastrun'],':id' => $id ]);
+
+        return ['success' => true, 'message' => 'Cronjob succesfully edited'];
+    }
+
+    public function prepareJob(array $values): array
+    {
         if(empty($values['lastrun'])) {
             $values['lastrun'] = NULL;
         } else {
-            $values['lastrun'] = DateTime::createFromFormat('m/d/Y g:i:s A',$values['lastrun'])->getTimestamp();
+            $values['lastrun'] = DateTime::createFromFormat('m/d/Y H:i:s',$values['lastrun'])->getTimestamp();
         }
 
-        $values['nextrun'] = DateTime::createFromFormat('m/d/Y g:i:s A', $values['nextrun'])->getTimestamp();
-        $data['crontype'] = $values['crontype'];
-        $data['hosttype'] = $values['hosttype'];
-        $data['containertype'] = $values['containertype'];
+        $values['nextrun'] = DateTime::createFromFormat('m/d/Y H:i:s', $values['nextrun'])->getTimestamp();
+        $values['data']['crontype'] = $values['crontype'];
+        $values['data']['hosttype'] = $values['hosttype'];
+        $values['data']['containertype'] = $values['containertype'];
 
-        switch($data['crontype'])
+        switch($values['data']['crontype'])
         {
             case 'command':
-                $data['command'] = $values['command'];
-                $data['response'] = $values['response'];
+                $values['data']['command'] = $values['command'];
+                $values['data']['response'] = $values['response'];
                 break;
             case 'reboot':
-                $data['reboot-command'] = $values['reboot-command'];
-                $data['getservices-command'] = $values['getservices-command'];
-                $data['reboot-duration'] = $values['reboot-duration'];
+                $values['data']['reboot-command'] = $values['reboot-command'];
+                $values['data']['getservices-command'] = $values['getservices-command'];
+                $values['data']['reboot-duration'] = $values['reboot-duration'];
                 if(!empty($values['reboot-delay'])) {
                     $newsecretkey = count($values['var-value']);
                     $values['var-id'][$newsecretkey] = 'reboot-delay';
@@ -73,11 +105,11 @@ class Job
                 break;
             case 'http':
                 $parsedUrl = parse_url($values['url']);
-                $data['url'] = $values['url'];
-                $data['response'] = $values['response'];
-                $data['basicauth-username'] = $values['basicauth-username'];
+                $values['data']['url'] = $values['url'];
+                $values['data']['response'] = $values['response'];
+                $values['data']['basicauth-username'] = $values['basicauth-username'];
                 if(empty($parsedUrl['host'])) {
-                    return ['success' => false, 'message' => 'Some data was invalid'];
+                    throw new \InvalidArgumentException('Some data was invalid');
                 }
                 if(!empty($values['basicauth-password'])) {
                     $newsecretkey = count($values['var-value']);
@@ -85,22 +117,22 @@ class Job
                     $values['var-issecret'][$newsecretkey] = true;
                     $values['var-value'][$newsecretkey] = $values['basicauth-password'];
                 }
-                $data['host'] = $parsedUrl['host'];
+                $values['data']['host'] = $parsedUrl['host'];
                 break;
         }
 
-        switch($data['hosttype']) {
+        switch($values['data']['hosttype']) {
             case 'local':
-                $data['host'] = 'localhost';
+                $values['data']['host'] = 'localhost';
                 break;
             case 'ssh':
-                $data['host'] = $values['host'];
-                $data['user'] = $values['user'];
+                $values['data']['host'] = $values['host'];
+                $values['data']['user'] = $values['user'];
                 if(!empty($values['privkey-password'])) {
-                $newsecretkey = count($values['var-value']);
-                $values['var-id'][$newsecretkey] = 'privkey-password';
-                $values['var-issecret'][$newsecretkey] = true;
-                $values['var-value'][$newsecretkey] = $values['privkey-password'];
+                    $newsecretkey = count($values['var-value']);
+                    $values['var-id'][$newsecretkey] = 'privkey-password';
+                    $values['var-issecret'][$newsecretkey] = true;
+                    $values['var-value'][$newsecretkey] = $values['privkey-password'];
                 }
                 if(!empty($_FILES['privkey']['tmp_name'])) {
                     $newsecretkey = count($values['var-value']);
@@ -112,10 +144,10 @@ class Job
         }
 
 
-        switch($data['containertype']) {
+        switch($values['data']['containertype']) {
             case 'docker':
-                $data['service'] = $values['service'];
-                $data['user'] = $values['user'];
+                $values['data']['service'] = $values['service'];
+                $values['data']['user'] = $values['user'];
                 break;
         }
 
@@ -123,23 +155,16 @@ class Job
             foreach($values['var-value'] as $key => $name) {
                 if(!empty($name)) {
                     if(isset($values['var-issecret'][$key]) && $values['var-issecret'][$key] != false) {
-                        $data['vars'][$values['var-id'][$key]]['issecret'] = true;
-                        $data['vars'][$values['var-id'][$key]]['value'] = base64_encode(Secret::encrypt($values['var-value'][$key]));
+                        $values['data']['vars'][$values['var-id'][$key]]['issecret'] = true;
+                        $values['data']['vars'][$values['var-id'][$key]]['value'] = base64_encode(Secret::encrypt($values['var-value'][$key]));
                     } else {
-                        $data['vars'][$values['var-id'][$key]]['issecret'] = false;
-                        $data['vars'][$values['var-id'][$key]]['value'] = $values['var-value'][$key];
+                        $values['data']['vars'][$values['var-id'][$key]]['issecret'] = false;
+                        $values['data']['vars'][$values['var-id'][$key]]['value'] = $values['var-value'][$key];
                     }
                 }
             }
         }
-
-        $data = json_encode($data);
-        $addJobSql = "INSERT INTO job(name, data, interval, nextrun, lastrun) VALUES (:name, :data, :interval, :nextrun, :lastrun)";
-
-        $addJobStmt = $this->dbcon->prepare($addJobSql);
-        $addJobStmt->executeQuery([':name' => $values['name'], ':data' => $data, ':interval' => $values['interval'], ':nextrun' => $values['nextrun'], ':lastrun' => $values['lastrun'], ]);
-
-        return ['success' => true, 'message' => 'Cronjob succesfully added'];
+        return $values;
     }
 
     public function getJob(int $id, bool $withSecrets = false) {
@@ -148,6 +173,7 @@ class Job
         $jobRslt = $jobStmt->execute([':id' => $id])->fetchAssociative();
 
         $jobRslt['data'] = json_decode($jobRslt['data'], true);
+
         if(!empty($jobRslt['data']['vars'])) {
             foreach ($jobRslt['data']['vars'] as $key => &$value) {
                 if ($value['issecret']) {
@@ -156,6 +182,16 @@ class Job
             }
         }
 
+        switch($jobRslt['data']['crontype']) {
+            case 'http':
+                if(isset($jobRslt['data']['vars']['basicauth-password']['value'])) {
+                    $jobRslt['data']['basicauth-password'] = $jobRslt['data']['vars']['basicauth-password']['value'];
+                    unset($jobRslt['data']['vars']['basicauth-password']);
+                }
+                break;
+        }
+        if($jobRslt['data']['crontype'] == 'http') {
+        }
         return $jobRslt;
     }
 }

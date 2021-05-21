@@ -2,12 +2,12 @@
 {% block title %}Add job{% endblock %}
 {% block content %}
     <h2>Add a cronjob</h2>
-<form method="post" class="form-horizontal" enctype="multipart/form-data" action="{{ path('job_add') }}">
+<form method="post" class="form-horizontal" enctype="multipart/form-data" action="{{ path('job_edit', { id : id }) }}">
 
     <h3>General info</h3>
     <div class="mb-3">
         <label for="name">Name</label>
-        <input type="text" name="name" class="form-control" id="name" placeholder="System update">
+        <input type="text" name="name" class="form-control" id="name" placeholder="System update" value="{{ name }}">
     </div>
     <div class="mb-3">
         <label for="name">Interval (in seconds)</label>
@@ -24,23 +24,29 @@
                     <a class="dropdown-item intervalpattern-item" href="#" data-time="2419200">Every 4 weeks</a>
                 </div>
             </div>
-            <input type="number" class="form-control" id="interval" name="interval">
+            <input type="number" class="form-control" id="interval" name="interval" value="{{ interval }}">
         </div>
     </div>
     <div class="mb-3">
         <label for="nextrun">Next run</label>
-        <input type="text" autocomplete="off" id="nextrunselector" class="form-control datetimepicker-input" data-target="#nextrunselector" data-toggle="datetimepicker" name="nextrun">
+        <input type="text" autocomplete="off" id="nextrunselector" class="form-control datetimepicker-input" data-target="#nextrunselector" data-toggle="datetimepicker" name="nextrun" value="{{ nextrun |  date("d/m/Y H:i:s")}}">
     </div>
     <div class="mb-3">
         <label for="lastrun">Last run</label>
-        <input type="text" autocomplete="off" id="lastrunselector" class="form-control datetimepicker-input" data-target="#lastrunselector" data-toggle="datetimepicker" name="lastrun">
+        <input type="text" autocomplete="off" id="lastrunselector" class="form-control datetimepicker-input" data-target="#lastrunselector" data-toggle="datetimepicker" name="lastrun" value="{{ lastrun |  date("d/m/Y H:i:s")}}">
     </div>
 
     <h3>Job details</h3>
     <div class="mb-3 btn-group">
-        <div class="dropdown croncategory-group crontype-group">
-            <button class="btn btn-outline-primary dropdown-toggle" type="button" id="crontypeButton" data-default-text="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Job type
+        <div class="dropdown croncategory-group crontype-group{% if data.crontype != 'http' %} btn-group{% endif %}">
+            <button class="btn btn-outline-primary dropdown-toggle" type="button" id="crontypeButton" data-default-text="Job type" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                {% if data.crontype == 'command' %}
+                    Command
+                {% elseif data.crontype == 'reboot' %}
+                    Reboot
+                {% elseif data.crontype == 'http' %}
+                    Http request
+                {% endif %}
             </button>
             <div class="dropdown-menu" aria-labelledby="crontypeButton">
                 <a class="dropdown-item crontype-item" href="#" data-type="command">Command</a>
@@ -49,9 +55,13 @@
             </div>
         </div>
 
-        <div class="dropdown croncategory-group hidden hosttype-group">
-            <button class="btn btn-outline-primary dropdown-toggle" type="button" id="hosttypeButton" data-default-text="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Host type
+        <div class="dropdown croncategory-group hosttype-group{% if data.crontype != 'http' %} btn-group{% else %} hidden{% endif %}">
+            <button class="btn btn-outline-primary dropdown-toggle" type="button" id="hosttypeButton" data-default-text="Host type" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                {% if data.hosttype == 'local' %}
+                    Local
+                {% elseif data.hosttype == 'ssh' %}
+                    SSH
+                {% endif %}
             </button>
             <div class="dropdown-menu" aria-labelledby="hosttypeButton">
                 <a class="dropdown-item hosttype-item" href="#" data-type="local">Local</a>
@@ -59,9 +69,13 @@
             </div>
         </div>
 
-        <div class="dropdown croncategory-group hidden containertype-group">
+        <div class="dropdown croncategory-group containertype-group{% if data.crontype != 'http' %} btn-group{% else %} hidden{% endif %}">
             <button class="btn btn-outline-primary dropdown-toggle" type="button" id="containertypeButton" data-default-text="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Container
+                {% if data.containertype == 'none' %}
+                    None
+                {% elseif data.containertype == 'docker' %}
+                    Docker
+                {% endif %}
             </button>
             <div class="dropdown-menu" aria-labelledby="containertypeButton">
                 <a class="dropdown-item containertype-item" href="#" data-type="none">None</a>
@@ -70,73 +84,73 @@
         </div>
     </div>
 
-    <div class="crontype-command crontype-inputs croncategory-inputs hidden">
+    <div class="crontype-command crontype-inputs croncategory-inputs{% if data.crontype != 'command' %} hidden{% endif %}">
         <h4>Command details</h4>
         <div class="mb-3">
             <label for="command">Command</label>
-            <input type="text" name="command" class="form-control" id="command" placeholder="sudo apt update">
+            <input type="text" name="command" class="form-control" id="command" placeholder="sudo apt update" value="{% if data.command is not empty %}{{ data.command }}{% endif %}">
         </div>
 
         <div class="mb-3">
             <label for="response">Expected exit code</label>
-            <input type="text" name="response" class="form-control" id="response" placeholder="0">
+            <input type="text" name="response" class="form-control" id="response" placeholder="0" value="{% if data.response is not empty %}{{ data.response }}{% endif %}">
         </div>
     </div>
 
-    <div class="crontype-reboot crontype-inputs croncategory-inputs hidden">
+    <div class="crontype-reboot crontype-inputs croncategory-inputs{% if data.crontype != 'reboot' %} hidden{% endif %}">
         <h4>Reboot job details</h4>
         <div class="mb-3">
             <label for="reboot-command">Reboot command</label>
-            <input type="text" name="reboot-command" class="form-control" id="command" placeholder="systemctl reboot">
+            <input type="text" name="reboot-command" class="form-control" id="command" placeholder="systemctl reboot" value="{% if attribute(data, 'reboot-command') is not empty %}{{ attribute(data, 'reboot-command') }}{% endif %}">
             <small id="reboot-command-help" class="form-text text-muted">Use {reboot-delay} or {reboot-delay-secs} to add the delay in your command</small>
         </div>
 
         <div class="mb-3">
             <label for="getservices-command">Get services command</label>
-            <input type="text" name="getservices-command" class="form-control" id="command" placeholder="systemctl list-units">
+            <input type="text" name="getservices-command" class="form-control" id="command" placeholder="systemctl list-units" value="{% if attribute(data, 'getservices-command') is not empty %}{{ attribute(data, 'getservices-command') }}{% endif %}">
         </div>
 
         <div class="mb-3">
             <label for="reboot-delay">Reboot delay (in minutes)</label>
-            <input type="number" name="reboot-delay" class="form-control" placeholder="5">
+            <input type="number" name="reboot-delay" class="form-control" placeholder="5" value="{% if attribute(data.vars, 'reboot-delay').value is not empty %}{{ attribute(data.vars, 'reboot-delay').value }}{% endif %}">
             <small id="reboot-delay-help" class="form-text text-muted">Delay between triggering reboot and actual reboot</small>
         </div>
 
         <div class="mb-3">
             <label for="reboot-duration">Reboot duration (in minutes)</label>
-            <input type="number" name="reboot-duration" class="form-control" placeholder="10">
+            <input type="number" name="reboot-duration" class="form-control" placeholder="10" value="{% if attribute(data, 'reboot-duration') is not empty %}{{ attribute(data, 'reboot-duration') }}{% endif %}">
             <small id="reboot-duration-help" class="form-text text-muted">The amount of time the system takes to actually reboot</small>
         </div>
     </div>
 
-    <div class="crontype-http crontype-inputs croncategory-inputs hidden">
+    <div class="crontype-http crontype-inputs croncategory-inputs{% if data.crontype != 'http' %} hidden{% endif %}">
         <h4>HTTP request details</h4>
         <div class="mb-3">
             <label for="url">Url</label>
-            <input type="text" name="url" class="form-control" id="url" placeholder="https://scripts.example.com/">
+            <input type="text" name="url" class="form-control" id="url" placeholder="https://scripts.example.com/" value="{% if data.url is not empty %}{{ data.url }}{% endif %}">
         </div>
         <div class="mb-3">
             <label for="basicauth-username">Username for Basic-Auth</label>
-            <input type="text" name="basicauth-username" class="form-control" id="basicauth-username" placeholder="www-data">
+            <input type="text" name="basicauth-username" class="form-control" id="basicauth-username" placeholder="www-data" value="{% if attribute(data, 'basicauth-username') is not empty %}{{ attribute(data, 'basicauth-username') }}{% endif %}">
         </div>
         <div class="mb-3">
             <label for="basicauth-password">Password for Basic-Auth</label>
-            <input type="password" name="basicauth-password" class="form-control" placeholder="correct horse battery staple">
+            <input type="password" name="basicauth-password" class="form-control" placeholder="correct horse battery staple" value="{% if attribute(data, 'basicauth-password') is not empty %}{{ attribute(data, 'basicauth-password') }}{% endif %}">
             <small id="basicauth-password-help" class="form-text text-muted">This field is being saved as a secret</small>
         </div>
 
         <div class="mb-3">
             <label for="response">Expected response status code</label>
-            <input type="text" name="response" class="form-control" id="response" placeholder="200">
+            <input type="text" name="response" class="form-control" id="response" placeholder="200" value="{% if attribute(data, 'response') is not empty %}{{ attribute(data, 'response') }}{% endif %}">
         </div>
     </div>
 
-    <div class="hosttype-local hosttype-inputs croncategory-inputs hidden">
+    <div class="hosttype-local hosttype-inputs croncategory-inputs{% if data.hosttype != 'local' %} hidden{% endif %}">
         <h4>Localhost details</h4>
         <h5>No options</h5>
     </div>
 
-    <div class="hosttype-ssh hosttype-inputs croncategory-inputs hidden">
+    <div class="hosttype-ssh hosttype-inputs croncategory-inputs{% if data.hosttype != 'ssh' %} hidden{% endif %}">
         <h4>SSH host details</h4>
         <div class="mb-3">
             <label for="host">Hostname</label>
@@ -165,10 +179,10 @@
         </div>
     </div>
 
-    <div class="containertype-none containertype-inputs croncategory-inputs hidden">
+    <div class="containertype-none containertype-inputs croncategory-inputs{% if data.containertype != 'none' %} hidden{% endif %}">
     </div>
 
-    <div class="containertype-docker containertype-inputs croncategory-inputs hidden">
+    <div class="containertype-docker containertype-inputs croncategory-inputs{% if data.containertype != 'docker' %} hidden{% endif %}">
         <h4>Docker container details</h4>
         <div class="mb-3">
             <label for="service">Service</label>
@@ -193,8 +207,20 @@
             </div>
             <input type="text" name="var-id[0]" class="form-control var-id" placeholder="name">
             <input type="text" name="var-value[0]" class="form-control var-value" placeholder="value">
-
         </div>
+        {% set key = 1 %}
+        {% for id,var in data.vars %}
+            <div class="input-group var-group">
+                <div class="input-group-prepend">
+                    <div class="input-group-text border-right-0">
+                        <input type="checkbox" name="var-issecret[{{ key }}]" class="var-issecret" placeholder="value" value="true"{%  if var.issecret %} checked{% endif %}>
+                    </div>
+                    <span class="input-group-text border-left-0">Secret</span>
+                </div>
+                <input type="text" name="var-id[{{ key }}]" class="form-control var-id" placeholder="name" value="{{ id }}">
+                <input type="{% if var.issecret %}password{% else %}text{% endif %}" name="var-value[{{ key }}]" class="form-control var-value" placeholder="value" value="{{ var.value }}">
+            </div>
+        {% endfor %}
     </div>
 
     <div class="vars-description mb-3 hidden">
@@ -206,9 +232,9 @@
         <a href="#" class="btn btn-outline-primary addvar-btn">Add variable</a>
     </div>
 
-    <input type="hidden" name="crontype" class="crontype" value="">
-    <input type="hidden" name="hosttype" class="hosttype" value="">
-    <input type="hidden" name="containertype" class="containertype" value="">
+    <input type="hidden" name="crontype" class="crontype" value="{{ data.crontype }}">
+    <input type="hidden" name="hosttype" class="hosttype" value="{{ data.hosttype }}">
+    <input type="hidden" name="containertype" class="containertype" value="{{ data.containertype }}">
     <button type="submit" class="btn btn-outline-primary">Submit</button>
 </form>
 

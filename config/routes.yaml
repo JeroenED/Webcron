@@ -31,6 +31,13 @@ job_view:
   requirements:
     id: \d+
 
+job_edit:
+  path: '/job/{id}/edit'
+  defaults:
+    _controller: JeroenED\Webcron\Controller\JobController::editAction
+  requirements:
+    id: \d+
+
 job_add:
   path: '/job/add'
   defaults:

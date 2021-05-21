@@ -10,8 +10,8 @@ $(function() {
 
 function initDatePickers()
 {
-    $('#nextrunselector').datetimepicker({format: 'L LTS'});
-    $('#lastrunselector').datetimepicker({format: 'L LTS'});
+    $('#nextrunselector').datetimepicker({format: 'DD/MM/YYYY HH:mm:ss'});
+    $('#lastrunselector').datetimepicker({format: 'DD/MM/YYYY HH:mm:ss'});
 }
 
 function initCronType()
