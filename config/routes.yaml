@@ -26,8 +26,17 @@ job_index:
 
 job_view:
   path: '/job/{id}'
+  methods: [ 'GET' ]
   defaults:
-    _controller: JeroenED\Webcron\Controller\JobController::viewAction
+    _controller: JeroenED\Webcron\Controller\JobController::jobAction
+  requirements:
+    id: \d+
+
+job_delete:
+  path: '/job/{id}'
+  methods: [ 'DELETE' ]
+  defaults:
+    _controller: JeroenED\Webcron\Controller\JobController::jobAction
   requirements:
     id: \d+
 

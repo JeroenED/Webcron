@@ -24,7 +24,7 @@
                         <a href="#" data-id="{{ job.id }}" class="runcron btn btn-outline-primary"><i class="fa fa-play" aria-hidden="true"></i></a>
                         <a href="{{ path('job_view', {'id': job.id}) }}" class="btn btn-outline-primary"><i class="fa fa-search" aria-hidden="true"></i></a>
                         <a href="{{ path('job_edit', {'id': job.id}) }}" class="btn btn-outline-primary"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-                        <a onclick="return confirm('Are you sure you want to delete this job?')" href="overview.php?id={{ job.id }}&action=delete" class="btn btn-outline-primary"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                        <a href="#" data-confirmation="Are you sure you want to delete this job?" data-href="{{ path('job_delete', {'id': job.id}) }}" class="delete-btn btn btn-outline-primary"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
                     </td>
                 </tr>
             {% endfor %}
@@ -52,4 +52,7 @@
 
 {% block extrastyles %}
     <link rel="stylesheet" href="/resources/job/index.css" />
+{% endblock %}
+{% block extrascripts %}
+    <script type="text/javascript" src="/resources/job/index.js"></script>
 {% endblock %}
