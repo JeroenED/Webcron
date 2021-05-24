@@ -6,6 +6,9 @@ namespace JeroenED\Webcron\Repository;
 
 use DateTime;
 use Doctrine\DBAL\Connection;
+use GuzzleHttp\Client;
+use phpseclib3\Crypt\PublicKeyLoader;
+use phpseclib3\Net\SSH2;
 
 class Job
 {
@@ -20,7 +23,7 @@ class Job
     {
         $jobsSql = "SELECT * FROM job";
         $jobsStmt = $this->dbcon->prepare($jobsSql);
-        $jobsRslt = $jobsStmt->execute();
+        $jobsRslt = $jobsStmt->executeQuery();
         $jobs = $jobsRslt->fetchAllAssociative();
         foreach ($jobs as $key=>&$job) {
             $job['data'] = json_decode($job['data'], true);
@@ -28,6 +31,84 @@ class Job
         return $jobs;
     }
 
+
+    public function getJobsDue()
+    {
+        $jobsSql = "SELECT id FROM job WHERE nextrun <= :timestamp AND running = 0";
+        $jobsStmt = $this->dbcon->prepare($jobsSql);
+        $jobsRslt = $jobsStmt->executeQuery([':timestamp' => time()]);
+        $jobs = $jobsRslt->fetchAllAssociative();
+        $return = [];
+        foreach ($jobs as $job) {
+            $return[] = $job['id'];
+        }
+        return $return;
+    }
+
+    public function setJobRunning(int $job, bool $status): void
+    {
+        $jobsSql = "UPDATE job SET running = :status WHERE id = :id";
+        $jobsStmt = $this->dbcon->prepare($jobsSql);
+        $jobsStmt->executeQuery([':id' => $job, ':status' => $status ? 1 : 0]);
+        return;
+    }
+
+    public function runJob(int $job)
+    {
+        $job = $this->getJob($job, true);
+        if($job['data']['crontype'] == 'http') {
+
+            $client = new Client();
+            foreach($job['data']['vars'] as $key => $var) {
+                $job['data']['basicauth-username'] = str_replace('{' . $key . '}', $var['value'], $job['data']['basicauth-username']);
+                $job['data']['url'] = str_replace('{' . $key . '}', $var['value'], $job['data']['url']);
+            }
+
+            $url = $job['data']['url'];
+            $options['http_errors'] = false;
+            $options['auth'] = [$job['data']['basicauth-username'], $job['data']['basicauth-password']];
+            $res = $client->request('GET', $url, $options);
+
+            $exitcode = $res->getStatusCode();
+            $output = $res->getBody();
+        } elseif($job['data']['crontype'] == 'command') {
+            if($job['data']['hosttype'] == 'ssh') {
+                $ssh = new SSH2($job['data']['host']);
+                $key = null;
+                if(!empty($job['data']['ssh-privkey'])) {
+                    if(!empty($job['data']['privkey-password'])) {
+                        $key = PublicKeyLoader::load(base64_decode($job['data']['ssh-privkey']), $job['data']['privkey-password']);
+                    } else {
+                        $key = PublicKeyLoader::load(base64_decode($job['data']['ssh-privkey']));
+                    }
+                } elseif (!empty($job['data']['privkey-password'])) {
+                    $key = $job['data']['ssh-privkey'];
+                }
+
+                if (!$ssh->login($job['data']['user'], $key)) {
+                    throw new \Exception('Login failed');
+                }
+                $output = $ssh->exec($job['data']['command']);
+                $exitcode = $ssh->getExitStatus();
+            }
+        }
+
+        // handling of response
+        $addRunSql = 'INSERT INTO run(job_id, exitcode, output) VALUES (:job_id, :exitcode, :output)';
+        $addRunStmt = $this->dbcon->prepare($addRunSql);
+        $addRunStmt->executeQuery([':job_id' => $job['id'], ':exitcode' => $exitcode, ':output' => $output]);
+
+        // setting nextrun to next run
+        $nextrun = $job['nextrun'];
+        do {
+            $nextrun = $nextrun + $job['interval'];
+        } while ($nextrun < time());
+
+
+        $addRunSql = 'UPDATE job SET nextrun = :nextrun WHERE id = :id';
+        $addRunStmt = $this->dbcon->prepare($addRunSql);
+        $addRunStmt->executeQuery([':id' => $job['id'], ':nextrun' => $nextrun]);
+    }
     public function addJob(array $values)
     {
         if(empty($values['crontype']) ||
@@ -40,10 +121,10 @@ class Job
 
         $data = $this->prepareJob($values);
         $data['data'] = json_encode($data['data']);
-        $addJobSql = "INSERT INTO job(name, data, interval, nextrun, lastrun) VALUES (:name, :data, :interval, :nextrun, :lastrun)";
+        $addJobSql = "INSERT INTO job(name, data, interval, nextrun, lastrun, running) VALUES (:name, :data, :interval, :nextrun, :lastrun, :running)";
 
         $addJobStmt = $this->dbcon->prepare($addJobSql);
-        $addJobStmt->executeQuery([':name' => $data['name'], ':data' => $data['data'], ':interval' => $data['interval'], ':nextrun' => $data['nextrun'], ':lastrun' => $data['lastrun'], ]);
+        $addJobStmt->executeQuery([':name' => $data['name'], ':data' => $data['data'], ':interval' => $data['interval'], ':nextrun' => $data['nextrun'], ':lastrun' => $data['lastrun'], ':running' => 0]);
 
         return ['success' => true, 'message' => 'Cronjob succesfully added'];
     }

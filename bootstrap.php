@@ -1,7 +1,7 @@
 <?php
 
 session_start();
-require_once "../vendor/autoload.php";
+require_once "vendor/autoload.php";
 
 if( ini_get('safe_mode') ){
    die("Cannot run in safe mode");

@@ -80,14 +80,13 @@ class Kernel
 
     public function handle(): Response
     {
-        $this->parseDotEnv($this->getProjectDir() . '/.env');
         $this->router = new Router();
         $this->router->parseRoutes($this->getConfigDir(), 'routes.yaml');
         $request = $this->parseRequest();
         return $this->router->route($request, $this);
     }
 
-    private function parseDotEnv(string $path): void
+    public function parseDotEnv(string $path): void
     {
         $dotenv = new Dotenv();
         $dotenv->loadEnv($path);

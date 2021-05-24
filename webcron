@@ -1,0 +1,23 @@
+#!/usr/bin/env php
+<?php
+require_once 'bootstrap.php';
+
+use JeroenED\Framework\Kernel;
+use JeroenED\Webcron\Command\DaemonCommand;
+use JeroenED\Webcron\Command\RunCommand;
+use Symfony\Component\Console\Application;
+
+$application = new Application();
+$kernel = new Kernel();
+
+chdir(__DIR__);
+$kernel->setProjectDir(getcwd());
+$kernel->setConfigDir(getcwd() . '/config/');
+$kernel->setTemplateDir(getcwd() . '/templates/');
+$kernel->parseDotEnv($kernel->getProjectDir() . '/.env');
+
+$application->add(new RunCommand());
+$application->add(new DaemonCommand($kernel));
+
+$application->run();
+
