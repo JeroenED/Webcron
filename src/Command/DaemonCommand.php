@@ -62,6 +62,7 @@ class DaemonCommand extends Command
 
                 }
             }
+            sleep(1);
         }
         $output->writeln('Ended after ' . $timelimit . ' seconds');
         return Command::SUCCESS;
