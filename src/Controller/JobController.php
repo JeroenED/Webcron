@@ -5,6 +5,7 @@ namespace JeroenED\Webcron\Controller;
 
 use JeroenED\Framework\Controller;
 use JeroenED\Webcron\Repository\Job;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -20,13 +21,21 @@ class JobController extends Controller
         return $this->render('job/index.html.twig', ['jobs' => $jobs]);
     }
 
-    public function viewAction($id)
+    public function jobAction($id)
     {
         if(!isset($_SESSION['isAuthenticated']) || !$_SESSION['isAuthenticated']) {
             return new RedirectResponse($this->generateRoute('login'));
         }
         $jobRepo = new Job($this->getDbCon());
-        $job = $jobRepo->getJob($id);
+
+        if($this->getRequest()->getMethod() == 'GET') {
+            $job = $jobRepo->getJob($id);
+            return new Response('Not implemented, yet', Response::HTTP_NOT_IMPLEMENTED);
+        } elseif($this->getRequest()->getMethod() == 'DELETE') {
+            $success = $jobRepo->deleteJob($id);
+            $this->addFlash('success', $success['message']);
+            return new JsonResponse(['return_path' => $this->generateRoute('job_index')]);
+        }
     }
 
     public function editAction($id)
@@ -58,7 +67,7 @@ class JobController extends Controller
         if(!isset($_SESSION['isAuthenticated']) || !$_SESSION['isAuthenticated']) {
             return new RedirectResponse($this->generateRoute('login'));
         }
-        
+
         if($this->getRequest()->getMethod() == 'GET') {
             return $this->render('job/add.html.twig');
         } elseif ($this->getRequest()->getMethod() == 'POST') {

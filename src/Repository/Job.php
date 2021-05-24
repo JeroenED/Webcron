@@ -230,4 +230,14 @@ class Job
         }
         return $jobRslt;
     }
+
+    public function deleteJob(int $id)
+    {
+        $addJobSql = "DELETE FROM job WHERE id = :id";
+
+        $addJobStmt = $this->dbcon->prepare($addJobSql);
+        $addJobStmt->executeQuery([':id' => $id]);
+
+        return ['success' => true, 'message' => 'Cronjob succesfully deleted'];
+    }
 }
