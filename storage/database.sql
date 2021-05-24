@@ -22,5 +22,6 @@ CREATE TABLE run (
     id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     job_id INTEGER NOT NULL,
     exitcode TEXT NOT NULL,
-    output TEXT NOT NULL
+    output TEXT NOT NULL,
+    timestamp INTEGER NOT NULL
 );

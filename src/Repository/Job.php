@@ -105,9 +105,9 @@ class Job
         } while ($nextrun < time());
 
 
-        $addRunSql = 'UPDATE job SET nextrun = :nextrun WHERE id = :id';
+        $addRunSql = 'UPDATE job SET nextrun = :nextrun, timestamp = :timestamp WHERE id = :id';
         $addRunStmt = $this->dbcon->prepare($addRunSql);
-        $addRunStmt->executeQuery([':id' => $job['id'], ':nextrun' => $nextrun]);
+        $addRunStmt->executeQuery([':id' => $job['id'], ':nextrun' => $nextrun, ':timestamp' => time()]);
     }
     public function addJob(array $values)
     {
