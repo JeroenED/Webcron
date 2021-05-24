@@ -57,7 +57,6 @@ class Job
         ) {
             throw new \InvalidArgumentException('Some fields are empty');
         }
-
         $data = $this->prepareJob($values);
         $data['data'] = json_encode($data['data']);
         $editJobSql = "UPDATE job set name = :name, data = :data, interval = :interval, nextrun = :nextrun, lastrun = :lastrun WHERE id = :id";
@@ -73,14 +72,17 @@ class Job
         if(empty($values['lastrun'])) {
             $values['lastrun'] = NULL;
         } else {
-            $values['lastrun'] = DateTime::createFromFormat('m/d/Y H:i:s',$values['lastrun'])->getTimestamp();
+            $values['lastrun'] = DateTime::createFromFormat('d/m/Y H:i:s',$values['lastrun'])->getTimestamp();
         }
 
-        $values['nextrun'] = DateTime::createFromFormat('m/d/Y H:i:s', $values['nextrun'])->getTimestamp();
+        $values['nextrun'] = DateTime::createFromFormat('d/m/Y H:i:s', $values['nextrun'])->getTimestamp();
         $values['data']['crontype'] = $values['crontype'];
         $values['data']['hosttype'] = $values['hosttype'];
         $values['data']['containertype'] = $values['containertype'];
 
+        if(empty($values['data']['crontype'])) {
+            throw new \InvalidArgumentException("Crontype cannot be empty");
+        }
         switch($values['data']['crontype'])
         {
             case 'command':
@@ -122,6 +124,8 @@ class Job
         }
 
         switch($values['data']['hosttype']) {
+            default:
+                $values['data']['hosttype'] = $values['data']['crontype'] == 'http' ? '' : 'local';
             case 'local':
                 $values['data']['host'] = 'localhost';
                 break;
@@ -134,20 +138,34 @@ class Job
                     $values['var-issecret'][$newsecretkey] = true;
                     $values['var-value'][$newsecretkey] = $values['privkey-password'];
                 }
+                $privkeyid = NULL;
                 if(!empty($_FILES['privkey']['tmp_name'])) {
                     $newsecretkey = count($values['var-value']);
+                    $privkeyid = $newsecretkey;
                     $values['var-id'][$newsecretkey] = 'ssh-privkey';
                     $values['var-issecret'][$newsecretkey] = true;
                     $values['var-value'][$newsecretkey] = base64_encode(file_get_contents($_FILES['privkey']['tmp_name']));
+                }
+                if($values['privkey-keep'] == true) {
+                    $privkeyid = ($privkeyid === NULL) ? count($values['var-value']) : $privkeyid ;
+                    $values['var-id'][$privkeyid] = 'ssh-privkey';
+                    $values['var-issecret'][$privkeyid] = true;
+                    $values['var-value'][$privkeyid] = $values['privkey-orig'];
+
                 }
                 break;
         }
 
 
         switch($values['data']['containertype']) {
+            default:
+                $values['data']['containertype'] = $values['data']['crontype'] == 'http' ? '' :'none';
+            case 'none':
+                // No options for no container
+                break;
             case 'docker':
                 $values['data']['service'] = $values['service'];
-                $values['data']['user'] = $values['user'];
+                $values['data']['container-user'] = $values['container-user'];
                 break;
         }
 
@@ -187,6 +205,24 @@ class Job
                 if(isset($jobRslt['data']['vars']['basicauth-password']['value'])) {
                     $jobRslt['data']['basicauth-password'] = $jobRslt['data']['vars']['basicauth-password']['value'];
                     unset($jobRslt['data']['vars']['basicauth-password']);
+                }
+                break;
+            case 'reboot':
+                $jobRslt['data']['reboot-delay'] = $jobRslt['data']['vars']['reboot-delay']['value'];
+                unset($jobRslt['data']['vars']['reboot-delay']);
+                unset($jobRslt['data']['vars']['reboot-delay-secs']);
+                break;
+        }
+
+        switch($jobRslt['data']['hosttype']) {
+            case 'ssh':
+                if(isset($jobRslt['data']['vars']['ssh-privkey']['value'])) {
+                    $jobRslt['data']['ssh-privkey'] = $jobRslt['data']['vars']['ssh-privkey']['value'];
+                    unset($jobRslt['data']['vars']['ssh-privkey']);
+                }
+                if(isset($jobRslt['data']['vars']['privkey-password']['value'])) {
+                    $jobRslt['data']['privkey-password'] = $jobRslt['data']['vars']['privkey-password']['value'];
+                    unset($jobRslt['data']['vars']['privkey-password']);
                 }
                 break;
         }
