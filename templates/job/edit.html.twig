@@ -112,7 +112,7 @@
 
         <div class="mb-3">
             <label for="reboot-delay">Reboot delay (in minutes)</label>
-            <input type="number" name="reboot-delay" class="form-control" placeholder="5" value="{% if attribute(data.vars, 'reboot-delay').value is not empty %}{{ attribute(data.vars, 'reboot-delay').value }}{% endif %}">
+            <input type="number" name="reboot-delay" class="form-control" placeholder="5" value="{% if attribute(data, 'reboot-delay') is not empty %}{{ attribute(data, 'reboot-delay') }}{% endif %}">
             <small id="reboot-delay-help" class="form-text text-muted">Delay between triggering reboot and actual reboot</small>
         </div>
 
@@ -154,26 +154,35 @@
         <h4>SSH host details</h4>
         <div class="mb-3">
             <label for="host">Hostname</label>
-            <input type="text" name="host" class="form-control" id="host" placeholder="ssh.abc.xyz">
+            <input type="text" name="host" class="form-control" id="host" placeholder="ssh.abc.xyz" value="{% if data.host is not empty %}{{ data.host }}{% endif %}">
         </div>
 
         <div class="mb-3">
             <label for="user">Username</label>
-            <input type="text" name="user" class="form-control" id="user" placeholder="larry">
+            <input type="text" name="user" class="form-control" id="user" placeholder="larry" value="{% if data.user is not empty %}{{ data.user }}{% endif %}">
         </div>
 
         <div class="mb-3">
             <label for="privkey">Private key</label>
-            <div class="custom-file">
-                <input type="file" class="custom-file-input" id="privkey" name="privkey">
-                <label class="custom-file-label" for="privkey">Choose file</label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <div class="input-group-text border-right-0">
+                        <input type="checkbox" name="privkey-keep" class="privkey-keep" value="true" data-privkey="{% if attribute(data, 'ssh-privkey') is not empty %}{{ attribute(data, 'ssh-privkey') }}{% endif %}" checked>
+                        <input type="hidden" name="privkey-orig" class="privkey-orig" value="{% if attribute(data, 'ssh-privkey') is not empty %}{{ attribute(data, 'ssh-privkey') }}{% endif %}">
+                    </div>
+                    <span class="input-group-text border-left-0">Keep</span>
+                </div>
+                <div class="custom-file input-group">
+                    <input type="file" class="custom-file-input" id="privkey" name="privkey" disabled>
+                    <label class="custom-file-label" for="privkey">Choose file</label>
+                </div>
             </div>
             <small id="custom-file-help" class="form-text text-muted">This file is being saved as a secret</small>
         </div>
 
         <div class="mb-3">
             <label for="privkey-password">Password for private key</label>
-            <input type="password" name="privkey-password" class="form-control" placeholder="correct horse battery staple">
+            <input type="password" name="privkey-password" class="form-control" placeholder="correct horse battery staple" value="{% if attribute(data, 'privkey-password') is not empty %}{{ attribute(data, 'privkey-password') }}{% endif %}">
             <small id="privkey-password-help" class="form-text text-muted">If private key is empty this field is being used as ssh-password</small>
             <small id="privkey-password-help-2" class="form-text text-muted">This field is being saved as a secret</small>
         </div>
@@ -186,12 +195,12 @@
         <h4>Docker container details</h4>
         <div class="mb-3">
             <label for="service">Service</label>
-            <input type="text" name="service" class="form-control" id="service" placeholder="mysql">
+            <input type="text" name="service" class="form-control" id="service" placeholder="mysql" value="{% if attribute(data, 'service') is not empty %}{{ attribute(data, 'service') }}{% endif %}">
         </div>
 
         <div class="mb-3">
-            <label for="user">Username</label>
-            <input type="text" name="user" class="form-control" id="user" placeholder="larry">
+            <label for="container-user">Username</label>
+            <input type="text" name="container-user" class="form-control" id="container-user" placeholder="larry" value="{% if attribute(data, 'container-user') is not empty %}{{ attribute(data, 'container-user') }}{% endif %}">
         </div>
     </div>
 

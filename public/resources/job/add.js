@@ -76,6 +76,10 @@ function initHostType()
         $('.hosttype-inputs:not(.hidden) input').prop('disabled', false);
         $('.hosttype-inputs.hidden input').prop('disabled', true);
     })
+
+    $('.privkey-keep').on('click', function() {
+        $('#privkey').prop('disabled', $(this).prop('checked'));
+    })
 }
 
 function initVarInputs()
