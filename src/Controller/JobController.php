@@ -22,12 +22,18 @@ class JobController extends Controller
 
     public function viewAction($id)
     {
+        if(!isset($_SESSION['isAuthenticated']) || !$_SESSION['isAuthenticated']) {
+            return new RedirectResponse($this->generateRoute('login'));
+        }
         $jobRepo = new Job($this->getDbCon());
         $job = $jobRepo->getJob($id);
     }
 
     public function editAction($id)
     {
+        if(!isset($_SESSION['isAuthenticated']) || !$_SESSION['isAuthenticated']) {
+            return new RedirectResponse($this->generateRoute('login'));
+        }
         if($this->getRequest()->getMethod() == 'GET') {
             $jobRepo = new Job($this->getDbCon());
             $job = $jobRepo->getJob($id, true);
@@ -49,6 +55,10 @@ class JobController extends Controller
 
     public function addAction()
     {
+        if(!isset($_SESSION['isAuthenticated']) || !$_SESSION['isAuthenticated']) {
+            return new RedirectResponse($this->generateRoute('login'));
+        }
+        
         if($this->getRequest()->getMethod() == 'GET') {
             return $this->render('job/add.html.twig');
         } elseif ($this->getRequest()->getMethod() == 'POST') {
