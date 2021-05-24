@@ -5,7 +5,8 @@ CREATE TABLE job (
      "data" TEXT NOT NULL,
      interval INTEGER,
      nextrun INTEGER,
-     lastrun INTEGER
+     lastrun INTEGER,
+     running INTEGER
 );
 
 
@@ -14,4 +15,12 @@ CREATE TABLE "user" (
     id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     email TEXT(50) NOT NULL,
     password TEXT(72) NOT NULL
+);
+
+-- run definition
+CREATE TABLE run (
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    job_id INTEGER NOT NULL,
+    exitcode TEXT NOT NULL,
+    output TEXT NOT NULL
 );

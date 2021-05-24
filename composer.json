@@ -8,14 +8,16 @@
         }
     ],
     "require": {
-        "guzzlehttp/guzzle": "^6",
+        "guzzlehttp/guzzle": "^7.0",
         "twig/twig": "^2.14",
         "doctrine/dbal": "^3.0",
         "symfony/routing": "^5.2",
         "symfony/dotenv": "^5.2",
         "symfony/yaml": "^5.2",
         "symfony/http-foundation": "^5.2",
-        "symfony/config": "^5.2"
+        "symfony/config": "^5.2",
+        "symfony/console": "^5.2",
+        "phpseclib/phpseclib": "^3.0"
     },
     "autoload": {
         "psr-4": {
