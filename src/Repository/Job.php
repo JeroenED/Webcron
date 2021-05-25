@@ -206,7 +206,8 @@ class Job
 
         switch($values['data']['hosttype']) {
             default:
-                $values['data']['hosttype'] = $values['data']['crontype'] == 'http' ? '' : 'local';
+                if($values['data']['crontype'] == 'http') break;
+                $values['data']['hosttype'] =  'local';
             case 'local':
                 $values['data']['host'] = 'localhost';
                 break;
@@ -240,7 +241,8 @@ class Job
 
         switch($values['data']['containertype']) {
             default:
-                $values['data']['containertype'] = $values['data']['crontype'] == 'http' ? '' :'none';
+                if($values['data']['crontype'] == 'http') break;
+                $values['data']['containertype'] = 'none';
             case 'none':
                 // No options for no container
                 break;
