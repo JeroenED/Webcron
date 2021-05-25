@@ -94,9 +94,9 @@ class Job
         }
 
         // handling of response
-        $addRunSql = 'INSERT INTO run(job_id, exitcode, output) VALUES (:job_id, :exitcode, :output)';
+        $addRunSql = 'INSERT INTO run(job_id, exitcode, output, timestamp) VALUES (:job_id, :exitcode, :output, :timestamp)';
         $addRunStmt = $this->dbcon->prepare($addRunSql);
-        $addRunStmt->executeQuery([':job_id' => $job['id'], ':exitcode' => $exitcode, ':output' => $output]);
+        $addRunStmt->executeQuery([':job_id' => $job['id'], ':exitcode' => $exitcode, ':output' => $output, ':timestamp' => time()]);
 
         // setting nextrun to next run
         $nextrun = $job['nextrun'];
@@ -105,9 +105,9 @@ class Job
         } while ($nextrun < time());
 
 
-        $addRunSql = 'UPDATE job SET nextrun = :nextrun, timestamp = :timestamp WHERE id = :id';
+        $addRunSql = 'UPDATE job SET nextrun = :nextrun WHERE id = :id';
         $addRunStmt = $this->dbcon->prepare($addRunSql);
-        $addRunStmt->executeQuery([':id' => $job['id'], ':nextrun' => $nextrun, ':timestamp' => time()]);
+        $addRunStmt->executeQuery([':id' => $job['id'], ':nextrun' => $nextrun]);
     }
     public function addJob(array $values)
     {
