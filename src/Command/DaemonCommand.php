@@ -55,6 +55,9 @@ class DaemonCommand extends Command
                         $jobRepo->RunJob($job);
                         $jobRepo->setJobRunning($job, false);
                     } elseif ($pid == 0) {
+                        $dbcon = $this->kernel->getDbCon();
+                        $dbcon->close();
+                        $dbcon->connect();
                         $jobRepo->RunJob($job);
                         $jobRepo->setJobRunning($job, false);
                         exit;
