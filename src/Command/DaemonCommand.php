@@ -50,7 +50,9 @@ class DaemonCommand extends Command
                 foreach($jobsToRun as $job) {
                     $jobRepo->setJobRunning($job, true);
                     $output->writeln('Runnig Job ' . $job);
-                    $pid = pcntl_fork();
+		    declare(ticks = 1);
+		    pcntl_signal(SIGCHLD, SIG_IGN);
+		    $pid = pcntl_fork();
                     if($pid == -1) {
                         $jobRepo->RunJob($job);
                         $jobRepo->setJobRunning($job, false);
