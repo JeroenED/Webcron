@@ -70,8 +70,7 @@ Encore
         $: 'jquery',
         jQuery: 'jquery',
         'window.jQuery': 'jquery',
-        moment: 'moment',
-        boostrap: 'bootstrap'
+        moment: 'moment'
     })
 ;
 
