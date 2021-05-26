@@ -150,7 +150,7 @@ class Job
 
     public function prepareJob(array $values): array
     {
-        if(empty($values['lastrun'])) {
+        if(empty($values['lastrun']) || (isset($values['lastrun-eternal']) && $values['lastrun-eternal'] == 'true')) {
             $values['lastrun'] = NULL;
         } else {
             $values['lastrun'] = DateTime::createFromFormat('d/m/Y H:i:s',$values['lastrun'])->getTimestamp();

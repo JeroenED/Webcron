@@ -8,6 +8,7 @@ $(function() {
     initContainerType();
     initVarInputs();
     initIntervalPattern();
+    initEternalCheckbox();
     bsCustomFileInput.init()
 });
 
@@ -103,6 +104,12 @@ function initVarInputs()
     })
 }
 
+function initEternalCheckbox() {
+    $('.lastrun-eternal').on('click', function() {
+        $('#lastrunselector').prop('disabled', $(this).prop('checked'));
+        $('#lastrunselector').prop('value', '');
+    })
+}
 
 function initIntervalPattern()
 {
