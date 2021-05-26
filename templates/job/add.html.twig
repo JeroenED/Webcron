@@ -33,7 +33,15 @@
     </div>
     <div class="mb-3">
         <label for="lastrun">Last run</label>
-        <input type="text" autocomplete="off" id="lastrunselector" class="form-control datetimepicker-input" data-target="#lastrunselector" data-toggle="datetimepicker" name="lastrun">
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <div class="input-group-text border-right-0">
+                    <input type="checkbox" name="lastrun-eternal" class="lastrun-eternal" placeholder="value" value="true" {% if attribute(data, 'lastrun-eternal') is not empty %} checked{% endif %}>
+                </div>
+                <span class="input-group-text border-left-0">Eternal</span>
+            </div>
+            <input type="text" autocomplete="off" id="lastrunselector" class="form-control datetimepicker-input" data-target="#lastrunselector" data-toggle="datetimepicker" name="lastrun">
+        </div>
     </div>
 
     <h3>Job details</h3>
