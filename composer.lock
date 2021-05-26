@@ -81,16 +81,16 @@
         },
         {
             "name": "doctrine/cache",
-            "version": "1.11.2",
+            "version": "1.11.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/cache.git",
-                "reference": "9c53086695937c50c47936ed86d96150ffbcf60d"
+                "reference": "3bb5588cec00a0268829cc4a518490df6741af9d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/cache/zipball/9c53086695937c50c47936ed86d96150ffbcf60d",
-                "reference": "9c53086695937c50c47936ed86d96150ffbcf60d",
+                "url": "https://api.github.com/repos/doctrine/cache/zipball/3bb5588cec00a0268829cc4a518490df6741af9d",
+                "reference": "3bb5588cec00a0268829cc4a518490df6741af9d",
                 "shasum": ""
             },
             "require": {
@@ -160,7 +160,7 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/cache/issues",
-                "source": "https://github.com/doctrine/cache/tree/1.11.2"
+                "source": "https://github.com/doctrine/cache/tree/1.11.3"
             },
             "funding": [
                 {
@@ -176,7 +176,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-05-20T14:57:29+00:00"
+            "time": "2021-05-25T09:01:55+00:00"
         },
         {
             "name": "doctrine/dbal",
@@ -658,26 +658,26 @@
         },
         {
             "name": "mehrkanal/twig-encore-extension",
-            "version": "v1.2",
+            "version": "v1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mehrkanal/twig-encore-extension.git",
-                "reference": "0311a300d84ff36758a80929a5feab53dab59795"
+                "reference": "cdae6ec86da346326452c261cfeaf04efe8efaa0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mehrkanal/twig-encore-extension/zipball/0311a300d84ff36758a80929a5feab53dab59795",
-                "reference": "0311a300d84ff36758a80929a5feab53dab59795",
+                "url": "https://api.github.com/repos/mehrkanal/twig-encore-extension/zipball/cdae6ec86da346326452c261cfeaf04efe8efaa0",
+                "reference": "cdae6ec86da346326452c261cfeaf04efe8efaa0",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.1",
+                "php": "^8.0",
                 "symfony/webpack-encore-bundle": "^1.7",
                 "twig/twig": "^1.42.5 || ^2.12.5 || ^3.0.3"
             },
             "require-dev": {
-                "mehrkanal/editorconfig": "dev-master",
-                "squizlabs/php_codesniffer": "^3.2"
+                "phpstan/phpstan": "^0.12.0",
+                "squizlabs/php_codesniffer": "^3.6"
             },
             "type": "library",
             "autoload": {
@@ -693,14 +693,18 @@
                 {
                     "name": "Julian Frauenholz",
                     "email": "frauenholz@mehrkanal.com"
+                },
+                {
+                    "name": "Thomas Eimers",
+                    "email": "eimers@mehrkanal.com"
                 }
             ],
             "description": "Twig Extension to use entrypoints.json in Twig Templates",
             "support": {
                 "issues": "https://github.com/mehrkanal/twig-encore-extension/issues",
-                "source": "https://github.com/mehrkanal/twig-encore-extension/tree/v1.2"
+                "source": "https://github.com/mehrkanal/twig-encore-extension/tree/v1.3"
             },
-            "time": "2021-04-28T08:26:42+00:00"
+            "time": "2021-05-18T15:43:37+00:00"
         },
         {
             "name": "paragonie/constant_time_encoding",
