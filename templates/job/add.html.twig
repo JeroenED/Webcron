@@ -49,7 +49,7 @@
             </div>
         </div>
 
-        <div class="dropdown croncategory-group hidden hosttype-group">
+        <div class="dropdown croncategory-group d-none hosttype-group">
             <button class="btn btn-outline-primary dropdown-toggle" type="button" id="hosttypeButton" data-default-text="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Host type
             </button>
@@ -59,7 +59,7 @@
             </div>
         </div>
 
-        <div class="dropdown croncategory-group hidden containertype-group">
+        <div class="dropdown croncategory-group d-none containertype-group">
             <button class="btn btn-outline-primary dropdown-toggle" type="button" id="containertypeButton" data-default-text="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Container
             </button>
@@ -70,7 +70,7 @@
         </div>
     </div>
 
-    <div class="crontype-command crontype-inputs croncategory-inputs hidden">
+    <div class="crontype-command crontype-inputs croncategory-inputs d-none">
         <h4>Command details</h4>
         <div class="mb-3">
             <label for="command">Command</label>
@@ -83,7 +83,7 @@
         </div>
     </div>
 
-    <div class="crontype-reboot crontype-inputs croncategory-inputs hidden">
+    <div class="crontype-reboot crontype-inputs croncategory-inputs d-none">
         <h4>Reboot job details</h4>
         <div class="mb-3">
             <label for="reboot-command">Reboot command</label>
@@ -109,7 +109,7 @@
         </div>
     </div>
 
-    <div class="crontype-http crontype-inputs croncategory-inputs hidden">
+    <div class="crontype-http crontype-inputs croncategory-inputs d-none">
         <h4>HTTP request details</h4>
         <div class="mb-3">
             <label for="url">Url</label>
@@ -131,12 +131,12 @@
         </div>
     </div>
 
-    <div class="hosttype-local hosttype-inputs croncategory-inputs hidden">
+    <div class="hosttype-local hosttype-inputs croncategory-inputs d-none">
         <h4>Localhost details</h4>
         <h5>No options</h5>
     </div>
 
-    <div class="hosttype-ssh hosttype-inputs croncategory-inputs hidden">
+    <div class="hosttype-ssh hosttype-inputs croncategory-inputs d-none">
         <h4>SSH host details</h4>
         <div class="mb-3">
             <label for="host">Hostname</label>
@@ -165,10 +165,10 @@
         </div>
     </div>
 
-    <div class="containertype-none containertype-inputs croncategory-inputs hidden">
+    <div class="containertype-none containertype-inputs croncategory-inputs d-none">
     </div>
 
-    <div class="containertype-docker containertype-inputs croncategory-inputs hidden">
+    <div class="containertype-docker containertype-inputs croncategory-inputs d-none">
         <h4>Docker container details</h4>
         <div class="mb-3">
             <label for="service">Service</label>
@@ -184,7 +184,7 @@
     <h3>Variables</h3>
 
     <div class="vars mb-3">
-        <div class="input-group var-group hidden">
+        <div class="input-group var-group d-none">
             <div class="input-group-prepend">
                 <div class="input-group-text border-right-0">
                     <input type="checkbox" name="var-issecret[0]" class="var-issecret" placeholder="value" value="true">
@@ -197,7 +197,7 @@
         </div>
     </div>
 
-    <div class="vars-description mb-3 hidden">
+    <div class="vars-description mb-3 d-none">
         <p>
             You can add variables by using {variable-name} in job details
         </p>
@@ -214,14 +214,10 @@
 
 {% endblock %}
 
-{% block extrastyles %}
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.39.0/css/tempusdominus-bootstrap-4.min.css" integrity="sha512-3JRrEUwaCkFUBLK1N8HehwQgu8e23jTH4np5NHOmQOobuC4ROQxFwFgBLTnhcnQRMs84muMh0PnnwXlPq5MGjg==" crossorigin="anonymous" />
-    <link rel="stylesheet" href="/resources/job/add.css" />
+{% block styles %}
+    {{ encore_entry_link_tags('job.add') }}
 {% endblock %}
 
-{% block extrascripts %}
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.39.0/js/tempusdominus-bootstrap-4.min.js" integrity="sha512-k6/Bkb8Fxf/c1Tkyl39yJwcOZ1P4cRrJu77p83zJjN2Z55prbFHxPs9vN7q3l3+tSMGPDdoH51AEU8Vgo1cgAA==" crossorigin="anonymous"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bs-custom-file-input/1.3.4/bs-custom-file-input.min.js" integrity="sha512-91BoXI7UENvgjyH31ug0ga7o1Ov41tOzbMM3+RPqFVohn1UbVcjL/f5sl6YSOFfaJp+rF+/IEbOOEwtBONMz+w==" crossorigin="anonymous"></script>
-    <script type="text/javascript" src="/resources/job/add.js"></script>
+{% block scripts %}
+    {{ encore_entry_script_tags('job.add') }}
 {% endblock %}
