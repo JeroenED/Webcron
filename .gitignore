@@ -1,6 +1,8 @@
 cache/*
 !cache/.gitkeep
 vendor/
+node_modules/
+public/build/
 webcron.old/config.inc.php
 \.idea/
 .env

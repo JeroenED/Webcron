@@ -50,9 +50,10 @@
     </div>
 {% endblock %}
 
-{% block extrastyles %}
-    <link rel="stylesheet" href="/resources/job/index.css" />
+{% block styles %}
+    {{ encore_entry_link_tags('job.index') }}
 {% endblock %}
-{% block extrascripts %}
-    <script type="text/javascript" src="/resources/job/index.js"></script>
+
+{% block scripts %}
+    {{ encore_entry_script_tags('job.index') }}
 {% endblock %}
