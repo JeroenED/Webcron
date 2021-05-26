@@ -1,5 +1,6 @@
 import 'tempusdominus-bootstrap-4';
 import bsCustomFileInput from 'bs-custom-file-input';
+import 'bootstrap';
 
 $(function() {
     initDatePickers();
