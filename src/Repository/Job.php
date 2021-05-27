@@ -5,20 +5,13 @@ namespace JeroenED\Webcron\Repository;
 
 
 use DateTime;
-use Doctrine\DBAL\Connection;
 use GuzzleHttp\Client;
+use JeroenED\Framework\Repository;
 use phpseclib3\Crypt\PublicKeyLoader;
 use phpseclib3\Net\SSH2;
 
-class Job
+class Job extends Repository
 {
-    private Connection $dbcon;
-
-    public function __construct(Connection $dbcon)
-    {
-        $this->dbcon = $dbcon;
-    }
-
     public function getAllJobs()
     {
         $jobsSql = "SELECT * FROM job";

@@ -5,15 +5,10 @@ namespace JeroenED\Webcron\Repository;
 
 
 use Doctrine\DBAL\Connection;
+use JeroenED\Framework\Repository;
 
-class User
+class User extends Repository
 {
-    private Connection $dbcon;
-
-    public function __construct(Connection $dbcon)
-    {
-        $this->dbcon = $dbcon;
-    }
 
     /**
      * @param string $user

@@ -25,6 +25,7 @@ Encore
      */
     .addEntry('security.login', ['./assets/security/login.js', './assets/security/login.scss'])
     .addEntry('job.index', ['./assets/job/index.js', './assets/job/index.scss'])
+    .addEntry('job.view', ['./assets/job/view.js', './assets/job/view.scss'])
     .addEntry('job.add', ['./assets/job/add.js', './assets/job/add.scss'])
     //.addEntry('page1', './assets/page1.js')
     //.addEntry('page2', './assets/page2.js')
