@@ -49,10 +49,10 @@ class DaemonCommand extends Command
             if(!empty($jobsToRun)) {
                 foreach($jobsToRun as $job) {
                     $jobRepo->setJobRunning($job, true);
-                    $output->writeln('Runnig Job ' . $job);
-		    declare(ticks = 1);
-		    pcntl_signal(SIGCHLD, SIG_IGN);
-		    $pid = pcntl_fork();
+                    $output->writeln('Running Job ' . $job);
+                    declare(ticks = 1);
+                    pcntl_signal(SIGCHLD, SIG_IGN);
+                    $pid = pcntl_fork();
                     if($pid == -1) {
                         $jobRepo->RunJob($job);
                         $jobRepo->setJobRunning($job, false);

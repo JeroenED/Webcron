@@ -52,9 +52,12 @@ class Job extends Repository
         if($job['data']['crontype'] == 'http') {
 
             $client = new Client();
-            foreach($job['data']['vars'] as $key => $var) {
-                $job['data']['basicauth-username'] = str_replace('{' . $key . '}', $var['value'], $job['data']['basicauth-username']);
-                $job['data']['url'] = str_replace('{' . $key . '}', $var['value'], $job['data']['url']);
+
+            if(!empty($job['data']['vars'])) {
+                foreach($job['data']['vars'] as $key => $var) {
+                    $job['data']['basicauth-username'] = str_replace('{' . $key . '}', $var['value'], $job['data']['basicauth-username']);
+                    $job['data']['url'] = str_replace('{' . $key . '}', $var['value'], $job['data']['url']);
+                }
             }
 
             $url = $job['data']['url'];
@@ -65,7 +68,26 @@ class Job extends Repository
             $exitcode = $res->getStatusCode();
             $output = $res->getBody();
         } elseif($job['data']['crontype'] == 'command') {
-            if($job['data']['hosttype'] == 'ssh') {
+            if(!empty($job['data']['vars'])) {
+                foreach ($job['data']['vars'] as $key => $var) {
+                    $job['data']['command'] = str_replace('{' . $key . '}', $var['value'], $job['data']['command']);
+                }
+            }
+
+            $command = $job['data']['command'];
+            $prepend = '';
+            if ($job['data']['containertype'] == 'docker') {
+                $prepend = 'docker exec ';
+                $prepend .= $job['data']['service'] . ' ';
+                $prepend .= (!empty($job['data']['container-user'])) ? ' --user=' . $job['data']['container-user'] . ' ' : '';
+            }
+            if($job['data']['hosttype'] == 'local') {
+                pcntl_signal(SIGCHLD, SIG_DFL);
+                $output=null;
+                $exitcode=null;
+                exec($prepend . $command . ' 2>&1', $output, $exitcode);
+                pcntl_signal(SIGCHLD, SIG_IGN);
+            } elseif($job['data']['hosttype'] == 'ssh') {
                 $ssh = new SSH2($job['data']['host']);
                 $key = null;
                 if(!empty($job['data']['ssh-privkey'])) {
@@ -81,7 +103,7 @@ class Job extends Repository
                 if (!$ssh->login($job['data']['user'], $key)) {
                     throw new \Exception('Login failed');
                 }
-                $output = $ssh->exec($job['data']['command']);
+                $output = $ssh->exec($prepend . $command);
                 $exitcode = $ssh->getExitStatus();
             }
         }
