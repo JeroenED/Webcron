@@ -32,10 +32,7 @@ function initCronType()
         $('.crontype-inputs:not(.d-none) input').prop('disabled', false);
         $('.crontype-inputs.d-none input').prop('disabled', true);
 
-        if(type != 'http') {
-            $('.croncategory-group').addClass('btn-group');
-            $('.croncategory-group').removeClass('d-none');
-        } else {
+        if(type == 'http') {
             $('.croncategory-group:not(.crontype-group) button').each(function() {
                 $(this).html($(this).data('default-text'))
             })
@@ -46,6 +43,31 @@ function initCronType()
 
             $('.croncategory-inputs:not(.d-none) input').prop('disabled', false);
             $('.croncategory-inputs.d-none input').prop('disabled', true);
+        }
+        if(type == 'reboot') {
+            if($('#btn-group-discriminator').length == 0) {
+                $('body').append('<div id="btn-group-discriminator" class="d-none">');
+            }
+            $('.croncategory-group.containertype-group button').each(function() {
+                $(this).html($(this).data('default-text'))
+            })
+            $('.croncategory-group').addClass('btn-group');
+            $('.croncategory-group').removeClass('d-none');
+
+            $('#btn-group-discriminator').append($('.containertype-group'));
+            $('.croncategory-selector .containertype-group').remove();
+            $('.croncategory-group.containertype-group').addClass('d-none');
+            $('.croncategory-inputs.containertype-inputs').addClass('d-none');
+
+            $('.croncategory-inputs:not(.d-none) input').prop('disabled', false);
+            $('.croncategory-inputs.d-none input').prop('disabled', true);
+        }
+        if(type == 'command') {
+            if($('#btn-group-discriminator .containertype-group').length > 0) {
+                $('.croncategory-selector').append($('#btn-group-discriminator .containertype-group'));
+            }
+            $('.croncategory-group').addClass('btn-group');
+            $('.croncategory-group').removeClass('d-none');
         }
     })
 }
