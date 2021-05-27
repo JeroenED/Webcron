@@ -25,10 +25,11 @@ job_index:
     _controller: JeroenED\Webcron\Controller\JobController::defaultAction
 
 job_view:
-  path: '/job/{id}'
+  path: '/job/{id}/{all}'
   methods: [ 'GET' ]
   defaults:
     _controller: JeroenED\Webcron\Controller\JobController::jobAction
+    all: false
   requirements:
     id: \d+
 

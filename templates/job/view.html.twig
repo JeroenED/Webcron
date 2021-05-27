@@ -1,0 +1,41 @@
+{% extends "base.html.twig" %}
+{% block title %}Overview of run for {{ job.name }}{% endblock %}
+{% block content %}
+    <h2>Overview of runs for {{ job.name }}</h2>
+    <p>
+        <a href="{{ path('job_edit', { id: job.id }) }}">Edit job</a>
+        {% if allruns %} | <a href="{{ path('job_view', { id: job.id })}}">Only show failed runs</a>
+        {% elseif not allruns %} | <a href="{{ path('job_view', { id: job.id, all: 'all' })}}">Show all runs</a>
+        {% endif %}
+    </p>
+    <div id="runs" class="accordion">
+        {% for run in runs %}
+            <div class="card">
+                <div class="card-header" id="run-{{ run.id }}-header">
+                    <h2 class="mb-0">
+                        <button class="btn btn-link btn-block d-flex justify-content-between" type="button" data-toggle="collapse" data-target="#run-{{ run.id }}" aria-expanded="true" aria-controls="run-{{ run.id }}">
+                            <span>{{ run.timestamp | date("d/m/Y H:i:s") }}</span>
+                            <span>{{ run.exitcode }}</span>
+                        </button>
+                    </h2>
+                </div>
+                <div id="run-{{ run.id }}" class="collapse{% if loop.index == 1%} show{% endif %}" aria-labelledby="run-{{ run.id }}-header" data-parent="#runs">
+                    <div class="card-body">
+                        <pre>{{ run.output }}</pre>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <h4>No {% if not allruns %}failed {% endif %}runs found</h4>
+            <p><a href="{{ path('job_view', { id: job.id, all: 'all' })}}">Show all runs</a></p>
+        {% endfor %}
+    </div>
+{% endblock %}
+
+{% block styles %}
+    {{ encore_entry_link_tags('job.view') }}
+{% endblock %}
+
+{% block scripts %}
+    {{ encore_entry_script_tags('job.view') }}
+{% endblock %}

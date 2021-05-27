@@ -5,6 +5,7 @@ namespace JeroenED\Webcron\Controller;
 
 use JeroenED\Framework\Controller;
 use JeroenED\Webcron\Repository\Job;
+use JeroenED\Webcron\Repository\Run;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,16 +22,18 @@ class JobController extends Controller
         return $this->render('job/index.html.twig', ['jobs' => $jobs]);
     }
 
-    public function jobAction($id)
+    public function jobAction($id, $all = false)
     {
         if(!isset($_SESSION['isAuthenticated']) || !$_SESSION['isAuthenticated']) {
             return new RedirectResponse($this->generateRoute('login'));
         }
         $jobRepo = new Job($this->getDbCon());
+        $runRepo = new Run($this->getDbCon());
 
         if($this->getRequest()->getMethod() == 'GET') {
             $job = $jobRepo->getJob($id);
-            return new Response('Not implemented, yet', Response::HTTP_NOT_IMPLEMENTED);
+            $runs = $runRepo->getRunsForJob($id, $all != 'all' ? [$job['data']['response']] : []);
+            return $this->render('job/view.html.twig', ['job' => $job, 'runs' => $runs, 'allruns' => $all == 'all']);
         } elseif($this->getRequest()->getMethod() == 'DELETE') {
             $success = $jobRepo->deleteJob($id);
             $this->addFlash('success', $success['message']);
