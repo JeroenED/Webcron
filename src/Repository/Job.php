@@ -27,7 +27,7 @@ class Job extends Repository
 
     public function getJobsDue()
     {
-        $jobsSql = "SELECT id FROM job WHERE nextrun <= :timestamp AND running = 0";
+        $jobsSql = "SELECT id FROM job WHERE nextrun <= :timestamp AND running != 1";
         $jobsStmt = $this->dbcon->prepare($jobsSql);
         $jobsRslt = $jobsStmt->executeQuery([':timestamp' => time()]);
         $jobs = $jobsRslt->fetchAllAssociative();
@@ -40,7 +40,7 @@ class Job extends Repository
 
     public function setJobRunning(int $job, bool $status): void
     {
-        $jobsSql = "UPDATE job SET running = :status WHERE id = :id";
+        $jobsSql = "UPDATE job SET running = :status WHERE id = :id AND running in (0,1)";
         $jobsStmt = $this->dbcon->prepare($jobsSql);
         $jobsStmt->executeQuery([':id' => $job, ':status' => $status ? 1 : 0]);
         return;
@@ -105,6 +105,100 @@ class Job extends Repository
                 }
                 $output = $ssh->exec($prepend . $command);
                 $exitcode = $ssh->getExitStatus();
+            }
+        } elseif($job['data']['crontype'] == 'reboot') {
+            if($job['data']['hosttype'] == 'local' && $job['running'] == 1) {
+                $job['data']['reboot-command'] = str_replace('{reboot-delay}', $job['data']['reboot-delay'], $job['data']['reboot-command']);
+                $job['data']['reboot-command'] = str_replace('{reboot-delay-secs}', $job['data']['reboot-delay-secs'], $job['data']['reboot-command']);
+
+                if (!empty($job['data']['vars'])) {
+                    foreach ($job['data']['vars'] as $key => $var) {
+                        $job['data']['reboot-command'] = str_replace('{' . $key . '}', $var['value'], $job['data']['reboot-command']);
+                    }
+                }
+
+                $jobsSql = "UPDATE job SET running = :status WHERE id = :id";
+                $jobsStmt = $this->dbcon->prepare($jobsSql);
+                $jobsStmt->executeQuery([':id' => $job['id'], ':status' => time() + $job['data']['reboot-delay-secs']]);
+
+                $output = null;
+                $exitcode = null;
+                exec($job['data']['reboot-command'], $output, $exitcode);
+                exit;
+
+            } elseif($job['data']['hosttype'] == 'local' && $job['running'] != 0) {
+                if($job['running'] > time()) {
+                    exit;
+                }
+                pcntl_signal(SIGCHLD, SIG_DFL);
+                $output=null;
+                $exitcode=null;
+
+                if (!empty($job['data']['vars'])) {
+                    foreach ($job['data']['vars'] as $key => $var) {
+                        $job['data']['getservices-command'] = str_replace('{' . $key . '}', $var['value'], $job['data']['getservices-command']);
+                    }
+                }
+                exec($job['data']['getservices-command'] . ' 2>&1', $output, $exitcode);
+                pcntl_signal(SIGCHLD, SIG_IGN);
+            } elseif($job['data']['hosttype'] == 'ssh' && $job['running'] == 1) {
+               $job['data']['reboot-command'] = str_replace('{reboot-delay}', $job['data']['reboot-delay'], $job['data']['reboot-command']);
+               $job['data']['reboot-command'] = str_replace('{reboot-delay-secs}', $job['data']['reboot-delay-secs'], $job['data']['reboot-command']);
+
+                if (!empty($job['data']['vars'])) {
+                    foreach ($job['data']['vars'] as $key => $var) {
+                        $job['data']['reboot-command'] = str_replace('{' . $key . '}', $var['value'], $job['data']['reboot-command']);
+                    }
+                }
+
+                $jobsSql = "UPDATE job SET running = :status WHERE id = :id";
+                $jobsStmt = $this->dbcon->prepare($jobsSql);
+                $jobsStmt->executeQuery([':id' => $job['id'], ':status' => time() + $job['data']['reboot-delay-secs'] + ($job['reboot-duration'] * 60)]);
+
+                $ssh = new SSH2($job['data']['host']);
+                $key = null;
+                if(!empty($job['data']['ssh-privkey'])) {
+                    if(!empty($job['data']['privkey-password'])) {
+                        $key = PublicKeyLoader::load(base64_decode($job['data']['ssh-privkey']), $job['data']['privkey-password']);
+                    } else {
+                        $key = PublicKeyLoader::load(base64_decode($job['data']['ssh-privkey']));
+                    }
+                } elseif (!empty($job['data']['privkey-password'])) {
+                    $key = $job['data']['ssh-privkey'];
+                }
+
+                if (!$ssh->login($job['data']['user'], $key)) {
+                    throw new \Exception('Login failed');
+                }
+                $output = $ssh->exec($job['data']['reboot-command']);
+
+            } elseif($job['data']['hosttype'] == 'ssh' && $job['running'] != 0) {
+                if($job['running'] + $job['reboot-duration'] * 60 > time()) {
+                    exit;
+                }
+
+
+                if (!empty($job['data']['vars'])) {
+                    foreach ($job['data']['vars'] as $key => $var) {
+                        $job['data']['getservices-command'] = str_replace('{' . $key . '}', $var['value'], $job['data']['getservices-command']);
+                    }
+                }
+                $ssh = new SSH2($job['data']['host']);
+                $key = null;
+                if(!empty($job['data']['ssh-privkey'])) {
+                    if(!empty($job['data']['privkey-password'])) {
+                        $key = PublicKeyLoader::load(base64_decode($job['data']['ssh-privkey']), $job['data']['privkey-password']);
+                    } else {
+                        $key = PublicKeyLoader::load(base64_decode($job['data']['ssh-privkey']));
+                    }
+                } elseif (!empty($job['data']['privkey-password'])) {
+                    $key = $job['data']['ssh-privkey'];
+                }
+
+                if (!$ssh->login($job['data']['user'], $key)) {
+                    throw new \Exception('Login failed');
+                }
+                $output = $ssh->exec($job['data']['getservices-command']);
             }
         }
 
@@ -307,6 +401,7 @@ class Job extends Repository
                 break;
             case 'reboot':
                 $jobRslt['data']['reboot-delay'] = $jobRslt['data']['vars']['reboot-delay']['value'];
+                $jobRslt['data']['reboot-delay-secs'] = $jobRslt['data']['vars']['reboot-delay-secs']['value'];
                 unset($jobRslt['data']['vars']['reboot-delay']);
                 unset($jobRslt['data']['vars']['reboot-delay-secs']);
                 break;
