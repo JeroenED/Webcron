@@ -14,17 +14,24 @@ class Job extends Repository
 {
     public function getAllJobs()
     {
-        $jobsSql = "SELECT * FROM job ORDER by name";
+        $jobsSql = "SELECT * FROM job";
         $jobsStmt = $this->dbcon->prepare($jobsSql);
         $jobsRslt = $jobsStmt->executeQuery();
         $jobs = $jobsRslt->fetchAllAssociative();
         foreach ($jobs as $key=>&$job) {
             $job['data'] = json_decode($job['data'], true);
             $job['host-displayname'] = $job['data']['host'];
+            $job['host'] = $job['data']['host'];
+            $job['service'] = $job['data']['service'] ?? '';
             if(!empty($job['data']['containertype']) && $job['data']['containertype'] != 'none') {
                 $job['host-displayname'] = $job['data']['service'] . ' on ' . $job['data']['host'];
             }
         }
+        array_multisort(
+            array_column($jobs, 'name'), SORT_ASC,
+            array_column($jobs, 'host'), SORT_ASC,
+            array_column($jobs, 'service'), SORT_ASC,
+            $jobs);
         return $jobs;
     }
 
