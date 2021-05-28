@@ -14,12 +14,16 @@ class Job extends Repository
 {
     public function getAllJobs()
     {
-        $jobsSql = "SELECT * FROM job";
+        $jobsSql = "SELECT * FROM job ORDER by name";
         $jobsStmt = $this->dbcon->prepare($jobsSql);
         $jobsRslt = $jobsStmt->executeQuery();
         $jobs = $jobsRslt->fetchAllAssociative();
         foreach ($jobs as $key=>&$job) {
             $job['data'] = json_decode($job['data'], true);
+            $job['host-displayname'] = $job['data']['host'];
+            if(!empty($job['data']['containertype']) && $job['data']['containertype'] != 'none') {
+                $job['host-displayname'] = $job['data']['service'] . ' on ' . $job['data']['host'];
+            }
         }
         return $jobs;
     }
@@ -332,7 +336,7 @@ class Job extends Repository
 
         switch($values['data']['containertype']) {
             default:
-                if($values['data']['crontype'] == 'http') break;
+                if($values['data']['crontype'] == 'http' || $values['data']['crontype'] == 'reboot' ) break;
                 $values['data']['containertype'] = 'none';
             case 'none':
                 // No options for no container

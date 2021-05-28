@@ -17,7 +17,7 @@
             {% for job in jobs %}
                 <tr{% if(job.norun == true) %} class="norun"{% endif %}>
                     <td class="d-block d-md-table-cell">{{ job.name }}</td>
-                    <td class="d-block d-md-table-cell">{{ job.data.host }}</td>
+                    <td class="d-block d-md-table-cell">{{ attribute(job, 'host-displayname') }}</td>
                     <td class="d-block d-md-table-cell">{{ job.interval | interval }}</td>
                     <td class="d-block d-md-table-cell">{{ job.nextrun |  date("d/m/Y H:i:s") }}</td>
                     <td class="text-md-right d-block d-md-table-cell">
