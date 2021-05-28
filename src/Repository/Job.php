@@ -196,6 +196,9 @@ class Job extends Repository
             if($job['running'] > time()) {
                 exit;
             }
+            $jobsSql = "UPDATE job SET running = :status WHERE id = :id";
+            $jobsStmt = $this->dbcon->prepare($jobsSql);
+            $jobsStmt->executeQuery([':id' => $job['id'], ':status' => 1]);
 
             if (!empty($job['data']['vars'])) {
                 foreach ($job['data']['vars'] as $key => $var) {
@@ -208,12 +211,9 @@ class Job extends Repository
                 $return = $this->runLocalCommand($job['data']['getservices-command']);
             }
 
-            $jobsSql = "UPDATE job SET running = :status WHERE id = :id";
-            $jobsStmt = $this->dbcon->prepare($jobsSql);
-            $jobsStmt->executeQuery([':id' => $job['id'], ':status' => 1]);
-
             $starttime = (float)$this->getTempVar($job['id'], 'starttime');
-            $return['starttime'] =  $starttime;
+            $this->deleteTempVar($job['id'], 'starttime');
+            $return['starttime'] = $starttime;
 
             return $return;
         }
@@ -239,7 +239,7 @@ class Job extends Repository
             $result = $this->runRebootJob($job, $starttime);
         }
         $endtime = microtime(true);
-        $runtime = $endtime - ($return['starttime'] ?? $starttime);
+        $runtime = $endtime - ($result['starttime'] ?? $starttime);
 
         // handling of response
         $addRunSql = 'INSERT INTO run(job_id, exitcode, output, runtime, timestamp) VALUES (:job_id, :exitcode, :output, :runtime, :timestamp)';
