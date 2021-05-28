@@ -112,10 +112,15 @@ class Job extends Repository
         }
 
         if (!$ssh->login($user, $key)) {
-            throw new \Exception('Login failed');
+            $return['output'] = "Login failed";
+            $return['exitcode'] = 255;
+            return $return;
         }
-        $return['output'] = $ssh->exec($command);
-        $return['exitcode'] = $ssh->getExitStatus();
+        $command .= ';echo "[return_code:$?]"';
+        $output = $ssh->exec($command);
+        preg_match( '/\[return_code:(.*?)\]/', $output, $match );
+        $return['output'] = str_replace($match[0] . "\n", '', $output);
+        $return['exitcode'] = $match[1];
         return $return;
     }
 
