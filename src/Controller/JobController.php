@@ -84,7 +84,6 @@ class JobController extends Controller
             }
             $this->addFlash('success', $joboutput['message']);
             return new RedirectResponse($this->generateRoute('job_index'));
-
         } else {
             return new Response('Not implemented yet', Response::HTTP_TOO_EARLY);
         }

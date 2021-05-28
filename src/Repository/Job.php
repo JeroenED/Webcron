@@ -31,9 +31,9 @@ class Job extends Repository
 
     public function getJobsDue()
     {
-        $jobsSql = "SELECT id FROM job WHERE nextrun <= :timestamp AND running != 1";
+        $jobsSql = "SELECT id FROM job WHERE (nextrun <= :timestamp AND running == 0) or (running not in (0,1) and running < :timestamprun)";
         $jobsStmt = $this->dbcon->prepare($jobsSql);
-        $jobsRslt = $jobsStmt->executeQuery([':timestamp' => time()]);
+        $jobsRslt = $jobsStmt->executeQuery([':timestamp' => time(), ':timestamprun' => time()]);
         $jobs = $jobsRslt->fetchAllAssociative();
         $return = [];
         foreach ($jobs as $job) {
@@ -112,7 +112,7 @@ class Job extends Repository
                 $key = PublicKeyLoader::load(base64_decode($privkey));
             }
         } elseif (!empty($password)) {
-            $key = $privkey;
+            $key = $password;
         }
 
         if (!$ssh->login($user, $key)) {
@@ -142,10 +142,10 @@ class Job extends Repository
 
             $jobsSql = "UPDATE job SET running = :status WHERE id = :id";
             $jobsStmt = $this->dbcon->prepare($jobsSql);
-            $jobsStmt->executeQuery([':id' => $job['id'], ':status' => time() + $job['data']['reboot-delay-secs'] + ($job['reboot-duration'] * 60)]);
+            $jobsStmt->executeQuery([':id' => $job['id'], ':status' => time() + $job['data']['reboot-delay-secs'] + ($job['data']['reboot-duration'] * 60)]);
 
             if($job['data']['hosttype'] == 'ssh') {
-                $this->runSshCommand($job['data']['reboot-command'], $job['data']['host'], $job['data']['user'], $job['data']['ssh-privkey'], $job['data']['privkey-password']);
+                $this->runSshCommand($job['data']['reboot-command'], $job['data']['host'], $job['data']['user'], $job['data']['ssh-privkey'] ?? '', $job['data']['privkey-password'] ?? '');
 
             } elseif($job['data']['hosttype'] == 'local') {
                 $this->runLocalCommand($job['data']['reboot-command']);
@@ -326,7 +326,7 @@ class Job extends Repository
                     $values['var-issecret'][$newsecretkey] = true;
                     $values['var-value'][$newsecretkey] = base64_encode(file_get_contents($_FILES['privkey']['tmp_name']));
                 }
-                if($values['privkey-keep'] == true) {
+                if(isset($values['privkey-keep']) && $values['privkey-keep'] == true) {
                     $privkeyid = ($privkeyid === NULL) ? count($values['var-value']) : $privkeyid ;
                     $values['var-id'][$privkeyid] = 'ssh-privkey';
                     $values['var-issecret'][$privkeyid] = true;
