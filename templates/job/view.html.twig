@@ -13,9 +13,12 @@
             <div class="card">
                 <div class="card-header" id="run-{{ run.id }}-header">
                     <h2 class="mb-0">
-                        <button class="btn btn-link btn-block d-flex justify-content-between" type="button" data-toggle="collapse" data-target="#run-{{ run.id }}" aria-expanded="true" aria-controls="run-{{ run.id }}">
-                            <span>{{ run.timestamp | date("d/m/Y H:i:s") }}</span>
-                            <span>{{ run.exitcode }}</span>
+                        <button class="btn btn-link btn-block d-flex justify-content-between align-items-center" type="button" data-toggle="collapse" data-target="#run-{{ run.id }}" aria-expanded="true" aria-controls="run-{{ run.id }}">
+                            <div>
+                                <div class="d-md-inline d-block text-left">{{ run.timestamp | date("d/m/Y H:i:s") }}</div>
+                                <div class="d-md-inline d-block text-left">(runtime: {{ run.runtime | format_number({fraction_digit: 3}) }})</div>
+                            </div>
+                            <div>{{ run.exitcode }}</div>
                         </button>
                     </h2>
                 </div>
