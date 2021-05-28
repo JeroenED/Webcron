@@ -105,7 +105,7 @@
 
         <div class="mb-3">
             <label for="response">Expected exit code</label>
-            <input type="text" name="response" class="form-control" id="response" placeholder="0" value="{% if data.response is not empty %}{{ data.response }}{% endif %}">
+            <input type="text" name="response" class="form-control" id="response" placeholder="0" value="{% if data.response is not empty %}{{ data.response | join(',') }}{% endif %}">
         </div>
     </div>
 
@@ -153,7 +153,7 @@
 
         <div class="mb-3">
             <label for="http-status">Expected http status code</label>
-            <input type="text" name="http-status" class="form-control" id="http-status" placeholder="200" value="{% if attribute(data, 'http-status') is not empty %}{{ attribute(data, 'http-status') }}{% endif %}">
+            <input type="text" name="http-status" class="form-control" id="http-status" placeholder="200" value="{% if attribute(data, 'http-status') is not empty %}{{ attribute(data, 'http-status') | join(',')}}{% endif %}">
         </div>
     </div>
 
