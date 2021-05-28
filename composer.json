@@ -8,22 +8,26 @@
         }
     ],
     "require": {
-        "guzzlehttp/guzzle": "^7.0",
-        "twig/twig": "^2.14",
         "doctrine/dbal": "^3.0",
-        "symfony/routing": "^5.2",
-        "symfony/dotenv": "^5.2",
-        "symfony/yaml": "^5.2",
-        "symfony/http-foundation": "^5.2",
+        "guzzlehttp/guzzle": "^7.0",
+        "mehrkanal/twig-encore-extension": "^1.2",
+        "phpseclib/phpseclib": "^3.0",
         "symfony/config": "^5.2",
         "symfony/console": "^5.2",
-        "phpseclib/phpseclib": "^3.0",
-        "mehrkanal/twig-encore-extension": "^1.2"
+        "symfony/dotenv": "^5.2",
+        "symfony/http-foundation": "^5.2",
+        "symfony/routing": "^5.2",
+        "symfony/yaml": "^5.2",
+        "twig/intl-extra": "^3.3",
+        "twig/twig": "^3.3"
     },
     "autoload": {
         "psr-4": {
             "JeroenED\\Framework\\": "lib/Framework/",
             "JeroenED\\Webcron\\": "src/"
         }
+    },
+    "config": {
+        "sort-packages": true
     }
 }

@@ -179,6 +179,7 @@ class Job extends Repository
 
     public function runJob(int $job): void
     {
+        $starttime = microtime(true);
         $job = $this->getJob($job, true);
         if($job['data']['crontype'] == 'http') {
             $result = $this->runHttpJob($job);
@@ -187,11 +188,13 @@ class Job extends Repository
         } elseif($job['data']['crontype'] == 'reboot') {
             $result = $this->runRebootJob($job);
         }
+        $endtime = microtime(true);
+        $runtime = $endtime - $starttime;
 
         // handling of response
-        $addRunSql = 'INSERT INTO run(job_id, exitcode, output, timestamp) VALUES (:job_id, :exitcode, :output, :timestamp)';
+        $addRunSql = 'INSERT INTO run(job_id, exitcode, output, runtime, timestamp) VALUES (:job_id, :exitcode, :output, :runtime, :timestamp)';
         $addRunStmt = $this->dbcon->prepare($addRunSql);
-        $addRunStmt->executeQuery([':job_id' => $job['id'], ':exitcode' => $result['exitcode'], ':output' => $result['output'], ':timestamp' => time()]);
+        $addRunStmt->executeQuery([':job_id' => $job['id'], ':exitcode' => $result['exitcode'], ':output' => $result['output'], ':runtime' => $runtime, ':timestamp' => floor($starttime)]);
 
         // setting nextrun to next run
         $nextrun = $job['nextrun'];

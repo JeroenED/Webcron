@@ -23,5 +23,6 @@ CREATE TABLE run (
     job_id INTEGER NOT NULL,
     exitcode TEXT NOT NULL,
     output TEXT NOT NULL,
+    runtime REAL NOT NULL,
     timestamp INTEGER NOT NULL
 );

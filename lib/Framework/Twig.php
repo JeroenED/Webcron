@@ -7,6 +7,7 @@ namespace JeroenED\Framework;
 use Mehrkanal\EncoreTwigExtension\Extensions\EntryFilesTwigExtension;
 use Symfony\WebpackEncoreBundle\Asset\EntrypointLookup;
 use Twig\Environment;
+use Twig\Extra\Intl\IntlExtension;
 use Twig\Loader\FilesystemLoader;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
@@ -21,6 +22,7 @@ class Twig
         $loader = new FilesystemLoader([$kernel->getTemplateDir()]);
         $this->environment = new Environment($loader);
         $this->kernel = $kernel;
+        $this->addExtensions();
         $this->addFunctions();
         $this->addFilters();
     }
@@ -30,12 +32,16 @@ class Twig
         return $this->environment->render($template, $vars);
     }
 
+    public function addExtensions()
+    {
+        $this->environment->addExtension(new IntlExtension());
+        $this->environment->addExtension(new EntryFilesTwigExtension(new EntrypointLookup('./public/build/entrypoints.json')));
+    }
     public function addFunctions()
     {
         $path = new TwigFunction('path', function(string $route, array $params = []) {
             return $this->kernel->getRouter()->getUrlForRoute($route, $params);
         });
-        $this->environment->addExtension(new EntryFilesTwigExtension(new EntrypointLookup('./public/build/entrypoints.json')));
         $this->environment->addFunction($path);
 
     }

@@ -83,7 +83,7 @@
         {% endif %}
         <div class="dropdown croncategory-group containertype-group{% if data.crontype != 'http' %} btn-group{% else %} d-none{% endif %}">
             <button class="btn btn-outline-primary dropdown-toggle" type="button" id="containertypeButton" data-default-text="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                {% if data.containertype == 'none' %}
+                {% if data.containertype == 'none' or data.containertype == '' %}
                     None
                 {% elseif data.containertype == 'docker' %}
                     Docker
