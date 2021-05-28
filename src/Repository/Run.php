@@ -13,12 +13,13 @@ class Run extends Repository
         $runsSql = "SELECT * FROM run WHERE job_id = :job";
         $params = [':job' => $id];
         if (!empty($excludedexitcodes)) {
-            $runsSql .= ' AND exitcode NOT in (';
+            $runsSql .= ' AND exitcode NOT in ';
+            $exitcodes = [];
             foreach($excludedexitcodes as $key => $exitcode) {
-                $runsSql .= ':code' . $key;
+                $exitcodes[] = ':code' . $key;
                 $params[':code' . $key] = $exitcode;
             }
-            $runsSql .= ')';
+            $runsSql .= '(' . implode(',', $exitcodes) . ')';
         }
         if ($ordered) $runsSql .= ' ORDER by timestamp DESC';
         $runsStmt = $this->dbcon->prepare($runsSql);

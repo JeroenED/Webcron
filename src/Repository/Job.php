@@ -266,7 +266,7 @@ class Job extends Repository
         {
             case 'command':
                 $values['data']['command'] = $values['command'];
-                $values['data']['response'] = $values['response'];
+                $values['data']['response'] = explode(',', $values['response']);
                 break;
             case 'reboot':
                 $values['data']['reboot-command'] = $values['reboot-command'];
@@ -287,7 +287,7 @@ class Job extends Repository
             case 'http':
                 $parsedUrl = parse_url($values['url']);
                 $values['data']['url'] = $values['url'];
-                $values['data']['response'] = $values['response'];
+                $values['data']['http-status'] = explode(',', $values['http-status']);
                 $values['data']['basicauth-username'] = $values['basicauth-username'];
                 if(empty($parsedUrl['host'])) {
                     throw new \InvalidArgumentException('Some data was invalid');

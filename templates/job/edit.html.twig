@@ -152,8 +152,8 @@
         </div>
 
         <div class="mb-3">
-            <label for="response">Expected response status code</label>
-            <input type="text" name="response" class="form-control" id="response" placeholder="200" value="{% if attribute(data, 'response') is not empty %}{{ attribute(data, 'response') }}{% endif %}">
+            <label for="http-status">Expected http status code</label>
+            <input type="text" name="http-status" class="form-control" id="http-status" placeholder="200" value="{% if attribute(data, 'http-status') is not empty %}{{ attribute(data, 'http-status') }}{% endif %}">
         </div>
     </div>
 
