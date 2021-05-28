@@ -70,6 +70,7 @@ class DaemonCommand extends Command
             sleep(1);
         }
         $output->writeln('Ended after ' . $timelimit . ' seconds');
+        pcntl_wait($status);
         return Command::SUCCESS;
     }
 }
