@@ -46,166 +46,143 @@ class Job extends Repository
         return;
     }
 
-    public function runJob(int $job)
+    private function runHttpJob(array $job): array
+    {
+        $client = new Client();
+
+        if(!empty($job['data']['vars'])) {
+            foreach($job['data']['vars'] as $key => $var) {
+                $job['data']['basicauth-username'] = str_replace('{' . $key . '}', $var['value'], $job['data']['basicauth-username']);
+                $job['data']['url'] = str_replace('{' . $key . '}', $var['value'], $job['data']['url']);
+            }
+        }
+
+        $url = $job['data']['url'];
+        $options['http_errors'] = false;
+        $options['auth'] = [$job['data']['basicauth-username'], $job['data']['basicauth-password']];
+        $res = $client->request('GET', $url, $options);
+
+        $return['exitcode'] = $res->getStatusCode();
+        $return['output'] = $res->getBody();
+        return $return;
+    }
+
+    private function runCommandJob(array $job): array
+    {
+        if(!empty($job['data']['vars'])) {
+            foreach ($job['data']['vars'] as $key => $var) {
+                $job['data']['command'] = str_replace('{' . $key . '}', $var['value'], $job['data']['command']);
+            }
+        }
+
+        $command = $job['data']['command'];
+        if ($job['data']['containertype'] == 'docker') {
+            $command = $this->prepareDockerCommand($command, $job['data']['service'], $job['data']['container-user']);
+        }
+        if($job['data']['hosttype'] == 'local') {
+            return $this->runLocalCommand($command);
+        } elseif($job['data']['hosttype'] == 'ssh') {
+            return $this->runSshCommand($command, $job['data']['host'], $job['data']['user'], $job['data']['ssh-privkey'], $job['data']['privkey-password']);
+        }
+    }
+
+    private function runLocalCommand(string $command): array
+    {
+        pcntl_signal(SIGCHLD, SIG_DFL);
+        $return['exitcode'] = NULL;
+        $return['output'] = NULL;
+        exec($command . ' 2>&1', $return['output'], $return['exitcode']);
+        pcntl_signal(SIGCHLD, SIG_IGN);
+        $return['output'] = implode("\n", $return['output']);
+        return $return;
+    }
+
+    private function runSshCommand(string $command, string $host, string $user, string $privkey, string $password): array
+    {
+        $ssh = new SSH2($host);
+        $key = null;
+        if(!empty($privkey)) {
+            if(!empty($password)) {
+                $key = PublicKeyLoader::load(base64_decode($privkey), $password);
+            } else {
+                $key = PublicKeyLoader::load(base64_decode($privkey));
+            }
+        } elseif (!empty($password)) {
+            $key = $privkey;
+        }
+
+        if (!$ssh->login($user, $key)) {
+            throw new \Exception('Login failed');
+        }
+        $return['output'] = $ssh->exec($command);
+        $return['exitcode'] = $ssh->getExitStatus();
+        return $return;
+    }
+
+    private function runRebootJob(array $job): array
+    {
+        if($job['running'] == 1) {
+            $job['data']['reboot-command'] = str_replace('{reboot-delay}', $job['data']['reboot-delay'], $job['data']['reboot-command']);
+            $job['data']['reboot-command'] = str_replace('{reboot-delay-secs}', $job['data']['reboot-delay-secs'], $job['data']['reboot-command']);
+
+            if (!empty($job['data']['vars'])) {
+                foreach ($job['data']['vars'] as $key => $var) {
+                    $job['data']['reboot-command'] = str_replace('{' . $key . '}', $var['value'], $job['data']['reboot-command']);
+                }
+            }
+
+            $jobsSql = "UPDATE job SET running = :status WHERE id = :id";
+            $jobsStmt = $this->dbcon->prepare($jobsSql);
+            $jobsStmt->executeQuery([':id' => $job['id'], ':status' => time() + $job['data']['reboot-delay-secs'] + ($job['reboot-duration'] * 60)]);
+
+            if($job['data']['hosttype'] == 'ssh') {
+                $this->runSshCommand($job['data']['reboot-command'], $job['data']['host'], $job['data']['user'], $job['data']['ssh-privkey'], $job['data']['privkey-password']);
+
+            } elseif($job['data']['hosttype'] == 'local') {
+                $this->runLocalCommand($job['data']['reboot-command']);
+            }
+            exit;
+
+        } elseif($job['running'] != 0) {
+            if($job['running'] > time()) {
+                exit;
+            }
+
+            if (!empty($job['data']['vars'])) {
+                foreach ($job['data']['vars'] as $key => $var) {
+                    $job['data']['getservices-command'] = str_replace('{' . $key . '}', $var['value'], $job['data']['getservices-command']);
+                }
+            }
+            if($job['data']['hosttype'] == 'ssh') {
+                return $this->runSshCommand($job['data']['getservices-command'], $job['data']['host'], $job['data']['user'], $job['data']['ssh-privkey'], $job['data']['privkey-password']);
+            } elseif($job['data']['hosttype'] == 'local') {
+                return $this->runLocalCommand($job['data']['getservices-command']);
+            }
+        }
+    }
+    private function prepareDockerCommand(string $command, string $service, string|NULL $user): string
+    {
+        $prepend = 'docker exec ';
+        $prepend .= $service . ' ';
+        $prepend .= (!empty($user)) ? ' --user=' . $user . ' ' : '';
+        return $prepend . $command;
+    }
+
+    public function runJob(int $job): void
     {
         $job = $this->getJob($job, true);
         if($job['data']['crontype'] == 'http') {
-
-            $client = new Client();
-
-            if(!empty($job['data']['vars'])) {
-                foreach($job['data']['vars'] as $key => $var) {
-                    $job['data']['basicauth-username'] = str_replace('{' . $key . '}', $var['value'], $job['data']['basicauth-username']);
-                    $job['data']['url'] = str_replace('{' . $key . '}', $var['value'], $job['data']['url']);
-                }
-            }
-
-            $url = $job['data']['url'];
-            $options['http_errors'] = false;
-            $options['auth'] = [$job['data']['basicauth-username'], $job['data']['basicauth-password']];
-            $res = $client->request('GET', $url, $options);
-
-            $exitcode = $res->getStatusCode();
-            $output = $res->getBody();
+            $result = $this->runHttpJob($job);
         } elseif($job['data']['crontype'] == 'command') {
-            if(!empty($job['data']['vars'])) {
-                foreach ($job['data']['vars'] as $key => $var) {
-                    $job['data']['command'] = str_replace('{' . $key . '}', $var['value'], $job['data']['command']);
-                }
-            }
-
-            $command = $job['data']['command'];
-            $prepend = '';
-            if ($job['data']['containertype'] == 'docker') {
-                $prepend = 'docker exec ';
-                $prepend .= $job['data']['service'] . ' ';
-                $prepend .= (!empty($job['data']['container-user'])) ? ' --user=' . $job['data']['container-user'] . ' ' : '';
-            }
-            if($job['data']['hosttype'] == 'local') {
-                pcntl_signal(SIGCHLD, SIG_DFL);
-                $output=null;
-                $exitcode=null;
-                exec($prepend . $command . ' 2>&1', $output, $exitcode);
-                pcntl_signal(SIGCHLD, SIG_IGN);
-            } elseif($job['data']['hosttype'] == 'ssh') {
-                $ssh = new SSH2($job['data']['host']);
-                $key = null;
-                if(!empty($job['data']['ssh-privkey'])) {
-                    if(!empty($job['data']['privkey-password'])) {
-                        $key = PublicKeyLoader::load(base64_decode($job['data']['ssh-privkey']), $job['data']['privkey-password']);
-                    } else {
-                        $key = PublicKeyLoader::load(base64_decode($job['data']['ssh-privkey']));
-                    }
-                } elseif (!empty($job['data']['privkey-password'])) {
-                    $key = $job['data']['ssh-privkey'];
-                }
-
-                if (!$ssh->login($job['data']['user'], $key)) {
-                    throw new \Exception('Login failed');
-                }
-                $output = $ssh->exec($prepend . $command);
-                $exitcode = $ssh->getExitStatus();
-            }
+            $result = $this->runCommandJob($job);
         } elseif($job['data']['crontype'] == 'reboot') {
-            if($job['data']['hosttype'] == 'local' && $job['running'] == 1) {
-                $job['data']['reboot-command'] = str_replace('{reboot-delay}', $job['data']['reboot-delay'], $job['data']['reboot-command']);
-                $job['data']['reboot-command'] = str_replace('{reboot-delay-secs}', $job['data']['reboot-delay-secs'], $job['data']['reboot-command']);
-
-                if (!empty($job['data']['vars'])) {
-                    foreach ($job['data']['vars'] as $key => $var) {
-                        $job['data']['reboot-command'] = str_replace('{' . $key . '}', $var['value'], $job['data']['reboot-command']);
-                    }
-                }
-
-                $jobsSql = "UPDATE job SET running = :status WHERE id = :id";
-                $jobsStmt = $this->dbcon->prepare($jobsSql);
-                $jobsStmt->executeQuery([':id' => $job['id'], ':status' => time() + $job['data']['reboot-delay-secs']]);
-
-                $output = null;
-                $exitcode = null;
-                exec($job['data']['reboot-command'], $output, $exitcode);
-                exit;
-
-            } elseif($job['data']['hosttype'] == 'local' && $job['running'] != 0) {
-                if($job['running'] > time()) {
-                    exit;
-                }
-                pcntl_signal(SIGCHLD, SIG_DFL);
-                $output=null;
-                $exitcode=null;
-
-                if (!empty($job['data']['vars'])) {
-                    foreach ($job['data']['vars'] as $key => $var) {
-                        $job['data']['getservices-command'] = str_replace('{' . $key . '}', $var['value'], $job['data']['getservices-command']);
-                    }
-                }
-                exec($job['data']['getservices-command'] . ' 2>&1', $output, $exitcode);
-                pcntl_signal(SIGCHLD, SIG_IGN);
-            } elseif($job['data']['hosttype'] == 'ssh' && $job['running'] == 1) {
-               $job['data']['reboot-command'] = str_replace('{reboot-delay}', $job['data']['reboot-delay'], $job['data']['reboot-command']);
-               $job['data']['reboot-command'] = str_replace('{reboot-delay-secs}', $job['data']['reboot-delay-secs'], $job['data']['reboot-command']);
-
-                if (!empty($job['data']['vars'])) {
-                    foreach ($job['data']['vars'] as $key => $var) {
-                        $job['data']['reboot-command'] = str_replace('{' . $key . '}', $var['value'], $job['data']['reboot-command']);
-                    }
-                }
-
-                $jobsSql = "UPDATE job SET running = :status WHERE id = :id";
-                $jobsStmt = $this->dbcon->prepare($jobsSql);
-                $jobsStmt->executeQuery([':id' => $job['id'], ':status' => time() + $job['data']['reboot-delay-secs'] + ($job['reboot-duration'] * 60)]);
-
-                $ssh = new SSH2($job['data']['host']);
-                $key = null;
-                if(!empty($job['data']['ssh-privkey'])) {
-                    if(!empty($job['data']['privkey-password'])) {
-                        $key = PublicKeyLoader::load(base64_decode($job['data']['ssh-privkey']), $job['data']['privkey-password']);
-                    } else {
-                        $key = PublicKeyLoader::load(base64_decode($job['data']['ssh-privkey']));
-                    }
-                } elseif (!empty($job['data']['privkey-password'])) {
-                    $key = $job['data']['ssh-privkey'];
-                }
-
-                if (!$ssh->login($job['data']['user'], $key)) {
-                    throw new \Exception('Login failed');
-                }
-                $output = $ssh->exec($job['data']['reboot-command']);
-
-            } elseif($job['data']['hosttype'] == 'ssh' && $job['running'] != 0) {
-                if($job['running'] + $job['reboot-duration'] * 60 > time()) {
-                    exit;
-                }
-
-
-                if (!empty($job['data']['vars'])) {
-                    foreach ($job['data']['vars'] as $key => $var) {
-                        $job['data']['getservices-command'] = str_replace('{' . $key . '}', $var['value'], $job['data']['getservices-command']);
-                    }
-                }
-                $ssh = new SSH2($job['data']['host']);
-                $key = null;
-                if(!empty($job['data']['ssh-privkey'])) {
-                    if(!empty($job['data']['privkey-password'])) {
-                        $key = PublicKeyLoader::load(base64_decode($job['data']['ssh-privkey']), $job['data']['privkey-password']);
-                    } else {
-                        $key = PublicKeyLoader::load(base64_decode($job['data']['ssh-privkey']));
-                    }
-                } elseif (!empty($job['data']['privkey-password'])) {
-                    $key = $job['data']['ssh-privkey'];
-                }
-
-                if (!$ssh->login($job['data']['user'], $key)) {
-                    throw new \Exception('Login failed');
-                }
-                $output = $ssh->exec($job['data']['getservices-command']);
-            }
+            $result = $this->runRebootJob($job);
         }
 
         // handling of response
         $addRunSql = 'INSERT INTO run(job_id, exitcode, output, timestamp) VALUES (:job_id, :exitcode, :output, :timestamp)';
         $addRunStmt = $this->dbcon->prepare($addRunSql);
-        $addRunStmt->executeQuery([':job_id' => $job['id'], ':exitcode' => $exitcode, ':output' => $output, ':timestamp' => time()]);
+        $addRunStmt->executeQuery([':job_id' => $job['id'], ':exitcode' => $result['exitcode'], ':output' => $result['output'], ':timestamp' => time()]);
 
         // setting nextrun to next run
         $nextrun = $job['nextrun'];
