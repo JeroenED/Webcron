@@ -50,6 +50,45 @@ class Job extends Repository
         return;
     }
 
+    public function setTempVar(int $job, string $name, mixed $value): void
+    {
+        $jobsSql = "SELECT data from job WHERE id = :id";
+        $jobsStmt = $this->dbcon->prepare($jobsSql);
+        $result = $jobsStmt->executeQuery([':id' => $job])->fetchAssociative();
+        $result = json_decode($result['data'], true);
+        $result['temp_vars'][$name] = $value;
+
+
+        $jobsSql = "update job set data = :data WHERE id = :id";
+        $jobsStmt = $this->dbcon->prepare($jobsSql);
+        $jobsStmt->executeQuery([':id' => $job, ':data' => json_encode($result)]);
+        return;
+    }
+
+    public function deleteTempVar(int $job, string $name): void
+    {
+        $jobsSql = "SELECT data from job WHERE id = :id";
+        $jobsStmt = $this->dbcon->prepare($jobsSql);
+        $result = $jobsStmt->executeQuery([':id' => $job])->fetchAssociative();
+        $result = json_decode($result['data'], true);
+        unset($result['temp_vars'][$name]);
+
+
+        $jobsSql = "update job set data = :data WHERE id = :id";
+        $jobsStmt = $this->dbcon->prepare($jobsSql);
+        $jobsStmt->executeQuery([':id' => $job, ':data' => json_encode($result)]);
+        return;
+    }
+
+    public function getTempVar(int $job, string $name): mixed
+    {
+        $jobsSql = "SELECT data from job WHERE id = :id";
+        $jobsStmt = $this->dbcon->prepare($jobsSql);
+        $result = $jobsStmt->executeQuery([':id' => $job])->fetchAssociative();
+        $result = json_decode($result['data'], true);
+        return $result['temp_vars'][$name];
+    }
+
     private function runHttpJob(array $job): array
     {
         $client = new Client();
@@ -128,9 +167,10 @@ class Job extends Repository
         return $return;
     }
 
-    private function runRebootJob(array $job): array
+    private function runRebootJob(array $job, float $starttime): array
     {
         if($job['running'] == 1) {
+            $this->setTempVar($job['id'], 'starttime', $starttime);
             $job['data']['reboot-command'] = str_replace('{reboot-delay}', $job['data']['reboot-delay'], $job['data']['reboot-command']);
             $job['data']['reboot-command'] = str_replace('{reboot-delay-secs}', $job['data']['reboot-delay-secs'], $job['data']['reboot-command']);
 
@@ -163,12 +203,22 @@ class Job extends Repository
                 }
             }
             if($job['data']['hosttype'] == 'ssh') {
-                return $this->runSshCommand($job['data']['getservices-command'], $job['data']['host'], $job['data']['user'], $job['data']['ssh-privkey'], $job['data']['privkey-password']);
+                $return = $this->runSshCommand($job['data']['getservices-command'], $job['data']['host'], $job['data']['user'], $job['data']['ssh-privkey'], $job['data']['privkey-password']);
             } elseif($job['data']['hosttype'] == 'local') {
-                return $this->runLocalCommand($job['data']['getservices-command']);
+                $return = $this->runLocalCommand($job['data']['getservices-command']);
             }
+
+            $jobsSql = "UPDATE job SET running = :status WHERE id = :id";
+            $jobsStmt = $this->dbcon->prepare($jobsSql);
+            $jobsStmt->executeQuery([':id' => $job['id'], ':status' => 1]);
+
+            $starttime = (float)$this->getTempVar($job['id'], 'starttime');
+            $return['starttime'] =  $starttime;
+
+            return $return;
         }
     }
+
     private function prepareDockerCommand(string $command, string $service, string|NULL $user): string
     {
         $prepend = 'docker exec ';
@@ -186,10 +236,10 @@ class Job extends Repository
         } elseif($job['data']['crontype'] == 'command') {
             $result = $this->runCommandJob($job);
         } elseif($job['data']['crontype'] == 'reboot') {
-            $result = $this->runRebootJob($job);
+            $result = $this->runRebootJob($job, $starttime);
         }
         $endtime = microtime(true);
-        $runtime = $endtime - $starttime;
+        $runtime = $endtime - ($return['starttime'] ?? $starttime);
 
         // handling of response
         $addRunSql = 'INSERT INTO run(job_id, exitcode, output, runtime, timestamp) VALUES (:job_id, :exitcode, :output, :runtime, :timestamp)';
