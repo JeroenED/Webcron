@@ -163,8 +163,8 @@ class Job extends Repository
     private function prepareDockerCommand(string $command, string $service, string|NULL $user): string
     {
         $prepend = 'docker exec ';
-        $prepend .= $service . ' ';
         $prepend .= (!empty($user)) ? ' --user=' . $user . ' ' : '';
+        $prepend .= $service . ' ';
         return $prepend . $command;
     }
 
