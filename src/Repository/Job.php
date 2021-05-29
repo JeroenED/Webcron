@@ -174,7 +174,7 @@ class Job extends Repository
         return $return;
     }
 
-    private function runRebootJob(array $job, float $starttime): array
+    private function runRebootJob(array $job, float &$starttime): array
     {
         if($job['running'] == 1) {
             $this->setTempVar($job['id'], 'starttime', $starttime);
@@ -203,6 +203,9 @@ class Job extends Repository
             if($job['running'] > time()) {
                 exit;
             }
+            $starttime = (float)$this->getTempVar($job['id'], 'starttime');
+            $this->deleteTempVar($job['id'], 'starttime');
+
             $jobsSql = "UPDATE job SET running = :status WHERE id = :id";
             $jobsStmt = $this->dbcon->prepare($jobsSql);
             $jobsStmt->executeQuery([':id' => $job['id'], ':status' => 1]);
@@ -217,10 +220,6 @@ class Job extends Repository
             } elseif($job['data']['hosttype'] == 'local') {
                 $return = $this->runLocalCommand($job['data']['getservices-command']);
             }
-
-            $starttime = (float)$this->getTempVar($job['id'], 'starttime');
-            $this->deleteTempVar($job['id'], 'starttime');
-            $return['starttime'] = $starttime;
 
             return $return;
         }
@@ -244,7 +243,6 @@ class Job extends Repository
             $result = $this->runCommandJob($job);
         } elseif($job['data']['crontype'] == 'reboot') {
             $result = $this->runRebootJob($job, $starttime);
-            $starttime = $result['starttime'];
         }
         $endtime = microtime(true);
         $runtime = $endtime - $starttime;
