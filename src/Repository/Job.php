@@ -38,7 +38,7 @@ class Job extends Repository
 
     public function getJobsDue()
     {
-        $jobsSql = "SELECT id FROM job WHERE (nextrun <= :timestamp AND running == 0) or (running not in (0,1) and running < :timestamprun)";
+        $jobsSql = "SELECT id FROM job WHERE (nextrun <= :timestamp AND running IN (0,2)) or (running IN (0,1,2) and running < :timestamprun)";
         $jobsStmt = $this->dbcon->prepare($jobsSql);
         $jobsRslt = $jobsStmt->executeQuery([':timestamp' => time(), ':timestamprun' => time()]);
         $jobs = $jobsRslt->fetchAllAssociative();
@@ -51,7 +51,7 @@ class Job extends Repository
 
     public function setJobRunning(int $job, bool $status): void
     {
-        $jobsSql = "UPDATE job SET running = :status WHERE id = :id AND running in (0,1)";
+        $jobsSql = "UPDATE job SET running = :status WHERE id = :id AND running in (0,1,2)";
         $jobsStmt = $this->dbcon->prepare($jobsSql);
         $jobsStmt->executeQuery([':id' => $job, ':status' => $status ? 1 : 0]);
         return;
@@ -263,6 +263,21 @@ class Job extends Repository
         $addRunStmt = $this->dbcon->prepare($addRunSql);
         $addRunStmt->executeQuery([':id' => $job['id'], ':nextrun' => $nextrun]);
     }
+
+    public function unlockJob(int $id = 0): void
+    {
+        $jobsSql = "UPDATE job SET running = :status WHERE running in (0,1,2)";
+        $params = [':status' => 0];
+
+        if($id != 0) {
+            $jobsSql .= " AND id = :id";
+            $params[':id'] = $id;
+        }
+        $jobsStmt = $this->dbcon->prepare($jobsSql);
+        $jobsStmt->executeQuery($params);
+        return;
+    }
+
     public function addJob(array $values)
     {
         if(empty($values['crontype']) ||

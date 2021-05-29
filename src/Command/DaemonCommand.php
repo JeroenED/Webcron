@@ -42,6 +42,7 @@ class DaemonCommand extends Command
         } else {
             throw new \InvalidArgumentException('Time limit has incorrect value');
         }
+        $jobRepo->unlockJob();
 
         while(1) {
             if($endofscript !== false && time() > $endofscript) break;
