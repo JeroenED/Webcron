@@ -244,9 +244,10 @@ class Job extends Repository
             $result = $this->runCommandJob($job);
         } elseif($job['data']['crontype'] == 'reboot') {
             $result = $this->runRebootJob($job, $starttime);
+            $starttime = $result['starttime'];
         }
         $endtime = microtime(true);
-        $runtime = $endtime - ($result['starttime'] ?? $starttime);
+        $runtime = $endtime - $starttime;
 
         // handling of response
         $addRunSql = 'INSERT INTO run(job_id, exitcode, output, runtime, timestamp) VALUES (:job_id, :exitcode, :output, :runtime, :timestamp)';
