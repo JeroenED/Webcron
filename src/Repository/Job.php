@@ -38,9 +38,16 @@ class Job extends Repository
 
     public function getJobsDue()
     {
-        $jobsSql = "SELECT id FROM job WHERE (nextrun <= :timestamp AND running IN (0,2)) OR (running IN (0,1,2) AND running < :timestamprun)";
+        $jobsSql = "SELECT id
+                    FROM job
+                    WHERE (
+                        nextrun <= :timestamp
+                        AND (lastrun IS NULL OR lastrun > :timestamplastrun)
+                        AND running IN (0,2)
+                    )
+                    OR (running NOT IN (0,1,2) AND running < :timestamprun)";
         $jobsStmt = $this->dbcon->prepare($jobsSql);
-        $jobsRslt = $jobsStmt->executeQuery([':timestamp' => time(), ':timestamprun' => time()]);
+        $jobsRslt = $jobsStmt->executeQuery([':timestamp' => time(), ':timestamplastrun' => time(), ':timestamprun' => time()]);
         $jobs = $jobsRslt->fetchAllAssociative();
         $return = [];
         foreach ($jobs as $job) {
