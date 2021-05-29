@@ -36,11 +36,11 @@
         <div class="input-group">
             <div class="input-group-prepend">
                 <div class="input-group-text border-right-0">
-                    <input type="checkbox" name="lastrun-eternal" class="lastrun-eternal" placeholder="value" value="true"{% if attribute(data, 'lastrun') is empty %} checked{% endif %}>
+                    <input type="checkbox" name="lastrun-eternal" class="lastrun-eternal" placeholder="value" value="true"{% if lastrun is empty %} checked{% endif %}>
                 </div>
                 <span class="input-group-text border-left-0">Eternal</span>
             </div>
-            <input type="text" autocomplete="off" id="lastrunselector" class="form-control datetimepicker-input" data-target="#lastrunselector" data-toggle="datetimepicker" name="lastrun"{% if attribute(data, 'lastrun') is empty %} disabled{% else  %} value="{{ lastrun |  date("d/m/Y H:i:s")}}"{% endif %}>
+            <input type="text" autocomplete="off" id="lastrunselector" class="form-control datetimepicker-input" data-target="#lastrunselector" data-toggle="datetimepicker" name="lastrun"{% if lastrun is empty %} disabled{% else %} value="{{ lastrun |  date("d/m/Y H:i:s")}}"{% endif %}>
         </div>
     </div>
 

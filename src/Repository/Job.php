@@ -446,7 +446,7 @@ class Job extends Repository
     public function getJob(int $id, bool $withSecrets = false) {
         $jobSql = "SELECT * FROM job WHERE id = :id";
         $jobStmt = $this->dbcon->prepare($jobSql);
-        $jobRslt = $jobStmt->execute([':id' => $id])->fetchAssociative();
+        $jobRslt = $jobStmt->executeQuery([':id' => $id])->fetchAssociative();
 
         $jobRslt['data'] = json_decode($jobRslt['data'], true);
 
