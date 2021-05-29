@@ -38,7 +38,7 @@ class Job extends Repository
 
     public function getJobsDue()
     {
-        $jobsSql = "SELECT id FROM job WHERE (nextrun <= :timestamp AND running IN (0,2)) or (running IN (0,1,2) and running < :timestamprun)";
+        $jobsSql = "SELECT id FROM job WHERE (nextrun <= :timestamp AND running IN (0,2)) OR (running IN (0,1,2) AND running < :timestamprun)";
         $jobsStmt = $this->dbcon->prepare($jobsSql);
         $jobsRslt = $jobsStmt->executeQuery([':timestamp' => time(), ':timestamprun' => time()]);
         $jobs = $jobsRslt->fetchAllAssociative();
@@ -51,7 +51,7 @@ class Job extends Repository
 
     public function setJobRunning(int $job, bool $status): void
     {
-        $jobsSql = "UPDATE job SET running = :status WHERE id = :id AND running in (0,1,2)";
+        $jobsSql = "UPDATE job SET running = :status WHERE id = :id AND running IN (0,1,2)";
         $jobsStmt = $this->dbcon->prepare($jobsSql);
         $jobsStmt->executeQuery([':id' => $job, ':status' => $status ? 1 : 0]);
         return;
@@ -59,14 +59,14 @@ class Job extends Repository
 
     public function setTempVar(int $job, string $name, mixed $value): void
     {
-        $jobsSql = "SELECT data from job WHERE id = :id";
+        $jobsSql = "SELECT data FROM job WHERE id = :id";
         $jobsStmt = $this->dbcon->prepare($jobsSql);
         $result = $jobsStmt->executeQuery([':id' => $job])->fetchAssociative();
         $result = json_decode($result['data'], true);
         $result['temp_vars'][$name] = $value;
 
 
-        $jobsSql = "update job set data = :data WHERE id = :id";
+        $jobsSql = "UPDATE  job SET data = :data WHERE id = :id";
         $jobsStmt = $this->dbcon->prepare($jobsSql);
         $jobsStmt->executeQuery([':id' => $job, ':data' => json_encode($result)]);
         return;
@@ -74,14 +74,13 @@ class Job extends Repository
 
     public function deleteTempVar(int $job, string $name): void
     {
-        $jobsSql = "SELECT data from job WHERE id = :id";
+        $jobsSql = "SELECT data FROM job WHERE id = :id";
         $jobsStmt = $this->dbcon->prepare($jobsSql);
         $result = $jobsStmt->executeQuery([':id' => $job])->fetchAssociative();
         $result = json_decode($result['data'], true);
         unset($result['temp_vars'][$name]);
 
-
-        $jobsSql = "update job set data = :data WHERE id = :id";
+        $jobsSql = "UPDATE  job SET data = :data WHERE id = :id";
         $jobsStmt = $this->dbcon->prepare($jobsSql);
         $jobsStmt->executeQuery([':id' => $job, ':data' => json_encode($result)]);
         return;
@@ -89,7 +88,7 @@ class Job extends Repository
 
     public function getTempVar(int $job, string $name): mixed
     {
-        $jobsSql = "SELECT data from job WHERE id = :id";
+        $jobsSql = "SELECT data FROM job WHERE id = :id";
         $jobsStmt = $this->dbcon->prepare($jobsSql);
         $result = $jobsStmt->executeQuery([':id' => $job])->fetchAssociative();
         $result = json_decode($result['data'], true);
@@ -266,7 +265,7 @@ class Job extends Repository
 
     public function unlockJob(int $id = 0): void
     {
-        $jobsSql = "UPDATE job SET running = :status WHERE running in (0,1,2)";
+        $jobsSql = "UPDATE job SET running = :status WHERE running IN (0,1,2)";
         $params = [':status' => 0];
 
         if($id != 0) {
@@ -309,7 +308,7 @@ class Job extends Repository
         }
         $data = $this->prepareJob($values);
         $data['data'] = json_encode($data['data']);
-        $editJobSql = "UPDATE job set name = :name, data = :data, interval = :interval, nextrun = :nextrun, lastrun = :lastrun WHERE id = :id";
+        $editJobSql = "UPDATE job SET name = :name, data = :data, interval = :interval, nextrun = :nextrun, lastrun = :lastrun WHERE id = :id";
 
         $editJobStmt = $this->dbcon->prepare($editJobSql);
         $editJobStmt->executeQuery([':name' => $data['name'], ':data' => $data['data'], ':interval' => $data['interval'], ':nextrun' => $data['nextrun'], ':lastrun' => $data['lastrun'],':id' => $id ]);
