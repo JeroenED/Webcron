@@ -108,14 +108,14 @@ class Job extends Repository
 
         if(!empty($job['data']['vars'])) {
             foreach($job['data']['vars'] as $key => $var) {
-                $job['data']['basicauth-username'] = str_replace('{' . $key . '}', $var['value'], $job['data']['basicauth-username']);
+                if (isset($job['data']['basicauth-username'])) $job['data']['basicauth-username'] = str_replace('{' . $key . '}', $var['value'], $job['data']['basicauth-username']);
                 $job['data']['url'] = str_replace('{' . $key . '}', $var['value'], $job['data']['url']);
             }
         }
 
         $url = $job['data']['url'];
         $options['http_errors'] = false;
-        $options['auth'] = [$job['data']['basicauth-username'], $job['data']['basicauth-password']];
+        $options['auth'] = isset($job['data']['basicauth-username']) ? [$job['data']['basicauth-username'], $job['data']['basicauth-password']] : NULL;
         $res = $client->request('GET', $url, $options);
 
         $return['exitcode'] = $res->getStatusCode();
@@ -172,11 +172,9 @@ class Job extends Repository
             $return['exitcode'] = 255;
             return $return;
         }
-        $command .= ';echo "[return_code:$?]"';
-        $output = $ssh->exec($command);
-        preg_match( '/\[return_code:(.*?)\]/', $output, $match );
-        $return['output'] = str_replace($match[0] . "\n", '', $output);
-        $return['exitcode'] = $match[1];
+        $return['output'] = $ssh->exec($command);
+        $return['exitcode'] = $ssh->getExitStatus();
+        $return['exitcode'] = (empty($return['exitcode'])) ? 0 : $return['exitcode'];
         return $return;
     }
 
