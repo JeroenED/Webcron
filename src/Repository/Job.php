@@ -108,14 +108,14 @@ class Job extends Repository
 
         if(!empty($job['data']['vars'])) {
             foreach($job['data']['vars'] as $key => $var) {
-                if (isset($job['data']['basicauth-username'])) $job['data']['basicauth-username'] = str_replace('{' . $key . '}', $var['value'], $job['data']['basicauth-username']);
+                if (!empty($job['data']['basicauth-username'])) $job['data']['basicauth-username'] = str_replace('{' . $key . '}', $var['value'], $job['data']['basicauth-username']);
                 $job['data']['url'] = str_replace('{' . $key . '}', $var['value'], $job['data']['url']);
             }
         }
 
         $url = $job['data']['url'];
         $options['http_errors'] = false;
-        $options['auth'] = isset($job['data']['basicauth-username']) ? [$job['data']['basicauth-username'], $job['data']['basicauth-password']] : NULL;
+        $options['auth'] = !empty($job['data']['basicauth-username']) ? [$job['data']['basicauth-username'], $job['data']['basicauth-password']] : NULL;
         $res = $client->request('GET', $url, $options);
 
         $return['exitcode'] = $res->getStatusCode();
