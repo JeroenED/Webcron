@@ -4,6 +4,7 @@
 namespace JeroenED\Webcron\Controller;
 
 use JeroenED\Framework\Controller;
+use JeroenED\Framework\Repository;
 use JeroenED\Webcron\Repository\Job;
 use JeroenED\Webcron\Repository\Run;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -86,6 +87,16 @@ class JobController extends Controller
             return new RedirectResponse($this->generateRoute('job_index'));
         } else {
             return new Response('Not implemented yet', Response::HTTP_TOO_EARLY);
+        }
+    }
+
+    public function runNowAction(int $id) {
+        if(!isset($_SESSION['isAuthenticated']) || !$_SESSION['isAuthenticated']) {
+            return new RedirectResponse($this->generateRoute('login'));
+        }
+        if($this->getRequest()->getMethod() == 'GET') {
+            $jobRepo = new Job($this->getDbCon());
+            return new JsonResponse($jobRepo->runNow($id));
         }
     }
 }

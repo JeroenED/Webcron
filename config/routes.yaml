@@ -49,6 +49,13 @@ job_edit:
   requirements:
     id: \d+
 
+job_runnow:
+  path: '/job/{id}/runnow'
+  defaults:
+    _controller: JeroenED\Webcron\Controller\JobController::runnowAction
+  requirements:
+    id: \d+
+
 job_add:
   path: '/job/add'
   defaults:
