@@ -38,7 +38,7 @@ class Job extends Repository
 
     public function getJobsDue()
     {
-        $jobsSql = "SELECT id
+        $jobsSql = "SELECT id, running
                     FROM job
                     WHERE (
                         nextrun <= :timestamp
@@ -49,11 +49,7 @@ class Job extends Repository
         $jobsStmt = $this->dbcon->prepare($jobsSql);
         $jobsRslt = $jobsStmt->executeQuery([':timestamp' => time(), ':timestamplastrun' => time(), ':timestamprun' => time()]);
         $jobs = $jobsRslt->fetchAllAssociative();
-        $return = [];
-        foreach ($jobs as $job) {
-            $return[] = $job['id'];
-        }
-        return $return;
+        return $jobs;
     }
 
     public function setJobRunning(int $job, bool $status): void
@@ -117,9 +113,9 @@ class Job extends Repository
         $options['http_errors'] = false;
         $options['auth'] = !empty($job['data']['basicauth-username']) ? [$job['data']['basicauth-username'], $job['data']['basicauth-password']] : NULL;
         $res = $client->request('GET', $url, $options);
-
         $return['exitcode'] = $res->getStatusCode();
         $return['output'] = $res->getBody();
+        $return['failed'] = !in_array($return['exitcode'], $job['data']['http-status']);
         return $return;
     }
 
@@ -136,9 +132,13 @@ class Job extends Repository
             $command = $this->prepareDockerCommand($command, $job['data']['service'], $job['data']['container-user']);
         }
         if($job['data']['hosttype'] == 'local') {
-            return $this->runLocalCommand($command);
+            $return = $this->runLocalCommand($command);
+            $return['failed'] = !in_array($return['exitcode'], $job['data']['http-status']);
+            return $return;
         } elseif($job['data']['hosttype'] == 'ssh') {
-            return $this->runSshCommand($command, $job['data']['host'], $job['data']['user'], $job['data']['ssh-privkey'], $job['data']['privkey-password']);
+            $return = $this->runSshCommand($command, $job['data']['host'], $job['data']['user'], $job['data']['ssh-privkey'], $job['data']['privkey-password']);
+            $return['failed'] = !in_array($return['exitcode'], $job['data']['http-status']);
+            return $return;
         }
     }
 
@@ -178,10 +178,11 @@ class Job extends Repository
         return $return;
     }
 
-    private function runRebootJob(array $job, float &$starttime): array
+    private function runRebootJob(array $job, float &$starttime, bool &$manual): array
     {
         if($job['running'] == 1) {
             $this->setTempVar($job['id'], 'starttime', $starttime);
+            $this->setTempVar($job['id'], 'manual', $manual);
             $job['data']['reboot-command'] = str_replace('{reboot-delay}', $job['data']['reboot-delay'], $job['data']['reboot-command']);
             $job['data']['reboot-command'] = str_replace('{reboot-delay-secs}', $job['data']['reboot-delay-secs'], $job['data']['reboot-command']);
 
@@ -209,6 +210,8 @@ class Job extends Repository
             }
             $starttime = (float)$this->getTempVar($job['id'], 'starttime');
             $this->deleteTempVar($job['id'], 'starttime');
+            $manual = (float)$this->getTempVar($job['id'], 'manual');
+            $this->deleteTempVar($job['id'], 'manual');
 
             $jobsSql = "UPDATE job SET running = :status WHERE id = :id";
             $jobsStmt = $this->dbcon->prepare($jobsSql);
@@ -237,7 +240,7 @@ class Job extends Repository
         return $prepend . $command;
     }
 
-    public function runJob(int $job): void
+    public function runJob(int $job, bool $manual): void
     {
         $starttime = microtime(true);
         $job = $this->getJob($job, true);
@@ -246,16 +249,25 @@ class Job extends Repository
         } elseif($job['data']['crontype'] == 'command') {
             $result = $this->runCommandJob($job);
         } elseif($job['data']['crontype'] == 'reboot') {
-            $result = $this->runRebootJob($job, $starttime);
+            $result = $this->runRebootJob($job, $starttime, $manual);
         }
         $endtime = microtime(true);
         $runtime = $endtime - $starttime;
 
-        // handling of response
-        $addRunSql = 'INSERT INTO run(job_id, exitcode, output, runtime, timestamp) VALUES (:job_id, :exitcode, :output, :runtime, :timestamp)';
-        $addRunStmt = $this->dbcon->prepare($addRunSql);
-        $addRunStmt->executeQuery([':job_id' => $job['id'], ':exitcode' => $result['exitcode'], ':output' => $result['output'], ':runtime' => $runtime, ':timestamp' => floor($starttime)]);
+        // setting flags
+        $flags = [];
+        if($result['failed'] === true) {
+            $flags[] = Run::FAILED;
+        } else {
+            $flags[] = Run::SUCCESS;
+        }
 
+        if($manual === true) {
+            $flags[] = Run::MANUAL;
+        }
+        // saving to database
+        $runRepo = new Run($this->dbcon);
+        $runRepo->addRun($job['id'], $result['exitcode'], floor($starttime), $runtime, $result['output'], $flags);
         // setting nextrun to next run
         $nextrun = $job['nextrun'];
         do {
@@ -270,7 +282,7 @@ class Job extends Repository
 
     public function unlockJob(int $id = 0): void
     {
-        $jobsSql = "UPDATE job SET running = :status WHERE running IN (0,1,2)";
+        $jobsSql = "UPDATE job SET running = :status WHERE running = 1";
         $params = [':status' => 0];
 
         if($id != 0) {

@@ -32,7 +32,7 @@ class JobController extends Controller
 
         if($this->getRequest()->getMethod() == 'GET') {
             $job = $jobRepo->getJob($id);
-            $runs = $runRepo->getRunsForJob($id, $all != 'all' ? array_merge($job['data']['response'] ?? [], $job['data']['http-status'] ?? []) : []);
+            $runs = $runRepo->getRunsForJob($id, $all != 'all');
             return $this->render('job/view.html.twig', ['job' => $job, 'runs' => $runs, 'allruns' => $all == 'all']);
         } elseif($this->getRequest()->getMethod() == 'DELETE') {
             $success = $jobRepo->deleteJob($id);
