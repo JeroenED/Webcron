@@ -33,4 +33,18 @@ class Run extends Repository
         $addRunStmt = $this->dbcon->prepare($addRunSql);
         $addRunStmt->executeQuery([':job_id' => $jobid, ':exitcode' => $exitcode, 'output' => $output, 'runtime' => $runtime, ':timestamp' => $starttime, ':flags' => implode("", $flags)]);
     }
+
+    public function getLastRun(int $jobid): array
+    {
+        $lastRunSql = 'SELECT * FROM run WHERE job_id = :jobid ORDER BY timestamp DESC LIMIT 1';
+        $lastRun = $this->dbcon->prepare($lastRunSql)->executeQuery([':jobid' => $jobid])->fetchAssociative();
+        return $lastRun;
+    }
+
+    public function isSlowJob(int $jobid, int $timelimit = 5): bool
+    {
+        $slowJobSql = 'SELECT AVG(runtime) as average FROM run WHERE job_id = :jobid LIMIT 5';
+        $slowJob = $this->dbcon->prepare($slowJobSql)->executeQuery([':jobid' => $jobid])->fetchAssociative();
+        return $slowJob['average'] > $timelimit;
+    }
 }

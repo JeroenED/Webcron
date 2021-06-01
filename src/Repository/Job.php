@@ -232,6 +232,28 @@ class Job extends Repository
         }
     }
 
+    public function runNow($job) {
+        $job = $this->getJob($job, true);
+        $runRepo = new Run($this->dbcon);
+
+        if($runRepo->isSlowJob($job['id']) && $job['data']['crontype'] !== 'reboot') {
+            $jobsSql = "UPDATE job SET running = :status WHERE id = :id AND running IN (0,1,2)";
+            $jobsStmt = $this->dbcon->prepare($jobsSql);
+            $jobsStmt->executeQuery([':id' => $job['id'], ':status' => 2]);
+            return ['success' => true, 'message' => 'Job was scheduled to be run. You will find the output soon in the job details'];
+        } else {
+            $this->runJob($job['id'], true);
+            $output = $runRepo->getLastRun($job['id']);
+            return [
+                'output' => $output['output'],
+                'exitcode' => $output['exitcode'],
+                'runtime' => $output['runtime'],
+                'success' => !str_contains($output['flags'], Run::FAILED)
+            ];
+        }
+
+    }
+
     private function prepareDockerCommand(string $command, string $service, string|NULL $user): string
     {
         $prepend = 'docker exec ';
@@ -244,11 +266,11 @@ class Job extends Repository
     {
         $starttime = microtime(true);
         $job = $this->getJob($job, true);
-        if($job['data']['crontype'] == 'http') {
+        if ($job['data']['crontype'] == 'http') {
             $result = $this->runHttpJob($job);
-        } elseif($job['data']['crontype'] == 'command') {
+        } elseif ($job['data']['crontype'] == 'command') {
             $result = $this->runCommandJob($job);
-        } elseif($job['data']['crontype'] == 'reboot') {
+        } elseif ($job['data']['crontype'] == 'reboot') {
             $result = $this->runRebootJob($job, $starttime, $manual);
         }
         $endtime = microtime(true);
@@ -256,28 +278,30 @@ class Job extends Repository
 
         // setting flags
         $flags = [];
-        if($result['failed'] === true) {
+        if ($result['failed'] === true) {
             $flags[] = Run::FAILED;
         } else {
             $flags[] = Run::SUCCESS;
         }
 
-        if($manual === true) {
+        if ($manual === true) {
             $flags[] = Run::MANUAL;
         }
         // saving to database
         $runRepo = new Run($this->dbcon);
         $runRepo->addRun($job['id'], $result['exitcode'], floor($starttime), $runtime, $result['output'], $flags);
-        // setting nextrun to next run
-        $nextrun = $job['nextrun'];
-        do {
-            $nextrun = $nextrun + $job['interval'];
-        } while ($nextrun < time());
+        if (!$manual){
+            // setting nextrun to next run
+            $nextrun = $job['nextrun'];
+            do {
+                $nextrun = $nextrun + $job['interval'];
+            } while ($nextrun < time());
 
 
-        $addRunSql = 'UPDATE job SET nextrun = :nextrun WHERE id = :id';
-        $addRunStmt = $this->dbcon->prepare($addRunSql);
-        $addRunStmt->executeQuery([':id' => $job['id'], ':nextrun' => $nextrun]);
+            $addRunSql = 'UPDATE job SET nextrun = :nextrun WHERE id = :id';
+            $addRunStmt = $this->dbcon->prepare($addRunSql);
+            $addRunStmt->executeQuery([':id' => $job['id'], ':nextrun' => $nextrun]);
+        }
     }
 
     public function unlockJob(int $id = 0): void
