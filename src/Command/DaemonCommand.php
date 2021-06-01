@@ -49,20 +49,20 @@ class DaemonCommand extends Command
             $jobsToRun = $jobRepo->getJobsDue();
             if(!empty($jobsToRun)) {
                 foreach($jobsToRun as $job) {
-                    $jobRepo->setJobRunning($job, true);
-                    $output->writeln('Running Job ' . $job);
+                    $jobRepo->setJobRunning($job['id'], true);
+                    $output->writeln('Running Job ' . $job['id']);
                     declare(ticks = 1);
                     pcntl_signal(SIGCHLD, SIG_IGN);
                     $pid = pcntl_fork();
                     if($pid == -1) {
-                        $jobRepo->RunJob($job);
-                        $jobRepo->setJobRunning($job, false);
+                        $jobRepo->RunJob($job['id'], $job['running'] == 2);
+                        $jobRepo->setJobRunning($job['id'], false);
                     } elseif ($pid == 0) {
                         $dbcon = $this->kernel->getDbCon();
                         $dbcon->close();
                         $dbcon->connect();
-                        $jobRepo->RunJob($job);
-                        $jobRepo->setJobRunning($job, false);
+                        $jobRepo->RunJob($job['id'], $job['running'] == 2);
+                        $jobRepo->setJobRunning($job['id'], false);
                         exit;
                     }
 

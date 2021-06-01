@@ -24,5 +24,6 @@ CREATE TABLE run (
     exitcode TEXT NOT NULL,
     output TEXT NOT NULL,
     runtime REAL NOT NULL,
-    timestamp INTEGER NOT NULL
+    timestamp INTEGER NOT NULL,
+    flags TEXT NOT NULL
 );

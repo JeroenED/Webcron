@@ -17,6 +17,9 @@
                             <div>
                                 <div class="d-md-inline d-block text-left">{{ run.timestamp | date("d/m/Y H:i:s") }}</div>
                                 <div class="d-md-inline d-block text-left">(runtime: {{ run.runtime | format_number({fraction_digit: 3}) }})</div>
+                                {% if 'M' in run.flags %}
+                                    <div class="d-md-inline d-block text-left">Manual Run</div>
+                                {% endif %}
                             </div>
                             <div>{{ run.exitcode }}</div>
                         </button>
