@@ -21,7 +21,7 @@
                     <td class="d-block d-md-table-cell">{{ job.interval | interval }}</td>
                     <td class="d-block d-md-table-cell">{{ job.nextrun |  date("d/m/Y H:i:s") }}</td>
                     <td class="text-md-right d-block d-md-table-cell">
-                        <a href="#" data-id="{{ job.id }}" class="runcron btn btn-outline-primary"><i class="fa fa-play" aria-hidden="true"></i></a>
+                        <a href="#" data-href="{{ path('job_runnow', {'id': job.id}) }}" class="runnow btn btn-outline-primary"><i class="fa fa-play" aria-hidden="true"></i></a>
                         <a href="{{ path('job_view', {'id': job.id}) }}" class="btn btn-outline-primary"><i class="fa fa-search" aria-hidden="true"></i></a>
                         <a href="{{ path('job_edit', {'id': job.id}) }}" class="btn btn-outline-primary"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
                         <a href="#" data-confirmation="Are you sure you want to delete this job?" data-href="{{ path('job_delete', {'id': job.id}) }}" class="delete-btn btn btn-outline-primary"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
@@ -30,20 +30,23 @@
             {% endfor %}
         </tbody>
     </table>
-    <div id="resultmodal" class="modal fade" role="dialog">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h4 class="modal-title" id="resulttitle">&nbsp;</h4>
-          </div>
-            <div class="modal-body"><p id="resultbody">&nbsp;</p></div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          </div>
-        </div>
+    <div class="modal fade" id="runnow_result" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
 
-      </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
     </div>
     <div id='ajax_loader' style="position: fixed; left: 50%; top: 50%; display: none;">
         <img src="/public/images/ajax-loader.gif" alt="loading">
