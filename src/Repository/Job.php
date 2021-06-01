@@ -211,7 +211,7 @@ class Job extends Repository
             }
             $starttime = (float)$this->getTempVar($job['id'], 'starttime');
             $this->deleteTempVar($job['id'], 'starttime');
-            $manual = (float)$this->getTempVar($job['id'], 'manual');
+            $manual = $this->getTempVar($job['id'], 'manual');
             $this->deleteTempVar($job['id'], 'manual');
 
             $jobsSql = "UPDATE job SET running = :status WHERE id = :id";
