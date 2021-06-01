@@ -45,7 +45,8 @@ class Job extends Repository
                         AND (lastrun IS NULL OR lastrun > :timestamplastrun)
                         AND running IN (0,2)
                     )
-                    OR (running NOT IN (0,1,2) AND running < :timestamprun)";
+                    OR (running NOT IN (0,1,2) AND running < :timestamprun)
+                    OR (running == 2)";
         $jobsStmt = $this->dbcon->prepare($jobsSql);
         $jobsRslt = $jobsStmt->executeQuery([':timestamp' => time(), ':timestamplastrun' => time(), ':timestamprun' => time()]);
         $jobs = $jobsRslt->fetchAllAssociative();
