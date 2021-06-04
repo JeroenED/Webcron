@@ -12,4 +12,6 @@ $kernel->setConfigDir(getcwd() . '/config/');
 $kernel->setTemplateDir(getcwd() . '/templates/');
 $kernel->parseDotEnv($kernel->getProjectDir() . '/.env');
 
+ini_set('date.timezone', $_ENV['TZ']);
+
 $kernel->handle()->send();
