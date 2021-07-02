@@ -248,7 +248,7 @@ class Job extends Repository
                 'status' => 'ran',
                 'output' => $output['output'],
                 'exitcode' => $output['exitcode'],
-                'runtime' => $output['runtime'],
+                'runtime' => (float)$output['runtime'],
                 'title' => !str_contains($output['flags'], Run::FAILED) ? 'Cronjob successfully ran' : 'Cronjob failed. Please check output below',
                 'success' => !str_contains($output['flags'], Run::FAILED)
             ];

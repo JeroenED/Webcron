@@ -36,7 +36,7 @@ function initRunNowButtons() {
                 if (data.status == 'deferred') {
                     modal.find('.modal-body').html(data.message);
                 } else if (data.status == 'ran') {
-                    let content = '<p>Cronjob ran in ' + data.runtime + 'seconds with exit code ' + data.exitcode +'</p>'
+                    let content = '<p>Cronjob ran in ' + data.runtime.toFixed(3) + ' seconds with exit code ' + data.exitcode +'</p>'
                     content += '<pre>' + data.output + '</pre>'
 
                     modal.find('.modal-body').html(content);
