@@ -173,6 +173,7 @@ class Job extends Repository
             $return['exitcode'] = 255;
             return $return;
         }
+        $ssh->setTimeout(0);
         $return['output'] = $ssh->exec($command);
         $return['exitcode'] = $ssh->getExitStatus();
         $return['exitcode'] = (empty($return['exitcode'])) ? 0 : $return['exitcode'];
