@@ -134,13 +134,11 @@ class Job extends Repository
         }
         if($job['data']['hosttype'] == 'local') {
             $return = $this->runLocalCommand($command);
-            $return['failed'] = !in_array($return['exitcode'], $job['data']['response']);
-            return $return;
         } elseif($job['data']['hosttype'] == 'ssh') {
             $return = $this->runSshCommand($command, $job['data']['host'], $job['data']['user'], $job['data']['ssh-privkey'], $job['data']['privkey-password']);
-            $return['failed'] = !in_array($return['exitcode'], $job['data']['response']);
-            return $return;
         }
+        $return['failed'] = !in_array($return['exitcode'], $job['data']['response']);
+        return $return;
     }
 
     private function runLocalCommand(string $command): array
@@ -229,7 +227,7 @@ class Job extends Repository
             } elseif($job['data']['hosttype'] == 'local') {
                 $return = $this->runLocalCommand($job['data']['getservices-command']);
             }
-
+            $return['failed'] = !in_array($return['exitcode'], $job['data']['getservices-response']);
             return $return;
         }
     }
@@ -385,6 +383,7 @@ class Job extends Repository
             case 'reboot':
                 $values['data']['reboot-command'] = $values['reboot-command'];
                 $values['data']['getservices-command'] = $values['getservices-command'];
+                $values['data']['getservices-response'] = explode(',',$values['getservices-response']);
                 $values['data']['reboot-duration'] = $values['reboot-duration'];
                 if(!empty($values['reboot-delay'])) {
                     $newsecretkey = count($values['var-value']);

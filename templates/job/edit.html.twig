@@ -113,13 +113,18 @@
         <h4>Reboot job details</h4>
         <div class="mb-3">
             <label for="reboot-command">Reboot command</label>
-            <input type="text" name="reboot-command" class="form-control" id="command" placeholder="systemctl reboot" value="{% if attribute(data, 'reboot-command') is not empty %}{{ attribute(data, 'reboot-command') }}{% endif %}">
+            <input type="text" name="reboot-command" class="form-control" id="reboot-command" placeholder="systemctl reboot" value="{% if attribute(data, 'reboot-command') is not empty %}{{ attribute(data, 'reboot-command') }}{% endif %}">
             <small id="reboot-command-help" class="form-text text-muted">Use {reboot-delay} or {reboot-delay-secs} to add the delay in your command</small>
         </div>
 
         <div class="mb-3">
             <label for="getservices-command">Get services command</label>
-            <input type="text" name="getservices-command" class="form-control" id="command" placeholder="systemctl list-units" value="{% if attribute(data, 'getservices-command') is not empty %}{{ attribute(data, 'getservices-command') }}{% endif %}">
+            <input type="text" name="getservices-command" class="form-control" id="getservices)command" placeholder="systemctl list-units" value="{% if attribute(data, 'getservices-command') is not empty %}{{ attribute(data, 'getservices-command') }}{% endif %}">
+        </div>
+
+        <div class="mb-3">
+            <label for="getservices-response">Get services command exit code</label>
+            <input type="text" name="getservices-response" class="form-control" id="getservices-response" placeholder="0" value="{% if attribute(data, 'getservices-response') is not empty %}{{ attribute(data, 'getservices-response') | join(',') }}{% endif %}">
         </div>
 
         <div class="mb-3">
