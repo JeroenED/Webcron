@@ -35,6 +35,20 @@ function initRunNowButtons() {
                 modal.find('.modal-title').html(data.title);
                 if (data.status == 'deferred') {
                     modal.find('.modal-body').html(data.message);
+                    me.addClass('disabled');
+
+                    let td = me.parents('td');
+                    td.find('.btn').each(function() {
+                        let btn = $(this);
+                        btn.addClass('btn-outline-success');
+                        btn.removeClass('btn-outline-primary');
+                        btn.removeClass('btn-outline-danger');
+                    })
+
+
+                    let tr = me.parents('tr');
+                    tr.addClass('running');
+                    tr.removeClass('norun');
                 } else if (data.status == 'ran') {
                     let content = '<p>Cronjob ran in ' + data.runtime.toFixed(3) + ' seconds with exit code ' + data.exitcode +'</p>'
                     content += '<pre>' + data.output + '</pre>'

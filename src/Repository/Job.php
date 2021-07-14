@@ -145,11 +145,11 @@ class Job extends Repository
 
     private function runLocalCommand(string $command): array
     {
-        pcntl_signal(SIGCHLD, SIG_DFL);
+        if(function_exists('pcntl_signal')) pcntl_signal(SIGCHLD, SIG_DFL);
         $return['exitcode'] = NULL;
         $return['output'] = NULL;
         exec($command . ' 2>&1', $return['output'], $return['exitcode']);
-        pcntl_signal(SIGCHLD, SIG_IGN);
+        if(function_exists('pcntl_signal'))pcntl_signal(SIGCHLD, SIG_IGN);
         $return['output'] = implode("\n", $return['output']);
         return $return;
     }
