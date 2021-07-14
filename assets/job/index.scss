@@ -1,2 +1,9 @@
 @import "~bootstrap/dist/css/bootstrap.css";
 @import "~font-awesome";
+
+tr.norun td {
+  background-color: #ff8888;
+}
+tr.running td {
+  background-color: #88ff88;
+}

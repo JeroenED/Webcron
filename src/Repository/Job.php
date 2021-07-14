@@ -23,6 +23,8 @@ class Job extends Repository
             $job['host-displayname'] = $job['data']['host'];
             $job['host'] = $job['data']['host'];
             $job['service'] = $job['data']['service'] ?? '';
+            $job['norun'] = isset($job['lastrun']) && $job['nextrun'] > $job['lastrun'];
+            $job['running'] = $job['running'] != 0;
             if(!empty($job['data']['containertype']) && $job['data']['containertype'] != 'none') {
                 $job['host-displayname'] = $job['data']['service'] . ' on ' . $job['data']['host'];
             }
