@@ -56,7 +56,7 @@ class RunCommand extends Command
         $jobRepo->setTempVar($jobId, 'consolerun', false);
         $output->write($result['output']);
         if($result['success']) {
-            $output->writeln('Job succeeded with  in ' . number_format($result['runtime'], 3) . 'secs exitcode ' . $result['exitcode']);
+            $output->writeln('Job succeeded with  in ' . number_format($result['runtime'], 3) . 'secs with exitcode ' . $result['exitcode']);
             return Command::SUCCESS;
         } else {
             $output->writeln('Job failed in ' . number_format($result['runtime'], 3) . 'secs with exitcode ' . $result['exitcode']);

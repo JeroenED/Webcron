@@ -49,7 +49,14 @@ class DaemonCommand extends Command
             $jobsToRun = $jobRepo->getJobsDue();
             if(!empty($jobsToRun)) {
                 foreach($jobsToRun as $job) {
-                    if($jobRepo->getTempVar($job['id'], 'consolerun')) continue;
+                    $jobObj = $jobRepo->getJob($job['id']);
+                    if($jobObj['data']['crontype'] == 'reboot') {
+                        $str   = @file_get_contents('/proc/uptime');
+                        $num   = floatval($str);
+                        $rebootedself = ($num < $jobObj['data']['reboot-duration'] * 60);
+                        $consolerun = $jobRepo->getTempVar($job['id'], 'consolerun');
+                        if($consolerun && !$rebootedself) continue;
+                    }
                     $jobRepo->setJobRunning($job['id'], true);
                     $output->writeln('Running Job ' . $job['id']);
                     declare(ticks = 1);
