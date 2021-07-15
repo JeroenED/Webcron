@@ -16,7 +16,7 @@ $kernel->setConfigDir(getcwd() . '/config/');
 $kernel->setTemplateDir(getcwd() . '/templates/');
 $kernel->parseDotEnv($kernel->getProjectDir() . '/.env');
 
-$application->add(new RunCommand());
+$application->add(new RunCommand($kernel));
 $application->add(new DaemonCommand($kernel));
 
 $application->run();

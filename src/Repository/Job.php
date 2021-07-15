@@ -234,20 +234,19 @@ class Job extends Repository
         }
     }
 
-    public function runNow($job) {
+    public function runNow($job, $console = false) {
         $job = $this->getJob($job, true);
         $runRepo = new Run($this->dbcon);
-        if($runRepo->isSlowJob($job['id']) || $job['data']['crontype'] === 'reboot') {
+        if($console == false && ($runRepo->isSlowJob($job['id']) || $job['data']['crontype'] === 'reboot')) {
             $jobsSql = "UPDATE job SET running = :status WHERE id = :id AND running IN (0,1,2)";
             $jobsStmt = $this->dbcon->prepare($jobsSql);
             $jobsStmt->executeQuery([':id' => $job['id'], ':status' => 2]);
             return ['success' => true, 'status' => 'deferred', 'title' => 'Cronjob has been scheduled', 'message' => 'Job was scheduled to be run. You will find the output soon in the job details'];
         } else {
-            $this->runJob($job['id'], true);
-            $output = $runRepo->getLastRun($job['id']);
+            $output = $this->runJob($job['id'], true);
             return [
                 'status' => 'ran',
-                'output' => $output['output'],
+                'output' => ($console) ? $output['output'] : htmlentities($output['output']),
                 'exitcode' => $output['exitcode'],
                 'runtime' => (float)$output['runtime'],
                 'title' => !str_contains($output['flags'], Run::FAILED) ? 'Cronjob successfully ran' : 'Cronjob failed. Please check output below',
@@ -265,7 +264,7 @@ class Job extends Repository
         return $prepend . $command;
     }
 
-    public function runJob(int $job, bool $manual): void
+    public function runJob(int $job, bool $manual): array
     {
         $starttime = microtime(true);
         $job = $this->getJob($job, true);
@@ -305,6 +304,7 @@ class Job extends Repository
             $addRunStmt = $this->dbcon->prepare($addRunSql);
             $addRunStmt->executeQuery([':id' => $job['id'], ':nextrun' => $nextrun]);
         }
+        return  ['job_id' =>  $job['id'], 'exitcode' => $result['exitcode'], 'timestamp' =>floor($starttime), 'runtime' => $runtime, 'output' => (string)$result['output'], 'flags' => implode("", $flags)];
     }
 
     public function unlockJob(int $id = 0): void
