@@ -49,6 +49,7 @@ class DaemonCommand extends Command
             $jobsToRun = $jobRepo->getJobsDue();
             if(!empty($jobsToRun)) {
                 foreach($jobsToRun as $job) {
+                    if($jobRepo->getTempVar($job['id'], 'consolerun')) continue;
                     $jobRepo->setJobRunning($job['id'], true);
                     $output->writeln('Running Job ' . $job['id']);
                     declare(ticks = 1);

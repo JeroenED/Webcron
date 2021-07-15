@@ -35,8 +35,20 @@ class RunCommand extends Command
         $jobRepo = new Job($this->kernel->getDbCon());
         $jobId = (int)$input->getArgument('jobid');
         $jobRepo->setJobRunning($jobId, true);
+        $jobRepo->setTempVar($jobId, 'consolerun', true);
         $result = $jobRepo->runNow($jobId, true);
+        $job = $jobRepo->getJob($jobId);
+        if($job['data']['crontype'] == 'reboot') {
+            $sleeping = true;
+            while($sleeping) {
+                $job = $jobRepo->getJob($jobId);
+                if(time() >= $job['running']) $sleeping = false;
+                sleep(1);
+            }
+            $result = $jobRepo->runNow($jobId, true);
+        }
         $jobRepo->setJobRunning($jobId, false);
+        $jobRepo->setTempVar($jobId, 'consolerun', false);
         $output->write($result['output']);
         if($result['success']) {
             $output->writeln('Job succeeded with  in ' . number_format($result['runtime'], 3) . 'secs exitcode ' . $result['exitcode']);

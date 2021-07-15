@@ -204,11 +204,12 @@ class Job extends Repository
             } elseif($job['data']['hosttype'] == 'local') {
                 $this->runLocalCommand($job['data']['reboot-command']);
             }
-            exit;
+
+            return ['status' => 'deferred'];
 
         } elseif($job['running'] != 0) {
             if($job['running'] > time()) {
-                exit;
+                return ['status' => 'deferred'];
             }
             $starttime = (float)$this->getTempVar($job['id'], 'starttime');
             $this->deleteTempVar($job['id'], 'starttime');
@@ -241,9 +242,9 @@ class Job extends Repository
             $jobsSql = "UPDATE job SET running = :status WHERE id = :id AND running IN (0,1,2)";
             $jobsStmt = $this->dbcon->prepare($jobsSql);
             $jobsStmt->executeQuery([':id' => $job['id'], ':status' => 2]);
-            return ['success' => true, 'status' => 'deferred', 'title' => 'Cronjob has been scheduled', 'message' => 'Job was scheduled to be run. You will find the output soon in the job details'];
         } else {
             $output = $this->runJob($job['id'], true);
+            if(!(isset($output['status']) && $output['status'] == 'deferred'))
             return [
                 'status' => 'ran',
                 'output' => ($console) ? $output['output'] : htmlentities($output['output']),
@@ -253,7 +254,7 @@ class Job extends Repository
                 'success' => !str_contains($output['flags'], Run::FAILED)
             ];
         }
-
+        return ['success' => true, 'status' => 'deferred', 'title' => 'Cronjob has been scheduled', 'message' => 'Job was scheduled to be run. You will find the output soon in the job details'];
     }
 
     private function prepareDockerCommand(string $command, string $service, string|NULL $user): string
@@ -274,6 +275,7 @@ class Job extends Repository
             $result = $this->runCommandJob($job);
         } elseif ($job['data']['crontype'] == 'reboot') {
             $result = $this->runRebootJob($job, $starttime, $manual);
+            if(isset($result['status']) && $result['status'] == 'deferred') return $result;
         }
         $endtime = microtime(true);
         $runtime = $endtime - $starttime;
