@@ -323,6 +323,14 @@ class Job extends Repository
         return;
     }
 
+    public function isLockedJob(int $id = 0): bool
+    {
+        $jobsSql = "SELECT id FROM job WHERE id = :id AND running != :status";
+        $params = [':status' => 0, ':id' => $id];
+
+        return count($this->dbcon->prepare($jobsSql)->executeQuery($params)->fetchAllAssociative()) > 0;
+    }
+
     public function addJob(array $values)
     {
         if(empty($values['crontype']) ||

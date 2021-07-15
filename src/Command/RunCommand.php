@@ -34,6 +34,11 @@ class RunCommand extends Command
     {
         $jobRepo = new Job($this->kernel->getDbCon());
         $jobId = (int)$input->getArgument('jobid');
+        $jobRunning = $jobRepo->isLockedJob($jobId);
+        if($jobRunning) {
+            $output->writeln('Job is already running');
+            return Command::FAILURE;
+        }
         $jobRepo->setJobRunning($jobId, true);
         $jobRepo->setTempVar($jobId, 'consolerun', true);
         $result = $jobRepo->runNow($jobId, true);
