@@ -4,6 +4,7 @@
 namespace JeroenED\Webcron\Repository;
 
 
+use Doctrine\DBAL\Exception;
 use JeroenED\Framework\Repository;
 
 class Run extends Repository
@@ -46,5 +47,24 @@ class Run extends Repository
         $slowJobSql = 'SELECT AVG(runtime) as average FROM run WHERE job_id = :jobid LIMIT 5';
         $slowJob = $this->dbcon->prepare($slowJobSql)->executeQuery([':jobid' => $jobid])->fetchAssociative();
         return $slowJob['average'] > $timelimit;
+    }
+
+    public function cleanupRuns(array $jobids, int $maxage): int
+    {
+        $sql = 'DELETE FROM run WHERE timestamp < :timestamp';
+        $params[':timestamp'] = time() - ($maxage * 24 * 60 * 60);
+        if(!empty($jobids)) {
+            $jobidsql = [];
+            foreach($jobids as $key=>$jobid){
+                $jobidsql[] = ':job' . $key;
+                $params[':job' . $key] = $jobid;
+            }
+            $sql .= ' AND job_id in (' . implode(',', $jobidsql) . ')';
+        }
+        try {
+            return $this->dbcon->prepare($sql)->executeQuery($params)->rowCount();
+        } catch(Exception $exception) {
+            throw $exception;
+        }
     }
 }
