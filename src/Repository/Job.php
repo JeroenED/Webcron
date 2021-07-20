@@ -12,12 +12,13 @@ use phpseclib3\Net\SSH2;
 
 class Job extends Repository
 {
-    public function getAllJobs()
+    public function getAllJobs(bool $idiskey = false)
     {
         $jobsSql = "SELECT * FROM job";
         $jobsStmt = $this->dbcon->prepare($jobsSql);
         $jobsRslt = $jobsStmt->executeQuery();
         $jobs = $jobsRslt->fetchAllAssociative();
+        $returnbyid = [];
         foreach ($jobs as $key=>&$job) {
             $job['data'] = json_decode($job['data'], true);
             $job['host-displayname'] = $job['data']['host'];
@@ -28,7 +29,10 @@ class Job extends Repository
             if(!empty($job['data']['containertype']) && $job['data']['containertype'] != 'none') {
                 $job['host-displayname'] = $job['data']['service'] . ' on ' . $job['data']['host'];
             }
+            if($idiskey) $returnbyid[$job['id']] = $job;
         }
+
+        if($idiskey) return $returnbyid;
         array_multisort(
             array_column($jobs, 'name'), SORT_ASC,
             array_column($jobs, 'host'), SORT_ASC,
@@ -379,6 +383,8 @@ class Job extends Repository
         }
 
         $values['nextrun'] = DateTime::createFromFormat('d/m/Y H:i:s', $values['nextrun'])->getTimestamp();
+        $values['data']['retention'] = $values['retention'];
+
         $values['data']['crontype'] = $values['crontype'];
         $values['data']['hosttype'] = $values['hosttype'];
         $values['data']['containertype'] = $values['containertype'];
@@ -540,10 +546,8 @@ class Job extends Repository
 
     public function deleteJob(int $id)
     {
-        $addJobSql = "DELETE FROM job WHERE id = :id";
-
-        $addJobStmt = $this->dbcon->prepare($addJobSql);
-        $addJobStmt->executeQuery([':id' => $id]);
+        $this->dbcon->prepare("DELETE FROM job WHERE id = :id")->executeStatement([':id' => $id]);
+        $this->dbcon->prepare("DELETE FROM run WHERE job_id = :id")->executeStatement([':id' => $id]);
 
         return ['success' => true, 'message' => 'Cronjob succesfully deleted'];
     }

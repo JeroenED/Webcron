@@ -49,20 +49,40 @@ class Run extends Repository
         return $slowJob['average'] > $timelimit;
     }
 
-    public function cleanupRuns(array $jobids, int $maxage): int
+    public function cleanupRuns(array $jobids, int $maxage = NULL): int
     {
-        $sql = 'DELETE FROM run WHERE timestamp < :timestamp';
-        $params[':timestamp'] = time() - ($maxage * 24 * 60 * 60);
-        if(!empty($jobids)) {
-            $jobidsql = [];
-            foreach($jobids as $key=>$jobid){
-                $jobidsql[] = ':job' . $key;
-                $params[':job' . $key] = $jobid;
+        $jobRepo = new Job($this->dbcon);
+        $allJobs = $jobRepo->getAllJobs(true);
+        if(empty($jobids)) {
+            foreach($allJobs as $key=>$job) {
+                $jobids[] = $key;
             }
-            $sql .= ' AND job_id in (' . implode(',', $jobidsql) . ')';
         }
+        $sqldelete = [];
+        if($maxage == NULL) {
+            foreach ($allJobs as $key=>$job) {
+                if(isset($job['data']['retention']) && in_array($key, $jobids)) {
+                    $sqldelete[] = '( job_id = :job' . $key . ' AND timestamp < :timestamp' . $key . ')';
+                    $params[':job' . $key] = $key;
+                    $params[':timestamp' . $key] = time() - ($job['data']['retention'] * 24 * 60 * 60);
+                }
+            }
+        } else {
+            $sqljobids = '';
+            if(!empty($jobids)) {
+                $jobidsql = [];
+                foreach($jobids as $key=>$jobid){
+                    $jobidsql[] = ':job' . $key;
+                    $params[':job' . $key] = $jobid;
+                }
+                $sqljobids = ' AND job_id in (' . implode(',', $jobidsql) . ')';
+            }
+            $params[':timestamp'] = time() - ($maxage * 24 * 60 * 60);
+            $sqldelete[] = 'timestamp < :timestamp' . $sqljobids;
+        }
+        $sql = 'DELETE FROM run WHERE ' . implode(' OR ', $sqldelete);
         try {
-            return $this->dbcon->prepare($sql)->executeQuery($params)->rowCount();
+            return $this->dbcon->prepare($sql)->executeStatement($params);
         } catch(Exception $exception) {
             throw $exception;
         }

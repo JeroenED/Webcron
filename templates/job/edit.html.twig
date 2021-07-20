@@ -44,6 +44,12 @@
         </div>
     </div>
 
+    <div class="mb-3">
+        <label for="retention">Retention (in days)</label>
+        <input type="number" name="retention" class="form-control" id="retention" placeholder="7" value="{% if attribute(data, 'retention') is not empty %}{{ attribute(data, 'retention') }}{% endif %}">
+        <small id="retention-help" class="form-text text-muted">How many days (at least) to keep runs of this job in the database</small>
+    </div>
+
     <h3>Job details</h3>
     <div class="mb-3 btn-group croncategory-selector">
         <div class="dropdown croncategory-group crontype-group{% if data.crontype != 'http' %} btn-group{% endif %}">
