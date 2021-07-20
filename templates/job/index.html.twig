@@ -15,12 +15,12 @@
         </thead>
         <tbody>
             {% for job in jobs %}
-                <tr{% if job.running == true %} class="running"{% elseif job.norun == true %} class="norun"{% endif %}>
-                    <td class="d-block d-md-table-cell">{{ job.name }}</td>
-                    <td class="d-block d-md-table-cell">{{ attribute(job, 'host-displayname') }}</td>
-                    <td class="d-block d-md-table-cell">{{ job.interval | interval }}</td>
-                    <td class="d-block d-md-table-cell">{{ job.nextrun |  date("d/m/Y H:i:s") }}</td>
-                    <td class="text-md-right d-block d-md-table-cell">
+                <tr{% if job.running == true %} class="running text-success"{% elseif job.norun == true %} class="norun text-danger"{% endif %}>
+                    <td class="d-block d-md-table-cell align-middle">{{ job.name }}</td>
+                    <td class="d-block d-md-table-cell align-middle">{{ attribute(job, 'host-displayname') }}</td>
+                    <td class="d-block d-md-table-cell align-middle">{{ job.interval | interval }}</td>
+                    <td class="d-block d-md-table-cell align-middle">{{ job.nextrun |  date("d/m/Y H:i:s") }}</td>
+                    <td class="text-md-right d-block d-md-table-cell align-middle">
                         <a href="#" data-href="{{ path('job_runnow', {'id': job.id}) }}" class="runnow btn btn-outline-{% if job.running == true %}success{% elseif job.norun == true %}danger{% else %}primary{% endif %}{% if job.running == true %} disabled{% endif %}"><i class="fa fa-play" aria-hidden="true"></i></a>
                         <a href="{{ path('job_view', {'id': job.id}) }}" class="btn btn-outline-{% if job.running == true %}success{% elseif job.norun == true %}danger{% else %}primary{% endif %}"><i class="fa fa-search" aria-hidden="true"></i></a>
                         <a href="{{ path('job_edit', {'id': job.id}) }}" class="btn btn-outline-{% if job.running == true %}success{% elseif job.norun == true %}danger{% else %}primary{% endif %}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
