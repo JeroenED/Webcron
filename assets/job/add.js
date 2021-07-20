@@ -1,5 +1,4 @@
 import 'tempusdominus-bootstrap-4';
-import bsCustomFileInput from 'bs-custom-file-input';
 import 'bootstrap';
 
 $(function() {
@@ -10,7 +9,6 @@ $(function() {
     initVarInputs();
     initIntervalPattern();
     initEternalCheckbox();
-    bsCustomFileInput.init()
 });
 
 function initDatePickers()

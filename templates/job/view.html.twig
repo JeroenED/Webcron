@@ -10,23 +10,20 @@
     </p>
     <div id="runs" class="accordion">
         {% for run in runs %}
-            <div class="card">
-                <div class="card-header" id="run-{{ run.id }}-header">
-                    <h2 class="mb-0">
-                        <button class="btn btn-link btn-block d-flex justify-content-between align-items-center" type="button" data-toggle="collapse" data-target="#run-{{ run.id }}" aria-expanded="true" aria-controls="run-{{ run.id }}">
-                            <div>
-                                <div class="d-md-inline d-block text-left">{{ run.timestamp | date("d/m/Y H:i:s") }}</div>
-                                <div class="d-md-inline d-block text-left">(runtime: {{ run.runtime | format_number({fraction_digit: 3}) }})</div>
-                                {% if 'M' in run.flags %}
-                                    <div class="d-md-inline d-block text-left">Manual Run</div>
-                                {% endif %}
-                            </div>
-                            <div>{{ run.exitcode }}</div>
-                        </button>
-                    </h2>
+            <div class="accordion-item">
+                <div class="accordion-header" id="run-{{ run.id }}-header">
+                    <button class="accordion-button{% if loop.index != 1 %} collapsed{% endif %}" type="button" data-bs-toggle="collapse" data-bs-target="#run-{{ run.id }}" aria-expanded="true" aria-controls="run-{{ run.id }}">
+                        <div>
+                            <div class="d-md-inline d-block text-left">{{ run.timestamp | date("d/m/Y H:i:s") }}</div>
+                            <div class="d-md-inline d-block text-left">(exit code: {{ run.exitcode }} | runtime: {{ run.runtime | format_number({fraction_digit: 3}) }})</div>
+                            {% if 'M' in run.flags %}
+                                <div class="d-md-inline d-block text-left">Manual Run</div>
+                            {% endif %}
+                        </div>
+                    </button>
                 </div>
-                <div id="run-{{ run.id }}" class="collapse{% if loop.index == 1%} show{% endif %}" aria-labelledby="run-{{ run.id }}-header" data-parent="#runs">
-                    <div class="card-body">
+                <div id="run-{{ run.id }}" class="accordion-collapse collapse{% if loop.index == 1%} show{% endif %}" aria-labelledby="run-{{ run.id }}-header" data-parent="#runs">
+                    <div class="accordion-body">
                         <pre>{{ run.output }}</pre>
                     </div>
                 </div>

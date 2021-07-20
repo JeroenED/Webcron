@@ -12,35 +12,31 @@
     <div class="mb-3">
         <label for="name">Interval (in seconds)</label>
         <div class="input-group">
-            <div class="dropdown input-group-prepend">
-                <button class="btn btn-outline-primary dropdown-toggle" type="button" id="intervalButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <button class="btn btn-outline-primary dropdown-toggle" type="button" id="intervalButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Patterns
-                </button>
-                <div class="dropdown-menu" aria-labelledby="intervalButton">
-                    <a class="dropdown-item intervalpattern-item" href="#" data-time="60">Every minute</a>
-                    <a class="dropdown-item intervalpattern-item" href="#" data-time="3600">Every hour</a>
-                    <a class="dropdown-item intervalpattern-item" href="#" data-time="86400">Every day</a>
-                    <a class="dropdown-item intervalpattern-item" href="#" data-time="604800">Every week</a>
-                    <a class="dropdown-item intervalpattern-item" href="#" data-time="2419200">Every 4 weeks</a>
-                </div>
-            </div>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="intervalButton">
+                <li><a class="dropdown-item intervalpattern-item" href="#" data-time="60">Every minute</a></li>
+                <li><a class="dropdown-item intervalpattern-item" href="#" data-time="3600">Every hour</a></li>
+                <li><a class="dropdown-item intervalpattern-item" href="#" data-time="86400">Every day</a></li>
+                <li><a class="dropdown-item intervalpattern-item" href="#" data-time="604800">Every week</a></li>
+                <li><a class="dropdown-item intervalpattern-item" href="#" data-time="2419200">Every 4 weeks</a></li>
+            </ul>
             <input type="number" class="form-control" id="interval" name="interval" value="{{ interval }}">
         </div>
     </div>
     <div class="mb-3">
         <label for="nextrun">Next run</label>
-        <input type="text" autocomplete="off" id="nextrunselector" class="form-control datetimepicker-input" data-target="#nextrunselector" data-toggle="datetimepicker" name="nextrun" value="{{ nextrun |  date("d/m/Y H:i:s")}}">
+        <input type="text" autocomplete="off" id="nextrunselector" class="form-control datetimepicker-input" data-target="#nextrunselector" data-bs-toggle="datetimepicker" name="nextrun" value="{{ nextrun |  date("d/m/Y H:i:s")}}">
     </div>
     <div class="mb-3">
         <label for="lastrun">Last run</label>
         <div class="input-group">
-            <div class="input-group-prepend">
-                <div class="input-group-text border-right-0">
-                    <input type="checkbox" name="lastrun-eternal" class="lastrun-eternal" placeholder="value" value="true"{% if lastrun is empty %} checked{% endif %}>
-                </div>
-                <span class="input-group-text border-left-0">Eternal</span>
+            <div class="input-group-text border-end-0">
+                <input type="checkbox" name="lastrun-eternal" class="lastrun-eternal" placeholder="value" value="true"{% if lastrun is empty %} checked{% endif %}>
             </div>
-            <input type="text" autocomplete="off" id="lastrunselector" class="form-control datetimepicker-input" data-target="#lastrunselector" data-toggle="datetimepicker" name="lastrun"{% if lastrun is empty %} disabled{% else %} value="{{ lastrun |  date("d/m/Y H:i:s")}}"{% endif %}>
+            <span class="input-group-text border-start-0">Eternal</span>
+            <input type="text" autocomplete="off" id="lastrunselector" class="form-control datetimepicker-input" data-target="#lastrunselector" data-bs-toggle="datetimepicker" name="lastrun"{% if lastrun is empty %} disabled{% else %} value="{{ lastrun |  date("d/m/Y H:i:s")}}"{% endif %}>
         </div>
     </div>
 
@@ -53,7 +49,7 @@
     <h3>Job details</h3>
     <div class="mb-3 btn-group croncategory-selector">
         <div class="dropdown croncategory-group crontype-group{% if data.crontype != 'http' %} btn-group{% endif %}">
-            <button class="btn btn-outline-primary dropdown-toggle" type="button" id="crontypeButton" data-default-text="Job type" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <button class="btn btn-outline-primary dropdown-toggle" type="button" id="crontypeButton" data-default-text="Job type" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 {% if data.crontype == 'command' %}
                     Command
                 {% elseif data.crontype == 'reboot' %}
@@ -70,7 +66,7 @@
         </div>
 
         <div class="dropdown croncategory-group hosttype-group{% if data.crontype != 'http' %} btn-group{% else %} d-none{% endif %}">
-            <button class="btn btn-outline-primary dropdown-toggle" type="button" id="hosttypeButton" data-default-text="Host type" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <button class="btn btn-outline-primary dropdown-toggle" type="button" id="hosttypeButton" data-default-text="Host type" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 {% if data.hosttype == 'local' %}
                     Local
                 {% elseif data.hosttype == 'ssh' %}
@@ -88,7 +84,7 @@
         <div id="btn-group-discriminator" class="d-none">
         {% endif %}
         <div class="dropdown croncategory-group containertype-group{% if data.crontype != 'http' %} btn-group{% else %} d-none{% endif %}">
-            <button class="btn btn-outline-primary dropdown-toggle" type="button" id="containertypeButton" data-default-text="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <button class="btn btn-outline-primary dropdown-toggle" type="button" id="containertypeButton" data-default-text="" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 {% if data.containertype == 'none' or data.containertype == '' %}
                     None
                 {% elseif data.containertype == 'docker' %}
@@ -188,17 +184,12 @@
         <div class="mb-3">
             <label for="privkey">Private key</label>
             <div class="input-group">
-                <div class="input-group-prepend">
-                    <div class="input-group-text border-right-0">
-                        <input type="checkbox" name="privkey-keep" class="privkey-keep" value="true" data-privkey="{% if attribute(data, 'ssh-privkey') is not empty %}{{ attribute(data, 'ssh-privkey') }}{% endif %}" checked>
-                        <input type="hidden" name="privkey-orig" class="privkey-orig" value="{% if attribute(data, 'ssh-privkey') is not empty %}{{ attribute(data, 'ssh-privkey') }}{% endif %}">
-                    </div>
-                    <span class="input-group-text border-left-0">Keep</span>
-                </div>
-                <div class="custom-file input-group">
-                    <input type="file" class="custom-file-input" id="privkey" name="privkey" disabled>
-                    <label class="custom-file-label" for="privkey">Choose file</label>
-                </div>
+                <span class=" input-group-text border-end-0">
+                    <input type="checkbox" name="privkey-keep" class="privkey-keep" value="true" data-privkey="{% if attribute(data, 'ssh-privkey') is not empty %}{{ attribute(data, 'ssh-privkey') }}{% endif %}" checked>
+                </span>
+                <input type="hidden" name="privkey-orig" class="privkey-orig" value="{% if attribute(data, 'ssh-privkey') is not empty %}{{ attribute(data, 'ssh-privkey') }}{% endif %}">
+                <span class="input-group-text border-start-0">Keep</span>
+               <input type="file" id="privkey" name="privkey" class="form-control " disabled>
             </div>
             <small id="custom-file-help" class="form-text text-muted">This file is being saved as a secret</small>
         </div>
@@ -231,24 +222,20 @@
 
     <div class="vars mb-3">
         <div class="input-group var-group d-none">
-            <div class="input-group-prepend">
-                <div class="input-group-text border-right-0">
-                    <input type="checkbox" name="var-issecret[0]" class="var-issecret" placeholder="value" value="true">
-                </div>
-                <span class="input-group-text border-left-0">Secret</span>
+            <div class="input-group-text border-right-0">
+                <input type="checkbox" name="var-issecret[0]" class="var-issecret" placeholder="value" value="true">
             </div>
+            <span class="input-group-text border-left-0">Secret</span>
             <input type="text" name="var-id[0]" class="form-control var-id" placeholder="name">
             <input type="text" name="var-value[0]" class="form-control var-value" placeholder="value">
         </div>
         {% set key = 1 %}
         {% for id,var in data.vars %}
             <div class="input-group var-group">
-                <div class="input-group-prepend">
-                    <div class="input-group-text border-right-0">
-                        <input type="checkbox" name="var-issecret[{{ key }}]" class="var-issecret" placeholder="value" value="true"{%  if var.issecret %} checked{% endif %}>
-                    </div>
-                    <span class="input-group-text border-left-0">Secret</span>
+                <div class="input-group-text border-right-0">
+                    <input type="checkbox" name="var-issecret[{{ key }}]" class="var-issecret" placeholder="value" value="true"{%  if var.issecret %} checked{% endif %}>
                 </div>
+                <span class="input-group-text border-left-0">Secret</span>
                 <input type="text" name="var-id[{{ key }}]" class="form-control var-id" placeholder="name" value="{{ id }}">
                 <input type="{% if var.issecret %}password{% else %}text{% endif %}" name="var-value[{{ key }}]" class="form-control var-value" placeholder="value" value="{{ var.value }}">
             </div>

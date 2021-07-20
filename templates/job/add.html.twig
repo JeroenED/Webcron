@@ -14,37 +14,33 @@
     <div class="mb-3">
         <label for="name">Interval (in seconds)</label>
         <div class="input-group">
-            <div class="dropdown input-group-prepend">
-                <button class="btn btn-outline-primary dropdown-toggle" type="button" id="intervalButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Patterns
-                </button>
-                <div class="dropdown-menu" aria-labelledby="intervalButton">
-                    <a class="dropdown-item intervalpattern-item" href="#" data-time="60">Every minute</a>
-                    <a class="dropdown-item intervalpattern-item" href="#" data-time="3600">Every hour</a>
-                    <a class="dropdown-item intervalpattern-item" href="#" data-time="86400">Every day</a>
-                    <a class="dropdown-item intervalpattern-item" href="#" data-time="604800">Every week</a>
-                    <a class="dropdown-item intervalpattern-item" href="#" data-time="2419200">Every 4 weeks</a>
-                </div>
-            </div>
+            <button class="btn btn-outline-primary dropdown-toggle" type="button" id="intervalButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Patterns
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="intervalButton">
+                <li><a class="dropdown-item intervalpattern-item" href="#" data-time="60">Every minute</a></li>
+                <li><a class="dropdown-item intervalpattern-item" href="#" data-time="3600">Every hour</a></li>
+                <li><a class="dropdown-item intervalpattern-item" href="#" data-time="86400">Every day</a></li>
+                <li><a class="dropdown-item intervalpattern-item" href="#" data-time="604800">Every week</a></li>
+                <li><a class="dropdown-item intervalpattern-item" href="#" data-time="2419200">Every 4 weeks</a></li>
+            </ul>
             <input type="number" class="form-control" id="interval" name="interval">
         </div>
     </div>
 
     <div class="mb-3">
         <label for="nextrun">Next run</label>
-        <input type="text" autocomplete="off" id="nextrunselector" class="form-control datetimepicker-input" data-target="#nextrunselector" data-toggle="datetimepicker" name="nextrun">
+        <input type="datetime-local" autocomplete="off" id="nextrunselector" class="form-control datetimepicker-input" data-target="#nextrunselector" data-bs-toggle="datetimepicker" name="nextrun">
     </div>
 
     <div class="mb-3">
         <label for="lastrun">Last run</label>
         <div class="input-group">
-            <div class="input-group-prepend">
-                <div class="input-group-text border-right-0">
-                    <input type="checkbox" name="lastrun-eternal" class="lastrun-eternal" placeholder="value" value="true" {% if attribute(data, 'lastrun-eternal') is not empty %} checked{% endif %}>
-                </div>
-                <span class="input-group-text border-left-0">Eternal</span>
+            <div class="input-group-text border-end-0">
+                <input type="checkbox" name="lastrun-eternal" class="lastrun-eternal" placeholder="value" value="true" {% if attribute(data, 'lastrun-eternal') is not empty %} checked{% endif %}>
             </div>
-            <input type="text" autocomplete="off" id="lastrunselector" class="form-control datetimepicker-input" data-target="#lastrunselector" data-toggle="datetimepicker" name="lastrun">
+            <span class="input-group-text border-start-0">Eternal</span>
+            <input type="datetime-local" autocomplete="off" id="lastrunselector" class="form-control datetimepicker-input" data-target="#lastrunselector" data-bs-toggle="datetimepicker" name="lastrun">
         </div>
     </div>
 
@@ -57,34 +53,34 @@
     <h3>Job details</h3>
     <div class="mb-3 btn-group croncategory-selector">
         <div class="dropdown croncategory-group crontype-group">
-            <button class="btn btn-outline-primary dropdown-toggle" type="button" id="crontypeButton" data-default-text="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <button class="btn btn-outline-primary dropdown-toggle" type="button" id="crontypeButton" data-default-text="" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Job type
             </button>
-            <div class="dropdown-menu" aria-labelledby="crontypeButton">
-                <a class="dropdown-item crontype-item" href="#" data-type="command">Command</a>
-                <a class="dropdown-item crontype-item" href="#" data-type="reboot">Reboot</a>
-                <a class="dropdown-item crontype-item" href="#" data-type="http">Http request</a>
-            </div>
+            <ul class="dropdown-menu" aria-labelledby="crontypeButton">
+                <li><a class="dropdown-item crontype-item" href="#" data-type="command">Command</a></li>
+                <li><a class="dropdown-item crontype-item" href="#" data-type="reboot">Reboot</a></li>
+                <li><a class="dropdown-item crontype-item" href="#" data-type="http">Http request</a></li>
+            </ul>
         </div>
 
         <div class="dropdown croncategory-group d-none hosttype-group">
-            <button class="btn btn-outline-primary dropdown-toggle" type="button" id="hosttypeButton" data-default-text="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <button class="btn btn-outline-primary dropdown-toggle" type="button" id="hosttypeButton" data-default-text="" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Host type
             </button>
-            <div class="dropdown-menu" aria-labelledby="hosttypeButton">
-                <a class="dropdown-item hosttype-item" href="#" data-type="local">Local</a>
-                <a class="dropdown-item hosttype-item" href="#" data-type="ssh">SSH</a>
-            </div>
+            <ul class="dropdown-menu" aria-labelledby="hosttypeButton">
+                <li><a class="dropdown-item hosttype-item" href="#" data-type="local">Local</a></li>
+                <li><a class="dropdown-item hosttype-item" href="#" data-type="ssh">SSH</a></li>
+            </ul>
         </div>
 
         <div class="dropdown croncategory-group d-none containertype-group">
-            <button class="btn btn-outline-primary dropdown-toggle" type="button" id="containertypeButton" data-default-text="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <button class="btn btn-outline-primary dropdown-toggle" type="button" id="containertypeButton" data-default-text="" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Container
             </button>
-            <div class="dropdown-menu" aria-labelledby="containertypeButton">
-                <a class="dropdown-item containertype-item" href="#" data-type="none">None</a>
-                <a class="dropdown-item containertype-item" href="#" data-type="docker">Docker</a>
-            </div>
+            <ul class="dropdown-menu" aria-labelledby="containertypeButton">
+                <li><a class="dropdown-item containertype-item" href="#" data-type="none">None</a></li>
+                <li><a class="dropdown-item containertype-item" href="#" data-type="docker">Docker</a></li>
+            </ul>
         </div>
     </div>
 
@@ -173,9 +169,8 @@
 
         <div class="mb-3">
             <label for="privkey">Private key</label>
-            <div class="custom-file">
-                <input type="file" class="custom-file-input" id="privkey" name="privkey">
-                <label class="custom-file-label" for="privkey">Choose file</label>
+            <div class="input-group">
+                <input type="file" class="form-control" id="privkey" class="form-control" name="privkey">
             </div>
             <small id="custom-file-help" class="form-text text-muted">This file is being saved as a secret</small>
         </div>
@@ -208,12 +203,10 @@
 
     <div class="vars mb-3">
         <div class="input-group var-group d-none">
-            <div class="input-group-prepend">
-                <div class="input-group-text border-right-0">
-                    <input type="checkbox" name="var-issecret[0]" class="var-issecret" placeholder="value" value="true">
-                </div>
-                <span class="input-group-text border-left-0">Secret</span>
-            </div>
+            <span class="input-group-text border-end-0">
+                <input type="checkbox" name="var-issecret[0]" class="var-issecret" placeholder="value" value="true">
+            </span>
+            <span class="input-group-text border-start-0">Secret</span>
             <input type="text" name="var-id[0]" class="form-control var-id" placeholder="name">
             <input type="text" name="var-value[0]" class="form-control var-value" placeholder="value">
 

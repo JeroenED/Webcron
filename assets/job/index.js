@@ -1,4 +1,4 @@
-import 'bootstrap';
+import { Modal } from 'bootstrap';
 
 $(function() {
     initDeleteButtons();
@@ -48,7 +48,9 @@ function initRunNowButtons() {
 
                     let tr = me.parents('tr');
                     tr.addClass('running');
+                    tr.addClass('text-success');
                     tr.removeClass('norun');
+                    tr.removeClass('text-danger');
                 } else if (data.status == 'ran') {
                     let content = '<p>Cronjob ran in ' + data.runtime.toFixed(3) + ' seconds with exit code ' + data.exitcode +'</p>'
                     content += '<pre>' + data.output + '</pre>'
@@ -56,7 +58,7 @@ function initRunNowButtons() {
                     modal.find('.modal-body').html(content);
                 }
 
-                modal.modal({show: true})
+                var bsModal = new Modal('#runnow_result').show();//modal.modal({show: true})
             }
         })
     })
