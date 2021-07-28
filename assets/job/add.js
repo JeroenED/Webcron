@@ -1,141 +1,167 @@
-import 'tempusdominus-bootstrap-4';
 import 'bootstrap';
 
-$(function() {
-    initDatePickers();
-    initCronType();
-    initHostType();
-    initContainerType();
-    initVarInputs();
-    initIntervalPattern();
-    initEternalCheckbox();
+document.addEventListener("readystatechange", event => {
+    if(event.target.readyState === 'complete') {
+        // initDatePickers();
+        initCronType();
+        initHostType();
+        initContainerType();
+        initVarInputs();
+        initIntervalPattern();
+        initEternalCheckbox();
+    }
 });
 
 function initDatePickers()
 {
-    $('#nextrunselector').datetimepicker({format: 'DD/MM/YYYY HH:mm:ss'});
-    $('#lastrunselector').datetimepicker({format: 'DD/MM/YYYY HH:mm:ss'});
+    document.querySelector('#nextrunselector').datetimepicker({format: 'DD/MM/YYYY HH:mm:ss'});
+    document.querySelector('#lastrunselector').datetimepicker({format: 'DD/MM/YYYY HH:mm:ss'});
 }
 
 function initCronType()
 {
-    $('.crontype-group button').data('default-text', $('.crontype-group button').html());
-    $('.crontype-item').on('click', function() {
-        let type = $(this).data('type');
-        $('#crontypeButton').html($(this).html());
-        $('.crontype').val(type);
-        $('.crontype-inputs:not(.d-none)').addClass('d-none');
-        $('.crontype-' + type).removeClass('d-none');
+    let crontypegroupbtn = document.querySelector('.crontype-group button');
+    crontypegroupbtn.dataset.defaultText = crontypegroupbtn.innerHTML.trim();
 
-        $('.crontype-inputs:not(.d-none) input').prop('disabled', false);
-        $('.crontype-inputs.d-none input').prop('disabled', true);
+    document.querySelectorAll('.crontype-item').forEach(elem => {
+        elem.addEventListener('click', event => {
+            let type = event.target.dataset.type;
+            document.getElementById('crontypeButton').innerText = event.target.innerText;
+            document.querySelector('.crontype').value = type;
+            document.querySelectorAll('.crontype-inputs:not(.d-none)').forEach(elem => elem.classList.add('d-none'));
+            document.querySelector('.crontype-' + type).classList.remove('d-none');
 
-        if(type == 'http') {
-            $('.croncategory-group:not(.crontype-group) button').each(function() {
-                $(this).html($(this).data('default-text'))
-            })
+            document.querySelector('.crontype-inputs:not(.d-none) input').disabled = false;
+            document.querySelector('.crontype-inputs.d-none input').disabled = true;
 
-            $('.croncategory-group').removeClass('btn-group');
-            $('.croncategory-group:not(.crontype-group)').addClass('d-none');
-            $('.croncategory-inputs:not(.crontype-inputs)').addClass('d-none');
+            if (type == 'http') {
+                document.querySelectorAll('.croncategory-group:not(.crontype-group) button').forEach(elem => elem.innerText = elem.dataset.defaultText)
 
-            $('.croncategory-inputs:not(.d-none) input').prop('disabled', false);
-            $('.croncategory-inputs.d-none input').prop('disabled', true);
-        }
-        if(type == 'reboot') {
-            if($('#btn-group-discriminator').length == 0) {
-                $('body').append('<div id="btn-group-discriminator" class="d-none">');
+                document.querySelectorAll('.croncategory-group').forEach(elem => elem.classList.remove('btn-group'));
+                document.querySelectorAll('.croncategory-group:not(.crontype-group)').forEach(elem => elem.classList.add('d-none'));
+                document.querySelectorAll('.croncategory-inputs:not(.crontype-inputs)').forEach(elem => elem.classList.add('d-none'));
+
+                document.querySelector('.croncategory-inputs:not(.d-none) input').disabled = false;
+                document.querySelector('.croncategory-inputs.d-none input').disabled = true;
             }
-            $('.croncategory-group.containertype-group button').each(function() {
-                $(this).html($(this).data('default-text'))
-            })
-            $('.croncategory-group').addClass('btn-group');
-            $('.croncategory-group').removeClass('d-none');
+            if (type == 'reboot') {
+                if (document.querySelector('#btn-group-discriminator') === null) {
+                    let discriminator = document.createElement('div');
+                    discriminator.classList.add('d-none');
+                    discriminator.id = 'btn-group-discriminator';
+                    document.querySelector('body').append(discriminator);
+                }
+                document.querySelectorAll('.croncategory-group.containertype-group button').forEach(elem =>  elem.innerText = elem.dataset.defaultText)
 
-            $('#btn-group-discriminator').append($('.containertype-group'));
-            $('.croncategory-selector .containertype-group').remove();
-            $('.croncategory-group.containertype-group').addClass('d-none');
-            $('.croncategory-inputs.containertype-inputs').addClass('d-none');
+                document.querySelectorAll('.croncategory-group').forEach(elem => elem.classList.add('btn-group'))
+                document.querySelectorAll('.croncategory-group').forEach(elem => elem.classList.remove('d-none'))
 
-            $('.croncategory-inputs:not(.d-none) input').prop('disabled', false);
-            $('.croncategory-inputs.d-none input').prop('disabled', true);
-        }
-        if(type == 'command') {
-            if($('#btn-group-discriminator .containertype-group').length > 0) {
-                $('.croncategory-selector').append($('#btn-group-discriminator .containertype-group'));
+                if(document.querySelector('#btn-group-discriminator') !== null) {
+                    document.querySelector('#btn-group-discriminator').append(document.querySelector('.containertype-group'));
+                }
+
+                let containergroupselect = document.querySelector('.croncategory-selector .containertype-group');
+                if (containergroupselect !== null) containergroupselect.remove();
+
+                document.querySelectorAll('.croncategory-group.containertype-group').forEach(elem => elem.classList.add('d-none'))
+                document.querySelectorAll('.croncategory-inputs.containertype-inputs').forEach(elem => elem.classList.add('d-none'))
+
+                document.querySelectorAll('.croncategory-inputs:not(.d-none) input').forEach(elem => elem.disabled = false)
+                document.querySelectorAll('.croncategory-inputs.d-none input').forEach(elem => elem.disabled = true)
             }
-            $('.croncategory-group').addClass('btn-group');
-            $('.croncategory-group').removeClass('d-none');
-        }
-    })
-}
-function initContainerType()
-{
-
-    $('.containertype-group button').data('default-text', $('.containertype-group button').html());
-    $('.containertype-item').on('click', function() {
-
-        $('#containertypeButton').html($(this).html());
-        let type = $(this).data('type');
-        $('.containertype').val(type);
-        $('.containertype-inputs:not(.d-none)').addClass('d-none');
-        $('.containertype-' + type).removeClass('d-none');
-
-        $('.containertype-inputs:not(.d-none) input').prop('disabled', false);
-        $('.containertype-inputs.d-none input').prop('disabled', true);
-    })
+            if (type == 'command') {
+                if (document.querySelector('#btn-group-discriminator .containertype-group') !== null) {
+                    document.querySelector('.croncategory-selector').append(document.querySelector('#btn-group-discriminator .containertype-group'));
+                }
+                document.querySelectorAll('.croncategory-group').forEach(elem => elem.classList.add('btn-group'));
+                document.querySelectorAll('.croncategory-group').forEach(elem => elem.classList.remove('d-none'));
+            }
+        })
+    });
 }
 
 function initHostType()
 {
 
-    $('.hosttype-group button').data('default-text', $('.hosttype-group button').html());
-    $('.hosttype-item').on('click', function() {
+    document.querySelector('.hosttype-group button').dataset.defaultText = document.querySelector('.hosttype-group button').innerHTML.trim();
+    document.querySelectorAll('.hosttype-item').forEach(elem => {
+        elem.addEventListener('click', event => {
 
-        $('#hosttypeButton').html($(this).html());
-        let type = $(this).data('type');
-        $('.hosttype').val(type);
-        $('.hosttype-inputs:not(.d-none)').addClass('d-none');
-        $('.hosttype-' + type).removeClass('d-none');
+            document.querySelector('#hosttypeButton').innerHTML  = event.target.innerHTML;
+            let type = event.target.dataset.type;
+            document.querySelector('.hosttype').value = type;
+            document.querySelectorAll('.hosttype-inputs:not(.d-none)').forEach(elem => elem.classList.add('d-none'));
+            document.querySelectorAll('.hosttype-' + type).forEach(elem => elem.classList.remove('d-none'));
 
-        $('.hosttype-inputs:not(.d-none) input').prop('disabled', false);
-        $('.hosttype-inputs.d-none input').prop('disabled', true);
+            document.querySelectorAll('.hosttype-inputs:not(.d-none) input').forEach(elem => elem.disabled = false);
+            document.querySelectorAll('.hosttype-inputs.d-none input').forEach(elem => elem.disabled = true);
+        })
     })
 
-    $('.privkey-keep').on('click', function() {
-        $('#privkey').prop('disabled', $(this).prop('checked'));
+    if (document.querySelector('.privkey-keep') !== null) {
+        document.querySelector('.privkey-keep').addEventListener('click', event => {
+            document.querySelector('#privkey').disabled = event.target.checked
+        })
+    }
+}
+
+function initContainerType()
+{
+
+    document.querySelector('.containertype-group button').dataset.defaultText = document.querySelector('.containertype-group button').innerHTML.trim();
+    document.querySelectorAll('.containertype-item').forEach(elem => {
+        elem.addEventListener('click', event => {
+
+            document.querySelector('#containertypeButton').innerHTML = event.target.innerHTML;
+            let type = event.target.dataset.type;
+            document.querySelector('.containertype').value = type;
+
+
+            document.querySelectorAll('.containertype-inputs:not(.d-none)').forEach(elem => elem.classList.add('d-none'));
+            document.querySelectorAll('.containertype-' + type).forEach(elem => elem.classList.remove('d-none'));
+
+            document.querySelectorAll('.containertype-inputs:not(.d-none) input').forEach(elem => elem.disabled = false);
+            document.querySelectorAll('.containertype-inputs.d-none input').forEach(elem => elem.disabled = true);
+        })
     })
 }
 
 function initVarInputs()
 {
-    $('.addvar-btn').on('click', function() {
-        let index = $('.var-group').length;
-        $('.var-group:first-child').clone().appendTo('.vars').removeClass('d-none');
-        $('.var-group:last-child').data({index: index});
-        $('.var-group:last-child .var-issecret').prop('name', 'var-issecret[' + index + ']');
-        $('.var-group:last-child .var-id').prop('name', 'var-id[' + index + ']');
-        $('.var-group:last-child .var-value').prop('name', 'var-value[' + index + ']');
-        $('.vars-description').removeClass('d-none');
-    })
-    $(document).on('click', '.var-issecret', function() {
-        let ischecked = $(this).prop('checked');
-        $(this).parents('.var-group').find('.var-value').prop('type', ischecked ? 'password' : 'text');
+    document.querySelector('.addvar-btn').addEventListener('click', event => {
+        let index = document.querySelectorAll('.var-group').length;
+        let group = document.querySelector('.var-group');
 
+        let newgroup = group.cloneNode(true);
+        newgroup.classList.remove('d-none');
+        newgroup.dataset.index = index;
+        newgroup.querySelector('.var-issecret').name = 'var-issecret[' + index + ']';
+        newgroup.querySelector('.var-issecret').addEventListener('click', handleSecretCheckbox);
+        newgroup.querySelector('.var-id').name = 'var-id[' + index + ']';
+        newgroup.querySelector('.var-value').name = 'var-value[' + index + ']';
+
+        document.querySelector('.vars').append(newgroup);
+        document.querySelector('.vars-description').classList.remove('d-none');
     })
+    document.querySelectorAll('.var-issecret').forEach(elem => elem.addEventListener('click', handleSecretCheckbox));
+}
+
+function handleSecretCheckbox(event) {
+    let ischecked = event.target.checked;
+    event.target.parentElement.parentElement.querySelector('.var-value').type = ischecked ? 'password' : 'text';
 }
 
 function initEternalCheckbox() {
-    $('.lastrun-eternal').on('click', function() {
-        $('#lastrunselector').prop('disabled', $(this).prop('checked'));
-        $('#lastrunselector').prop('value', '');
+    document.querySelector('.lastrun-eternal').addEventListener('click', event => {
+        document.querySelector('#lastrunselector').prop('disabled', document.querySelector(this).prop('checked'));
+        document.querySelector('#lastrunselector').prop('value', '');
     })
 }
 
 function initIntervalPattern()
 {
-    $('.intervalpattern-item').on('click', function() {
-        let time = $(this).data('time');
-        $('#interval').val(time);
-    })
+    document.querySelectorAll('.intervalpattern-item').forEach(elem => elem.addEventListener('click', event => {
+        let time = event.target.dataset.time;
+        document.querySelector('#interval').value = time;
+    }));
 }
