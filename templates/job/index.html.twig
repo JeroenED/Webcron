@@ -48,9 +48,15 @@
             </div>
         </div>
     </div>
-    <div id='ajax_loader' style="position: fixed; left: 50%; top: 50%; display: none;">
-        <img src="/public/images/ajax-loader.gif" alt="loading">
+{% endblock %}
+
+{% block extrahtml %}
+<div class="runnow-overlay d-none">
+    <div class="runnow-content">
+        <img src="/images/ajax-loader.gif" alt="loading">
     </div>
+    <div class="runnow-blur"></div>
+</div>
 {% endblock %}
 
 {% block styles %}

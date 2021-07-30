@@ -4,6 +4,33 @@
 tr.norun td {
   background-color: #f8d7da;
 }
+
 tr.running td {
   background-color: #d4edda;
+}
+
+.blur {
+  filter: blur(3px);
+}
+.runnow-overlay {
+  .runnow-blur {
+    bottom: 0;
+    left: 0;
+    position: fixed;
+    right: 0;
+    top: 0;
+    z-index: 1500;
+  }
+
+  .runnow-content {
+    font-size: 10px;
+    height: 50px;
+    position: absolute;
+    text-align: center;
+    top: 50%;
+    width: 100px;
+    left: 50%;
+    margin-left: -50px;
+    margin-top: -50px;
+  }
 }

@@ -27,6 +27,11 @@ function initRunNowButtons() {
     document.querySelectorAll('.runnow').forEach(elem => elem.addEventListener("click", event => {
         let me = event.currentTarget;
         let href = me.dataset.href;
+
+        document.querySelector('.container-fluid').classList.add('blur');
+        document.querySelector('.runnow-overlay').classList.add('d-block');
+        document.querySelector('.runnow-overlay').classList.remove('d-none');
+
         fetch(href, { method: 'GET' })
             .then(response => response.json())
             .then(data => {
@@ -56,6 +61,10 @@ function initRunNowButtons() {
                 }
 
                 var bsModal = new Modal('#runnow_result').show();
+
+                document.querySelector('.container-fluid').classList.remove('blur');
+                document.querySelector('.runnow-overlay').classList.remove('d-block');
+                document.querySelector('.runnow-overlay').classList.add('d-none');
             })
         })
     )
