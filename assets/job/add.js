@@ -153,8 +153,10 @@ function handleSecretCheckbox(event) {
 
 function initEternalCheckbox() {
     document.querySelector('.lastrun-eternal').addEventListener('click', event => {
-        document.querySelector('#lastrunselector').prop('disabled', document.querySelector(this).prop('checked'));
-        document.querySelector('#lastrunselector').prop('value', '');
+        let nextrunselector = document.querySelector('#lastrunselector');
+        nextrunselector.disabled = event.target.checked;
+        nextrunselector.placeholder = event.target.checked ? '' : nextrunselector.dataset.placeholder;
+        nextrunselector.value = '';
     })
 }
 

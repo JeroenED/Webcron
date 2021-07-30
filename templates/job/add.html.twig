@@ -30,7 +30,7 @@
 
     <div class="mb-3">
         <label for="nextrun">Next run</label>
-        <input type="datetime-local" autocomplete="off" id="nextrunselector" class="form-control datetimepicker-input" data-target="#nextrunselector" data-bs-toggle="datetimepicker" name="nextrun">
+        <input type="text" autocomplete="off" pattern="[0-9]{2}\/[0-9]{2}\/[0-9]{4} [0-9]{2}:[0-9]{2}:[0-9]{2}"placeholder="{{ date() | date("d/m/Y H:i:s")}}" step="1" id="nextrunselector" class="form-control datetimepicker-input" data-target="#nextrunselector" data-bs-toggle="datetimepicker" name="nextrun">
     </div>
 
     <div class="mb-3">
@@ -40,7 +40,7 @@
                 <input type="checkbox" name="lastrun-eternal" class="lastrun-eternal" placeholder="value" value="true" {% if attribute(data, 'lastrun-eternal') is not empty %} checked{% endif %}>
             </div>
             <span class="input-group-text border-start-0">Eternal</span>
-            <input type="datetime-local" autocomplete="off" id="lastrunselector" class="form-control datetimepicker-input" data-target="#lastrunselector" data-bs-toggle="datetimepicker" name="lastrun">
+            <input type="text" autocomplete="off" pattern="[0-9]{2}\/[0-9]{2}\/[0-9]{4} [0-9]{2}:[0-9]{2}:[0-9]{2}" placeholder="{{ date() | date("d/m/Y H:i:s")}}" data-placeholder="{{ date() | date("d/m/Y H:i:s")}}" id="lastrunselector" class="form-control datetimepicker-input" data-target="#lastrunselector" data-bs-toggle="datetimepicker" name="lastrun">
         </div>
     </div>
 
