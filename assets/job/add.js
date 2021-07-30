@@ -148,7 +148,7 @@ function initVarInputs()
 
 function handleSecretCheckbox(event) {
     let ischecked = event.target.checked;
-    event.target.parentElement.parentElement.querySelector('.var-value').type = ischecked ? 'password' : 'text';
+    event.target.closest('.var-group').querySelector('.var-value').type = ischecked ? 'password' : 'text';
 }
 
 function initEternalCheckbox() {

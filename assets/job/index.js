@@ -1,65 +1,62 @@
 import { Modal } from 'bootstrap';
 
-$(function() {
-    initDeleteButtons();
-    initRunNowButtons();
-})
+document.addEventListener("readystatechange", event => {
+    if(event.target.readyState === 'complete') {
+        initDeleteButtons();
+        initRunNowButtons();
+    }
+});
 
 function initDeleteButtons() {
-    $('.delete-btn').on('click', function() {
-        let me = $(this)
-        let href = me.data('href');
-        let confirmation = me.data('confirmation');
+    document.querySelectorAll('.delete-btn').forEach(elem => elem.addEventListener("click", event => {
+        let me = event.currentTarget;
+        let href = me.dataset.href;
+        let confirmation = me.dataset.confirmation;
 
         if(confirm(confirmation)) {
-            $.ajax({
-                url: href,
-                method: 'DELETE',
-                success: function(data) {
-                    window.location.href = data.return_path;
-                }
+            fetch(href, { method: 'DELETE' })
+                .then(response => response.json())
+                .then(data => {
+                window.location.href = data.return_path
             })
         }
-    })
+    }));
 }
 
 function initRunNowButtons() {
-    $('.runnow').on('click', function() {
-        let me = $(this)
-        let href = me.data('href');
-        $.ajax({
-            url: href,
-            method: 'GET',
-            success: function(data) {
-                let modal = $('#runnow_result');
-                modal.find('.modal-title').html(data.title);
+    document.querySelectorAll('.runnow').forEach(elem => elem.addEventListener("click", event => {
+        let me = event.currentTarget;
+        let href = me.dataset.href;
+        fetch(href, { method: 'GET' })
+            .then(response => response.json())
+            .then(data => {
+                let modal = document.querySelector('#runnow_result');
+                modal.querySelector('.modal-title').innerHTML = data.title;
                 if (data.status == 'deferred') {
-                    modal.find('.modal-body').html(data.message);
-                    me.addClass('disabled');
-
-                    let td = me.parents('td');
-                    td.find('.btn').each(function() {
-                        let btn = $(this);
-                        btn.addClass('btn-outline-success');
-                        btn.removeClass('btn-outline-primary');
-                        btn.removeClass('btn-outline-danger');
+                    modal.querySelector('.modal-body').innerHTML = data.message;
+                    me.classList.add('disabled');
+                    let td = me.closest('td');
+                    td.querySelectorAll('.btn').forEach(btn => {
+                        btn.classList.add('btn-outline-success');
+                        btn.classList.remove('btn-outline-primary');
+                        btn.classList.remove('btn-outline-danger');
                     })
 
 
-                    let tr = me.parents('tr');
-                    tr.addClass('running');
-                    tr.addClass('text-success');
-                    tr.removeClass('norun');
-                    tr.removeClass('text-danger');
+                    let tr = me.closest('tr');
+                    tr.classList.add('running');
+                    tr.classList.add('text-success');
+                    tr.classList.remove('norun');
+                    tr.classList.remove('text-danger');
                 } else if (data.status == 'ran') {
                     let content = '<p>Cronjob ran in ' + data.runtime.toFixed(3) + ' seconds with exit code ' + data.exitcode +'</p>'
                     content += '<pre>' + data.output + '</pre>'
 
-                    modal.find('.modal-body').html(content);
+                    modal.querySelector('.modal-body').innerHTML = content;
                 }
 
-                var bsModal = new Modal('#runnow_result').show();//modal.modal({show: true})
-            }
+                var bsModal = new Modal('#runnow_result').show();
+            })
         })
-    })
+    )
 }
