@@ -23,10 +23,10 @@ Encore
      * Each entry will result in one JavaScript file (e.g. app.js)
      * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
      */
-    .addEntry('security.login', ['./assets/security/login.js', './assets/security/login.scss'])
-    .addEntry('job.index', ['./assets/job/index.js', './assets/job/index.scss'])
-    .addEntry('job.view', ['./assets/job/view.js', './assets/job/view.scss'])
-    .addEntry('job.add', ['./assets/job/add.js', './assets/job/add.scss'])
+    .addEntry('security.login', ['./assets/js/security/login.js', './assets/scss/security/login.scss'])
+    .addEntry('job.index', ['./assets/js/job/index.js', './assets/scss/job/index.scss'])
+    .addEntry('job.view', ['./assets/js/job/view.js', './assets/scss/job/view.scss'])
+    .addEntry('job.add', ['./assets/js/job/add.js', './assets/scss/job/add.scss'])
     //.addEntry('page1', './assets/page1.js')
     //.addEntry('page2', './assets/page2.js')
 
@@ -67,12 +67,7 @@ Encore
     //.enableReactPreset()
     //.addEntry('admin', './assets/admin.js')
 
-    .autoProvideVariables({
-        $: 'jquery',
-        jQuery: 'jquery',
-        'window.jQuery': 'jquery',
-        moment: 'moment'
-    })
+    //.autoProvideVariables({ })
 ;
 
 module.exports = Encore.getWebpackConfig();
