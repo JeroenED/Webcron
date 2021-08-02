@@ -67,6 +67,8 @@
                     Reboot
                 {% elseif data.crontype == 'http' %}
                     Http request
+                {% else %}
+                    Job type
                 {% endif %}
             </button>
             <div class="dropdown-menu" aria-labelledby="crontypeButton">
@@ -82,6 +84,8 @@
                     Local
                 {% elseif data.hosttype == 'ssh' %}
                     SSH
+                {% else %}
+                    Host type
                 {% endif %}
             </button>
             <div class="dropdown-menu" aria-labelledby="hosttypeButton">
@@ -95,11 +99,13 @@
         <div id="btn-group-discriminator" class="d-none">
         {% endif %}
         <div class="dropdown croncategory-group containertype-group{% if data.crontype != 'http' %} btn-group{% else %} d-none{% endif %}">
-            <button class="btn btn-outline-primary dropdown-toggle" type="button" id="containertypeButton" data-default-text="" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <button class="btn btn-outline-primary dropdown-toggle" type="button" id="containertypeButton" data-default-text="Container" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 {% if data.containertype == 'none' or data.containertype == '' %}
                     None
                 {% elseif data.containertype == 'docker' %}
                     Docker
+                {% else %}
+                    Container
                 {% endif %}
             </button>
             <div class="dropdown-menu" aria-labelledby="containertypeButton">

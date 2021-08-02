@@ -32,8 +32,8 @@ function initCronType()
             document.querySelectorAll('.crontype-inputs:not(.d-none)').forEach(elem => elem.classList.add('d-none'));
             document.querySelector('.crontype-' + type).classList.remove('d-none');
 
-            document.querySelector('.crontype-inputs:not(.d-none) input').disabled = false;
-            document.querySelector('.crontype-inputs.d-none input').disabled = true;
+            document.querySelectorAll('.crontype-inputs:not(.d-none) input').forEach(elem => elem.disabled = false);
+            document.querySelectorAll('.crontype-inputs.d-none input').forEach(elem => elem.disabled = true);
 
             if (type == 'http') {
                 document.querySelectorAll('.croncategory-group:not(.crontype-group) button').forEach(elem => elem.innerText = elem.dataset.defaultText)
@@ -42,8 +42,8 @@ function initCronType()
                 document.querySelectorAll('.croncategory-group:not(.crontype-group)').forEach(elem => elem.classList.add('d-none'));
                 document.querySelectorAll('.croncategory-inputs:not(.crontype-inputs)').forEach(elem => elem.classList.add('d-none'));
 
-                document.querySelector('.croncategory-inputs:not(.d-none) input').disabled = false;
-                document.querySelector('.croncategory-inputs.d-none input').disabled = true;
+                document.querySelectorAll('.croncategory-inputs:not(.d-none) input').forEach(elem => elem.disabled = false);
+                document.querySelectorAll('.croncategory-inputs.d-none input').forEach(elem => elem.disabled = true);
             }
             if (type == 'reboot') {
                 if (document.querySelector('#btn-group-discriminator') === null) {
