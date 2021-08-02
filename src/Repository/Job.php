@@ -14,6 +14,8 @@ class Job extends Repository
 {
     public function getAllJobs(bool $idiskey = false)
     {
+        $runRepo = new Run($this->dbcon);
+
         $jobsSql = "SELECT * FROM job";
         $jobsStmt = $this->dbcon->prepare($jobsSql);
         $jobsRslt = $jobsStmt->executeQuery();
@@ -26,6 +28,9 @@ class Job extends Repository
             $job['service'] = $job['data']['service'] ?? '';
             $job['norun'] = isset($job['lastrun']) && $job['nextrun'] > $job['lastrun'];
             $job['running'] = $job['running'] != 0;
+            $failed = count($runRepo->getRunsForJob($job['id'], true));
+            $all = count($runRepo->getRunsForJob($job['id']));
+            $job['needschecking'] = $all > 0  && (($failed / $all) * 100) > $job['data']['errorlevel'];
             if(!empty($job['data']['containertype']) && $job['data']['containertype'] != 'none') {
                 $job['host-displayname'] = $job['data']['service'] . ' on ' . $job['data']['host'];
             }
@@ -41,6 +46,18 @@ class Job extends Repository
         return $jobs;
     }
 
+    public function getErrorRatio(int $jobId): bool
+    {
+        $errorSql = "SELECT count(*) as count FROM job WHERE id = :id";
+        $errorStmt = $this->dbcon->prepare($errorSql);
+        $errorRslt = $errorStmt->executeQuery([':timestamp' => time(), ':timestamplastrun' => time(), ':timestamprun' => time()]);
+        $error = $errorRslt->fetchAllAssociative();
+
+        $errorSql = "SELECT count(*) as count FROM job WHERE id = :id";
+        $errorStmt = $this->dbcon->prepare($errorSql);
+        $errorRslt = $errorStmt->executeQuery([':timestamp' => time(), ':timestamplastrun' => time(), ':timestamprun' => time()]);
+        $error = $errorRslt->fetchAllAssociative();
+    }
 
     public function getJobsDue()
     {
@@ -389,6 +406,7 @@ class Job extends Repository
         $values['data']['crontype'] = $values['crontype'];
         $values['data']['hosttype'] = $values['hosttype'];
         $values['data']['containertype'] = $values['containertype'];
+        $values['data']['errorlevel'] = $values['errorlevel'];
 
         if(empty($values['data']['crontype'])) {
             throw new \InvalidArgumentException("Crontype cannot be empty");

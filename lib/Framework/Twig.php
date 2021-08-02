@@ -21,9 +21,13 @@ class Twig
     public function __construct(Kernel $kernel)
     {
         $loader = new FilesystemLoader([$kernel->getTemplateDir()]);
-        $cache = new FilesystemCache($kernel->getCacheDir() . '/twig');
         $this->environment = new Environment($loader);
-        $this->environment->setCache($cache);
+
+        if(!$_ENV['DEBUG']) {
+            $cache = new FilesystemCache($kernel->getCacheDir() . '/twig');
+            $this->environment->setCache($cache);
+        }
+
         $this->kernel = $kernel;
         $this->addExtensions();
         $this->addFunctions();

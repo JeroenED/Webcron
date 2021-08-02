@@ -13,7 +13,7 @@ class Run extends Repository
     const SUCCESS = 'S';
     const MANUAL = 'M';
 
-    public function getRunsForJob(int $id, $onlyfailed = false, $ordered = true): array
+    public function getRunsForJob(int $id, bool $onlyfailed = false, bool $ordered = true): array
     {
         $runsSql = "SELECT * FROM run WHERE job_id = :job";
         $params = [':job' => $id];

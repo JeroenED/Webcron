@@ -9,9 +9,17 @@ tr.running td {
   background-color: #d4edda;
 }
 
+.big-icon {
+  font-size: 1.5rem;
+}
+
+td.status-col {
+  width: 54px;
+}
 .blur {
   filter: blur(3px);
 }
+
 .runnow-overlay {
   .runnow-blur {
     bottom: 0;

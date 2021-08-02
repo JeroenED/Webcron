@@ -7,6 +7,7 @@ document.addEventListener("readystatechange", event => {
         initHostType();
         initContainerType();
         initVarInputs();
+        initRangeInput();
         initIntervalPattern();
         initEternalCheckbox();
     }
@@ -123,6 +124,12 @@ function initContainerType()
             document.querySelectorAll('.containertype-inputs:not(.d-none) input').forEach(elem => elem.disabled = false);
             document.querySelectorAll('.containertype-inputs.d-none input').forEach(elem => elem.disabled = true);
         })
+    })
+}
+
+function initRangeInput() {
+    document.querySelector('.range-input-errorlevel').addEventListener('input', event => {
+        document.querySelector('.range-value-errorlevel').innerHTML = event.target.value +  '%';
     })
 }
 

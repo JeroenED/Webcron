@@ -6,6 +6,7 @@
     <table class="table table-md-striped">
         <thead>
             <tr class="d-none d-md-table-row">
+                <th>&nbsp;</th>
                 <th>Name</th>
                 <th>Host</th>
                 <th>Delay</th>
@@ -16,7 +17,10 @@
         <tbody>
             {% for job in jobs %}
                 <tr{% if job.running == true %} class="running text-success"{% elseif job.norun == true %} class="norun text-danger"{% endif %}>
-                    <td class="d-block d-md-table-cell align-middle">{{ job.name }}</td>
+                    <td class="d-none d-md-table-cell align-middle status-col text-center">{% if job.needschecking %}<i class="icon icon-warning text-warning big-icon"></i>{% endif %}</td>
+                    <td class="d-block d-md-table-cell align-middle">
+                        <span class="d-inline d-md-none">{% if job.needschecking %}<i class="icon icon-warning text-warning"></i>{% endif %}</span>
+                        {{ job.name }}</td>
                     <td class="d-block d-md-table-cell align-middle">{{ attribute(job, 'host-displayname') }}</td>
                     <td class="d-block d-md-table-cell align-middle">{{ job.interval | interval }}</td>
                     <td class="d-block d-md-table-cell align-middle">{{ job.nextrun |  date("d/m/Y H:i:s") }}</td>
