@@ -13,11 +13,11 @@ class Run extends Repository
     const SUCCESS = 'S';
     const MANUAL = 'M';
 
-    public function getRunsForJob(int $id, $failed = true, $ordered = true): array
+    public function getRunsForJob(int $id, $onlyfailed = false, $ordered = true): array
     {
         $runsSql = "SELECT * FROM run WHERE job_id = :job";
         $params = [':job' => $id];
-        if ($failed) {
+        if ($onlyfailed) {
             $runsSql .= ' AND flags LIKE "%' . Run::FAILED . '%"';
         }
         if ($ordered) $runsSql .= ' ORDER by timestamp DESC';
