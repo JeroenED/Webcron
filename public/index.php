@@ -10,6 +10,7 @@ $kernel = new Kernel();
 $kernel->setProjectDir(getcwd());
 $kernel->setConfigDir(getcwd() . '/config/');
 $kernel->setTemplateDir(getcwd() . '/templates/');
+$kernel->setCacheDir(getcwd() . '/cache/');
 $kernel->parseDotEnv($kernel->getProjectDir() . '/.env');
 
 ini_set('date.timezone', $_ENV['TZ']);

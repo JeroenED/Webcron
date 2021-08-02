@@ -6,6 +6,7 @@ namespace JeroenED\Framework;
 
 use Mehrkanal\EncoreTwigExtension\Extensions\EntryFilesTwigExtension;
 use Symfony\WebpackEncoreBundle\Asset\EntrypointLookup;
+use Twig\Cache\FilesystemCache;
 use Twig\Environment;
 use Twig\Extra\Intl\IntlExtension;
 use Twig\Loader\FilesystemLoader;
@@ -16,11 +17,13 @@ class Twig
 {
     private Environment $environment;
     private Kernel $kernel;
+
     public function __construct(Kernel $kernel)
     {
-
         $loader = new FilesystemLoader([$kernel->getTemplateDir()]);
+        $cache = new FilesystemCache($kernel->getCacheDir() . '/twig');
         $this->environment = new Environment($loader);
+        $this->environment->setCache($cache);
         $this->kernel = $kernel;
         $this->addExtensions();
         $this->addFunctions();

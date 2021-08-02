@@ -20,6 +20,7 @@ class Kernel
     private string $configDir;
     private string $projectDir;
     private string $templateDir;
+    private string $cacheDir;
     private Router $router;
 
     /**
@@ -68,6 +69,22 @@ class Kernel
     public function setTemplateDir(string $templateDir): void
     {
         $this->templateDir = $templateDir;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCacheDir(): string
+    {
+        return $this->cacheDir;
+    }
+
+    /**
+     * @param string $cacheDir
+     */
+    public function setCacheDir(string $cacheDir): void
+    {
+        $this->cacheDir = $cacheDir;
     }
 
     /**
