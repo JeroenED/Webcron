@@ -1,4 +1,5 @@
 import { Modal } from 'bootstrap';
+import * as image from '../../images/ajax-loader.gif';
 
 document.addEventListener("readystatechange", event => {
     if(event.target.readyState === 'complete') {
@@ -28,6 +29,12 @@ function initRunNowButtons() {
         let me = event.currentTarget;
         let href = me.dataset.href;
 
+        let runnowCnt = document.querySelector('.runnow-content');
+        if(runnowCnt.querySelector('img') === null) {
+            let loaderImg = document.createElement('img');
+            loaderImg.src = image.default;
+            runnowCnt.appendChild(loaderImg);
+        }
         document.querySelector('.container-fluid').classList.add('blur');
         document.querySelector('.runnow-overlay').classList.add('d-block');
         document.querySelector('.runnow-overlay').classList.remove('d-none');
