@@ -242,7 +242,8 @@ class Job extends Repository
     public function runNow($job, $console = false) {
         $job = $this->getJob($job, true);
         $runRepo = new Run($this->dbcon);
-        if($console == false && ($runRepo->isSlowJob($job['id']) || $job['data']['crontype'] === 'reboot')) {
+
+        if($console == false && ($runRepo->isSlowJob($job['id']) || count($runRepo->getRunsForJob($job['id'])) == 0 || $job['data']['crontype'] === 'reboot')) {
             $jobsSql = "UPDATE job SET running = :status WHERE id = :id AND running IN (0,1,2)";
             $jobsStmt = $this->dbcon->prepare($jobsSql);
             $jobsStmt->executeQuery([':id' => $job['id'], ':status' => 2]);
