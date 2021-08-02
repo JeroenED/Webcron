@@ -243,10 +243,10 @@
         {% set key = 1 %}
         {% for id,var in data.vars %}
             <div class="input-group var-group">
-                <div class="input-group-text border-right-0">
+                <div class="input-group-text border-end-0">
                     <input type="checkbox" name="var-issecret[{{ key }}]" class="var-issecret" placeholder="value" value="true"{%  if var.issecret %} checked{% endif %}>
                 </div>
-                <span class="input-group-text border-left-0">Secret</span>
+                <span class="input-group-text border-start-0">Secret</span>
                 <input type="text" name="var-id[{{ key }}]" class="form-control var-id" placeholder="name" value="{{ id }}">
                 <input type="{% if var.issecret %}password{% else %}text{% endif %}" name="var-value[{{ key }}]" class="form-control var-value" placeholder="value" value="{{ var.value }}">
             </div>
