@@ -28,9 +28,9 @@ class Job extends Repository
             $job['service'] = $job['data']['service'] ?? '';
             $job['norun'] = isset($job['lastrun']) && $job['nextrun'] > $job['lastrun'];
             $job['running'] = $job['running'] != 0;
-            $failed = count($runRepo->getRunsForJob($job['id'], true));
-            $all = count($runRepo->getRunsForJob($job['id']));
-            $job['needschecking'] = $all > 0  && (($failed / $all) * 100) > $job['data']['errorlevel'];
+            $failed = count($runRepo->getRunsForJob($job['id'], true, $job['data']['fail-days']));
+            $all = count($runRepo->getRunsForJob($job['id'], false, $job['data']['fail-days']));
+            $job['needschecking'] = $all > 0  && (($failed / $all) * 100) > $job['data']['fail-pct'];
             if(!empty($job['data']['containertype']) && $job['data']['containertype'] != 'none') {
                 $job['host-displayname'] = $job['data']['service'] . ' on ' . $job['data']['host'];
             }
@@ -406,7 +406,8 @@ class Job extends Repository
         $values['data']['crontype'] = $values['crontype'];
         $values['data']['hosttype'] = $values['hosttype'];
         $values['data']['containertype'] = $values['containertype'];
-        $values['data']['errorlevel'] = $values['errorlevel'];
+        $values['data']['fail-pct'] = $values['fail-pct'] ?? 50;
+        $values['data']['fail-days'] = $values['fail-days'] ?? 7;
 
         if(empty($values['data']['crontype'])) {
             throw new \InvalidArgumentException("Crontype cannot be empty");

@@ -128,8 +128,8 @@ function initContainerType()
 }
 
 function initRangeInput() {
-    document.querySelector('.range-input-errorlevel').addEventListener('input', event => {
-        document.querySelector('.range-value-errorlevel').innerHTML = event.target.value +  '%';
+    document.querySelector('.range-input-fail-pct').addEventListener('input', event => {
+        document.querySelector('.range-value-fail-pct').innerHTML = event.target.value +  '%';
     })
 }
 

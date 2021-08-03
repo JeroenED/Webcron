@@ -13,12 +13,16 @@ class Run extends Repository
     const SUCCESS = 'S';
     const MANUAL = 'M';
 
-    public function getRunsForJob(int $id, bool $onlyfailed = false, bool $ordered = true): array
+    public function getRunsForJob(int $id, bool $onlyfailed = false, int $maxage = NULL, bool $ordered = true): array
     {
         $runsSql = "SELECT * FROM run WHERE job_id = :job";
         $params = [':job' => $id];
         if ($onlyfailed) {
             $runsSql .= ' AND flags LIKE "%' . Run::FAILED . '%"';
+        }
+        if($maxage !== NULL) {
+            $runsSql .= ' AND timestamp > :timestamp';
+            $params[':timestamp'] = time() - ($maxage * 24 * 60 * 60);
         }
         if ($ordered) $runsSql .= ' ORDER by timestamp DESC';
         $runsStmt = $this->dbcon->prepare($runsSql);

@@ -47,13 +47,18 @@
     </div>
 
     <div class="mb-3">
-        <label for="errorlevel">Max fail percentage</label>
+        <label for="fail-pct">Max fail percentage</label>
         <div class="input-group d-flex">
-            <div class="range-value range-value-errorlevel pe-1">{% if attribute(data, 'errorlevel') is not empty %}{{ attribute(data, 'errorlevel') }}{% else %}50{% endif %}%</div>
+            <div class="range-value range-value-fail-pct pe-1">{% if attribute(data, 'fail-pct') is not empty %}{{ attribute(data, 'fail-pct') }}{% else %}50{% endif %}%</div>
             <div class="range-input ps-1 flex-grow-1">
-                <input type="range" name="errorlevel" class="form-range range-input-errorlevel" id="errorlevel" max="100" step="5" value="{% if attribute(data, 'errorlevel') is not empty %}{{ attribute(data, 'errorlevel') }}{% else %}50{% endif %}">
+                <input type="range" name="fail-pct" class="form-range range-input-fail-pct" id="fail-pct" max="100" step="5" value="{% if attribute(data, 'fail-pct') is not empty %}{{ attribute(data, 'fail-pct') }}{% else %}50{% endif %}">
             </div>
         </div>
+    </div>
+
+    <div class="mb-3">
+        <label for="fail-days">Number of days calculated for fail percentage</label>
+        <input type="number" name="fail-days" class="form-control" id="fail-days" placeholder="7" value="{% if attribute(data, 'fail-days') is not empty %}{{ attribute(data, 'fail-days') }}{% endif %}">
     </div>
 
     <h3>Job details</h3>
