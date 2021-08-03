@@ -47,14 +47,13 @@
     </div>
 
     <div class="mb-3">
-        <label for="errorlevel">Max error level (in Pct)</label>
+        <label for="errorlevel">Max fail percentage</label>
         <div class="input-group d-flex">
             <div class="range-value range-value-errorlevel pe-1">{% if attribute(data, 'errorlevel') is not empty %}{{ attribute(data, 'errorlevel') }}{% else %}50{% endif %}%</div>
             <div class="range-input ps-1 flex-grow-1">
                 <input type="range" name="errorlevel" class="form-range range-input-errorlevel" id="errorlevel" max="100" step="5" value="{% if attribute(data, 'errorlevel') is not empty %}{{ attribute(data, 'errorlevel') }}{% else %}50{% endif %}">
             </div>
         </div>
-        <small id="errorlevel-help" class="form-text text-muted">Max percentage of errors over all runs</small>
     </div>
 
     <h3>Job details</h3>
