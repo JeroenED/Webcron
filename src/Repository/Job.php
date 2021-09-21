@@ -6,6 +6,7 @@ namespace JeroenED\Webcron\Repository;
 
 use DateTime;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\RequestException;
 use JeroenED\Framework\Repository;
 use phpseclib3\Crypt\PublicKeyLoader;
 use phpseclib3\Net\SSH2;
@@ -136,10 +137,17 @@ class Job extends Repository
         $url = $job['data']['url'];
         $options['http_errors'] = false;
         $options['auth'] = !empty($job['data']['basicauth-username']) ? [$job['data']['basicauth-username'], $job['data']['basicauth-password']] : NULL;
-        $res = $client->request('GET', $url, $options);
-        $return['exitcode'] = $res->getStatusCode();
-        $return['output'] = $res->getBody();
-        $return['failed'] = !in_array($return['exitcode'], $job['data']['http-status']);
+        try {
+            $res = $client->request('GET', $url, $options);
+            $return['exitcode'] = $res->getStatusCode();
+            $return['output'] = $res->getBody();
+            $return['failed'] = !in_array($return['exitcode'], $job['data']['http-status']);
+        } catch(RequestException $exception) {
+            $return['exitcode'] = $exception->getCode();
+            $return['output'] = $exception->getMessage();
+            $return['failed'] = true;
+        }
+
         return $return;
     }
 
