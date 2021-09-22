@@ -163,12 +163,19 @@ class Job extends Repository
         if ($job['data']['containertype'] == 'docker') {
             $command = $this->prepareDockerCommand($command, $job['data']['service'], $job['data']['container-user']);
         }
-        if($job['data']['hosttype'] == 'local') {
-            $return = $this->runLocalCommand($command);
-        } elseif($job['data']['hosttype'] == 'ssh') {
-            $return = $this->runSshCommand($command, $job['data']['host'], $job['data']['user'], $job['data']['ssh-privkey'], $job['data']['privkey-password']);
+        try {
+            if($job['data']['hosttype'] == 'local') {
+                $return = $this->runLocalCommand($command);
+            } elseif($job['data']['hosttype'] == 'ssh') {
+                $return = $this->runSshCommand($command, $job['data']['host'], $job['data']['user'], $job['data']['ssh-privkey'], $job['data']['privkey-password']);
+            }
+            $return['failed'] = !in_array($return['exitcode'], $job['data']['response']);
+        } catch (\RuntimeException $exception) {
+            $return['exitcode'] = $exception->getCode();
+            $return['output'] = $exception->getMessage();
+            $return['failed'] = true;
         }
-        $return['failed'] = !in_array($return['exitcode'], $job['data']['response']);
+
         return $return;
     }
 
@@ -196,7 +203,6 @@ class Job extends Repository
         } elseif (!empty($password)) {
             $key = $password;
         }
-
         if (!$ssh->login($user, $key)) {
             $return['output'] = "Login failed";
             $return['exitcode'] = 255;
