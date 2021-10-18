@@ -6,7 +6,7 @@ namespace JeroenED\Webcron\Repository;
 
 use DateTime;
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Exception\GuzzleException;
 use JeroenED\Framework\Repository;
 use phpseclib3\Crypt\PublicKeyLoader;
 use phpseclib3\Net\SSH2;
@@ -114,13 +114,13 @@ class Job extends Repository
         return;
     }
 
-    public function getTempVar(int $job, string $name): mixed
+    public function getTempVar(int $job, string $name, mixed $default = NULL): mixed
     {
         $jobsSql = "SELECT data FROM job WHERE id = :id";
         $jobsStmt = $this->dbcon->prepare($jobsSql);
         $result = $jobsStmt->executeQuery([':id' => $job])->fetchAssociative();
         $result = json_decode($result['data'], true);
-        return $result['temp_vars'][$name];
+        return $result['temp_vars'][$name] ?? $default;
     }
 
     private function runHttpJob(array $job): array
@@ -142,7 +142,7 @@ class Job extends Repository
             $return['exitcode'] = $res->getStatusCode();
             $return['output'] = $res->getBody();
             $return['failed'] = !in_array($return['exitcode'], $job['data']['http-status']);
-        } catch(RequestException $exception) {
+        } catch(GuzzleException $exception) {
             $return['exitcode'] = $exception->getCode();
             $return['output'] = $exception->getMessage();
             $return['failed'] = true;

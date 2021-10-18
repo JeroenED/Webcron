@@ -54,7 +54,7 @@ class DaemonCommand extends Command
                         $str   = @file_get_contents('/proc/uptime');
                         $num   = floatval($str);
                         $rebootedself = ($num < $jobObj['data']['reboot-duration'] * 60);
-                        $consolerun = $jobRepo->getTempVar($job['id'], 'consolerun');
+                        $consolerun = $jobRepo->getTempVar($job['id'], 'consolerun', false);
                         if($consolerun && !$rebootedself) continue;
                     }
                     $jobRepo->setJobRunning($job['id'], true);

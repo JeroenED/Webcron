@@ -30,6 +30,7 @@ class RunCommand extends Command
             ->setHelp('This command runs a single command')
             ->addArgument('jobid', InputArgument::REQUIRED, 'The id of the job to be run');
     }
+
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $jobRepo = new Job($this->kernel->getDbCon());
