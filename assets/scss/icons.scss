@@ -3,9 +3,9 @@
 @font-face {
   font-family: '#{$icomoon-font-family}';
   src:
-          url('#{$icomoon-font-path}/#{$icomoon-font-family}.ttf?ef3few') format('truetype'),
-          url('#{$icomoon-font-path}/#{$icomoon-font-family}.woff?ef3few') format('woff'),
-          url('#{$icomoon-font-path}/#{$icomoon-font-family}.svg?ef3few##{$icomoon-font-family}') format('svg');
+    url('#{$icomoon-font-path}/#{$icomoon-font-family}.ttf?sh1tzq') format('truetype'),
+    url('#{$icomoon-font-path}/#{$icomoon-font-family}.woff?sh1tzq') format('woff'),
+    url('#{$icomoon-font-path}/#{$icomoon-font-family}.svg?sh1tzq##{$icomoon-font-family}') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -26,28 +26,79 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-close {
+  &:before {
+    content: $icon-close; 
+  }
+}
+.icon-remove {
+  &:before {
+    content: $icon-remove; 
+  }
+}
+.icon-times {
+  &:before {
+    content: $icon-times; 
+  }
+}
+.icon-clock-o {
+  &:before {
+    content: $icon-clock-o; 
+  }
+}
+.icon-chevron-left {
+  &:before {
+    content: $icon-chevron-left; 
+  }
+}
+.icon-chevron-right {
+  &:before {
+    content: $icon-chevron-right; 
+  }
+}
+.icon-arrow-up {
+  &:before {
+    content: $icon-arrow-up; 
+  }
+}
+.icon-arrow-down {
+  &:before {
+    content: $icon-arrow-down; 
+  }
+}
+.icon-calendar {
+  &:before {
+    content: $icon-calendar; 
+  }
+}
+.icon-calendar-check-o {
+  &:before {
+    content: $icon-calendar-check-o; 
+  }
+}
 .icon-view {
   &:before {
-    content: $icon-view;
+    content: $icon-view; 
   }
 }
 .icon-edit {
   &:before {
-    content: $icon-edit;
+    content: $icon-edit; 
   }
 }
 .icon-run {
   &:before {
-    content: $icon-run;
+    content: $icon-run; 
   }
 }
 .icon-warning {
   &:before {
-    content: $icon-warning;
+    content: $icon-warning; 
   }
 }
 .icon-delete {
   &:before {
-    content: $icon-delete;
+    content: $icon-delete; 
   }
 }
+

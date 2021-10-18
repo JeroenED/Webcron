@@ -7,6 +7,7 @@
     "lib": "lib"
   },
   "dependencies": {
+    "@eonasdan/tempus-dominus": "^6.0.0-alpha1.0.3",
     "@popperjs/core": "^2.10.1",
     "bootstrap": "^5.1.1",
     "font-awesome": "^4.7.0"
