@@ -77,6 +77,52 @@ class Job extends Repository
         return $jobs;
     }
 
+    public function getTimeOfNextRun()
+    {
+        $jobsSql = "SELECT nextrun
+                    FROM job
+                    WHERE running = 0 and nextrun != :time
+                    ORDER BY nextrun
+                    LIMIT 1";
+        $jobsStmt = $this->dbcon->prepare($jobsSql);
+        $jobsRslt = $jobsStmt->executeQuery([':time' => time()]);
+        $nextjob = $jobsRslt->fetchAssociative();
+
+
+        $jobsSql = "SELECT nextrun
+                    FROM job
+                    WHERE running = 2
+                    ORDER BY nextrun
+                    LIMIT 1";
+        $jobsStmt = $this->dbcon->prepare($jobsSql);
+        $jobsRslt = $jobsStmt->executeQuery();
+        $manualjob = $jobsRslt->fetchAssociative();
+
+        if($nextjob == false && $manualjob == false) {
+            return PHP_INT_MAX;
+        }
+
+        if($manualjob != false) {
+            return 100;
+        }
+
+
+        $jobsSql = "SELECT running
+                    FROM job
+                    WHERE running > 2
+                    ORDER BY nextrun DESC
+                    LIMIT 1";
+        $jobsStmt = $this->dbcon->prepare($jobsSql);
+        $jobsRslt = $jobsStmt->executeQuery();
+        $running = $jobsRslt->fetchAssociative();
+
+        if($running == false) {
+            return (int)$nextjob['nextrun'];
+        }
+
+        return $nextjob < $running ? (int)$running ['running']: (int)$nextjob['nextrun'];
+    }
+
     public function setJobRunning(int $job, bool $status): void
     {
         $jobsSql = "UPDATE job SET running = :status WHERE id = :id AND running IN (0,1,2)";

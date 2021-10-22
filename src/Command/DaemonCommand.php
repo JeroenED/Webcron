@@ -46,6 +46,12 @@ class DaemonCommand extends Command
 
         while(1) {
             if($endofscript !== false && time() > $endofscript) break;
+
+            $maxwait = time() + 10;
+            $nextrun = $jobRepo->getTimeOfNextRun();
+            $sleepuntil = min($maxwait, $nextrun);
+            if($sleepuntil > time()) time_sleep_until($sleepuntil);
+
             $jobsToRun = $jobRepo->getJobsDue();
             if(!empty($jobsToRun)) {
                 foreach($jobsToRun as $job) {
@@ -76,7 +82,6 @@ class DaemonCommand extends Command
 
                 }
             }
-            sleep(1);
         }
         $output->writeln('Ended after ' . $timelimit . ' seconds');
         pcntl_wait($status);
