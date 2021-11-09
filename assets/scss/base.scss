@@ -1,1 +1,93 @@
 @import "~bootstrap/dist/css/bootstrap.css";
+
+$light-bgcolor: #ffffff;
+$light-textcolor: #212529;
+
+$dark-bgcolor: #212529;
+$dark-bordercolor: #656565;
+$dark-textcolor: #ffffff;
+
+body {
+  background-color: $light-bgcolor;
+  color: $light-textcolor;
+}
+
+.table {
+
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: $dark-bgcolor;
+    color: $dark-textcolor;
+  }
+
+  .table {
+    color: $dark-textcolor
+  }
+  .modal-content {
+    background-color: $dark-bgcolor;
+  }
+
+  .form-control {
+    border: 1px solid $dark-bordercolor;
+    background-color: $dark-bgcolor;
+    color: $dark-textcolor;
+
+    &:disabled {
+      border: 1px solid $dark-bordercolor;
+      background-color: $dark-bordercolor;
+      color: $dark-textcolor;
+    }
+
+    &:focus {
+      border: 1px solid $dark-bordercolor;
+      background-color: $dark-bgcolor;
+      color: $dark-textcolor;
+    }
+  }
+
+  .tempus-dominus-widget {
+    background-color: $dark-bgcolor;
+
+    .date-container-decades, .date-container-years, .date-container-months, .date-container-days,
+    .time-container-clock, .time-container-hour, .time-container-minute, .time-container-second {
+      div:not(.no-highlight) {
+        &:hover {
+          background-color: $dark-bordercolor
+        }
+
+
+        &.old,
+        &.new {
+          color: $dark-bordercolor;
+        }
+
+      }
+    }
+
+    .date-container-days .dow {
+      color: $dark-bordercolor
+    }
+
+    .toolbar {
+      div:hover {
+        background-color: $dark-bordercolor;
+      }
+    }
+  }
+
+  .accordion-item {
+    background-color: $dark-bgcolor;
+
+    .accordion-button {
+      background-color: $dark-bordercolor;
+      color: $dark-textcolor;
+
+      &:not(.collapsed) {
+        background-color: $dark-bgcolor;
+      }
+    }
+  }
+
+}
