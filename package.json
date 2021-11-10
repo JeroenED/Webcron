@@ -8,7 +8,8 @@
   "dependencies": {
     "@eonasdan/tempus-dominus": "^6.0.0-alpha14",
     "@popperjs/core": "^2.10.2",
-    "bootstrap": "^5.1.3"
+    "bootstrap": "^5.1.3",
+    "bootstrap-dark-5": "^1.1.3"
   },
   "devDependencies": {
     "@symfony/webpack-encore": "^1.6.1",

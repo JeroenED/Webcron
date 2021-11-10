@@ -1,40 +1,19 @@
-@import "../base";
-@import "../icons";
+@import "assets/scss/base";
+@import "assets/scss/icons";
 
 tr.norun td {
   background-color: #f8d7da;
 
-
   @media (prefers-color-scheme: dark) {
-    background-color: rgba(var(--bs-danger-rgb), var(--bs-text-opacity)) !important;
-    color: #f8d7da;
-
-    .btn-outline-danger {
-      color: #f8d7da;
-      border-color: #f8d7da;
-
-      &:hover {
-        background-color: #f8d7da;
-      }
-    }
+    background-color: initial;
   }
 }
 
 tr.running td {
   background-color: #d4edda;
 
-
   @media (prefers-color-scheme: dark) {
-    background-color: rgba(var(--bs-success-rgb), var(--bs-text-opacity)) !important;
-    color: #d4edda;
-
-    .btn-outline-success {
-      color: #d4edda;
-      border-color: #d4edda;
-      &:hover {
-        background-color: #d4edda;
-      }
-    }
+    background-color: initial;
   }
 }
 
