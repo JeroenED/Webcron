@@ -1,0 +1,85 @@
+$td-active-bg-alt: #375a7f !default;
+$td-active-color-alt: #222 !default;
+$td-btn-hover-bg-alt: #515151 !default;
+$td-disabled-color-alt: #b1b1b1 !default;
+$td-alternate-color-alt: #7e7e7e !default;
+$white-alt: #222 !default;
+
+@media (prefers-color-scheme: dark) {
+  .tempus-dominus-widget {
+    background-color: #222;
+
+    [data-action] {
+      &.disabled,
+      &.disabled:hover {
+        color: $td-disabled-color-alt;
+      }
+    }
+    .calendar-header {
+      color: $td-disabled-color-alt;
+    }
+
+    .toolbar {
+      & div {
+        color: $td-disabled-color-alt;
+
+        &:hover {
+          background: $td-btn-hover-bg-alt;
+        }
+      }
+    }
+
+    .date-container-days {
+
+      & .dow {
+        color: $td-disabled-color-alt;
+      }
+
+      & .cw {
+        color: $td-alternate-color-alt;
+      }
+    }
+
+    .date-container-decades, .date-container-years, .date-container-months, .date-container-days,
+    .time-container-clock, .time-container-hour, .time-container-minute, .time-container-second {
+      div:not(.no-highlight) {
+
+        &:hover {
+          background: $td-btn-hover-bg-alt;
+        }
+
+        &.active {
+          background-color: $td-active-bg-alt;
+          color: $td-active-color-alt;
+        }
+
+        &.active.today:before {
+          border-bottom-color: $white-alt;
+        }
+
+        &.old,
+        &.new {
+          color: $td-alternate-color-alt;
+        }
+
+        &.disabled,
+        &.disabled:hover {
+          color: $td-disabled-color-alt;
+        }
+
+        &.today {
+
+          &:before {
+            border-bottom-color: $td-active-bg-alt;
+          }
+        }
+      }
+    }
+
+    button {
+      color: $white-alt;
+      background-color: $td-active-bg-alt;
+      border-color: $td-active-bg-alt;
+    }
+  }
+}
