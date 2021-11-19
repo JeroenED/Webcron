@@ -13,6 +13,39 @@ use phpseclib3\Net\SSH2;
 
 class Job extends Repository
 {
+    public function getFailingJobs()
+    {
+        $runRepo = new Run($this->dbcon);
+
+        $jobsSql = "SELECT * FROM job";
+        $jobsStmt = $this->dbcon->prepare($jobsSql);
+        $jobsRslt = $jobsStmt->executeQuery();
+        $jobs = $jobsRslt->fetchAllAssociative();
+        foreach ($jobs as $key=>&$job) {
+            $job['data'] = json_decode($job['data'], true);
+            $job['host-displayname'] = $job['data']['host'];
+            $job['host'] = $job['data']['host'];
+            $job['service'] = $job['data']['service'] ?? '';
+            $failedruns = $runRepo->getRunsForJob($job['id'], true, $job['data']['fail-days']);
+            $failed = count($failedruns);
+            $all = count($runRepo->getRunsForJob($job['id'], false, $job['data']['fail-days']));
+            $job['lastfail'] = $failedruns[0] ?? NULL;
+            $job['needschecking'] = $all > 0  && (($failed / $all) * 100) > $job['data']['fail-pct'];
+            if(!empty($job['data']['containertype']) && $job['data']['containertype'] != 'none') {
+                $job['host-displayname'] = $job['data']['service'] . ' on ' . $job['data']['host'];
+            }
+            if($job['needschecking']) $failingjobs[] = $job;
+        }
+
+        if(empty($failingjobs)) return [];
+        array_multisort(
+            array_column($failingjobs, 'name'), SORT_ASC,
+            array_column($failingjobs, 'host'), SORT_ASC,
+            array_column($failingjobs, 'service'), SORT_ASC,
+            $failingjobs);
+        return $failingjobs;
+    }
+
     public function getAllJobs(bool $idiskey = false)
     {
         $runRepo = new Run($this->dbcon);

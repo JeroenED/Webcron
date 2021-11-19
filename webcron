@@ -5,6 +5,7 @@ require_once 'bootstrap.php';
 use JeroenED\Framework\Kernel;
 use JeroenED\Webcron\Command\CleanupCommand;
 use JeroenED\Webcron\Command\DaemonCommand;
+use JeroenED\Webcron\Command\MailFailedRunsCommand;
 use JeroenED\Webcron\Command\RunCommand;
 use Symfony\Component\Console\Application;
 
@@ -20,6 +21,7 @@ $kernel->parseDotEnv($kernel->getProjectDir() . '/.env');
 $application->add(new RunCommand($kernel));
 $application->add(new DaemonCommand($kernel));
 $application->add(new CleanupCommand($kernel));
+$application->add(new MailFailedRunsCommand($kernel));
 
 $application->run();
 

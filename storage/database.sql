@@ -14,7 +14,8 @@ CREATE TABLE job (
 CREATE TABLE "user" (
     id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     email TEXT(50) NOT NULL,
-    password TEXT(72) NOT NULL
+    password TEXT(72) NOT NULL,
+    sendmail INTEGER NOT NULL
 );
 
 -- run definition

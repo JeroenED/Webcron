@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Some cronjobs are Failing</title>
+</head>
+<body>
+<p>Some cronjobs are failing</p>
+{% for job in jobs %}
+    <h2>{{ job.name }} ({{ attribute(job, 'host-displayname') }})</h2>
+    <p>Last failed on {{ job.lastfail.timestamp | date("d/m/Y H:i:s") }}</p>
+    {% if job.lastfail.output is not empty %}
+    <pre>{{ job.lastfail.output }}</pre>
+    {% endif %}
+{% endfor %}
+</body>
+</html>
