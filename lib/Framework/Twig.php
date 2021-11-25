@@ -23,7 +23,7 @@ class Twig
         $loader = new FilesystemLoader([$kernel->getTemplateDir()]);
         $this->environment = new Environment($loader);
 
-        if(!$_ENV['DEBUG']) {
+        if($_ENV['DEBUG'] != 'true') {
             $cache = new FilesystemCache($kernel->getCacheDir() . '/twig');
             $this->environment->setCache($cache);
         }
