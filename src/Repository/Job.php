@@ -406,6 +406,13 @@ class Job extends Repository
         if ($manual === true) {
             $flags[] = Run::MANUAL;
         }
+
+        // Remove secrets from output
+        foreach($job['data']['vars'] as $key => $var) {
+            if ($var['issecret']) {
+                $result['output'] = str_replace($var['value'], '{'.$key.'}', $result['output']);
+            }
+        }
         // saving to database
         $runRepo = new Run($this->dbcon);
         $runRepo->addRun($job['id'], $result['exitcode'], floor($starttime), $runtime, $result['output'], $flags);
