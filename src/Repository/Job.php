@@ -408,9 +408,11 @@ class Job extends Repository
         }
 
         // Remove secrets from output
-        foreach($job['data']['vars'] as $key => $var) {
-            if ($var['issecret']) {
-                $result['output'] = str_replace($var['value'], '{'.$key.'}', $result['output']);
+        if(!empty($job['data']['vars'])) {
+            foreach($job['data']['vars'] as $key => $var) {
+                if ($var['issecret']) {
+                    $result['output'] = str_replace($var['value'], '{'.$key.'}', $result['output']);
+                }
             }
         }
         // saving to database
