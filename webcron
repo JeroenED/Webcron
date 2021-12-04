@@ -16,6 +16,7 @@ chdir(__DIR__);
 $kernel->setProjectDir(getcwd());
 $kernel->setConfigDir(getcwd() . '/config/');
 $kernel->setTemplateDir(getcwd() . '/templates/');
+$kernel->setCacheDir(getcwd() . '/cache/');
 $kernel->parseDotEnv($kernel->getProjectDir() . '/.env');
 
 $application->add(new RunCommand($kernel));
