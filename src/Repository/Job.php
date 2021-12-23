@@ -503,13 +503,13 @@ class Job extends Repository
         }
 
         $values['nextrun'] = DateTime::createFromFormat('d/m/Y H:i:s', $values['nextrun'])->getTimestamp();
-        $values['data']['retention'] = $values['retention'];
+        $values['data']['retention'] = !empty($values['retention']) ? (int)$values['retention'] : NULL;
 
         $values['data']['crontype'] = $values['crontype'];
         $values['data']['hosttype'] = $values['hosttype'];
         $values['data']['containertype'] = $values['containertype'];
-        $values['data']['fail-pct'] = $values['fail-pct'] ?? 50;
-        $values['data']['fail-days'] = $values['fail-days'] ?? 7;
+        $values['data']['fail-pct'] = !empty($values['fail-pct']) ? (int)$values['fail-pct'] : 50;
+        $values['data']['fail-days'] = !empty($values['fail-days']) ? (int)$values['fail-days'] : 7;
 
         if(empty($values['data']['crontype'])) {
             throw new \InvalidArgumentException("Crontype cannot be empty");
