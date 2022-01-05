@@ -31,7 +31,8 @@ const timepickerOptions = {
             close: 'icon-x',
         },
         components: {
-            seconds: true
+            seconds: true,
+            useTwentyfourHour: true
         }
     },
     hooks: { inputFormat: (context, date) => {
@@ -57,8 +58,6 @@ function initDatePickers()
 {
     new TempusDominus(document.querySelector('#nextrunselector'), timepickerOptions);
     new TempusDominus(document.querySelector('#lastrunselector'), timepickerOptions);
-    //document.querySelector('#nextrunselector').datetimepicker({format: 'DD/MM/YYYY HH:mm:ss'});
-    //document.querySelector('#lastrunselector').datetimepicker({format: 'DD/MM/YYYY HH:mm:ss'});
 }
 
 function initCronType()

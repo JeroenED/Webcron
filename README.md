@@ -7,7 +7,6 @@ Webcron management is an easy-to-use interface to manage cronjobs running on a p
 Rewrite is currently beta-quality. Production-use is possible, but use with caution. Personally, I'm using it myself already in a production-like environment.
 
 ### Known bugs
-* (__! Security vulnerability !__) Secret variables can become exposed in job output
 * Datepicker ([Tempus dominus v6](https://getdatepicker.com/)) is currently alpha-quality software. Altough [the dev states it is usable](https://jonathanpeterson.com/posts/state-of-my-datetime-picker-part-2.html) 
 
 ## Deploying
