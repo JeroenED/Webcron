@@ -18,7 +18,7 @@
             {% for job in jobs %}
                 <tr{% if job.running == true %} class="running text-success"{% elseif job.norun == true %} class="norun text-danger"{% endif %}>
                     <td class="d-none d-md-table-cell align-middle status-col text-center">{% if job.needschecking %}<i class="icon icon-warning text-warning big-icon"></i>{% endif %}</td>
-                    <td class="d-block d-md-table-cell align-middle">
+                    <td class="d-block d-md-table-cell align-middle job-name">
                         <span class="d-inline d-md-none">{% if job.needschecking %}<i class="icon icon-warning text-warning"></i>{% endif %}</span>
                         {{ job.name }}</td>
                     <td class="d-block d-md-table-cell align-middle">{{ attribute(job, 'host-displayname') }}</td>

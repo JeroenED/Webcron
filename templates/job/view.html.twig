@@ -1,7 +1,7 @@
 {% extends "base.html.twig" %}
 {% block title %}Overview of run for {{ job.name }}{% endblock %}
 {% block content %}
-    <h2>Overview of runs for {{ job.name }}</h2>
+    <h2>Overview of runs for <span class="job-name">{{ job.name }}</span></h2>
     <p>
         <a href="{{ path('job_edit', { id: job.id }) }}">Edit job</a>
         {% if allruns %} | <a href="{{ path('job_view', { id: job.id })}}">Only show failed runs</a>
