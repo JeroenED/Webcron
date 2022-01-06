@@ -70,5 +70,41 @@ class Twig
             return "{$days}d {$hours}h {$minutes}m {$seconds}s";
         });
         $this->environment->addFilter($secondsToInterval);
+
+        $parseTags = new TwigFilter('parsetags', function(string $text) {
+            $results = [];
+            preg_match_all('/\[([A-Za-z0-9 \-]+)\]/', $text, $results);
+            foreach ($results[0] as $key=>$result) {
+                $background = substr(md5($results[0][$key]), 0, 6);
+                $color = $this->lightOrDark($background) == 'dark' ? 'ffffff' : '000000';
+                $text = str_replace($results[0][$key], '<span class="tag" style="background-color: #' . $background . '; color: #' . $color . '">' . $results[1][$key] . '</span>', $text);
+            }
+            return $text;
+        });
+
+        $this->environment->addFilter($parseTags);
+
+    }
+
+    private function lightOrDark ($color) {
+        $color = str_split($color, 2);
+        foreach($color as &$value) {
+            $value = hexdec($value);
+        }
+
+        // HSP (Highly Sensitive Poo) equation from http://alienryderflex.com/hsp.html
+        $hsp = sqrt(
+            0.299 * ($color[0] * $color[0]) +
+            0.587 * ($color[1] * $color[1]) +
+            0.114 * ($color[2] * $color[2])
+        );
+
+
+        // Using the HSP value, determine whether the color is light or dark
+        if ($hsp>140) {
+            return 'light';
+        } else {
+            return 'dark';
+        }
     }
 }

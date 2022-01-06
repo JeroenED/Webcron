@@ -20,7 +20,7 @@
                     <td class="d-none d-md-table-cell align-middle status-col text-center">{% if job.needschecking %}<i class="icon icon-warning text-warning big-icon"></i>{% endif %}</td>
                     <td class="d-block d-md-table-cell align-middle job-name">
                         <span class="d-inline d-md-none">{% if job.needschecking %}<i class="icon icon-warning text-warning"></i>{% endif %}</span>
-                        {{ job.name }}</td>
+                        {{ job.name | parsetags | raw }}</td>
                     <td class="d-block d-md-table-cell align-middle">{{ attribute(job, 'host-displayname') }}</td>
                     <td class="d-block d-md-table-cell align-middle">{{ job.interval | interval }}</td>
                     <td class="d-block d-md-table-cell align-middle">{{ job.nextrun |  date("d/m/Y H:i:s") }}</td>

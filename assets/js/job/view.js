@@ -1,5 +1,4 @@
 import 'bootstrap';
-import Utils from "../utils";
 
 document.addEventListener("readystatechange", event => {
     if(event.target.readyState === 'complete') {
