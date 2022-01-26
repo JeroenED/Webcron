@@ -54,23 +54,26 @@ class Twig
     }
 
     public function addFilters() {
-        $secondsToInterval = new TwigFilter('interval', function(int $time) {
+        $secondsToInterval = new TwigFilter('interval', function(int|float $time) {
+            $return = '';
+
             $days = floor($time / (60 * 60 * 24));
             $time -= $days * (60 * 60 * 24);
+            $return .= ($days != 0) ? "{$days}d " : '';
 
             $hours = floor($time / (60 * 60));
             $time -= $hours * (60 * 60);
+            $return .= ($hours != 0) ? "{$hours}h " : '';
 
             $minutes = floor($time / 60);
             $time -= $minutes * 60;
+            $return .= ($minutes != 0) ? "{$minutes}m " : '';
 
-            $seconds = floor($time);
-            $time -= $seconds;
+            $time = round($time, 3);
+            $return .= ($time != 0) ? "{$time}s " : '';
 
-            return "{$days}d {$hours}h {$minutes}m {$seconds}s";
+            return $return;
         });
-        $this->environment->addFilter($secondsToInterval);
-
         $parseTags = new TwigFilter('parsetags', function(string $text) {
             $results = [];
             preg_match_all('/\[([A-Za-z0-9 \-]+)\]/', $text, $results);
@@ -82,6 +85,7 @@ class Twig
             return $text;
         });
 
+        $this->environment->addFilter($secondsToInterval);
         $this->environment->addFilter($parseTags);
 
     }

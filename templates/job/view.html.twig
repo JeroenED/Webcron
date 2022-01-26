@@ -15,7 +15,7 @@
                     <button class="accordion-button{% if loop.index != 1 %} collapsed{% endif %}" type="button" data-bs-toggle="collapse" data-bs-target="#run-{{ run.id }}" aria-expanded="{% if loop.index != 1 %}true{% else %}false{% endif %}" aria-controls="run-{{ run.id }}">
                         <div>
                             <div class="d-md-inline d-block text-left">{{ run.timestamp | date("d/m/Y H:i:s") }}</div>
-                            <div class="d-md-inline d-block text-left">(exit code: {{ run.exitcode }} | runtime: {{ run.runtime | format_number({fraction_digit: 3}) }})</div>
+                            <div class="d-md-inline d-block text-left">(exit code: {{ run.exitcode }} | runtime: {{ run.runtime | interval }})</div>
                             {% if 'M' in run.flags %}
                                 <div class="d-md-inline d-block text-left">Manual Run</div>
                             {% endif %}
