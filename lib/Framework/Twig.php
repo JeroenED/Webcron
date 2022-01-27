@@ -59,18 +59,18 @@ class Twig
 
             $days = floor($time / (60 * 60 * 24));
             $time -= $days * (60 * 60 * 24);
-            $return .= ($days != 0) ? "{$days}d " : '';
+            $return .= ($days != 0 || !empty($return)) ? "{$days}d " : '';
 
             $hours = floor($time / (60 * 60));
             $time -= $hours * (60 * 60);
-            $return .= ($hours != 0) ? "{$hours}h " : '';
+            $return .= ($hours != 0 || !empty($return)) ? "{$hours}h " : '';
 
             $minutes = floor($time / 60);
             $time -= $minutes * 60;
-            $return .= ($minutes != 0) ? "{$minutes}m " : '';
+            $return .= ($minutes != 0 || !empty($return)) ? "{$minutes}m " : '';
 
             $time = round($time, 3);
-            $return .= ($time != 0) ? "{$time}s " : '';
+            $return .= ($time != 0 || !empty($return)) ? "{$time}s " : '';
 
             return $return;
         });
