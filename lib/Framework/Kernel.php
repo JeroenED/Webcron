@@ -100,6 +100,13 @@ class Kernel
         $this->router = new Router();
         $this->router->parseRoutes($this->getConfigDir(), 'routes.yaml');
         $request = $this->parseRequest();
+
+        if($request->isSecure()) {
+            ini_set('session.cookie_httponly', true);
+            ini_set('session.cookie_secure', true);
+        }
+
+        session_start();
         return $this->router->route($request, $this);
     }
 
