@@ -5,9 +5,18 @@ document.addEventListener("readystatechange", event => {
     if(event.target.readyState === 'complete') {
         initDeleteButtons();
         initRunNowButtons();
+        initTags();
     }
 });
 
+function initTags() {
+    document.querySelectorAll('.tag').forEach(elem => {
+        let backcolor = elem.dataset.backgroundColor;
+        let frontcolor = elem.dataset.color;
+        elem.style.backgroundColor = backcolor;
+        elem.style.color = frontcolor;
+    })
+}
 function initDeleteButtons() {
     document.querySelectorAll('.delete-btn').forEach(elem => elem.addEventListener("click", event => {
         let me = event.currentTarget;

@@ -80,7 +80,7 @@ class Twig
             foreach ($results[0] as $key=>$result) {
                 $background = substr(md5($results[0][$key]), 0, 6);
                 $color = $this->lightOrDark($background) == 'dark' ? 'ffffff' : '000000';
-                $text = str_replace($results[0][$key], '<span class="tag" style="background-color: #' . $background . '; color: #' . $color . '">' . $results[1][$key] . '</span>', $text);
+                $text = str_replace($results[0][$key], '<span class="tag" data-background-color="#' . $background . '" data-color="#' . $color . '">' . $results[1][$key] . '</span>', $text);
             }
             return $text;
         });

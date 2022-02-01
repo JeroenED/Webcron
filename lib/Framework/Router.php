@@ -33,6 +33,9 @@ class Router
         $response = $controllerObj->$action(...$method);
 
         if ($response instanceof Response) {
+            $response->headers->add([
+                "Content-Security-Policy" => "default-src 'none'; font-src 'self'; style-src 'self'; script-src 'self'; img-src 'self' data:; form-action 'self'; require-trusted-types-for 'script'"
+                ]);
             return $response;
         } else {
             throw new InvalidArgumentException();
