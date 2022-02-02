@@ -34,7 +34,8 @@ class Router
 
         if ($response instanceof Response) {
             $response->headers->add([
-                "Content-Security-Policy" => "default-src 'none'; font-src 'self'; style-src 'self'; script-src 'self'; connect-src 'self'; img-src 'self' data:; form-action 'self'; require-trusted-types-for 'script'; frame-ancestors 'none'; base-uri 'none'"
+                "Content-Security-Policy" => "default-src 'none'; font-src 'self'; style-src 'self'; script-src 'self'; connect-src 'self'; img-src 'self' data:; form-action 'self'; require-trusted-types-for 'script'; frame-ancestors 'none'; base-uri 'none'",
+                "Referrer-Policy" => "same-origin"
                 ]);
             return $response;
         } else {
