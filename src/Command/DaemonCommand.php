@@ -43,7 +43,7 @@ class DaemonCommand extends Command
             throw new \InvalidArgumentException('Time limit has incorrect value');
         }
         $jobRepo->unlockJob();
-
+        touch($this->kernel->getCacheDir() . '/daemon-running.lock');
         while(1) {
             if($endofscript !== false && time() > $endofscript) break;
 
@@ -85,6 +85,8 @@ class DaemonCommand extends Command
         }
         $output->writeln('Ended after ' . $timelimit . ' seconds');
         pcntl_wait($status);
+
+        unlink($this->kernel->getCacheDir() . '/daemon-running.lock');
         return Command::SUCCESS;
     }
 }

@@ -3,6 +3,11 @@ default:
   defaults:
     _controller: JeroenED\Webcron\Controller\JobController::defaultAction
 
+health:
+  path: '/health'
+  defaults:
+    _controller: JeroenED\Webcron\Controller\SiteController::HealthAction
+
 login:
   path: '/login'
   defaults:

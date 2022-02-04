@@ -46,6 +46,40 @@ class Job extends Repository
         return $failingjobs;
     }
 
+    public function getRunningJobs(bool $idiskey = false)
+    {
+        $runRepo = new Run($this->dbcon);
+
+        $jobsSql = "SELECT * FROM job WHERE running != 0;";
+        $jobsStmt = $this->dbcon->prepare($jobsSql);
+        $jobsRslt = $jobsStmt->executeQuery();
+        $jobs = $jobsRslt->fetchAllAssociative();
+        $returnbyid = [];
+        foreach ($jobs as $key=>&$job) {
+            $job['data'] = json_decode($job['data'], true);
+            $job['host-displayname'] = $job['data']['host'];
+            $job['host'] = $job['data']['host'];
+            $job['service'] = $job['data']['service'] ?? '';
+            $job['norun'] = isset($job['lastrun']) && $job['nextrun'] > $job['lastrun'];
+            $job['running'] = $job['running'] != 0;
+            $failed = count($runRepo->getRunsForJob($job['id'], true, $job['data']['fail-days']));
+            $all = count($runRepo->getRunsForJob($job['id'], false, $job['data']['fail-days']));
+            $job['needschecking'] = $all > 0  && (($failed / $all) * 100) > $job['data']['fail-pct'];
+            if(!empty($job['data']['containertype']) && $job['data']['containertype'] != 'none') {
+                $job['host-displayname'] = $job['data']['service'] . ' on ' . $job['data']['host'];
+            }
+            if($idiskey) $returnbyid[$job['id']] = $job;
+        }
+
+        if($idiskey) return $returnbyid;
+        array_multisort(
+            array_column($jobs, 'name'), SORT_ASC,
+            array_column($jobs, 'host'), SORT_ASC,
+            array_column($jobs, 'service'), SORT_ASC,
+            $jobs);
+        return $jobs;
+    }
+
     public function getAllJobs(bool $idiskey = false)
     {
         $runRepo = new Run($this->dbcon);
