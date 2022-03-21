@@ -22,6 +22,7 @@ class Kernel
     private string $templateDir;
     private string $cacheDir;
     private Router $router;
+    private ?Connection $dbCon = NULL;
 
     /**
      * @return string
@@ -123,8 +124,18 @@ class Kernel
         return $request;
     }
 
+    public function getNewDbCon(): Connection {
+        if(!is_null($this->dbCon)) {
+            $this->dbCon->close();
+            $this->dbCon = null;
+        }
+        $this->dbCon = DriverManager::getConnection(['url' => $_ENV['DATABASE']]);
+        return $this->dbCon;
+    }
+
     public function getDbCon(): Connection
     {
-        return DriverManager::getConnection(['url' => $_ENV['DATABASE']]);
+        if(is_null($this->dbCon)) $this->dbCon = DriverManager::getConnection(['url' => $_ENV['DATABASE']]);
+        return $this->dbCon;
     }
 }

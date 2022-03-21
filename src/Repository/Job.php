@@ -137,7 +137,7 @@ class Job extends Repository
                         AND running IN (0,2)
                     )
                     OR (running NOT IN (0,1,2) AND running < :timestamprun)
-                    OR (running == 2)";
+                    OR (running = 2)";
         $jobsStmt = $this->dbcon->prepare($jobsSql);
         $jobsRslt = $jobsStmt->executeQuery([':timestamp' => time(), ':timestamplastrun' => time(), ':timestamprun' => time()]);
         $jobs = $jobsRslt->fetchAllAssociative();
@@ -501,7 +501,7 @@ class Job extends Repository
 
         $data = $this->prepareJob($values);
         $data['data'] = json_encode($data['data']);
-        $addJobSql = "INSERT INTO job(name, data, interval, nextrun, lastrun, running) VALUES (:name, :data, :interval, :nextrun, :lastrun, :running)";
+        $addJobSql = "INSERT INTO job(name, data, `interval`, nextrun, lastrun, running) VALUES (:name, :data, :interval, :nextrun, :lastrun, :running)";
 
         $addJobStmt = $this->dbcon->prepare($addJobSql);
         $addJobStmt->executeQuery([':name' => $data['name'], ':data' => $data['data'], ':interval' => $data['interval'], ':nextrun' => $data['nextrun'], ':lastrun' => $data['lastrun'], ':running' => 0]);
@@ -520,7 +520,7 @@ class Job extends Repository
         }
         $data = $this->prepareJob($values);
         $data['data'] = json_encode($data['data']);
-        $editJobSql = "UPDATE job SET name = :name, data = :data, interval = :interval, nextrun = :nextrun, lastrun = :lastrun WHERE id = :id";
+        $editJobSql = "UPDATE job SET name = :name, data = :data, `interval` = :interval, nextrun = :nextrun, lastrun = :lastrun WHERE id = :id";
 
         $editJobStmt = $this->dbcon->prepare($editJobSql);
         $editJobStmt->executeQuery([':name' => $data['name'], ':data' => $data['data'], ':interval' => $data['interval'], ':nextrun' => $data['nextrun'], ':lastrun' => $data['lastrun'],':id' => $id ]);
@@ -559,7 +559,7 @@ class Job extends Repository
                 $values['data']['getservices-command'] = $values['getservices-command'];
                 $values['data']['getservices-response'] = explode(',',$values['getservices-response']);
                 $values['data']['reboot-duration'] = $values['reboot-duration'];
-                if(!empty($values['reboot-delay'])) {
+                if(!empty($values['reboot-delay']) || $values['reboot-delay'] == 0) {
                     $newsecretkey = count($values['var-value']);
                     $values['var-id'][$newsecretkey] = 'reboot-delay';
                     $values['var-issecret'][$newsecretkey] = false;
@@ -638,8 +638,8 @@ class Job extends Repository
         }
 
         if(!empty($values['var-value'])) {
-            foreach($values['var-value'] as $key => $name) {
-                if(!empty($name)) {
+            foreach($values['var-value'] as $key => $value) {
+                if(!empty($value) || $value == 0) {
                     if(isset($values['var-issecret'][$key]) && $values['var-issecret'][$key] != false) {
                         $values['data']['vars'][$values['var-id'][$key]]['issecret'] = true;
                         $values['data']['vars'][$values['var-id'][$key]]['value'] = base64_encode(Secret::encrypt($values['var-value'][$key]));
