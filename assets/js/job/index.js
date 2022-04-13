@@ -1,5 +1,5 @@
-import { Modal } from 'bootstrap';
-import * as image from '../../images/ajax-loader.gif';
+const bootstrap = require('bootstrap');
+const image = require('../../images/ajax-loader.gif');
 
 document.addEventListener("readystatechange", event => {
     if(event.target.readyState === 'complete') {
@@ -41,7 +41,7 @@ function initRunNowButtons() {
         let runnowCnt = document.querySelector('.runnow-content');
         if(runnowCnt.querySelector('img') === null) {
             let loaderImg = document.createElement('img');
-            loaderImg.src = image.default;
+            loaderImg.src = image;
             runnowCnt.appendChild(loaderImg);
         }
         document.querySelector('.container-fluid').classList.add('blur');
@@ -76,7 +76,7 @@ function initRunNowButtons() {
                     modal.querySelector('.modal-body').innerHTML = content;
                 }
 
-                var bsModal = new Modal('#runnow_result').show();
+                var bsModal = new bootstrap.Modal('#runnow_result').show();
 
                 document.querySelector('.container-fluid').classList.remove('blur');
                 document.querySelector('.runnow-overlay').classList.remove('d-block');

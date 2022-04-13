@@ -9,7 +9,8 @@
     "@eonasdan/tempus-dominus": "^6.0.0-beta1",
     "@popperjs/core": "^2.11.2",
     "bootstrap": "^5.1.3",
-    "bootstrap-dark-5": "^1.1.3"
+    "bootstrap-dark-5": "^1.1.3",
+    "moment": "^2.29.2"
   },
   "devDependencies": {
     "@symfony/webpack-encore": "^1.8.1",

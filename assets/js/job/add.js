@@ -1,5 +1,7 @@
-import 'bootstrap';
-import {TempusDominus,DateTime} from '@eonasdan/tempus-dominus/dist/js/tempus-dominus';
+const bootstrap = require('bootstrap');
+const moment = require('moment');
+const tempusDominus = require('@eonasdan/tempus-dominus');
+const momentparse = require('./momentjs-parse')
 
 document.addEventListener("readystatechange", event => {
     if(event.target.readyState === 'complete') {
@@ -35,29 +37,13 @@ const timepickerOptions = {
             useTwentyfourHour: true
         }
     },
-    hooks: { inputFormat: (context, date) => {
-            return date.getDate().toString().padStart(2, '0') + '/' +
-                (date.getMonth() + 1).toString().padStart(2, '0') + '/' +
-                date.getFullYear().toString().padStart(2, '0') + ' '  +
-                date.getHours().toString().padStart(2, '0') + ':'  +
-                date.getMinutes().toString().padStart(2, '0') + ':' +
-                date.getSeconds().toString().padStart(2, '0')
-        },
-        inputParse: (context, value) => {
-            let day = parseInt(value.substring(0,2));
-            let month = parseInt(value.substring(3,5)) - 1;
-            let year = parseInt(value.substring(6,10));
-            let hour = parseInt(value.substring(11,13));
-            let min = parseInt(value.substring(14,16));
-            let sec = parseInt(value.substring(17,19));
-            return new DateTime(year, month, day, hour, min, sec, 0).setLocale('en');
-        }
-    }
 }
 function initDatePickers()
 {
-    new TempusDominus(document.querySelector('#nextrunselector'), timepickerOptions);
-    new TempusDominus(document.querySelector('#lastrunselector'), timepickerOptions);
+
+    tempusDominus.extend(momentparse, 'DD/MM/yyyy HH:mm:ss');
+    new tempusDominus.TempusDominus(document.querySelector('#nextrunselector'), timepickerOptions);
+    new tempusDominus.TempusDominus(document.querySelector('#lastrunselector'), timepickerOptions);
 }
 
 function initCronType()
