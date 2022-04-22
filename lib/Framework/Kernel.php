@@ -125,10 +125,6 @@ class Kernel
     }
 
     public function getNewDbCon(): Connection {
-        if(!is_null($this->dbCon)) {
-            $this->dbCon->close();
-            $this->dbCon = null;
-        }
         $this->dbCon = DriverManager::getConnection(['url' => $_ENV['DATABASE']]);
         return $this->dbCon;
     }

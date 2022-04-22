@@ -68,14 +68,13 @@ class DaemonCommand extends Command
                     declare(ticks = 1);
                     pcntl_signal(SIGCHLD, SIG_IGN);
                     $pid = pcntl_fork();
-                    $jobRepo = NULL;
-                    $jobRepo = new Job($this->kernel->getNewDbCon());
+                    $jobRepoFork = new Job($this->kernel->getNewDbCon());
                     if($pid == -1) {
-                        $jobRepo->RunJob($job['id'], $job['running'] == 2);
-                        $jobRepo->setJobRunning($job['id'], false);
+                        $jobRepoFork->RunJob($job['id'], $job['running'] == 2);
+                        $jobRepoFork->setJobRunning($job['id'], false);
                     } elseif ($pid == 0) {
-                        $jobRepo->RunJob($job['id'], $job['running'] == 2);
-                        $jobRepo->setJobRunning($job['id'], false);
+                        $jobRepoFork->RunJob($job['id'], $job['running'] == 2);
+                        $jobRepoFork->setJobRunning($job['id'], false);
                         exit;
                     }
                 }

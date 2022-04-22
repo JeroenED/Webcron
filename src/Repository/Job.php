@@ -416,6 +416,7 @@ class Job extends Repository
 
     public function runJob(int $job, bool $manual): array
     {
+        global $kernel;
         $starttime = microtime(true);
         $job = $this->getJob($job, true);
         if ($job['data']['crontype'] == 'http') {
@@ -450,7 +451,8 @@ class Job extends Repository
             }
         }
         // saving to database
-        $runRepo = new Run($this->dbcon);
+        $runRepo = new Run($kernel->getNewDbCon());
+        $this->dbcon = $kernel->getNewDbCon();
         $runRepo->addRun($job['id'], $result['exitcode'], floor($starttime), $runtime, $result['output'], $flags);
         if (!$manual){
             // setting nextrun to next run
