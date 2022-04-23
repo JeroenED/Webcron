@@ -47,11 +47,6 @@ class DaemonCommand extends Command
         while(1) {
             if($endofscript !== false && time() > $endofscript) break;
 
-            $maxwait = time() + 10;
-            $nextrun = $jobRepo->getTimeOfNextRun();
-            $sleepuntil = min($maxwait, $nextrun);
-            if($sleepuntil > time()) time_sleep_until($sleepuntil);
-
             $jobsToRun = $jobRepo->getJobsDue();
             if(!empty($jobsToRun)) {
                 foreach($jobsToRun as $job) {
@@ -68,17 +63,19 @@ class DaemonCommand extends Command
                     declare(ticks = 1);
                     pcntl_signal(SIGCHLD, SIG_IGN);
                     $pid = pcntl_fork();
-                    $jobRepoFork = new Job($this->kernel->getNewDbCon());
+                    $jobRepo = NULL;
+                    $jobRepo = new Job($this->kernel->getNewDbCon());
                     if($pid == -1) {
-                        $jobRepoFork->RunJob($job['id'], $job['running'] == 2);
-                        $jobRepoFork->setJobRunning($job['id'], false);
+                        $jobRepo->RunJob($job['id'], $job['running'] == 2);
+                        $jobRepo->setJobRunning($job['id'], false);
                     } elseif ($pid == 0) {
-                        $jobRepoFork->RunJob($job['id'], $job['running'] == 2);
-                        $jobRepoFork->setJobRunning($job['id'], false);
+                        $jobRepo->RunJob($job['id'], $job['running'] == 2);
+                        $jobRepo->setJobRunning($job['id'], false);
                         exit;
                     }
                 }
             }
+            sleep(1);
         }
         $output->writeln('Ended after ' . $timelimit . ' seconds');
         pcntl_wait($status);
