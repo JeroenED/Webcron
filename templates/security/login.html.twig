@@ -14,21 +14,29 @@
             <div class="row justify-content-md-center">
                 <div class="col-md-4 col-xs-12">
                     {{ include('flashes.html.twig') }}
+                    {% if error %}
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            {{ error.messageKey|trans(error.messageData, 'security') }}
+                            <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close">
+                            </button>
+                        </div>
+                    {% endif %}
                     <h1>Webcron management</h1>
                     <form class="form-horizontal" method="post" action="{{ path('login_check') }}">
 
                         <div class="mb-3">
-                            <label for="name">Username</label>
-                            <input type="text" name="name" class="form-control" id="name" placeholder="username">
+                            <label for="username">Username</label>
+                            <input type="text" name="_username" class="form-control" id="username" placeholder="username">
                         </div>
                         <div class="mb-3">
-                            <label for="passwd">Password</label>
-                            <input type="password" name="passwd" class="form-control" id="passwd" placeholder="password">
+                            <label for="password">Password</label>
+                            <input type="password" name="_password" class="form-control" id="password" placeholder="password">
                         </div>
                         <div class="form-check mb-3">
-                            <input type="checkbox" name="autologin" id="autologin" value="autologin" class="form-check-input">
+                            <input type="checkbox" name="_remember_me" id="autologin" class="form-check-input">
                             <label class="from-check-label" for="autologin">Remember, remember</label>
                         </div>
+                        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
                         <button type="submit" class="btn btn-outline-primary">Submit</button>
                     </form>
                 </div>

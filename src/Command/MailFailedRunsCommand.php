@@ -1,14 +1,13 @@
 <?php
 
-namespace JeroenED\Webcron\Command;
+namespace App\Command;
 
-use JeroenED\Framework\Kernel;
-use JeroenED\Framework\Twig;
-use JeroenED\Webcron\Repository\Job;
-use JeroenED\Webcron\Repository\User;
+use App\Repository\JobRepository;
+use App\Repository\UserRepository;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Mailer\Mailer;
 use Symfony\Component\Mailer\Transport;
 use Symfony\Component\Mime\Address;
@@ -19,7 +18,7 @@ class MailFailedRunsCommand extends Command
     protected static $defaultName = 'mail-failed-runs';
     protected $kernel;
 
-    public function __construct(Kernel $kernel)
+    public function __construct(KernelInterface $kernel)
     {
         $this->kernel = $kernel;
         parent::__construct();
@@ -35,8 +34,8 @@ class MailFailedRunsCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
 
-        $userRepo = new User($this->kernel->getDbCon());
-        $jobRepo = new Job($this->kernel->getDbCon());
+        $userRepo = new UserRepository($this->kernel->getDbCon());
+        $runRepo = $this->getEntityManager()->getRepository(Run::class);
 
         $failedJobs = $jobRepo->getFailingJobs();
 

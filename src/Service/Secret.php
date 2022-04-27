@@ -1,13 +1,13 @@
 <?php
 
 
-namespace JeroenED\Webcron\Repository;
+namespace App\Service;
 
 
 class Secret
 {
     static function encrypt($plaintext) {
-        $password = $_ENV['SECRET'];
+        $password = $_ENV['APP_SECRET'];
         $method = $_ENV['ENCRYPTION_METHOD'];
         $key = hash($_ENV['HASHING_METHOD'], $password, true);
         $iv = openssl_random_pseudo_bytes(16);
@@ -19,7 +19,7 @@ class Secret
     }
 
     static function decrypt($ivHashCiphertext) {
-        $password = $_ENV['SECRET'];
+        $password = $_ENV['APP_SECRET'];
         $method = $_ENV['ENCRYPTION_METHOD'];
         $iv = substr($ivHashCiphertext, 0, 16);
         $hash = substr($ivHashCiphertext, 16, 32);

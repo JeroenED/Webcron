@@ -1,14 +1,16 @@
 <?php
 
 
-namespace JeroenED\Webcron\Command;
+namespace App\Command;
 
-use JeroenED\Framework\Kernel;
-use JeroenED\Webcron\Repository\Job;
+use App\Entity\Job;
+use App\Repository\JobRepository;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\HttpKernel\KernelInterface;
 
 
 class DaemonCommand extends Command
@@ -16,10 +18,13 @@ class DaemonCommand extends Command
 
     protected static $defaultName = 'daemon';
     protected $kernel;
+    protected $doctrine;
 
-    public function __construct(Kernel $kernel)
+    public function __construct(KernelInterface $kernel,  ManagerRegistry $doctrine)
     {
         $this->kernel = $kernel;
+        $this->doctrine = $doctrine;
+
         parent::__construct();
     }
 
@@ -33,7 +38,7 @@ class DaemonCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $jobRepo = new Job($this->kernel->getDbCon());
+        $jobRepo = $this->doctrine->getRepository(Job::class);
         $timelimit = $input->getOption('time-limit') ?? false;
         if ($timelimit === false) {
             $endofscript = false;
@@ -63,8 +68,8 @@ class DaemonCommand extends Command
                     declare(ticks = 1);
                     pcntl_signal(SIGCHLD, SIG_IGN);
                     $pid = pcntl_fork();
-                    $jobRepo = NULL;
-                    $jobRepo = new Job($this->kernel->getNewDbCon());
+                    $this->doctrine->getConnection()->close();
+                    $jobRepo = $this->doctrine->getRepository(Job::class);
                     if($pid == -1) {
                         $jobRepo->RunJob($job['id'], $job['running'] == 2);
                         $jobRepo->setJobRunning($job['id'], false);

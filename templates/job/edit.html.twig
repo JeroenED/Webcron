@@ -34,32 +34,32 @@
         <label for="lastrun">Last run</label>
         <div class="input-group">
             <div class="input-group-text border-end-0">
-                <input type="checkbox" name="lastrun-eternal" class="lastrun-eternal" placeholder="value" value="true"{% if lastrun is empty %} checked{% endif %}>
+                <input type="checkbox" name="lastrun-eternal" class="lastrun-eternal" placeholder="value" value="true"{% if lastrun is defined %} checked{% endif %}>
             </div>
             <span class="input-group-text border-start-0">Eternal</span>
-            <input type="text" autocomplete="off" pattern="[0-9]{2}\/[0-9]{2}\/[0-9]{4} [0-9]{2}:[0-9]{2}:[0-9]{2}" data-placeholder="{{ date() | date("d/m/Y H:i:s")}}" id="lastrunselector" class="form-control datetimepicker-input" data-target="#lastrunselector" data-bs-toggle="datetimepicker" name="lastrun"{% if lastrun is empty %} disabled{% else %} value="{{ lastrun | date("d/m/Y H:i:s")}}"{% endif %}>
+            <input type="text" autocomplete="off" pattern="[0-9]{2}\/[0-9]{2}\/[0-9]{4} [0-9]{2}:[0-9]{2}:[0-9]{2}" data-placeholder="{{ date() | date("d/m/Y H:i:s")}}" id="lastrunselector" class="form-control datetimepicker-input" data-target="#lastrunselector" data-bs-toggle="datetimepicker" name="lastrun"{% if lastrun is defined %} disabled{% else %} value="{{ lastrun | date("d/m/Y H:i:s")}}"{% endif %}>
         </div>
     </div>
 
     <div class="mb-3">
         <label for="retention">Retention (in days)</label>
-        <input type="number" name="retention" class="form-control" id="retention" placeholder="7" value="{% if attribute(data, 'retention') is not empty %}{{ attribute(data, 'retention') }}{% endif %}">
+        <input type="number" name="retention" class="form-control" id="retention" placeholder="7" value="{% if attribute(data, 'retention') is defined %}{{ attribute(data, 'retention') }}{% endif %}">
         <small id="retention-help" class="form-text text-muted">How many days (at least) to keep runs of this job in the database</small>
     </div>
 
     <div class="mb-3">
         <label for="fail-pct">Max fail percentage</label>
         <div class="input-group d-flex">
-            <div class="range-value range-value-fail-pct pe-1">{% if attribute(data, 'fail-pct') is not empty %}{{ attribute(data, 'fail-pct') }}{% else %}50{% endif %}%</div>
+            <div class="range-value range-value-fail-pct pe-1">{% if attribute(data, 'fail-pct') is defined %}{{ attribute(data, 'fail-pct') }}{% else %}50{% endif %}%</div>
             <div class="range-input ps-1 flex-grow-1">
-                <input type="range" name="fail-pct" class="form-range range-input-fail-pct" id="fail-pct" max="100" step="5" value="{% if attribute(data, 'fail-pct') is not empty %}{{ attribute(data, 'fail-pct') }}{% else %}50{% endif %}">
+                <input type="range" name="fail-pct" class="form-range range-input-fail-pct" id="fail-pct" max="100" step="5" value="{% if attribute(data, 'fail-pct') is defined %}{{ attribute(data, 'fail-pct') }}{% else %}50{% endif %}">
             </div>
         </div>
     </div>
 
     <div class="mb-3">
         <label for="fail-days">Number of days calculated for fail percentage</label>
-        <input type="number" name="fail-days" class="form-control" id="fail-days" placeholder="7" value="{% if attribute(data, 'fail-days') is not empty %}{{ attribute(data, 'fail-days') }}{% endif %}">
+        <input type="number" name="fail-days" class="form-control" id="fail-days" placeholder="7" value="{% if attribute(data, 'fail-days') is defined %}{{ attribute(data, 'fail-days') }}{% endif %}">
     </div>
 
     <h3>Job details</h3>
@@ -124,12 +124,12 @@
         <h4>Command details</h4>
         <div class="mb-3">
             <label for="command">Command</label>
-            <input type="text" name="command" class="form-control" id="command" placeholder="sudo apt update" value="{% if data.command is not empty %}{{ data.command }}{% endif %}">
+            <input type="text" name="command" class="form-control" id="command" placeholder="sudo apt update" value="{% if data.command is defined %}{{ data.command }}{% endif %}">
         </div>
 
         <div class="mb-3">
             <label for="response">Expected exit code</label>
-            <input type="text" name="response" class="form-control" id="response" placeholder="0" value="{% if data.response is not empty %}{{ data.response | join(',') }}{% endif %}">
+            <input type="text" name="response" class="form-control" id="response" placeholder="0" value="{% if data.response is defined %}{{ data.response | join(',') }}{% endif %}">
         </div>
     </div>
 
@@ -137,29 +137,32 @@
         <h4>Reboot job details</h4>
         <div class="mb-3">
             <label for="reboot-command">Reboot command</label>
-            <input type="text" name="reboot-command" class="form-control" id="reboot-command" placeholder="systemctl reboot" value="{% if attribute(data, 'reboot-command') is not empty %}{{ attribute(data, 'reboot-command') }}{% endif %}">
+            <input type="text" name="reboot-command" class="form-control" id="reboot-command" placeholder="systemctl reboot" value="
+            {% if attribute(data, 'reboot-command') is defined %}
+                {{ attribute(data, 'reboot-command') }}
+            {% endif %}">
             <small id="reboot-command-help" class="form-text text-muted">Use {reboot-delay} or {reboot-delay-secs} to add the delay in your command</small>
         </div>
 
         <div class="mb-3">
             <label for="getservices-command">Get services command</label>
-            <input type="text" name="getservices-command" class="form-control" id="getservices)command" placeholder="systemctl list-units" value="{% if attribute(data, 'getservices-command') is not empty %}{{ attribute(data, 'getservices-command') }}{% endif %}">
+            <input type="text" name="getservices-command" class="form-control" id="getservices)command" placeholder="systemctl list-units" value="{% if attribute(data, 'getservices-command') is defined %}{{ attribute(data, 'getservices-command') }}{% endif %}">
         </div>
 
         <div class="mb-3">
             <label for="getservices-response">Get services command exit code</label>
-            <input type="text" name="getservices-response" class="form-control" id="getservices-response" placeholder="0" value="{% if attribute(data, 'getservices-response') is not empty %}{{ attribute(data, 'getservices-response') | join(',') }}{% endif %}">
+            <input type="text" name="getservices-response" class="form-control" id="getservices-response" placeholder="0" value="{% if attribute(data, 'getservices-response') is defined %}{{ attribute(data, 'getservices-response') | join(',') }}{% endif %}">
         </div>
 
         <div class="mb-3">
             <label for="reboot-delay">Reboot delay (in minutes)</label>
-            <input type="number" name="reboot-delay" class="form-control" placeholder="5" value="{% if attribute(data, 'reboot-delay') is not empty %}{{ attribute(data, 'reboot-delay') }}{% endif %}">
+            <input type="number" name="reboot-delay" class="form-control" placeholder="5" value="{% if attribute(data, 'reboot-delay') is defined %}{{ attribute(data, 'reboot-delay') }}{% endif %}">
             <small id="reboot-delay-help" class="form-text text-muted">Delay between triggering reboot and actual reboot</small>
         </div>
 
         <div class="mb-3">
             <label for="reboot-duration">Reboot duration (in minutes)</label>
-            <input type="number" name="reboot-duration" class="form-control" placeholder="10" value="{% if attribute(data, 'reboot-duration') is not empty %}{{ attribute(data, 'reboot-duration') }}{% endif %}">
+            <input type="number" name="reboot-duration" class="form-control" placeholder="10" value="{% if attribute(data, 'reboot-duration') is defined %}{{ attribute(data, 'reboot-duration') }}{% endif %}">
             <small id="reboot-duration-help" class="form-text text-muted">The amount of time the system takes to actually reboot</small>
         </div>
     </div>
@@ -168,21 +171,21 @@
         <h4>HTTP request details</h4>
         <div class="mb-3">
             <label for="url">Url</label>
-            <input type="text" name="url" class="form-control" id="url" placeholder="https://scripts.example.com/" value="{% if data.url is not empty %}{{ data.url }}{% endif %}">
+            <input type="text" name="url" class="form-control" id="url" placeholder="https://scripts.example.com/" value="{% if data.url is defined %}{{ data.url }}{% endif %}">
         </div>
         <div class="mb-3">
             <label for="basicauth-username">Username for Basic-Auth</label>
-            <input type="text" name="basicauth-username" class="form-control" id="basicauth-username" placeholder="www-data" value="{% if attribute(data, 'basicauth-username') is not empty %}{{ attribute(data, 'basicauth-username') }}{% endif %}">
+            <input type="text" name="basicauth-username" class="form-control" id="basicauth-username" placeholder="www-data" value="{% if attribute(data, 'basicauth-username') is defined %}{{ attribute(data, 'basicauth-username') }}{% endif %}">
         </div>
         <div class="mb-3">
             <label for="basicauth-password">Password for Basic-Auth</label>
-            <input type="password" name="basicauth-password" class="form-control" placeholder="correct horse battery staple" value="{% if attribute(data, 'basicauth-password') is not empty %}{{ attribute(data, 'basicauth-password') }}{% endif %}">
+            <input type="password" name="basicauth-password" class="form-control" placeholder="correct horse battery staple" value="{% if attribute(data, 'basicauth-password') is defined %}{{ attribute(data, 'basicauth-password') }}{% endif %}">
             <small id="basicauth-password-help" class="form-text text-muted">This field is being saved as a secret</small>
         </div>
 
         <div class="mb-3">
             <label for="http-status">Expected http status code</label>
-            <input type="text" name="http-status" class="form-control" id="http-status" placeholder="200" value="{% if attribute(data, 'http-status') is not empty %}{{ attribute(data, 'http-status') | join(',')}}{% endif %}">
+            <input type="text" name="http-status" class="form-control" id="http-status" placeholder="200" value="{% if attribute(data, 'http-status') is defined %}{{ attribute(data, 'http-status') | join(',')}}{% endif %}">
         </div>
     </div>
 
@@ -195,21 +198,21 @@
         <h4>SSH host details</h4>
         <div class="mb-3">
             <label for="host">Hostname</label>
-            <input type="text" name="host" class="form-control" id="host" placeholder="ssh.abc.xyz" value="{% if data.host is not empty %}{{ data.host }}{% endif %}">
+            <input type="text" name="host" class="form-control" id="host" placeholder="ssh.abc.xyz" value="{% if data.host is defined %}{{ data.host }}{% endif %}">
         </div>
 
         <div class="mb-3">
             <label for="user">Username</label>
-            <input type="text" name="user" class="form-control" id="user" placeholder="larry" value="{% if data.user is not empty %}{{ data.user }}{% endif %}">
+            <input type="text" name="user" class="form-control" id="user" placeholder="larry" value="{% if data.user is defined %}{{ data.user }}{% endif %}">
         </div>
 
         <div class="mb-3">
             <label for="privkey">Private key</label>
             <div class="input-group">
                 <span class=" input-group-text border-end-0">
-                    <input type="checkbox" name="privkey-keep" class="privkey-keep" value="true" data-privkey="{% if attribute(data, 'ssh-privkey') is not empty %}{{ attribute(data, 'ssh-privkey') }}{% endif %}" checked>
+                    <input type="checkbox" name="privkey-keep" class="privkey-keep" value="true" data-privkey="{% if attribute(data, 'ssh-privkey') is defined %}{{ attribute(data, 'ssh-privkey') }}{% endif %}" checked>
                 </span>
-                <input type="hidden" name="privkey-orig" class="privkey-orig" value="{% if attribute(data, 'ssh-privkey') is not empty %}{{ attribute(data, 'ssh-privkey') }}{% endif %}">
+                <input type="hidden" name="privkey-orig" class="privkey-orig" value="{% if attribute(data, 'ssh-privkey') is defined %}{{ attribute(data, 'ssh-privkey') }}{% endif %}">
                 <span class="input-group-text border-start-0">Keep</span>
                <input type="file" id="privkey" name="privkey" class="form-control " disabled>
             </div>
@@ -218,7 +221,7 @@
 
         <div class="mb-3">
             <label for="privkey-password">Password for private key</label>
-            <input type="password" name="privkey-password" class="form-control" placeholder="correct horse battery staple" value="{% if attribute(data, 'privkey-password') is not empty %}{{ attribute(data, 'privkey-password') }}{% endif %}">
+            <input type="password" name="privkey-password" class="form-control" placeholder="correct horse battery staple" value="{% if attribute(data, 'privkey-password') is defined %}{{ attribute(data, 'privkey-password') }}{% endif %}">
             <small id="privkey-password-help" class="form-text text-muted">If private key is empty this field is being used as ssh-password</small>
             <small id="privkey-password-help-2" class="form-text text-muted">This field is being saved as a secret</small>
         </div>
@@ -231,12 +234,12 @@
         <h4>Docker container details</h4>
         <div class="mb-3">
             <label for="service">Service</label>
-            <input type="text" name="service" class="form-control" id="service" placeholder="mysql" value="{% if attribute(data, 'service') is not empty %}{{ attribute(data, 'service') }}{% endif %}">
+            <input type="text" name="service" class="form-control" id="service" placeholder="mysql" value="{% if attribute(data, 'service') is defined %}{{ attribute(data, 'service') }}{% endif %}">
         </div>
 
         <div class="mb-3">
             <label for="container-user">Username</label>
-            <input type="text" name="container-user" class="form-control" id="container-user" placeholder="larry" value="{% if attribute(data, 'container-user') is not empty %}{{ attribute(data, 'container-user') }}{% endif %}">
+            <input type="text" name="container-user" class="form-control" id="container-user" placeholder="larry" value="{% if attribute(data, 'container-user') is defined %}{{ attribute(data, 'container-user') }}{% endif %}">
         </div>
     </div>
 
@@ -252,16 +255,18 @@
             <input type="text" name="var-value[0]" class="form-control var-value" placeholder="value">
         </div>
         {% set key = 1 %}
-        {% for id,var in data.vars %}
-            <div class="input-group var-group">
-                <div class="input-group-text border-end-0">
-                    <input type="checkbox" name="var-issecret[{{ key }}]" class="var-issecret" placeholder="value" value="true"{%  if var.issecret %} checked{% endif %}>
+        {% if data.vars is defined %}
+            {% for id,var in data.vars %}
+                <div class="input-group var-group">
+                    <div class="input-group-text border-end-0">
+                        <input type="checkbox" name="var-issecret[{{ key }}]" class="var-issecret" placeholder="value" value="true"{%  if var.issecret %} checked{% endif %}>
+                    </div>
+                    <span class="input-group-text border-start-0">Secret</span>
+                    <input type="text" name="var-id[{{ key }}]" class="form-control var-id" placeholder="name" value="{{ id }}">
+                    <input type="{% if var.issecret %}password{% else %}text{% endif %}" name="var-value[{{ key }}]" class="form-control var-value" placeholder="value" value="{{ var.value }}">
                 </div>
-                <span class="input-group-text border-start-0">Secret</span>
-                <input type="text" name="var-id[{{ key }}]" class="form-control var-id" placeholder="name" value="{{ id }}">
-                <input type="{% if var.issecret %}password{% else %}text{% endif %}" name="var-value[{{ key }}]" class="form-control var-value" placeholder="value" value="{{ var.value }}">
-            </div>
-        {% endfor %}
+            {% endfor %}
+        {% endif %}
     </div>
 
     <div class="vars-description mb-3 d-none">

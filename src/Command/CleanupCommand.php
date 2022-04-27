@@ -1,25 +1,29 @@
 <?php
 
 
-namespace JeroenED\Webcron\Command;
+namespace App\Command;
 
 
+use App\Entity\Run;
 use Doctrine\DBAL\Exception;
-use JeroenED\Framework\Kernel;
-use JeroenED\Webcron\Repository\Run;
+use App\Repository\RunRepository;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\HttpKernel\KernelInterface;
 
 class CleanupCommand extends Command
 {
     protected static $defaultName = 'cleanup';
     protected $kernel;
+    protected $doctrine;
 
-    public function __construct(Kernel $kernel)
+    public function __construct(KernelInterface $kernel, ManagerRegistry $doctrine)
     {
         $this->kernel = $kernel;
+        $this->doctrine = $doctrine;
         parent::__construct();
     }
 
@@ -36,7 +40,7 @@ class CleanupCommand extends Command
     {
         $maxage = $input->getOption('maxage');
         $jobs = $input->getOption('jobid');
-        $runRepo = new Run($this->kernel->getDbCon());
+        $runRepo = $this->doctrine->getRepository(Run::class);
         try {
             $deleted = $runRepo->cleanupRuns($jobs, $maxage);
             $output->writeln('Deleted ' . $deleted . ' runs');

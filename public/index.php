@@ -1,18 +1,9 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', true);
 
-use JeroenED\Framework\Kernel;
-chdir(__DIR__ . '/..');
-require_once 'bootstrap.php';
+use App\Kernel;
 
-$kernel = new Kernel();
-$kernel->setProjectDir(getcwd());
-$kernel->setConfigDir(getcwd() . '/config/');
-$kernel->setTemplateDir(getcwd() . '/templates/');
-$kernel->setCacheDir(getcwd() . '/cache/');
-$kernel->parseDotEnv($kernel->getProjectDir() . '/.env');
+require_once dirname(__DIR__).'/vendor/autoload_runtime.php';
 
-ini_set('date.timezone', $_ENV['TZ']);
-
-$kernel->handle()->send();
+return function (array $context) {
+    return new Kernel($context['APP_ENV'], (bool) $context['APP_DEBUG']);
+};

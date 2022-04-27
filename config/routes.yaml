@@ -1,39 +1,34 @@
 default:
   path: '/'
   defaults:
-    _controller: JeroenED\Webcron\Controller\JobController::defaultAction
+    _controller: App\Controller\JobController::defaultAction
 
 health:
   path: '/health'
   defaults:
-    _controller: JeroenED\Webcron\Controller\SiteController::HealthAction
+    _controller: App\Controller\SiteController::healthAction
 
 login:
   path: '/login'
   defaults:
-    _controller: JeroenED\Webcron\Controller\SecurityController::loginAction
-
-logout:
-  path: '/logout'
-  defaults:
-    _controller: JeroenED\Webcron\Controller\SecurityController::logoutAction
+    _controller: App\Controller\SecurityController::loginAction
 
 login_check:
   path: '/login_check'
-  methods: ['POST']
-  defaults:
-    _controller: JeroenED\Webcron\Controller\SecurityController::loginCheckAction
+
+logout:
+  path: '/logout'
 
 job_index:
   path: '/job'
   defaults:
-    _controller: JeroenED\Webcron\Controller\JobController::defaultAction
+    _controller: App\Controller\JobController::defaultAction
 
 job_view:
   path: '/job/{id}/{all}'
   methods: [ 'GET' ]
   defaults:
-    _controller: JeroenED\Webcron\Controller\JobController::jobAction
+    _controller: App\Controller\JobController::jobAction
     all: false
   requirements:
     id: \d+
@@ -43,25 +38,25 @@ job_delete:
   path: '/job/{id}'
   methods: [ 'DELETE' ]
   defaults:
-    _controller: JeroenED\Webcron\Controller\JobController::jobAction
+    _controller: App\Controller\JobController::jobAction
   requirements:
     id: \d+
 
 job_edit:
   path: '/job/{id}/edit'
   defaults:
-    _controller: JeroenED\Webcron\Controller\JobController::editAction
+    _controller: App\Controller\JobController::editAction
   requirements:
     id: \d+
 
 job_runnow:
   path: '/job/{id}/runnow'
   defaults:
-    _controller: JeroenED\Webcron\Controller\JobController::runnowAction
+    _controller: App\Controller\JobController::runNowAction
   requirements:
     id: \d+
 
 job_add:
   path: '/job/add'
   defaults:
-    _controller: JeroenED\Webcron\Controller\JobController::addAction
+    _controller: App\Controller\JobController::addAction

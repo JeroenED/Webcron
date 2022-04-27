@@ -1,13 +1,13 @@
 <?php
 
 
-namespace JeroenED\Webcron\Repository;
+namespace App\Repository;
 
 
 use Doctrine\DBAL\Exception;
-use JeroenED\Framework\Repository;
+use Doctrine\ORM\EntityRepository;
 
-class Run extends Repository
+class RunRepository extends EntityRepository
 {
     const FAILED = 'F';
     const SUCCESS = 'S';
@@ -18,14 +18,14 @@ class Run extends Repository
         $runsSql = "SELECT * FROM run WHERE job_id = :job";
         $params = [':job' => $id];
         if ($onlyfailed) {
-            $runsSql .= ' AND flags LIKE "%' . Run::FAILED . '%"';
+            $runsSql .= ' AND flags LIKE "%' . RunRepository::FAILED . '%"';
         }
         if($maxage !== NULL) {
             $runsSql .= ' AND timestamp > :timestamp';
             $params[':timestamp'] = time() - ($maxage * 24 * 60 * 60);
         }
         if ($ordered) $runsSql .= ' ORDER by timestamp DESC';
-        $runsStmt = $this->dbcon->prepare($runsSql);
+        $runsStmt = $this->getEntityManager()->getConnection()->prepare($runsSql);
         $runsRslt = $runsStmt->executeQuery($params);
         $runs = $runsRslt->fetchAllAssociative();
         return $runs;
@@ -35,27 +35,27 @@ class Run extends Repository
     {
         // handling of response
         $addRunSql = 'INSERT INTO run(job_id, exitcode, output, runtime, timestamp,flags) VALUES (:job_id, :exitcode, :output, :runtime, :timestamp, :flags)';
-        $addRunStmt = $this->dbcon->prepare($addRunSql);
+        $addRunStmt = $this->getEntityManager()->getConnection()->prepare($addRunSql);
         $addRunStmt->executeQuery([':job_id' => $jobid, ':exitcode' => $exitcode, 'output' => $output, 'runtime' => $runtime, ':timestamp' => $starttime, ':flags' => implode("", $flags)]);
     }
 
     public function getLastRun(int $jobid): array
     {
         $lastRunSql = 'SELECT * FROM run WHERE job_id = :jobid ORDER BY timestamp DESC LIMIT 1';
-        $lastRun = $this->dbcon->prepare($lastRunSql)->executeQuery([':jobid' => $jobid])->fetchAssociative();
+        $lastRun = $this->getEntityManager()->getConnection()->prepare($lastRunSql)->executeQuery([':jobid' => $jobid])->fetchAssociative();
         return $lastRun;
     }
 
     public function isSlowJob(int $jobid, int $timelimit = 5): bool
     {
         $slowJobSql = 'SELECT AVG(runtime) as average FROM run WHERE job_id = :jobid LIMIT 5';
-        $slowJob = $this->dbcon->prepare($slowJobSql)->executeQuery([':jobid' => $jobid])->fetchAssociative();
+        $slowJob = $this->getEntityManager()->getConnection()->prepare($slowJobSql)->executeQuery([':jobid' => $jobid])->fetchAssociative();
         return $slowJob['average'] > $timelimit;
     }
 
     public function cleanupRuns(array $jobids, int $maxage = NULL): int
     {
-        $jobRepo = new Job($this->dbcon);
+        $jobRepo = new JobRepository($this->dbcon);
         $allJobs = $jobRepo->getAllJobs(true);
         if(empty($jobids)) {
             foreach($allJobs as $key=>$job) {
@@ -86,7 +86,7 @@ class Run extends Repository
         }
         $sql = 'DELETE FROM run WHERE ' . implode(' OR ', $sqldelete);
         try {
-            return $this->dbcon->prepare($sql)->executeStatement($params);
+            return $this->getEntityManager()->getConnection()->prepare($sql)->executeStatement($params);
         } catch(Exception $exception) {
             throw $exception;
         }

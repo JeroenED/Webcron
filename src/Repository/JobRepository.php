@@ -1,24 +1,26 @@
 <?php
 
 
-namespace JeroenED\Webcron\Repository;
+namespace App\Repository;
 
 
+use App\Entity\Run;
+use App\Service\Secret;
 use DateTime;
+use Doctrine\ORM\EntityRepository;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
-use JeroenED\Framework\Repository;
 use phpseclib3\Crypt\PublicKeyLoader;
 use phpseclib3\Net\SSH2;
 
-class Job extends Repository
+class JobRepository extends EntityRepository
 {
     public function getFailingJobs()
     {
-        $runRepo = new Run($this->dbcon);
+        $runRepo = $this->getEntityManager()->getRepository(Run::class);
 
         $jobsSql = "SELECT * FROM job";
-        $jobsStmt = $this->dbcon->prepare($jobsSql);
+        $jobsStmt = $this->getEntityManager()->getConnection()->prepare($jobsSql);
         $jobsRslt = $jobsStmt->executeQuery();
         $jobs = $jobsRslt->fetchAllAssociative();
         foreach ($jobs as $key=>&$job) {
@@ -48,10 +50,10 @@ class Job extends Repository
 
     public function getRunningJobs(bool $idiskey = false)
     {
-        $runRepo = new Run($this->dbcon);
+        $runRepo = $this->getEntityManager()->getRepository(Run::class);
 
         $jobsSql = "SELECT * FROM job WHERE running != 0;";
-        $jobsStmt = $this->dbcon->prepare($jobsSql);
+        $jobsStmt = $this->getEntityManager()->getConnection()->prepare($jobsSql);
         $jobsRslt = $jobsStmt->executeQuery();
         $jobs = $jobsRslt->fetchAllAssociative();
         $returnbyid = [];
@@ -82,10 +84,9 @@ class Job extends Repository
 
     public function getAllJobs(bool $idiskey = false)
     {
-        $runRepo = new Run($this->dbcon);
-
+        $runRepo = $this->getEntityManager()->getRepository(Run::class);
         $jobsSql = "SELECT * FROM job";
-        $jobsStmt = $this->dbcon->prepare($jobsSql);
+        $jobsStmt = $this->getEntityManager()->getConnection()->prepare($jobsSql);
         $jobsRslt = $jobsStmt->executeQuery();
         $jobs = $jobsRslt->fetchAllAssociative();
         $returnbyid = [];
@@ -117,12 +118,12 @@ class Job extends Repository
     public function getErrorRatio(int $jobId): bool
     {
         $errorSql = "SELECT count(*) as count FROM job WHERE id = :id";
-        $errorStmt = $this->dbcon->prepare($errorSql);
+        $errorStmt = $this->getEntityManager()->getConnection()->prepare($errorSql);
         $errorRslt = $errorStmt->executeQuery([':timestamp' => time(), ':timestamplastrun' => time(), ':timestamprun' => time()]);
         $error = $errorRslt->fetchAllAssociative();
 
         $errorSql = "SELECT count(*) as count FROM job WHERE id = :id";
-        $errorStmt = $this->dbcon->prepare($errorSql);
+        $errorStmt = $this->getEntityManager()->getConnection()->prepare($errorSql);
         $errorRslt = $errorStmt->executeQuery([':timestamp' => time(), ':timestamplastrun' => time(), ':timestamprun' => time()]);
         $error = $errorRslt->fetchAllAssociative();
     }
@@ -138,7 +139,7 @@ class Job extends Repository
                     )
                     OR (running NOT IN (0,1,2) AND running < :timestamprun)
                     OR (running = 2)";
-        $jobsStmt = $this->dbcon->prepare($jobsSql);
+        $jobsStmt = $this->getEntityManager()->getConnection()->prepare($jobsSql);
         $jobsRslt = $jobsStmt->executeQuery([':timestamp' => time(), ':timestamplastrun' => time(), ':timestamprun' => time()]);
         $jobs = $jobsRslt->fetchAllAssociative();
         return $jobs;
@@ -151,7 +152,7 @@ class Job extends Repository
                     WHERE running = 0 and nextrun != :time
                     ORDER BY nextrun
                     LIMIT 1";
-        $jobsStmt = $this->dbcon->prepare($jobsSql);
+        $jobsStmt = $this->getEntityManager()->getConnection()->prepare($jobsSql);
         $jobsRslt = $jobsStmt->executeQuery([':time' => time()]);
         $nextjob = $jobsRslt->fetchAssociative();
 
@@ -161,7 +162,7 @@ class Job extends Repository
                     WHERE running = 2
                     ORDER BY nextrun
                     LIMIT 1";
-        $jobsStmt = $this->dbcon->prepare($jobsSql);
+        $jobsStmt = $this->getEntityManager()->getConnection()->prepare($jobsSql);
         $jobsRslt = $jobsStmt->executeQuery();
         $manualjob = $jobsRslt->fetchAssociative();
 
@@ -179,7 +180,7 @@ class Job extends Repository
                     WHERE running > 2
                     ORDER BY nextrun DESC
                     LIMIT 1";
-        $jobsStmt = $this->dbcon->prepare($jobsSql);
+        $jobsStmt = $this->getEntityManager()->getConnection()->prepare($jobsSql);
         $jobsRslt = $jobsStmt->executeQuery();
         $running = $jobsRslt->fetchAssociative();
 
@@ -193,7 +194,7 @@ class Job extends Repository
     public function setJobRunning(int $job, bool $status): void
     {
         $jobsSql = "UPDATE job SET running = :status WHERE id = :id AND running IN (0,1,2)";
-        $jobsStmt = $this->dbcon->prepare($jobsSql);
+        $jobsStmt = $this->getEntityManager()->getConnection()->prepare($jobsSql);
         $jobsStmt->executeQuery([':id' => $job, ':status' => $status ? 1 : 0]);
         return;
     }
@@ -201,14 +202,14 @@ class Job extends Repository
     public function setTempVar(int $job, string $name, mixed $value): void
     {
         $jobsSql = "SELECT data FROM job WHERE id = :id";
-        $jobsStmt = $this->dbcon->prepare($jobsSql);
+        $jobsStmt = $this->getEntityManager()->getConnection()->prepare($jobsSql);
         $result = $jobsStmt->executeQuery([':id' => $job])->fetchAssociative();
         $result = json_decode($result['data'], true);
         $result['temp_vars'][$name] = $value;
 
 
         $jobsSql = "UPDATE  job SET data = :data WHERE id = :id";
-        $jobsStmt = $this->dbcon->prepare($jobsSql);
+        $jobsStmt = $this->getEntityManager()->getConnection()->prepare($jobsSql);
         $jobsStmt->executeQuery([':id' => $job, ':data' => json_encode($result)]);
         return;
     }
@@ -216,13 +217,13 @@ class Job extends Repository
     public function deleteTempVar(int $job, string $name): void
     {
         $jobsSql = "SELECT data FROM job WHERE id = :id";
-        $jobsStmt = $this->dbcon->prepare($jobsSql);
+        $jobsStmt = $this->getEntityManager()->getConnection()->prepare($jobsSql);
         $result = $jobsStmt->executeQuery([':id' => $job])->fetchAssociative();
         $result = json_decode($result['data'], true);
         unset($result['temp_vars'][$name]);
 
         $jobsSql = "UPDATE  job SET data = :data WHERE id = :id";
-        $jobsStmt = $this->dbcon->prepare($jobsSql);
+        $jobsStmt = $this->getEntityManager()->getConnection()->prepare($jobsSql);
         $jobsStmt->executeQuery([':id' => $job, ':data' => json_encode($result)]);
         return;
     }
@@ -230,7 +231,7 @@ class Job extends Repository
     public function getTempVar(int $job, string $name, mixed $default = NULL): mixed
     {
         $jobsSql = "SELECT data FROM job WHERE id = :id";
-        $jobsStmt = $this->dbcon->prepare($jobsSql);
+        $jobsStmt = $this->getEntityManager()->getConnection()->prepare($jobsSql);
         $result = $jobsStmt->executeQuery([':id' => $job])->fetchAssociative();
         $result = json_decode($result['data'], true);
         return $result['temp_vars'][$name] ?? $default;
@@ -343,16 +344,21 @@ class Job extends Repository
             }
 
             $jobsSql = "UPDATE job SET running = :status WHERE id = :id";
-            $jobsStmt = $this->dbcon->prepare($jobsSql);
+            $jobsStmt = $this->getEntityManager()->getConnection()->prepare($jobsSql);
             $jobsStmt->executeQuery([':id' => $job['id'], ':status' => time() + $job['data']['reboot-delay-secs'] + ($job['data']['reboot-duration'] * 60)]);
 
-            if($job['data']['hosttype'] == 'ssh') {
-                $this->runSshCommand($job['data']['reboot-command'], $job['data']['host'], $job['data']['user'], $job['data']['ssh-privkey'] ?? '', $job['data']['privkey-password'] ?? '');
-
-            } elseif($job['data']['hosttype'] == 'local') {
-                $this->runLocalCommand($job['data']['reboot-command']);
+            try {
+                if($job['data']['hosttype'] == 'local') {
+                    $this->runLocalCommand($job['data']['reboot-command']);
+                } elseif($job['data']['hosttype'] == 'ssh') {
+                    $this->runSshCommand($job['data']['reboot-command'], $job['data']['host'], $job['data']['user'], $job['data']['ssh-privkey'] ?? '', $job['data']['privkey-password'] ?? '');
+                }
+            } catch (\RuntimeException $exception) {
+                $return['exitcode'] = $exception->getCode();
+                $return['output'] = $exception->getMessage();
+                $return['failed'] = true;
+                return $return;
             }
-
             return ['status' => 'deferred'];
 
         } elseif($job['running'] != 0) {
@@ -365,7 +371,7 @@ class Job extends Repository
             $this->deleteTempVar($job['id'], 'manual');
 
             $jobsSql = "UPDATE job SET running = :status WHERE id = :id";
-            $jobsStmt = $this->dbcon->prepare($jobsSql);
+            $jobsStmt = $this->getEntityManager()->getConnection()->prepare($jobsSql);
             $jobsStmt->executeQuery([':id' => $job['id'], ':status' => 1]);
 
             if (!empty($job['data']['vars'])) {
@@ -373,10 +379,17 @@ class Job extends Repository
                     $job['data']['getservices-command'] = str_replace('{' . $key . '}', $var['value'], $job['data']['getservices-command']);
                 }
             }
-            if($job['data']['hosttype'] == 'ssh') {
-                $return = $this->runSshCommand($job['data']['getservices-command'], $job['data']['host'], $job['data']['user'], $job['data']['ssh-privkey'], $job['data']['privkey-password']);
-            } elseif($job['data']['hosttype'] == 'local') {
-                $return = $this->runLocalCommand($job['data']['getservices-command']);
+            try {
+                if($job['data']['hosttype'] == 'local') {
+                    $return = $this->runLocalCommand($job['data']['getservices-command']);
+                } elseif($job['data']['hosttype'] == 'ssh') {
+                    $return = $this->runSshCommand($job['data']['getservices-command'], $job['data']['host'], $job['data']['user'], $job['data']['ssh-privkey'] ?? '', $job['data']['privkey-password'] ?? '');
+                }
+            } catch (\RuntimeException $exception) {
+                $return['exitcode'] = $exception->getCode();
+                $return['output'] = $exception->getMessage();
+                $return['failed'] = true;
+                return $return;
             }
             $return['failed'] = !in_array($return['exitcode'], $job['data']['getservices-response']);
             return $return;
@@ -385,11 +398,11 @@ class Job extends Repository
 
     public function runNow($job, $console = false) {
         $job = $this->getJob($job, true);
-        $runRepo = new Run($this->dbcon);
+        $runRepo = $this->getEntityManager()->getRepository(Run::class);
 
         if($console == false && ($runRepo->isSlowJob($job['id']) || count($runRepo->getRunsForJob($job['id'])) == 0 || $job['data']['crontype'] === 'reboot')) {
             $jobsSql = "UPDATE job SET running = :status WHERE id = :id AND running IN (0,1,2)";
-            $jobsStmt = $this->dbcon->prepare($jobsSql);
+            $jobsStmt = $this->getEntityManager()->getConnection()->prepare($jobsSql);
             $jobsStmt->executeQuery([':id' => $job['id'], ':status' => 2]);
         } else {
             $output = $this->runJob($job['id'], true);
@@ -399,8 +412,8 @@ class Job extends Repository
                 'output' => ($console) ? $output['output'] : htmlentities($output['output']),
                 'exitcode' => $output['exitcode'],
                 'runtime' => (float)$output['runtime'],
-                'title' => !str_contains($output['flags'], Run::FAILED) ? 'Cronjob successfully ran' : 'Cronjob failed. Please check output below',
-                'success' => !str_contains($output['flags'], Run::FAILED)
+                'title' => !str_contains($output['flags'], RunRepository::FAILED) ? 'Cronjob successfully ran' : 'Cronjob failed. Please check output below',
+                'success' => !str_contains($output['flags'], RunRepository::FAILED)
             ];
         }
         return ['success' => true, 'status' => 'deferred', 'title' => 'Cronjob has been scheduled', 'message' => 'Job was scheduled to be run. You will find the output soon in the job details'];
@@ -433,13 +446,13 @@ class Job extends Repository
         // setting flags
         $flags = [];
         if ($result['failed'] === true) {
-            $flags[] = Run::FAILED;
+            $flags[] = RunRepository::FAILED;
         } else {
-            $flags[] = Run::SUCCESS;
+            $flags[] = RunRepository::SUCCESS;
         }
 
         if ($manual === true) {
-            $flags[] = Run::MANUAL;
+            $flags[] = RunRepository::MANUAL;
         }
 
         // Remove secrets from output
@@ -451,8 +464,8 @@ class Job extends Repository
             }
         }
         // saving to database
-        $runRepo = new Run($kernel->getNewDbCon());
-        $this->dbcon = $kernel->getNewDbCon();
+        $this->getEntityManager()->getConnection()->close();
+        $runRepo = $this->getEntityManager()->getRepository(Run::class);
         $runRepo->addRun($job['id'], $result['exitcode'], floor($starttime), $runtime, $result['output'], $flags);
         if (!$manual){
             // setting nextrun to next run
@@ -463,7 +476,7 @@ class Job extends Repository
 
 
             $addRunSql = 'UPDATE job SET nextrun = :nextrun WHERE id = :id';
-            $addRunStmt = $this->dbcon->prepare($addRunSql);
+            $addRunStmt = $this->getEntityManager()->getConnection()->prepare($addRunSql);
             $addRunStmt->executeQuery([':id' => $job['id'], ':nextrun' => $nextrun]);
         }
         return  ['job_id' =>  $job['id'], 'exitcode' => $result['exitcode'], 'timestamp' =>floor($starttime), 'runtime' => $runtime, 'output' => (string)$result['output'], 'flags' => implode("", $flags)];
@@ -478,7 +491,7 @@ class Job extends Repository
             $jobsSql .= " AND id = :id";
             $params[':id'] = $id;
         }
-        $jobsStmt = $this->dbcon->prepare($jobsSql);
+        $jobsStmt = $this->getEntityManager()->getConnection()->prepare($jobsSql);
         $jobsStmt->executeQuery($params);
         return;
     }
@@ -488,7 +501,7 @@ class Job extends Repository
         $jobsSql = "SELECT id FROM job WHERE id = :id AND running != :status";
         $params = [':status' => 0, ':id' => $id];
 
-        return count($this->dbcon->prepare($jobsSql)->executeQuery($params)->fetchAllAssociative()) > 0;
+        return count($this->getEntityManager()->getConnection()->prepare($jobsSql)->executeQuery($params)->fetchAllAssociative()) > 0;
     }
 
     public function addJob(array $values)
@@ -505,7 +518,7 @@ class Job extends Repository
         $data['data'] = json_encode($data['data']);
         $addJobSql = "INSERT INTO job(name, data, `interval`, nextrun, lastrun, running) VALUES (:name, :data, :interval, :nextrun, :lastrun, :running)";
 
-        $addJobStmt = $this->dbcon->prepare($addJobSql);
+        $addJobStmt = $this->getEntityManager()->getConnection()->prepare($addJobSql);
         $addJobStmt->executeQuery([':name' => $data['name'], ':data' => $data['data'], ':interval' => $data['interval'], ':nextrun' => $data['nextrun'], ':lastrun' => $data['lastrun'], ':running' => 0]);
 
         return ['success' => true, 'message' => 'Cronjob succesfully added'];
@@ -524,7 +537,7 @@ class Job extends Repository
         $data['data'] = json_encode($data['data']);
         $editJobSql = "UPDATE job SET name = :name, data = :data, `interval` = :interval, nextrun = :nextrun, lastrun = :lastrun WHERE id = :id";
 
-        $editJobStmt = $this->dbcon->prepare($editJobSql);
+        $editJobStmt = $this->getEntityManager()->getConnection()->prepare($editJobSql);
         $editJobStmt->executeQuery([':name' => $data['name'], ':data' => $data['data'], ':interval' => $data['interval'], ':nextrun' => $data['nextrun'], ':lastrun' => $data['lastrun'],':id' => $id ]);
 
         return ['success' => true, 'message' => 'Cronjob succesfully edited'];
@@ -657,7 +670,7 @@ class Job extends Repository
 
     public function getJob(int $id, bool $withSecrets = false) {
         $jobSql = "SELECT * FROM job WHERE id = :id";
-        $jobStmt = $this->dbcon->prepare($jobSql);
+        $jobStmt = $this->getEntityManager()->getConnection()->prepare($jobSql);
         $jobRslt = $jobStmt->executeQuery([':id' => $id])->fetchAssociative();
 
         $jobRslt['data'] = json_decode($jobRslt['data'], true);
@@ -704,8 +717,8 @@ class Job extends Repository
 
     public function deleteJob(int $id)
     {
-        $this->dbcon->prepare("DELETE FROM job WHERE id = :id")->executeStatement([':id' => $id]);
-        $this->dbcon->prepare("DELETE FROM run WHERE job_id = :id")->executeStatement([':id' => $id]);
+        $this->getEntityManager()->getConnection()->prepare("DELETE FROM job WHERE id = :id")->executeStatement([':id' => $id]);
+        $this->getEntityManager()->getConnection()->prepare("DELETE FROM run WHERE job_id = :id")->executeStatement([':id' => $id]);
 
         return ['success' => true, 'message' => 'Cronjob succesfully deleted'];
     }

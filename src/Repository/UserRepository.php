@@ -1,13 +1,13 @@
 <?php
 
 
-namespace JeroenED\Webcron\Repository;
+namespace App\Repository;
 
 
-use Doctrine\DBAL\Connection;
-use JeroenED\Framework\Repository;
+use App\Service\Secret;
+use Doctrine\ORM\EntityRepository;
 
-class User extends Repository
+class UserRepository extends EntityRepository
 {
 
     /**
@@ -21,7 +21,7 @@ class User extends Repository
     public function checkAuthentication(string $user, string $password, bool $autologin = false): int|bool
     {
         $userSql = "SELECT * from user WHERE email = :user";
-        $userStmt = $this->dbcon->prepare($userSql);
+        $userStmt = $this->getEntityManager()->getConnection()->prepare($userSql);
         $userRslt = $userStmt->executeQuery([':user' => $user]);
         if($user = $userRslt->fetchAssociative()) {
             if($autologin) $password = $this->getPassFromAutologinToken($password);
@@ -58,7 +58,7 @@ class User extends Repository
 
     public function getMailAddresses() {
         $emailSql = "SELECT email FROM user WHERE sendmail = 1";
-        $emailStmt = $this->dbcon->prepare($emailSql);
+        $emailStmt = $this->getEntityManager()->getConnection()->prepare($emailSql);
         $emailRslt = $emailStmt->executeQuery();
 
         $return = [];

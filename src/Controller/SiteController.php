@@ -1,17 +1,20 @@
 <?php
 
-namespace JeroenED\Webcron\Controller;
+namespace App\Controller;
 
-use JeroenED\Framework\Controller;
-use JeroenED\Webcron\Repository\Job;
+use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\KernelInterface;
 
-class SiteController extends Controller
+class SiteController extends AbstractController
 {
-    public function HealthAction()
+
+    public function healthAction(Request $request, ManagerRegistry $doctrine, KernelInterface $kernel)
     {
-        global $kernel;
-        $jobRepo = new Job($this->getDbCon());
+        $em = $doctrine->getManager();
+        $jobRepo = $em->getRepository('App:Job');
         $return = [
             "DaemonRunning" => file_exists($kernel->getCacheDir() . '/daemon-running.lock'),
             "JobsTotal" => count($jobRepo->getAllJobs()),
