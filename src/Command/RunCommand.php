@@ -2,12 +2,11 @@
 
 namespace App\Command;
 
-use App\Repository\JobRepository;
-use App\Repository\RunRepository;
+use App\Entity\Job;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
 
@@ -15,10 +14,12 @@ class RunCommand extends Command
 {
     protected static $defaultName = 'run';
     protected $kernel;
+    protected $doctrine;
 
-    public function __construct(KernelInterface $kernel)
+    public function __construct(KernelInterface $kernel, ManagerRegistry $doctrine)
     {
         $this->kernel = $kernel;
+        $this->doctrine = $doctrine;
         parent::__construct();
     }
 
@@ -32,7 +33,7 @@ class RunCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $runRepo = $this->getEntityManager()->getRepository(Run::class);
+        $jobRepo = $this->doctrine->getRepository(Job::class);
         $jobId = (int)$input->getArgument('jobid');
         $jobRunning = $jobRepo->isLockedJob($jobId);
         if($jobRunning) {
@@ -56,10 +57,10 @@ class RunCommand extends Command
         $jobRepo->setTempVar($jobId, 'consolerun', false);
         $output->write($result['output']);
         if($result['success']) {
-            $output->writeln('JobRepository succeeded with  in ' . number_format($result['runtime'], 3) . 'secs with exitcode ' . $result['exitcode']);
+            $output->writeln('Job succeeded with  in ' . number_format($result['runtime'], 3) . 'secs with exitcode ' . $result['exitcode']);
             return Command::SUCCESS;
         } else {
-            $output->writeln('JobRepository failed in ' . number_format($result['runtime'], 3) . 'secs with exitcode ' . $result['exitcode']);
+            $output->writeln('Job failed in ' . number_format($result['runtime'], 3) . 'secs with exitcode ' . $result['exitcode']);
             return Command::FAILURE;
         }
     }

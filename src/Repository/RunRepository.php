@@ -4,6 +4,7 @@
 namespace App\Repository;
 
 
+use App\Entity\Job;
 use Doctrine\DBAL\Exception;
 use Doctrine\ORM\EntityRepository;
 
@@ -55,7 +56,7 @@ class RunRepository extends EntityRepository
 
     public function cleanupRuns(array $jobids, int $maxage = NULL): int
     {
-        $jobRepo = new JobRepository($this->dbcon);
+        $jobRepo = $this->getEntityManager()->getRepository(Job::class);
         $allJobs = $jobRepo->getAllJobs(true);
         if(empty($jobids)) {
             foreach($allJobs as $key=>$job) {

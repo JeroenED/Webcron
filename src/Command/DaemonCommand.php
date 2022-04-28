@@ -20,7 +20,7 @@ class DaemonCommand extends Command
     protected $kernel;
     protected $doctrine;
 
-    public function __construct(KernelInterface $kernel,  ManagerRegistry $doctrine)
+    public function __construct(KernelInterface $kernel, ManagerRegistry $doctrine)
     {
         $this->kernel = $kernel;
         $this->doctrine = $doctrine;
