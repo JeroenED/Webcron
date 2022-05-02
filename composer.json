@@ -14,6 +14,7 @@
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "doctrine/orm": "^2.12",
         "guzzlehttp/guzzle": "~7.4.0",
+        "pentatrion/vite-bundle": "^1.2",
         "phpseclib/phpseclib": "^3.0",
         "symfony/console": "6.0.*",
         "symfony/dotenv": "6.0.*",
@@ -24,7 +25,6 @@
         "symfony/runtime": "6.0.*",
         "symfony/security-bundle": "6.0.*",
         "symfony/twig-bundle": "6.0.*",
-        "symfony/webpack-encore-bundle": "^1.14",
         "symfony/yaml": "6.0.*"
     },
     "config": {
@@ -74,7 +74,7 @@
     },
     "extra": {
         "symfony": {
-            "allow-contrib": false,
+            "allow-contrib": true,
             "require": "6.0.*"
         }
     },

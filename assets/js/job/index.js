@@ -1,5 +1,6 @@
-const bootstrap = require('bootstrap');
-const image = require('../../images/ajax-loader.gif');
+import {Modal} from 'bootstrap';
+import image from '/assets/images/ajax-loader.gif'
+import '/assets/scss/job/index.scss';
 
 document.addEventListener("readystatechange", event => {
     if(event.target.readyState === 'complete') {
@@ -76,7 +77,7 @@ function initRunNowButtons() {
                     modal.querySelector('.modal-body').innerHTML = content;
                 }
 
-                var bsModal = new bootstrap.Modal('#runnow_result').show();
+                var bsModal = new Modal('#runnow_result').show();
 
                 document.querySelector('.container-fluid').classList.remove('blur');
                 document.querySelector('.runnow-overlay').classList.remove('d-block');

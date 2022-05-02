@@ -1,7 +1,8 @@
-const bootstrap = require('bootstrap');
-const moment = require('moment');
-const tempusDominus = require('@eonasdan/tempus-dominus');
-const momentparse = require('./momentjs-parse')
+import 'bootstrap';
+import moment from 'moment';
+import * as tempusDominus from '@eonasdan/tempus-dominus';
+import momentparse from './momentjs-parse';
+import '/assets/scss/job/add.scss';
 
 document.addEventListener("readystatechange", event => {
     if(event.target.readyState === 'complete') {
@@ -40,7 +41,6 @@ const timepickerOptions = {
 }
 function initDatePickers()
 {
-
     tempusDominus.extend(momentparse, 'DD/MM/yyyy HH:mm:ss');
     new tempusDominus.TempusDominus(document.querySelector('#nextrunselector'), timepickerOptions);
     new tempusDominus.TempusDominus(document.querySelector('#lastrunselector'), timepickerOptions);

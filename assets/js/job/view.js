@@ -1,4 +1,5 @@
-const bootstrap = require('bootstrap');
+import 'bootstrap';
+import '/assets/scss/job/view.scss';
 
 document.addEventListener("readystatechange", event => {
     if(event.target.readyState === 'complete') {
