@@ -27,8 +27,9 @@ verbose=false
 environment=main
 root=/tmp/webcron
 
-DATABASE="sqlite:///storage/database.sqlite"
-SECRET=$(tr -dc A-Za-z0-9 </dev/urandom | head -c 20 ; echo '')
+APP_ENV="prod"
+DATABASE_URL="mysql://root:letmein@127.0.0.1:3306/webcron"
+APP_SECRET=$(tr -dc A-Za-z0-9 </dev/urandom | head -c 20 ; echo '')
 ENCRYPTION_METHOD="AES-256-CBC"
 HASHING_METHOD="sha256"
 DEBUG=false
@@ -93,11 +94,12 @@ CheckDeps() {
     CheckDep "git" "git --version" "git is not available. Exiting" "FAIL"
     CheckDep "PHP" "php --version" "PHP is not available. Exiting" "FAIL" ${php} "echo '<?php echo phpversion();' | php" "PHP version too low. Exiting" "FAIL"
     CheckDep "Composer" "composer --version" "Composer is not available. Exiting" "FAIL"
-    CheckDep "MySQL" "/usr/sbin/mysql --version" "MySQL is not available. SQLite can be used" "WARNING"
+    CheckDep "MySQL" "/usr/sbin/mysqld --version" "MySQL is not available. SQLite can be used" "WARNING"
     CheckDep "NodeJS" "node --version" "NodeJS is not available. Exiting" "FAIL"
     CheckDep "NPM" "npm --version" "NPM is not available. Exiting" "FAIL" ${npm} "npm --version" "NPM version too low. Exiting" "FAIL"
     CheckDep "php-pcntl" "php -me | grep pcntl" "php-pcntl extension is not available. Cronjobs will not be running asyncronous" "WARNING"
     CheckDep "php-intl" "php -me | grep intl" "php-intl extension is not available. Exiting" "FAIL"
+    CheckDep "php-xml" "php -me | grep xml" "php-xml extension is not available. Exiting" "FAIL"
     echo -e "\e[1;32mDependency test OK\e[0m"
 }
 
@@ -115,6 +117,7 @@ Install() {
         cd $root
     fi
 
+    CreateEnvFile
 
     echo -n "Checking out release..."
     git checkout $environment 1> /dev/null 2>&1
@@ -122,7 +125,7 @@ Install() {
 
 
     echo -n "Installing composer dependencies..."
-    composer install --no-dev --optimize-autoloader 1> /dev/null 2>&1
+    composer install --optimize-autoloader 1> /dev/null 2>&1
     checkExit "$?" "0"
 
     echo -n "Installing npm dependencies..."
@@ -130,11 +133,11 @@ Install() {
     checkExit "$?" "0"
 
     echo -n "Compiling Javascript..."
-    npx encore prod # 1> /dev/null 2>&1
+    npx vite build 1> /dev/null 2>&1
     checkExit "$?" "0"
 }
 
-Configure() {
+CreateEnvFile() {
     echo -n "Creating .env file..."
     cd $root
     if [[ -f ".env" ]]; then
@@ -142,8 +145,9 @@ Configure() {
         rm .env 1> /dev/null 2>&1
         touch .env 1> /dev/null 2>&1
     fi
-    echo "DATABASE=\"$DATABASE\"" >> .env
-    echo "SECRET=\"$SECRET\"" >> .env
+    echo "APP_ENV=\"$APP_ENV\"" >> .env
+    echo "DATABASE_URL=\"$DATABASE_URL\"" >> .env
+    echo "APP_SECRET=\"$APP_SECRET\"" >> .env
     echo "ENCRYPTION_METHOD=\"$ENCRYPTION_METHOD\"" >> .env
     echo "HASHING_METHOD=\"$HASHING_METHOD\"" >> .env
     echo "DEBUG=\"$DEBUG\"" >> .env
@@ -158,18 +162,9 @@ Configure() {
 Finalize() {
   # touch DB file
   cd $root
-  echo -n "Touch DB file (if SQLite)..."
-  if [[ $DATABASE = sqlite://* ]]; then
-    dbfile=${DATABASE/"sqlite:///"/""}
-    if [[ ! -f $dbfile ]]; then
-        touch $dbfile
-        echo -n "Touched!"
-
-        echo -n "Importing database..."
-        cat storage/database.sql | sqlite3 $dbfile
-        echo -e "\e[1;32mOK\e[0m"
-    fi
-  fi
+  echo -n "Importing database..."
+  php bin/console doctrine:schema:update --force 1> /dev/null 2>&1
+  checkExit "$?" "0"
 }
 
 checkExit() {
@@ -273,7 +268,6 @@ Main() {
     fi
     CheckDeps
     Install
-    Configure
     Finalize
 }
 
