@@ -1,6 +1,6 @@
 import 'bootstrap';
 import moment from 'moment';
-import * as tempusDominus from '@eonasdan/tempus-dominus';
+import * as tempusDominus from '@eonasdan/tempus-dominus/dist/js/tempus-dominus';
 import momentparse from './momentjs-parse';
 import '/assets/scss/job/add.scss';
 
