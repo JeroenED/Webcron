@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Job;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -14,7 +15,7 @@ class SiteController extends AbstractController
     public function healthAction(Request $request, ManagerRegistry $doctrine, KernelInterface $kernel)
     {
         $em = $doctrine->getManager();
-        $jobRepo = $em->getRepository('App:Job');
+        $jobRepo = $em->getRepository(Job::class);
         $return = [
             "DaemonRunning" => file_exists($kernel->getCacheDir() . '/daemon-running.lock'),
             "JobsTotal" => count($jobRepo->getAllJobs()),
