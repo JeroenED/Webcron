@@ -44,7 +44,7 @@ class Job
      * @var int
      */
     #[ORM\Column(type: "integer", nullable: true)]
-    private int $lastrun;
+    private ?int $lastrun;
 
     /**
      * @var int
@@ -106,6 +106,15 @@ class Job
         return $this;
     }
 
+    public function addData(string $name, mixed $value): Job
+    {
+        $data = json_decode($this->data, true);
+        $data[$name] = $value;
+        $this->data = json_encode($data);
+
+        return $this;
+    }
+
     /**
      * @return int
      */
@@ -145,7 +154,7 @@ class Job
     /**
      * @return int
      */
-    public function getLastrun(): int
+    public function getLastrun(): ?int
     {
         return $this->lastrun;
     }
@@ -177,6 +186,5 @@ class Job
         $this->running = $running;
         return $this;
     }
-
 
 }

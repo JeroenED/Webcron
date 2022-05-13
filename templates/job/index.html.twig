@@ -16,19 +16,19 @@
         </thead>
         <tbody>
             {% for job in jobs %}
-                <tr{% if job.running == true %} class="running text-success"{% elseif job.norun == true %} class="norun text-danger"{% endif %}>
-                    <td class="d-none d-md-table-cell align-middle status-col text-center">{% if job.needschecking %}<i class="icon icon-warning text-warning big-icon"></i>{% endif %}</td>
+                <tr{% if job.data.running == true %} class="running text-success"{% elseif job.data.norun == true %} class="norun text-danger"{% endif %}>
+                    <td class="d-none d-md-table-cell align-middle status-col text-center">{% if job.data.needschecking %}<i class="icon icon-warning text-warning big-icon"></i>{% endif %}</td>
                     <td class="d-block d-md-table-cell align-middle job-name">
-                        <span class="d-inline d-md-none">{% if job.needschecking %}<i class="icon icon-warning text-warning"></i>{% endif %}</span>
+                        <span class="d-inline d-md-none">{% if job.data.needschecking %}<i class="icon icon-warning text-warning"></i>{% endif %}</span>
                         {{ job.name | parsetags | raw }}</td>
-                    <td class="d-block d-md-table-cell align-middle">{{ attribute(job, 'host-displayname') }}</td>
+                    <td class="d-block d-md-table-cell align-middle">{{ attribute(job.data, 'host-displayname') }}</td>
                     <td class="d-block d-md-table-cell align-middle">{{ job.interval | interval }}</td>
                     <td class="d-block d-md-table-cell align-middle">{{ job.nextrun |  date("d/m/Y H:i:s") }}</td>
                     <td class="text-md-end d-block d-md-table-cell align-middle">
-                        <a href="#" data-href="{{ path('job_runnow', {'id': job.id}) }}" class="runnow btn btn-outline-{% if job.running == true %}success{% elseif job.norun == true %}danger{% else %}primary{% endif %}{% if job.running == true %} disabled{% endif %}"><i class="icon icon-run" aria-hidden="true"></i></a>
-                        <a href="{{ path('job_view', {'id': job.id}) }}" class="btn btn-outline-{% if job.running == true %}success{% elseif job.norun == true %}danger{% else %}primary{% endif %}"><i class="icon icon-view" aria-hidden="true"></i></a>
-                        <a href="{{ path('job_edit', {'id': job.id}) }}" class="btn btn-outline-{% if job.running == true %}success{% elseif job.norun == true %}danger{% else %}primary{% endif %}"><i class="icon icon-edit" aria-hidden="true"></i></a>
-                        <a href="#" data-confirmation="Are you sure you want to delete this job?" data-href="{{ path('job_delete', {'id': job.id}) }}" class="delete-btn btn btn-outline-{% if job.running == true %}success{% elseif job.norun == true %}danger{% else %}primary{% endif %}"><i class="icon icon-delete" aria-hidden="true"></i></a>
+                        <a href="#" data-href="{{ path('job_runnow', {'id': job.id}) }}" class="runnow btn btn-outline-{% if job.data.running == true %}success{% elseif job.data.norun == true %}danger{% else %}primary{% endif %}{% if job.data.running == true %} disabled{% endif %}"><i class="icon icon-run" aria-hidden="true"></i></a>
+                        <a href="{{ path('job_view', {'id': job.id}) }}" class="btn btn-outline-{% if job.data.running == true %}success{% elseif job.data.norun == true %}danger{% else %}primary{% endif %}"><i class="icon icon-view" aria-hidden="true"></i></a>
+                        <a href="{{ path('job_edit', {'id': job.id}) }}" class="btn btn-outline-{% if job.data.running == true %}success{% elseif job.data.norun == true %}danger{% else %}primary{% endif %}"><i class="icon icon-edit" aria-hidden="true"></i></a>
+                        <a href="#" data-confirmation="Are you sure you want to delete this job?" data-href="{{ path('job_delete', {'id': job.id}) }}" class="delete-btn btn btn-outline-{% if job.data.running == true %}success{% elseif job.data.norun == true %}danger{% else %}primary{% endif %}"><i class="icon icon-delete" aria-hidden="true"></i></a>
                     </td>
                 </tr>
             {% endfor %}

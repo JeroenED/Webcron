@@ -37,7 +37,7 @@ class RunCommand extends Command
         $jobId = (int)$input->getArgument('jobid');
         $jobRunning = $jobRepo->isLockedJob($jobId);
         if($jobRunning) {
-            $output->writeln('JobRepository is already running');
+            $output->writeln('Job is already running');
             return Command::FAILURE;
         }
         $jobRepo->setJobRunning($jobId, true);

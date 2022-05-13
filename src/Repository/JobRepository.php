@@ -4,6 +4,7 @@
 namespace App\Repository;
 
 
+use App\Entity\Job;
 use App\Entity\Run;
 use App\Service\Secret;
 use DateTime;
@@ -85,32 +86,39 @@ class JobRepository extends EntityRepository
     public function getAllJobs(bool $idiskey = false)
     {
         $runRepo = $this->getEntityManager()->getRepository(Run::class);
-        $jobsSql = "SELECT * FROM job";
-        $jobsStmt = $this->getEntityManager()->getConnection()->prepare($jobsSql);
-        $jobsRslt = $jobsStmt->executeQuery();
-        $jobs = $jobsRslt->fetchAllAssociative();
+
+        /** @var Job[] $jobs */
+        $jobs = parent::findAll();
         $returnbyid = [];
+        $names = [];
+        $hosts = [];
+        $services = [];
         foreach ($jobs as $key=>&$job) {
-            $job['data'] = json_decode($job['data'], true);
-            $job['host-displayname'] = $job['data']['host'];
-            $job['host'] = $job['data']['host'];
-            $job['service'] = $job['data']['service'] ?? '';
-            $job['norun'] = isset($job['lastrun']) && $job['nextrun'] > $job['lastrun'];
-            $job['running'] = $job['running'] != 0;
-            $failed = count($runRepo->getRunsForJob($job['id'], true, $job['data']['fail-days']));
-            $all = count($runRepo->getRunsForJob($job['id'], false, $job['data']['fail-days']));
-            $job['needschecking'] = $all > 0  && (($failed / $all) * 100) > $job['data']['fail-pct'];
-            if(!empty($job['data']['containertype']) && $job['data']['containertype'] != 'none') {
-                $job['host-displayname'] = $job['data']['service'] . ' on ' . $job['data']['host'];
+            $jobData = $job->getData();
+            $job->addData('host-displayname', $jobData['host']);
+            $job->addData('host', $jobData['host']);
+            $job->addData('service', $jobData['service'] ?? '');
+            $job->addData('norun', $job->getLastrun() !== null && $job->getNextrun() > $job->getLastrun());
+            $job->addData('running', $job->getRunning() != 0);
+            $failed = count($runRepo->getRunsForJob($job->getId(), true, $jobData['fail-days']));
+            $all = count($runRepo->getRunsForJob($job->getId(), false, $jobData['fail-days']));
+            $job->addData('needschecking', $all > 0  && (($failed / $all) * 100) > $jobData['fail-pct']);
+            if(!empty($jobData['containertype']) && $jobData['containertype'] != 'none') {
+                $job->addData('host-displayname', $jobData['service'] . ' on ' . $jobData['host']);
             }
-            if($idiskey) $returnbyid[$job['id']] = $job;
+
+            $names[] = $job->getName();
+            $hosts[] = $job->getData()['host'];;
+            $services[] = $job->getData()['service'];
+
+            if($idiskey) $returnbyid[$job->getId()] = $job;
         }
 
         if($idiskey) return $returnbyid;
         array_multisort(
-            array_column($jobs, 'name'), SORT_ASC,
-            array_column($jobs, 'host'), SORT_ASC,
-            array_column($jobs, 'service'), SORT_ASC,
+            $names, SORT_ASC,
+            $hosts, SORT_ASC,
+            $services, SORT_ASC,
             $jobs);
         return $jobs;
     }
