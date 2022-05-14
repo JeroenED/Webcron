@@ -66,10 +66,11 @@ class RunRepository extends EntityRepository
         $sqldelete = [];
         if($maxage == NULL) {
             foreach ($allJobs as $key=>$job) {
-                if(isset($job['data']['retention']) && in_array($key, $jobids)) {
+                $jobData = $job->getData();
+                if(isset($jobData['retention']) && in_array($key, $jobids)) {
                     $sqldelete[] = '( job_id = :job' . $key . ' AND timestamp < :timestamp' . $key . ')';
                     $params[':job' . $key] = $key;
-                    $params[':timestamp' . $key] = time() - ($job['data']['retention'] * 24 * 60 * 60);
+                    $params[':timestamp' . $key] = time() - ($jobData['retention'] * 24 * 60 * 60);
                 }
             }
         } else {
