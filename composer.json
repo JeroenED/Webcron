@@ -16,6 +16,7 @@
         "guzzlehttp/guzzle": "~7.4.0",
         "pentatrion/vite-bundle": "^1.2",
         "phpseclib/phpseclib": "^3.0",
+        "scienta/doctrine-json-functions": "~5.0.0",
         "symfony/console": "6.0.*",
         "symfony/dotenv": "6.0.*",
         "symfony/flex": "^2",

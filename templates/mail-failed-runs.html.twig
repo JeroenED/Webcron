@@ -7,10 +7,10 @@
 <body>
 <p>Some cronjobs are failing</p>
 {% for job in jobs %}
-    <h2>{{ job.name }} ({{ attribute(job, 'host-displayname') }})</h2>
-    <p>Last failed on {{ job.lastfail.timestamp | date("d/m/Y H:i:s") }}</p>
-    {% if job.lastfail.output is not empty %}
-    <pre>{{ job.lastfail.output }}</pre>
+    <h2>{{ job.name }} ({{ attribute(job.data, 'host-displayname') }})</h2>
+    <p>Last failed on {{ job.data.lastfail.timestamp | date("d/m/Y H:i:s") }}</p>
+    {% if job.data.lastfail.output is not empty %}
+    <pre>{{ job.data.lastfail.output }}</pre>
     {% endif %}
 {% endfor %}
 </body>

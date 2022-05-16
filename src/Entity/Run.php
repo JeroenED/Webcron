@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\RunRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection as CollectionAlias;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -19,11 +21,11 @@ class Run
     #[ORM\Column(type: "integer")]
     private ?int $id;
 
-
     /**
      * @var Job
+     * @ORM\Column(type="string")
      */
-    #[ORM\ManyToOne(targetEntity: "Job")]
+    #[ORM\ManyToOne(targetEntity: "App\Entity\Job", inversedBy: "runs")]
     #[ORM\JoinColumn(name: "job_id", referencedColumnName: "id")]
     private Job $job;
 
@@ -76,18 +78,18 @@ class Run
     }
 
     /**
-     * @return Job
+     * @return CollectionAlias
      */
-    public function getJob(): Job
+    public function getJob(): CollectionAlias
     {
         return $this->job;
     }
 
     /**
-     * @param Job $job
+     * @param CollectionAlias $job
      * @return Run
      */
-    public function setJob(Job $job): Run
+    public function setJob(CollectionAlias $job): Run
     {
         $this->job = $job;
         return $this;

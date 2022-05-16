@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\JobRepository;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: JobRepository::class)]
@@ -51,6 +52,17 @@ class Job
      */
     #[ORM\Column(type: "integer")]
     private int $running;
+
+    /**
+     * @var Collection
+     */
+    #[ORM\OneToMany(targetEntity: "App\Entity\Run", mappedBy: "job")]
+    private Collection $runs;
+
+    public function __construct()
+    {
+        $this->runs = new ArrayCollection();
+    }
 
     /**
      * @return int|null
