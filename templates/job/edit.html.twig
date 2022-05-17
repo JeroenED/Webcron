@@ -2,12 +2,12 @@
 {% block title %}Add job{% endblock %}
 {% block content %}
     <h2>Add a cronjob</h2>
-<form method="post" class="form-horizontal" enctype="multipart/form-data" action="{{ path('job_edit', { id : id }) }}">
+<form method="post" class="form-horizontal" enctype="multipart/form-data" action="{{ path('job_edit', { id : job.id }) }}">
 
     <h3>General info</h3>
     <div class="mb-3">
         <label for="name">Name</label>
-        <input type="text" name="name" class="form-control" id="name" placeholder="System update" value="{{ name }}">
+        <input type="text" name="name" class="form-control" id="name" placeholder="System update" value="{{ job.name }}">
         <small id="name-help" class="form-text text-muted">You can create colored tags by using [tag]</small>
     </div>
     <div class="mb-3">
@@ -23,54 +23,54 @@
                 <li><a class="dropdown-item intervalpattern-item" href="#" data-time="604800">Every week</a></li>
                 <li><a class="dropdown-item intervalpattern-item" href="#" data-time="2419200">Every 4 weeks</a></li>
             </ul>
-            <input type="number" class="form-control" id="interval" name="interval" value="{{ interval }}">
+            <input type="number" class="form-control" id="interval" name="interval" value="{{ job.interval }}">
         </div>
     </div>
     <div class="mb-3">
         <label for="nextrun">Next run</label>
-        <input type="text" autocomplete="off" pattern="[0-9]{2}\/[0-9]{2}\/[0-9]{4} [0-9]{2}:[0-9]{2}:[0-9]{2}" placeholder="{{ date() | date("d/m/Y H:i:s")}}" id="nextrunselector" class="form-control datetimepicker-input" data-target="#nextrunselector" data-bs-toggle="datetimepicker" name="nextrun" value="{{ nextrun | date("d/m/Y H:i:s")}}">
+        <input type="text" autocomplete="off" pattern="[0-9]{2}\/[0-9]{2}\/[0-9]{4} [0-9]{2}:[0-9]{2}:[0-9]{2}" placeholder="{{ date() | date("d/m/Y H:i:s")}}" id="nextrunselector" class="form-control datetimepicker-input" data-target="#nextrunselector" data-bs-toggle="datetimepicker" name="nextrun" value="{{ job.nextrun | date("d/m/Y H:i:s")}}">
     </div>
     <div class="mb-3">
         <label for="lastrun">Last run</label>
         <div class="input-group">
             <div class="input-group-text border-end-0">
-                <input type="checkbox" name="lastrun-eternal" class="lastrun-eternal" placeholder="value" value="true"{% if lastrun is not defined or lastrun is empty %} checked{% endif %}>
+                <input type="checkbox" name="lastrun-eternal" class="lastrun-eternal" placeholder="value" value="true"{% if job.lastrun is not defined or job.lastrun is empty %} checked{% endif %}>
             </div>
             <span class="input-group-text border-start-0">Eternal</span>
-            <input type="text" autocomplete="off" pattern="[0-9]{2}\/[0-9]{2}\/[0-9]{4} [0-9]{2}:[0-9]{2}:[0-9]{2}" data-placeholder="{{ date() | date("d/m/Y H:i:s")}}" id="lastrunselector" class="form-control datetimepicker-input" data-target="#lastrunselector" data-bs-toggle="datetimepicker" name="lastrun"{% if lastrun is not defined or lastrun is empty %} disabled{% else %} value="{{ lastrun | date("d/m/Y H:i:s")}}"{% endif %}>
+            <input type="text" autocomplete="off" pattern="[0-9]{2}\/[0-9]{2}\/[0-9]{4} [0-9]{2}:[0-9]{2}:[0-9]{2}" data-placeholder="{{ date() | date("d/m/Y H:i:s")}}" id="lastrunselector" class="form-control datetimepicker-input" data-target="#lastrunselector" data-bs-toggle="datetimepicker" name="lastrun"{% if job.lastrun is not defined or job.lastrun is empty %} disabled{% else %} value="{{ job.lastrun | date("d/m/Y H:i:s")}}"{% endif %}>
         </div>
     </div>
 
     <div class="mb-3">
         <label for="retention">Retention (in days)</label>
-        <input type="number" name="retention" class="form-control" id="retention" placeholder="7" value="{% if attribute(data, 'retention') is defined %}{{ attribute(data, 'retention') }}{% endif %}">
+        <input type="number" name="retention" class="form-control" id="retention" placeholder="7" value="{% if attribute(job.data, 'retention') is defined %}{{ attribute(job.data, 'retention') }}{% endif %}">
         <small id="retention-help" class="form-text text-muted">How many days (at least) to keep runs of this job in the database</small>
     </div>
 
     <div class="mb-3">
         <label for="fail-pct">Max fail percentage</label>
         <div class="input-group d-flex">
-            <div class="range-value range-value-fail-pct pe-1">{% if attribute(data, 'fail-pct') is defined %}{{ attribute(data, 'fail-pct') }}{% else %}50{% endif %}%</div>
+            <div class="range-value range-value-fail-pct pe-1">{% if attribute(job.data, 'fail-pct') is defined %}{{ attribute(job.data, 'fail-pct') }}{% else %}50{% endif %}%</div>
             <div class="range-input ps-1 flex-grow-1">
-                <input type="range" name="fail-pct" class="form-range range-input-fail-pct" id="fail-pct" max="100" step="5" value="{% if attribute(data, 'fail-pct') is defined %}{{ attribute(data, 'fail-pct') }}{% else %}50{% endif %}">
+                <input type="range" name="fail-pct" class="form-range range-input-fail-pct" id="fail-pct" max="100" step="5" value="{% if attribute(job.data, 'fail-pct') is defined %}{{ attribute(job.data, 'fail-pct') }}{% else %}50{% endif %}">
             </div>
         </div>
     </div>
 
     <div class="mb-3">
         <label for="fail-days">Number of days calculated for fail percentage</label>
-        <input type="number" name="fail-days" class="form-control" id="fail-days" placeholder="7" value="{% if attribute(data, 'fail-days') is defined %}{{ attribute(data, 'fail-days') }}{% endif %}">
+        <input type="number" name="fail-days" class="form-control" id="fail-days" placeholder="7" value="{% if attribute(job.data, 'fail-days') is defined %}{{ attribute(job.data, 'fail-days') }}{% endif %}">
     </div>
 
     <h3>Job details</h3>
     <div class="mb-3 btn-group croncategory-selector">
-        <div class="dropdown croncategory-group crontype-group{% if data.crontype != 'http' %} btn-group{% endif %}">
+        <div class="dropdown croncategory-group crontype-group{% if job.data.crontype != 'http' %} btn-group{% endif %}">
             <button class="btn btn-outline-primary dropdown-toggle" type="button" id="crontypeButton" data-default-text="Job type" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                {% if data.crontype == 'command' %}
+                {% if job.data.crontype == 'command' %}
                     Command
-                {% elseif data.crontype == 'reboot' %}
+                {% elseif job.data.crontype == 'reboot' %}
                     Reboot
-                {% elseif data.crontype == 'http' %}
+                {% elseif job.data.crontype == 'http' %}
                     Http request
                 {% else %}
                     Job type
@@ -83,11 +83,11 @@
             </div>
         </div>
 
-        <div class="dropdown croncategory-group hosttype-group{% if data.crontype != 'http' %} btn-group{% else %} d-none{% endif %}">
+        <div class="dropdown croncategory-group hosttype-group{% if job.data.crontype != 'http' %} btn-group{% else %} d-none{% endif %}">
             <button class="btn btn-outline-primary dropdown-toggle" type="button" id="hosttypeButton" data-default-text="Host type" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                {% if data.hosttype == 'local' %}
+                {% if job.data.hosttype == 'local' %}
                     Local
-                {% elseif data.hosttype == 'ssh' %}
+                {% elseif job.data.hosttype == 'ssh' %}
                     SSH
                 {% else %}
                     Host type
@@ -99,15 +99,15 @@
             </div>
         </div>
 
-        {% if data.crontype == 'reboot' %}
+        {% if job.data.crontype == 'reboot' %}
         </div>
         <div id="btn-group-discriminator" class="d-none">
         {% endif %}
-        <div class="dropdown croncategory-group containertype-group{% if data.crontype != 'http' %} btn-group{% else %} d-none{% endif %}">
+        <div class="dropdown croncategory-group containertype-group{% if job.data.crontype != 'http' %} btn-group{% else %} d-none{% endif %}">
             <button class="btn btn-outline-primary dropdown-toggle" type="button" id="containertypeButton" data-default-text="Container" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                {% if data.containertype == 'none' or data.containertype == '' %}
+                {% if job.data.containertype == 'none' or job.data.containertype == '' %}
                     None
-                {% elseif data.containertype == 'docker' %}
+                {% elseif job.data.containertype == 'docker' %}
                     Docker
                 {% else %}
                     Container
@@ -120,99 +120,99 @@
         </div>
     </div>
 
-    <div class="crontype-command crontype-inputs croncategory-inputs{% if data.crontype != 'command' %} d-none{% endif %}">
+    <div class="crontype-command crontype-inputs croncategory-inputs{% if job.data.crontype != 'command' %} d-none{% endif %}">
         <h4>Command details</h4>
         <div class="mb-3">
             <label for="command">Command</label>
-            <input type="text" name="command" class="form-control" id="command" placeholder="sudo apt update" value="{% if data.command is defined %}{{ data.command }}{% endif %}">
+            <input type="text" name="command" class="form-control" id="command" placeholder="sudo apt update" value="{% if job.data.command is defined %}{{ job.data.command }}{% endif %}">
         </div>
 
         <div class="mb-3">
             <label for="response">Expected exit code</label>
-            <input type="text" name="response" class="form-control" id="response" placeholder="0" value="{% if data.response is defined %}{{ data.response | join(',') }}{% endif %}">
+            <input type="text" name="response" class="form-control" id="response" placeholder="0" value="{% if job.data.response is defined %}{{ job.data.response | join(',') }}{% endif %}">
         </div>
     </div>
 
-    <div class="crontype-reboot crontype-inputs croncategory-inputs{% if data.crontype != 'reboot' %} d-none{% endif %}">
+    <div class="crontype-reboot crontype-inputs croncategory-inputs{% if job.data.crontype != 'reboot' %} d-none{% endif %}">
         <h4>Reboot job details</h4>
         <div class="mb-3">
             <label for="reboot-command">Reboot command</label>
             <input type="text" name="reboot-command" class="form-control" id="reboot-command" placeholder="systemctl reboot" value="
-            {% if attribute(data, 'reboot-command') is defined %}
-                {{ attribute(data, 'reboot-command') }}
+            {% if attribute(job.data, 'reboot-command') is defined %}
+                {{ attribute(job.data, 'reboot-command') }}
             {% endif %}">
             <small id="reboot-command-help" class="form-text text-muted">Use {reboot-delay} or {reboot-delay-secs} to add the delay in your command</small>
         </div>
 
         <div class="mb-3">
             <label for="getservices-command">Get services command</label>
-            <input type="text" name="getservices-command" class="form-control" id="getservices)command" placeholder="systemctl list-units" value="{% if attribute(data, 'getservices-command') is defined %}{{ attribute(data, 'getservices-command') }}{% endif %}">
+            <input type="text" name="getservices-command" class="form-control" id="getservices)command" placeholder="systemctl list-units" value="{% if attribute(job.data, 'getservices-command') is defined %}{{ attribute(job.data, 'getservices-command') }}{% endif %}">
         </div>
 
         <div class="mb-3">
             <label for="getservices-response">Get services command exit code</label>
-            <input type="text" name="getservices-response" class="form-control" id="getservices-response" placeholder="0" value="{% if attribute(data, 'getservices-response') is defined %}{{ attribute(data, 'getservices-response') | join(',') }}{% endif %}">
+            <input type="text" name="getservices-response" class="form-control" id="getservices-response" placeholder="0" value="{% if attribute(job.data, 'getservices-response') is defined %}{{ attribute(job.data, 'getservices-response') | join(',') }}{% endif %}">
         </div>
 
         <div class="mb-3">
             <label for="reboot-delay">Reboot delay (in minutes)</label>
-            <input type="number" name="reboot-delay" class="form-control" placeholder="5" value="{% if attribute(data, 'reboot-delay') is defined %}{{ attribute(data, 'reboot-delay') }}{% endif %}">
+            <input type="number" name="reboot-delay" class="form-control" placeholder="5" value="{% if attribute(job.data, 'reboot-delay') is defined %}{{ attribute(job.data, 'reboot-delay') }}{% endif %}">
             <small id="reboot-delay-help" class="form-text text-muted">Delay between triggering reboot and actual reboot</small>
         </div>
 
         <div class="mb-3">
             <label for="reboot-duration">Reboot duration (in minutes)</label>
-            <input type="number" name="reboot-duration" class="form-control" placeholder="10" value="{% if attribute(data, 'reboot-duration') is defined %}{{ attribute(data, 'reboot-duration') }}{% endif %}">
+            <input type="number" name="reboot-duration" class="form-control" placeholder="10" value="{% if attribute(job.data, 'reboot-duration') is defined %}{{ attribute(job.data, 'reboot-duration') }}{% endif %}">
             <small id="reboot-duration-help" class="form-text text-muted">The amount of time the system takes to actually reboot</small>
         </div>
     </div>
 
-    <div class="crontype-http crontype-inputs croncategory-inputs{% if data.crontype != 'http' %} d-none{% endif %}">
+    <div class="crontype-http crontype-inputs croncategory-inputs{% if job.data.crontype != 'http' %} d-none{% endif %}">
         <h4>HTTP request details</h4>
         <div class="mb-3">
             <label for="url">Url</label>
-            <input type="text" name="url" class="form-control" id="url" placeholder="https://scripts.example.com/" value="{% if data.url is defined %}{{ data.url }}{% endif %}">
+            <input type="text" name="url" class="form-control" id="url" placeholder="https://scripts.example.com/" value="{% if job.data.url is defined %}{{ job.data.url }}{% endif %}">
         </div>
         <div class="mb-3">
             <label for="basicauth-username">Username for Basic-Auth</label>
-            <input type="text" name="basicauth-username" class="form-control" id="basicauth-username" placeholder="www-data" value="{% if attribute(data, 'basicauth-username') is defined %}{{ attribute(data, 'basicauth-username') }}{% endif %}">
+            <input type="text" name="basicauth-username" class="form-control" id="basicauth-username" placeholder="www-data" value="{% if attribute(job.data, 'basicauth-username') is defined %}{{ attribute(job.data, 'basicauth-username') }}{% endif %}">
         </div>
         <div class="mb-3">
             <label for="basicauth-password">Password for Basic-Auth</label>
-            <input type="password" name="basicauth-password" class="form-control" placeholder="correct horse battery staple" value="{% if attribute(data, 'basicauth-password') is defined %}{{ attribute(data, 'basicauth-password') }}{% endif %}">
+            <input type="password" name="basicauth-password" class="form-control" placeholder="correct horse battery staple" value="{% if attribute(job.data, 'basicauth-password') is defined %}{{ attribute(job.data, 'basicauth-password') }}{% endif %}">
             <small id="basicauth-password-help" class="form-text text-muted">This field is being saved as a secret</small>
         </div>
 
         <div class="mb-3">
             <label for="http-status">Expected http status code</label>
-            <input type="text" name="http-status" class="form-control" id="http-status" placeholder="200" value="{% if attribute(data, 'http-status') is defined %}{{ attribute(data, 'http-status') | join(',')}}{% endif %}">
+            <input type="text" name="http-status" class="form-control" id="http-status" placeholder="200" value="{% if attribute(job.data, 'http-status') is defined %}{{ attribute(job.data, 'http-status') | join(',')}}{% endif %}">
         </div>
     </div>
 
-    <div class="hosttype-local hosttype-inputs croncategory-inputs{% if data.hosttype != 'local' %} d-none{% endif %}">
+    <div class="hosttype-local hosttype-inputs croncategory-inputs{% if job.data.hosttype != 'local' %} d-none{% endif %}">
         <h4>Localhost details</h4>
         <h5>No options</h5>
     </div>
 
-    <div class="hosttype-ssh hosttype-inputs croncategory-inputs{% if data.hosttype != 'ssh' %} d-none{% endif %}">
+    <div class="hosttype-ssh hosttype-inputs croncategory-inputs{% if job.data.hosttype != 'ssh' %} d-none{% endif %}">
         <h4>SSH host details</h4>
         <div class="mb-3">
             <label for="host">Hostname</label>
-            <input type="text" name="host" class="form-control" id="host" placeholder="ssh.abc.xyz" value="{% if data.host is defined %}{{ data.host }}{% endif %}">
+            <input type="text" name="host" class="form-control" id="host" placeholder="ssh.abc.xyz" value="{% if job.data.host is defined %}{{ job.data.host }}{% endif %}">
         </div>
 
         <div class="mb-3">
             <label for="user">Username</label>
-            <input type="text" name="user" class="form-control" id="user" placeholder="larry" value="{% if data.user is defined %}{{ data.user }}{% endif %}">
+            <input type="text" name="user" class="form-control" id="user" placeholder="larry" value="{% if job.data.user is defined %}{{ job.data.user }}{% endif %}">
         </div>
 
         <div class="mb-3">
             <label for="privkey">Private key</label>
             <div class="input-group">
                 <span class=" input-group-text border-end-0">
-                    <input type="checkbox" name="privkey-keep" class="privkey-keep" value="true" data-privkey="{% if attribute(data, 'ssh-privkey') is defined %}{{ attribute(data, 'ssh-privkey') }}{% endif %}" checked>
+                    <input type="checkbox" name="privkey-keep" class="privkey-keep" value="true" data-privkey="{% if attribute(job.data, 'ssh-privkey') is defined %}{{ attribute(job.data, 'ssh-privkey') }}{% endif %}" checked>
                 </span>
-                <input type="hidden" name="privkey-orig" class="privkey-orig" value="{% if attribute(data, 'ssh-privkey') is defined %}{{ attribute(data, 'ssh-privkey') }}{% endif %}">
+                <input type="hidden" name="privkey-orig" class="privkey-orig" value="{% if attribute(job.data, 'ssh-privkey') is defined %}{{ attribute(job.data, 'ssh-privkey') }}{% endif %}">
                 <span class="input-group-text border-start-0">Keep</span>
                <input type="file" id="privkey" name="privkey" class="form-control " disabled>
             </div>
@@ -221,25 +221,25 @@
 
         <div class="mb-3">
             <label for="privkey-password">Password for private key</label>
-            <input type="password" name="privkey-password" class="form-control" placeholder="correct horse battery staple" value="{% if attribute(data, 'privkey-password') is defined %}{{ attribute(data, 'privkey-password') }}{% endif %}">
+            <input type="password" name="privkey-password" class="form-control" placeholder="correct horse battery staple" value="{% if attribute(job.data, 'privkey-password') is defined %}{{ attribute(job.data, 'privkey-password') }}{% endif %}">
             <small id="privkey-password-help" class="form-text text-muted">If private key is empty this field is being used as ssh-password</small>
             <small id="privkey-password-help-2" class="form-text text-muted">This field is being saved as a secret</small>
         </div>
     </div>
 
-    <div class="containertype-none containertype-inputs croncategory-inputs{% if data.containertype != 'none' %} d-none{% endif %}">
+    <div class="containertype-none containertype-inputs croncategory-inputs{% if job.data.containertype != 'none' %} d-none{% endif %}">
     </div>
 
-    <div class="containertype-docker containertype-inputs croncategory-inputs{% if data.containertype != 'docker' %} d-none{% endif %}">
+    <div class="containertype-docker containertype-inputs croncategory-inputs{% if job.data.containertype != 'docker' %} d-none{% endif %}">
         <h4>Docker container details</h4>
         <div class="mb-3">
             <label for="service">Service</label>
-            <input type="text" name="service" class="form-control" id="service" placeholder="mysql" value="{% if attribute(data, 'service') is defined %}{{ attribute(data, 'service') }}{% endif %}">
+            <input type="text" name="service" class="form-control" id="service" placeholder="mysql" value="{% if attribute(job.data, 'service') is defined %}{{ attribute(job.data, 'service') }}{% endif %}">
         </div>
 
         <div class="mb-3">
             <label for="container-user">Username</label>
-            <input type="text" name="container-user" class="form-control" id="container-user" placeholder="larry" value="{% if attribute(data, 'container-user') is defined %}{{ attribute(data, 'container-user') }}{% endif %}">
+            <input type="text" name="container-user" class="form-control" id="container-user" placeholder="larry" value="{% if attribute(job.data, 'container-user') is defined %}{{ attribute(job.data, 'container-user') }}{% endif %}">
         </div>
     </div>
 
@@ -255,8 +255,9 @@
             <input type="text" name="var-value[0]" class="form-control var-value" placeholder="value">
         </div>
         {% set key = 1 %}
-        {% if data.vars is defined %}
-            {% for id,var in data.vars %}
+        {% if job.data.vars is defined %}
+            Im defined!
+            {% for id,var in job.data.vars %}
                 <div class="input-group var-group">
                     <div class="input-group-text border-end-0">
                         <input type="checkbox" name="var-issecret[{{ key }}]" class="var-issecret" placeholder="value" value="true"{%  if var.issecret %} checked{% endif %}>
@@ -278,9 +279,9 @@
         <a href="#" class="btn btn-outline-primary addvar-btn">Add variable</a>
     </div>
 
-    <input type="hidden" name="crontype" class="crontype" value="{{ data.crontype }}">
-    <input type="hidden" name="hosttype" class="hosttype" value="{{ data.hosttype }}">
-    <input type="hidden" name="containertype" class="containertype" value="{{ data.containertype }}">
+    <input type="hidden" name="crontype" class="crontype" value="{{ job.data.crontype }}">
+    <input type="hidden" name="hosttype" class="hosttype" value="{{ job.data.hosttype }}">
+    <input type="hidden" name="containertype" class="containertype" value="{{ job.data.containertype }}">
     <button type="submit" class="btn btn-outline-primary">Submit</button>
 </form>
 

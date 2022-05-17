@@ -25,7 +25,7 @@ class JobRepository extends EntityRepository
 
         $return = [];
         foreach($jobs as $job) {
-            if($job->getData()['needschecking']) {
+            if($job->getData('needschecking')) {
                 $return[] = $job;
             }
         }
@@ -35,13 +35,14 @@ class JobRepository extends EntityRepository
     public function getRunningJobs(bool $idiskey = false): array
     {
         $qb = $this->createQueryBuilder('job');
-        return $qb->where('job.running != 0')->getQuery()->getResult();
+        return $qb
+            ->where('job.running != 0')
+            ->getQuery()->getResult();
     }
 
     public function getAllJobs(bool $idiskey = false)
     {
         $qb = $this->createQueryBuilder('job');
-
         /** @var Job[] $jobs */
         $jobs = $qb
             ->orderBy('job.name')
@@ -79,19 +80,29 @@ class JobRepository extends EntityRepository
 
     public function getJobsDue()
     {
-        $jobsSql = "SELECT id, running
-                    FROM job
-                    WHERE (
-                        nextrun <= :timestamp
-                        AND (lastrun IS NULL OR lastrun > :timestamplastrun)
-                        AND running IN (0,2)
-                    )
-                    OR (running NOT IN (0,1,2) AND running < :timestamprun)
-                    OR (running = 2)";
-        $jobsStmt = $this->getEntityManager()->getConnection()->prepare($jobsSql);
-        $jobsRslt = $jobsStmt->executeQuery([':timestamp' => time(), ':timestamplastrun' => time(), ':timestamprun' => time()]);
-        $jobs = $jobsRslt->fetchAllAssociative();
-        return $jobs;
+        $qb = $this->createQueryBuilder('job');
+        return $qb
+            ->where(
+                $qb->expr()->andX(
+                    $qb->expr()->lte('job.nextrun', ':timestamp'),
+                    $qb->expr()->orX(
+                        $qb->expr()->isNull('job.lastrun'),
+                        $qb->expr()->gt('job.lastrun', ':timestamp')
+                    ),
+                    $qb->expr()->in('job.running', [0,2])
+                )
+            )
+            ->orWhere(
+                $qb->expr()->andX(
+                    $qb->expr()->notIn('job.running', [0,1,2]),
+                    $qb->expr()->lt('job.running', ':timestamp')
+                )
+            )
+            ->orWhere('job.running = 2')
+            ->orderBy('job.running', 'DESC')
+            ->addOrderBy('job.nextrun', 'ASC')
+            ->setParameter(':timestamp', time())
+            ->getQuery()->getResult();
     }
 
     public function getTimeOfNextRun()
@@ -186,25 +197,25 @@ class JobRepository extends EntityRepository
         return $result['temp_vars'][$name] ?? $default;
     }
 
-    private function runHttpJob(array $job): array
+    private function runHttpJob(Job $job): array
     {
         $client = new Client();
 
-        if(!empty($job['data']['vars'])) {
-            foreach($job['data']['vars'] as $key => $var) {
-                if (!empty($job['data']['basicauth-username'])) $job['data']['basicauth-username'] = str_replace('{' . $key . '}', $var['value'], $job['data']['basicauth-username']);
-                $job['data']['url'] = str_replace('{' . $key . '}', $var['value'], $job['data']['url']);
+        if(!empty($job->getData('vars'))) {
+            foreach($job->getData('vars') as $key => $var) {
+                if (!empty($job->getData('basicauth-username'))) $job->addData('basicauth-username', str_replace('{' . $key . '}', $var['value'], $job->getData('basicauth-username')));
+                $job->addData('url', str_replace('{' . $key . '}', $var['value'], $job->getData('url')));
             }
         }
 
-        $url = $job['data']['url'];
+        $url = $job->getData('url');
         $options['http_errors'] = false;
-        $options['auth'] = !empty($job['data']['basicauth-username']) ? [$job['data']['basicauth-username'], $job['data']['basicauth-password']] : NULL;
+        $options['auth'] = !empty($job->getData('basicauth-username')) ? [$job->getData('basicauth-username'), $job->getData('basicauth-password')] : NULL;
         try {
             $res = $client->request('GET', $url, $options);
             $return['exitcode'] = $res->getStatusCode();
             $return['output'] = $res->getBody();
-            $return['failed'] = !in_array($return['exitcode'], $job['data']['http-status']);
+            $return['failed'] = !in_array($return['exitcode'], $job->getData('http-status'));
         } catch(GuzzleException $exception) {
             $return['exitcode'] = $exception->getCode();
             $return['output'] = $exception->getMessage();
@@ -214,25 +225,25 @@ class JobRepository extends EntityRepository
         return $return;
     }
 
-    private function runCommandJob(array $job): array
+    private function runCommandJob(Job $job): array
     {
-        if(!empty($job['data']['vars'])) {
-            foreach ($job['data']['vars'] as $key => $var) {
-                $job['data']['command'] = str_replace('{' . $key . '}', $var['value'], $job['data']['command']);
+        if(!empty($job->getData('vars'))) {
+            foreach ($job->getData('vars') as $key => $var) {
+                $job->addData('command', str_replace('{' . $key . '}', $var['value'], $job->getData('command')));
             }
         }
 
-        $command = $job['data']['command'];
-        if ($job['data']['containertype'] == 'docker') {
-            $command = $this->prepareDockerCommand($command, $job['data']['service'], $job['data']['container-user']);
+        $command = $job->getData('command');
+        if ($job->getData('containertype') == 'docker') {
+            $command = $this->prepareDockerCommand($command, $job->getData('service'), $job->getData('container-user'));
         }
         try {
-            if($job['data']['hosttype'] == 'local') {
+            if($job->getData('hosttype') == 'local') {
                 $return = $this->runLocalCommand($command);
-            } elseif($job['data']['hosttype'] == 'ssh') {
-                $return = $this->runSshCommand($command, $job['data']['host'], $job['data']['user'], $job['data']['ssh-privkey'], $job['data']['privkey-password']);
+            } elseif($job->getData('hosttype') == 'ssh') {
+                $return = $this->runSshCommand($command, $job->getData('host'), $job->getData('user'), $job->getData('ssh-privkey'), $job->getData('privkey-password'));
             }
-            $return['failed'] = !in_array($return['exitcode'], $job['data']['response']);
+            $return['failed'] = !in_array($return['exitcode'], $job->getData('response'));
         } catch (\RuntimeException $exception) {
             $return['exitcode'] = $exception->getCode();
             $return['output'] = $exception->getMessage();
@@ -253,7 +264,7 @@ class JobRepository extends EntityRepository
         return $return;
     }
 
-    private function runSshCommand(string $command, string $host, string $user, string $privkey, string $password): array
+    private function runSshCommand(string $command, string $host, string $user, ?string $privkey, ?string $password): array
     {
         $ssh = new SSH2($host);
         $key = null;
@@ -378,14 +389,13 @@ class JobRepository extends EntityRepository
 
     public function runJob(int $job, bool $manual): array
     {
-        global $kernel;
         $starttime = microtime(true);
         $job = $this->getJob($job, true);
-        if ($job['data']['crontype'] == 'http') {
+        if ($job->getData('crontype') == 'http') {
             $result = $this->runHttpJob($job);
-        } elseif ($job['data']['crontype'] == 'command') {
+        } elseif ($job->getData('crontype') == 'command') {
             $result = $this->runCommandJob($job);
-        } elseif ($job['data']['crontype'] == 'reboot') {
+        } elseif ($job->getData('crontype') == 'reboot') {
             $result = $this->runRebootJob($job, $starttime, $manual);
             if(isset($result['status']) && $result['status'] == 'deferred') return $result;
         }
@@ -405,8 +415,8 @@ class JobRepository extends EntityRepository
         }
 
         // Remove secrets from output
-        if(!empty($job['data']['vars'])) {
-            foreach($job['data']['vars'] as $key => $var) {
+        if(!empty($job->getData('vars'))) {
+            foreach($job->getData('vars') as $key => $var) {
                 if ($var['issecret']) {
                     $result['output'] = str_replace($var['value'], '{'.$key.'}', $result['output']);
                 }
@@ -415,20 +425,20 @@ class JobRepository extends EntityRepository
         // saving to database
         $this->getEntityManager()->getConnection()->close();
         $runRepo = $this->getEntityManager()->getRepository(Run::class);
-        $runRepo->addRun($job['id'], $result['exitcode'], floor($starttime), $runtime, $result['output'], $flags);
+        $runRepo->addRun($job->getId(), $result['exitcode'], floor($starttime), $runtime, $result['output'], $flags);
         if (!$manual){
             // setting nextrun to next run
-            $nextrun = $job['nextrun'];
+            $nextrun = $job->getNextrun();
             do {
-                $nextrun = $nextrun + $job['interval'];
+                $nextrun = $nextrun + $job->getInterval();
             } while ($nextrun < time());
 
 
             $addRunSql = 'UPDATE job SET nextrun = :nextrun WHERE id = :id';
             $addRunStmt = $this->getEntityManager()->getConnection()->prepare($addRunSql);
-            $addRunStmt->executeQuery([':id' => $job['id'], ':nextrun' => $nextrun]);
+            $addRunStmt->executeQuery([':id' => $job->getId(), ':nextrun' => $nextrun]);
         }
-        return  ['job_id' =>  $job['id'], 'exitcode' => $result['exitcode'], 'timestamp' =>floor($starttime), 'runtime' => $runtime, 'output' => (string)$result['output'], 'flags' => implode("", $flags)];
+        return  ['job_id' =>  $job->getId(), 'exitcode' => $result['exitcode'], 'timestamp' =>floor($starttime), 'runtime' => $runtime, 'output' => (string)$result['output'], 'flags' => implode("", $flags)];
     }
 
     public function unlockJob(int $id = 0): void
@@ -618,50 +628,47 @@ class JobRepository extends EntityRepository
     }
 
     public function getJob(int $id, bool $withSecrets = false) {
-        $jobSql = "SELECT * FROM job WHERE id = :id";
-        $jobStmt = $this->getEntityManager()->getConnection()->prepare($jobSql);
-        $jobRslt = $jobStmt->executeQuery([':id' => $id])->fetchAssociative();
+        $job = $this->find($id);
 
-        $jobRslt['data'] = json_decode($jobRslt['data'], true);
-
-        if(!empty($jobRslt['data']['vars'])) {
-            foreach ($jobRslt['data']['vars'] as $key => &$value) {
+        if(!empty($job->getData('vars'))) {
+            foreach ($job->getData('vars') as $key => &$value) {
                 if ($value['issecret']) {
-                    $value['value'] = ($withSecrets) ? Secret::decrypt(base64_decode($value['value'])) : '';
+                    $job->addData('vars.' . $key . '.value', ($withSecrets) ? Secret::decrypt(base64_decode($value['value'])) : '');
                 }
             }
         }
 
-        switch($jobRslt['data']['crontype']) {
+        switch($job->getData('crontype')) {
             case 'http':
-                if(isset($jobRslt['data']['vars']['basicauth-password']['value'])) {
-                    $jobRslt['data']['basicauth-password'] = $jobRslt['data']['vars']['basicauth-password']['value'];
-                    unset($jobRslt['data']['vars']['basicauth-password']);
+                if($job->hasData('vars.basicauth-password.value')) {
+                    $job->addData('basicauth-password', $job->getData('vars.basicauth-password.value'));
+                    $job->removeData('vars.basicauth-password');
                 }
                 break;
             case 'reboot':
-                $jobRslt['data']['reboot-delay'] = $jobRslt['data']['vars']['reboot-delay']['value'];
-                $jobRslt['data']['reboot-delay-secs'] = $jobRslt['data']['vars']['reboot-delay-secs']['value'];
-                unset($jobRslt['data']['vars']['reboot-delay']);
-                unset($jobRslt['data']['vars']['reboot-delay-secs']);
+                $job->addData('reboot-delay', $job->getData('vars.reboot-delay.value'));
+                $job->addData('reboot-delay-secs', $job->getData('vars.reboot-delay-secs.value'));
+
+                $job->removeData('vars.reboot-delay');
+                $job->removeData('vars.reboot-delay-secs');
                 break;
         }
 
-        switch($jobRslt['data']['hosttype']) {
+        switch($job->getData('hosttype')) {
             case 'ssh':
-                if(isset($jobRslt['data']['vars']['ssh-privkey']['value'])) {
-                    $jobRslt['data']['ssh-privkey'] = $jobRslt['data']['vars']['ssh-privkey']['value'];
-                    unset($jobRslt['data']['vars']['ssh-privkey']);
+                if($job->hasData('vars.ssh-privkey.value')) {
+                    $job->addData('ssh-privkey', $job->getData('vars.ssh-privkey.value'));
+                    $job->removeData('vars.ssh-privkey');
                 }
-                if(isset($jobRslt['data']['vars']['privkey-password']['value'])) {
-                    $jobRslt['data']['privkey-password'] = $jobRslt['data']['vars']['privkey-password']['value'];
-                    unset($jobRslt['data']['vars']['privkey-password']);
+                if($job->hasData('vars.privkey-password.value')) {
+                    $job->addData('privkey-password', $job->getData('vars.privkey-password.value'));
+                    $job->removeData('vars.privkey-password');
                 }
                 break;
         }
-        if($jobRslt['data']['crontype'] == 'http') {
+        if($job->getData('crontype') == 'http') {
         }
-        return $jobRslt;
+        return $job;
     }
 
     public function deleteJob(int $id)

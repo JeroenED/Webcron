@@ -33,13 +33,15 @@ class DaemonCommand extends Command
         $this
             ->setDescription('The deamon slayer of webcron')
             ->setHelp('This command is the daemon process of webcron, enabling webcron to actually run jobs on time')
-            ->addOption('time-limit', 't', InputOption::VALUE_REQUIRED, 'Time limit in seconds before stopping the daemon.');
+            ->addOption('time-limit', 't', InputOption::VALUE_REQUIRED, 'Time limit in seconds before stopping the daemon.')
+            ->addOption('async', 'a', InputOption::VALUE_NEGATABLE, 'Time limit in seconds before stopping the daemon.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $jobRepo = $this->doctrine->getRepository(Job::class);
         $timelimit = $input->getOption('time-limit') ?? false;
+        $async = $input->getOption('async') ?? function_exists('pcntl_fork');
         if ($timelimit === false) {
             $endofscript = false;
         } elseif(is_numeric($timelimit)) {
@@ -55,27 +57,29 @@ class DaemonCommand extends Command
             $jobsToRun = $jobRepo->getJobsDue();
             if(!empty($jobsToRun)) {
                 foreach($jobsToRun as $job) {
-                    $jobObj = $jobRepo->getJob($job['id']);
-                    if($jobObj['data']['crontype'] == 'reboot') {
+                    if($job->getData('crontype') == 'reboot') {
                         $str   = @file_get_contents('/proc/uptime');
                         $num   = floatval($str);
-                        $rebootedself = ($num < $jobObj['data']['reboot-duration'] * 60);
-                        $consolerun = $jobRepo->getTempVar($job['id'], 'consolerun', false);
+                        $rebootedself = ($num < $job->getData('reboot-duration') * 60);
+                        $consolerun = $jobRepo->getTempVar($job->getId(), 'consolerun', false);
                         if($consolerun && !$rebootedself) continue;
                     }
-                    $jobRepo->setJobRunning($job['id'], true);
-                    $output->writeln('Running Job ' . $job['id']);
-                    declare(ticks = 1);
-                    pcntl_signal(SIGCHLD, SIG_IGN);
-                    $pid = pcntl_fork();
-                    $this->doctrine->getConnection()->close();
-                    $jobRepo = $this->doctrine->getRepository(Job::class);
-                    if($pid == -1) {
-                        $jobRepo->RunJob($job['id'], $job['running'] == 2);
-                        $jobRepo->setJobRunning($job['id'], false);
+                    $jobRepo->setJobRunning($job->getId(), true);
+                    $output->writeln('Running Job ' . $job->getId());
+                    if($async) {
+                        declare(ticks = 1);
+                        pcntl_signal(SIGCHLD, SIG_IGN);
+                        $pid = pcntl_fork();
+                        $this->doctrine->getConnection()->close();
+                        $jobRepo = $this->doctrine->getRepository(Job::class);
+                    }
+
+                    if(!$async || $pid == -1) {
+                        $jobRepo->RunJob($job->getId(), $job->getRunning() == 2);
+                        $jobRepo->setJobRunning($job->getId(), false);
                     } elseif ($pid == 0) {
-                        $jobRepo->RunJob($job['id'], $job['running'] == 2);
-                        $jobRepo->setJobRunning($job['id'], false);
+                        $jobRepo->RunJob($job->getId(), $job->getRunning() == 2);
+                        $jobRepo->setJobRunning($job->getId(), false);
                         exit;
                     }
                 }

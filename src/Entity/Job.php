@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\JobRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use InvalidArgumentException;
 
 #[ORM\Entity(repositoryClass: JobRepository::class)]
 class Job
@@ -100,33 +101,78 @@ class Job
         return $this;
     }
 
-    /**
-     * @return array
-     */
-    public function getData(): array
+    public function getData(?string $name = ''): mixed
     {
-        return json_decode($this->data, true);
+        $data = json_decode($this->data, true);
+        if(!empty($name)) {
+            $names = explode('.', $name);
+            foreach($names as $item) {
+                if(!isset($data[$item])) {
+                    return NULL;
+                }
+                $data = $data[$item];
+            }
+        }
+        return $data;
     }
 
-    /**
-     * @param array $data
-     * @return Job
-     */
     public function setData(array $data): Job
     {
         $this->data = json_encode($data);
         return $this;
     }
 
-    public function addData(string $name, mixed $value): Job
+    public function addData(string $name, mixed $value): mixed
     {
         $data = json_decode($this->data, true);
-        $data[$name] = $value;
+        if (!empty($name)) {
+            $this->addDataItem($data, $name, $value);
+        }
         $this->data = json_encode($data);
-
         return $this;
     }
 
+    private function addDataItem(array &$data, array|string $name, mixed $value): bool
+    {
+        $names = is_array($name) ? $name : explode('.', $name);
+        $current = $names[0];
+        if(isset($data[$current]) && is_array($data[$current])) {
+            unset($names[0]);
+            $this->addDataItem($data[$current], array_values($names), $value);
+        } else {
+            $data[$names[0]] = $value;
+        }
+        return true;
+    }
+
+    public function removeData(?string $name = ''): mixed
+    {
+        $data = json_decode($this->data, true);
+        if (!empty($name)) {
+            $this->removeDataItem($data, $name);
+        }
+        return $this;
+    }
+
+    private function removeDataItem(array &$data, array|string $name): bool
+    {
+        $names = is_array($name) ? $name : explode('.', $name);
+        $current = $names[0];
+        if(is_array($data[$current])) {
+            unset($names[0]);
+            $this->removeDataItem($data[$current], array_values($names));
+        } elseif(!isset($data[$current])) {
+            return false;
+        } else {
+            unset($names[0]);
+        }
+        return true;
+    }
+
+    public function hasData($name): bool
+    {
+        return !empty($this->getData($name));
+    }
     /**
      * @return int
      */

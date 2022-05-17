@@ -16,20 +16,20 @@ class RunRepository extends EntityRepository
 
     public function getRunsForJob(int $id, bool $onlyfailed = false, int $maxage = NULL, bool $ordered = true): array
     {
-        $runsSql = "SELECT * FROM run WHERE job_id = :job";
-        $params = [':job' => $id];
+        $qb = $this->createQueryBuilder('run');
+        $job = $this->getEntityManager()->getRepository(Job::class)->find($id);
+        $runs = $qb
+            ->where('run.job = :job')
+            ->setParameter(':job', $job);
+
         if ($onlyfailed) {
-            $runsSql .= ' AND flags LIKE "%' . RunRepository::FAILED . '%"';
+            $runs = $runs->andWhere('run.flags LIKE :flags')->setParameter(':flags', '%' . RunRepository::FAILED . '%');
         }
         if($maxage !== NULL) {
-            $runsSql .= ' AND timestamp > :timestamp';
-            $params[':timestamp'] = time() - ($maxage * 24 * 60 * 60);
+            $runs = $runs->andWhere('run.timestamp > :timestamp')->setParameter(':timestamp', time() - ($maxage * 24 * 60 * 60));
         }
-        if ($ordered) $runsSql .= ' ORDER by timestamp DESC';
-        $runsStmt = $this->getEntityManager()->getConnection()->prepare($runsSql);
-        $runsRslt = $runsStmt->executeQuery($params);
-        $runs = $runsRslt->fetchAllAssociative();
-        return $runs;
+        if ($ordered) $runs->orderBy('run.timestamp', 'DESC');
+        return $runs->getQuery()->getResult();
     }
 
     public function addRun(int $jobid, string $exitcode, int $starttime, float $runtime, string $output, array $flags): void

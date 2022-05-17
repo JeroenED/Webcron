@@ -42,7 +42,7 @@ class JobController extends AbstractController
         if($request->getMethod() == 'GET') {
             $jobRepo = $doctrine->getRepository(Job::class);
             $job = $jobRepo->getJob($id, true);
-            return $this->render('job/edit.html.twig', $job);
+            return $this->render('job/edit.html.twig', ['job' => $job]);
         } elseif($request->getMethod() == 'POST') {
             $allValues = $request->request->all();
             $jobRepo = $doctrine->getRepository(Job::class);
