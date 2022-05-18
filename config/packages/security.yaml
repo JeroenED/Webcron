@@ -26,7 +26,7 @@ security:
                 target: login
             remember_me:
                 secret:   '%kernel.secret%'
-                lifetime: 2419200 # 28 days in seconds
+                lifetime: '%env(int:COOKIE_LIFETIME)%'
                 path:     /
                 secure:   true
             # activate different ways to authenticate
