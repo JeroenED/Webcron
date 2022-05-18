@@ -464,10 +464,8 @@ class JobRepository extends EntityRepository
 
     public function isLockedJob(int $id = 0): bool
     {
-        $jobsSql = "SELECT id FROM job WHERE id = :id AND running != :status";
-        $params = [':status' => 0, ':id' => $id];
-
-        return count($this->getEntityManager()->getConnection()->prepare($jobsSql)->executeQuery($params)->fetchAllAssociative()) > 0;
+        $job = $this->find($id);
+        return $job->getRunning() != 0;
     }
 
     public function addJob(array $values)
