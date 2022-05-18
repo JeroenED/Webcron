@@ -27,13 +27,13 @@ class Job
     /**
      * @var string
      */
-    #[ORM\Column(type: "text")]
+    #[ORM\Column(name: "`data`", type: "text")]
     private string $data;
 
     /**
      * @var int
      */
-    #[ORM\Column(type: "integer")]
+    #[ORM\Column(name: "`interval`", type: "integer")]
     private int $interval;
 
     /**
@@ -118,7 +118,7 @@ class Job
 
     public function setData(string $name, mixed $value): Job
     {
-        $data = json_decode($this->data, true);
+        $data = json_decode($this->data ?? '{}', true);
         if (!empty($name)) {
             $this->addDataItem($data, $name, $value);
         }
@@ -130,8 +130,9 @@ class Job
     {
         $names = is_array($name) ? $name : explode('.', $name);
         $current = $names[0];
-        if(isset($data[$current]) && is_array($data[$current])) {
+        if(count($names) > 1) {
             unset($names[0]);
+            if(!isset($data[$current])) $data[$current] = [];
             $this->addDataItem($data[$current], array_values($names), $value);
         } else {
             $data[$names[0]] = $value;
@@ -216,7 +217,7 @@ class Job
      * @param int $lastrun
      * @return Job
      */
-    public function setLastrun(int $lastrun): Job
+    public function setLastrun(?int $lastrun): Job
     {
         $this->lastrun = $lastrun;
         return $this;

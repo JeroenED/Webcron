@@ -480,13 +480,10 @@ class JobRepository extends EntityRepository
             throw new \InvalidArgumentException('Some fields are empty');
         }
 
-        $data = $this->prepareJob($values);
-        $data['data'] = json_encode($data['data']);
-        $addJobSql = "INSERT INTO job(name, data, `interval`, nextrun, lastrun, running) VALUES (:name, :data, :interval, :nextrun, :lastrun, :running)";
+        $job = $this->prepareJob($values);
 
-        $addJobStmt = $this->getEntityManager()->getConnection()->prepare($addJobSql);
-        $addJobStmt->executeQuery([':name' => $data['name'], ':data' => $data['data'], ':interval' => $data['interval'], ':nextrun' => $data['nextrun'], ':lastrun' => $data['lastrun'], ':running' => 0]);
-
+        $this->getEntityManager()->persist($job);
+        $this->getEntityManager()->flush();
         return ['success' => true, 'message' => 'Cronjob succesfully added'];
     }
 
@@ -499,47 +496,52 @@ class JobRepository extends EntityRepository
         ) {
             throw new \InvalidArgumentException('Some fields are empty');
         }
-        $data = $this->prepareJob($values);
-        $data['data'] = json_encode($data['data']);
-        $editJobSql = "UPDATE job SET name = :name, data = :data, `interval` = :interval, nextrun = :nextrun, lastrun = :lastrun WHERE id = :id";
+        $job = $this->find($id);
+        $job = $this->prepareJob($values, $job);
 
-        $editJobStmt = $this->getEntityManager()->getConnection()->prepare($editJobSql);
-        $editJobStmt->executeQuery([':name' => $data['name'], ':data' => $data['data'], ':interval' => $data['interval'], ':nextrun' => $data['nextrun'], ':lastrun' => $data['lastrun'],':id' => $id ]);
-
+        $this->getEntityManager()->persist($job);
+        $this->getEntityManager()->flush();
         return ['success' => true, 'message' => 'Cronjob succesfully edited'];
     }
 
-    public function prepareJob(array $values): array
+    public function prepareJob(array $values, ?Job $job = NULL): Job
     {
+        if ($job === NULL) {
+            $job = new Job();
+            $job->setRunning(0);
+        }
+        $job->setName($values['name']);
+        $job->setInterval($values['interval']);
+
         if(empty($values['lastrun']) || (isset($values['lastrun-eternal']) && $values['lastrun-eternal'] == 'true')) {
-            $values['lastrun'] = NULL;
+            $job->setLastrun(NULL);
         } else {
-            $values['lastrun'] = DateTime::createFromFormat('d/m/Y H:i:s',$values['lastrun'])->getTimestamp();
+            $job->setLastrun(DateTime::createFromFormat('d/m/Y H:i:s',$values['lastrun'])->getTimestamp());
         }
 
-        $values['nextrun'] = DateTime::createFromFormat('d/m/Y H:i:s', $values['nextrun'])->getTimestamp();
-        $values['data']['retention'] = !empty($values['retention']) ? (int)$values['retention'] : NULL;
+        $job->setNextrun(DateTime::createFromFormat('d/m/Y H:i:s', $values['nextrun'])->getTimestamp());
+        $job->setData('retention', !empty($values['retention']) ? (int)$values['retention'] : NULL);
 
-        $values['data']['crontype'] = $values['crontype'];
-        $values['data']['hosttype'] = $values['hosttype'];
-        $values['data']['containertype'] = $values['containertype'];
-        $values['data']['fail-pct'] = !empty($values['fail-pct']) ? (int)$values['fail-pct'] : 50;
-        $values['data']['fail-days'] = !empty($values['fail-days']) ? (int)$values['fail-days'] : 7;
+        $job->setData('crontype', $values['crontype'] ?? NULL);
+        $job->setData('hosttype', $values['hosttype']);
+        $job->setData('containertype', $values['containertype']);
+        $job->setData('fail-pct', !empty($values['fail-pct']) ? (int)$values['fail-pct'] : 50);
+        $job->setData('fail-days', !empty($values['fail-days']) ? (int)$values['fail-days'] : 7);
 
-        if(empty($values['data']['crontype'])) {
+        if(!$job->hasData('crontype')) {
             throw new \InvalidArgumentException("Crontype cannot be empty");
         }
-        switch($values['data']['crontype'])
+        switch($job->getData('crontype'))
         {
             case 'command':
-                $values['data']['command'] = $values['command'];
-                $values['data']['response'] = explode(',', $values['response']);
+                $job->setData('command', $values['command']);
+                $job->setData('response', explode(',', $values['response']));
                 break;
             case 'reboot':
-                $values['data']['reboot-command'] = $values['reboot-command'];
-                $values['data']['getservices-command'] = $values['getservices-command'];
-                $values['data']['getservices-response'] = explode(',',$values['getservices-response']);
-                $values['data']['reboot-duration'] = $values['reboot-duration'];
+                $job->setData('reboot-command', $values['reboot-command']);
+                $job->setData('getservices-command', $values['getservices-command']);
+                $job->setData('getservices-response', explode(',',$values['getservices-response']));
+                $job->setData('reboot-duration', $values['reboot-duration']);
                 if(!empty($values['reboot-delay']) || $values['reboot-delay'] == 0) {
                     $newsecretkey = count($values['var-value']);
                     $values['var-id'][$newsecretkey] = 'reboot-delay';
@@ -554,9 +556,9 @@ class JobRepository extends EntityRepository
                 break;
             case 'http':
                 $parsedUrl = parse_url($values['url']);
-                $values['data']['url'] = $values['url'];
-                $values['data']['http-status'] = explode(',', $values['http-status']);
-                $values['data']['basicauth-username'] = $values['basicauth-username'];
+                $job->setData('url', $values['url']);
+                $job->setData('http-status', explode(',', $values['http-status']));
+                $job->setData('basicauth-username', $values['basicauth-username']);
                 if(empty($parsedUrl['host'])) {
                     throw new \InvalidArgumentException('Some data was invalid');
                 }
@@ -566,20 +568,20 @@ class JobRepository extends EntityRepository
                     $values['var-issecret'][$newsecretkey] = true;
                     $values['var-value'][$newsecretkey] = $values['basicauth-password'];
                 }
-                $values['data']['host'] = $parsedUrl['host'];
+                $job->setData('host', $parsedUrl['host']);
                 break;
         }
 
-        switch($values['data']['hosttype']) {
+        switch($job->getData('hosttype')) {
             default:
-                if($values['data']['crontype'] == 'http') break;
-                $values['data']['hosttype'] =  'local';
+                if($job->getData('crotype') == 'http') break;
+                $job->setData('hosttype', 'local');
             case 'local':
-                $values['data']['host'] = 'localhost';
+                $job->setData('host', 'localhost');
                 break;
             case 'ssh':
-                $values['data']['host'] = $values['host'];
-                $values['data']['user'] = $values['user'];
+                $job->setData('host', $values['host']);
+                $job->setData('user', $values['user']);
                 if(!empty($values['privkey-password'])) {
                     $newsecretkey = count($values['var-value']);
                     $values['var-id'][$newsecretkey] = 'privkey-password';
@@ -605,16 +607,16 @@ class JobRepository extends EntityRepository
         }
 
 
-        switch($values['data']['containertype']) {
+        switch($job->getData('hosttype')) {
             default:
-                if($values['data']['crontype'] == 'http' || $values['data']['crontype'] == 'reboot' ) break;
-                $values['data']['containertype'] = 'none';
+                if($job->getData('crontype') == 'http' || $job->getData('crontype') == 'reboot' ) break;
+                $job->setData('containertype', 'none');
             case 'none':
                 // No options for no container
                 break;
             case 'docker':
-                $values['data']['service'] = $values['service'];
-                $values['data']['container-user'] = $values['container-user'];
+                $job->setData('service', $values['service']);
+                $job->setData('container-user', $values['container-user']);
                 break;
         }
 
@@ -622,16 +624,16 @@ class JobRepository extends EntityRepository
             foreach($values['var-value'] as $key => $value) {
                 if(!empty($value) || $value == 0) {
                     if(isset($values['var-issecret'][$key]) && $values['var-issecret'][$key] != false) {
-                        $values['data']['vars'][$values['var-id'][$key]]['issecret'] = true;
-                        $values['data']['vars'][$values['var-id'][$key]]['value'] = base64_encode(Secret::encrypt($values['var-value'][$key]));
+                        $job->setData('vars.' . $values['var-id'][$key] . '.issecret', true);
+                        $job->setData('vars.' . $values['var-id'][$key] . '.value', base64_encode(Secret::encrypt($values['var-value'][$key])));
                     } else {
-                        $values['data']['vars'][$values['var-id'][$key]]['issecret'] = false;
-                        $values['data']['vars'][$values['var-id'][$key]]['value'] = $values['var-value'][$key];
+                        $job->setData('vars.' . $values['var-id'][$key] . '.issecret', false);
+                        $job->setData('vars.' . $values['var-id'][$key] . '.value', $values['var-value'][$key]);
                     }
                 }
             }
         }
-        return $values;
+        return $job;
     }
 
     public function getJob(int $id, bool $withSecrets = false) {
