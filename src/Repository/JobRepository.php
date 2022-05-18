@@ -42,13 +42,20 @@ class JobRepository extends EntityRepository
     public function getAllJobs(bool $idiskey = false)
     {
         $qb = $this->createQueryBuilder('job');
-        /** @var Job[] $jobs */
-        $jobs = $qb
-            ->orderBy('job.name')
-            ->where('job.id = job.id')
-            ->addOrderBy("JSON_VALUE(job.data, '$.host')")
-            ->addOrderBy("JSON_VALUE(job.data, '$.service')")
-            ->getQuery()->getResult();
+
+        $jobs = $qb->where('job.id = job.id');
+
+        if($idiskey) {
+            $jobs = $jobs->orderBy('job.id');
+        } else {
+            $jobs = $jobs
+                ->orderBy('job.name')
+                ->addOrderBy("JSON_VALUE(job.data, '$.host')")
+                ->addOrderBy("JSON_VALUE(job.data, '$.service')");
+        }
+
+        /** @var Job $jobs */
+        $jobs = $jobs->getQuery()->getResult();
 
         return $this->parseJobs($jobs);
     }
