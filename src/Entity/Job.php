@@ -245,4 +245,22 @@ class Job
         return $this;
     }
 
+    /**
+     * @return Collection
+     */
+    public function getRuns(): Collection|ArrayCollection
+    {
+        return $this->runs;
+    }
+
+    /**
+     * @param Collection $runs
+     * @return Job
+     */
+    public function setRuns(Collection|ArrayCollection $runs): Job
+    {
+        $this->runs = $runs;
+        return $this;
+    }
+
 }

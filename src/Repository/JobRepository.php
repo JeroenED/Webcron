@@ -295,29 +295,29 @@ class JobRepository extends EntityRepository
         return $return;
     }
 
-    private function runRebootJob(array $job, float &$starttime, bool &$manual): array
+    private function runRebootJob(Job $job, float &$starttime, bool &$manual): array
     {
-        if($job['running'] == 1) {
-            $this->setTempVar($job['id'], 'starttime', $starttime);
-            $this->setTempVar($job['id'], 'manual', $manual);
-            $job['data']['reboot-command'] = str_replace('{reboot-delay}', $job['data']['reboot-delay'], $job['data']['reboot-command']);
-            $job['data']['reboot-command'] = str_replace('{reboot-delay-secs}', $job['data']['reboot-delay-secs'], $job['data']['reboot-command']);
+        if($job->getRunning() == 1) {
+            $this->setTempVar($job->getId(), 'starttime', $starttime);
+            $this->setTempVar($job->getId(), 'manual', $manual);
+            $job->addData('reboot-command', str_replace('{reboot-delay}', $job['data']['reboot-delay'], $job->getData('reboot-command')));
+            $job->addData('reboot-command', str_replace('{reboot-delay-secs}', $job['data']['reboot-delay-secs'], $job->getData('reboot-command')));
 
-            if (!empty($job['data']['vars'])) {
-                foreach ($job['data']['vars'] as $key => $var) {
-                    $job['data']['reboot-command'] = str_replace('{' . $key . '}', $var['value'], $job['data']['reboot-command']);
+            if (!empty($job->getData('vars'))) {
+                foreach ($job->getData('vars') as $key => $var) {
+                    $job->addData('reboot-command', str_replace('{' . $key . '}', $var['value'], $job->getData('reboot-command')));
                 }
             }
 
             $jobsSql = "UPDATE job SET running = :status WHERE id = :id";
             $jobsStmt = $this->getEntityManager()->getConnection()->prepare($jobsSql);
-            $jobsStmt->executeQuery([':id' => $job['id'], ':status' => time() + $job['data']['reboot-delay-secs'] + ($job['data']['reboot-duration'] * 60)]);
+            $jobsStmt->executeQuery([':id' => $job->getId(), ':status' => time() + $job['data']['reboot-delay-secs'] + ($job['data']['reboot-duration'] * 60)]);
 
             try {
-                if($job['data']['hosttype'] == 'local') {
-                    $this->runLocalCommand($job['data']['reboot-command']);
-                } elseif($job['data']['hosttype'] == 'ssh') {
-                    $this->runSshCommand($job['data']['reboot-command'], $job['data']['host'], $job['data']['user'], $job['data']['ssh-privkey'] ?? '', $job['data']['privkey-password'] ?? '');
+                if($job->getData('hosttype') == 'local') {
+                    $this->runLocalCommand($job->getData('reboot-command'));
+                } elseif($job->getData('hosttype') == 'ssh') {
+                    $this->runSshCommand($job->getData('reboot-command'), $job->getData('host'), $job->getData('user'), $job->getData('ssh-privkey') ?? '', $job->getData('privkey-password') ?? '');
                 }
             } catch (\RuntimeException $exception) {
                 $return['exitcode'] = $exception->getCode();
@@ -327,29 +327,29 @@ class JobRepository extends EntityRepository
             }
             return ['status' => 'deferred'];
 
-        } elseif($job['running'] != 0) {
-            if($job['running'] > time()) {
+        } elseif($job->getRunning() != 0) {
+            if($job->getRunning() > time()) {
                 return ['status' => 'deferred'];
             }
-            $starttime = (float)$this->getTempVar($job['id'], 'starttime');
-            $this->deleteTempVar($job['id'], 'starttime');
-            $manual = $this->getTempVar($job['id'], 'manual');
-            $this->deleteTempVar($job['id'], 'manual');
+            $starttime = (float)$this->getTempVar($job->getId(), 'starttime');
+            $this->deleteTempVar($job->getId(), 'starttime');
+            $manual = $this->getTempVar($job->getId(), 'manual');
+            $this->deleteTempVar($job->getId(), 'manual');
 
             $jobsSql = "UPDATE job SET running = :status WHERE id = :id";
             $jobsStmt = $this->getEntityManager()->getConnection()->prepare($jobsSql);
-            $jobsStmt->executeQuery([':id' => $job['id'], ':status' => 1]);
+            $jobsStmt->executeQuery([':id' => $job->getId(), ':status' => 1]);
 
-            if (!empty($job['data']['vars'])) {
-                foreach ($job['data']['vars'] as $key => $var) {
-                    $job['data']['getservices-command'] = str_replace('{' . $key . '}', $var['value'], $job['data']['getservices-command']);
+            if (!empty($job->getData('vars'))) {
+                foreach ($job->getData('vars') as $key => $var) {
+                    $job->addData('getservices-command', str_replace('{' . $key . '}', $var['value'], $job->getData('getservices-command')));
                 }
             }
             try {
-                if($job['data']['hosttype'] == 'local') {
-                    $return = $this->runLocalCommand($job['data']['getservices-command']);
-                } elseif($job['data']['hosttype'] == 'ssh') {
-                    $return = $this->runSshCommand($job['data']['getservices-command'], $job['data']['host'], $job['data']['user'], $job['data']['ssh-privkey'] ?? '', $job['data']['privkey-password'] ?? '');
+                if($job->getData('hosttype') == 'local') {
+                    $return = $this->runLocalCommand($job->getData('getservices-command'));
+                } elseif($job->getData('hosttype') == 'ssh') {
+                    $return = $this->runSshCommand($job->getData('getservices-command'), $job->getData('host'), $job->getData('user'), $job->getData('ssh-privkey') ?? '', $job->getData('privkey-password') ?? '');
                 }
             } catch (\RuntimeException $exception) {
                 $return['exitcode'] = $exception->getCode();
@@ -357,21 +357,22 @@ class JobRepository extends EntityRepository
                 $return['failed'] = true;
                 return $return;
             }
-            $return['failed'] = !in_array($return['exitcode'], $job['data']['getservices-response']);
+            $return['failed'] = !in_array($return['exitcode'], $job->getData('getservices-response'));
             return $return;
         }
+        return ['success' => false, 'message' => 'You probably did something clearly wrong'];
     }
 
     public function runNow($job, $console = false) {
         $job = $this->getJob($job, true);
         $runRepo = $this->getEntityManager()->getRepository(Run::class);
 
-        if($console == false && ($runRepo->isSlowJob($job['id']) || count($runRepo->getRunsForJob($job['id'])) == 0 || $job['data']['crontype'] === 'reboot')) {
+        if($console == false && ($runRepo->isSlowJob($job->getId()) || count($job->getRuns()) == 0 || $job->getData('crontype') === 'reboot')) {
             $jobsSql = "UPDATE job SET running = :status WHERE id = :id AND running IN (0,1,2)";
             $jobsStmt = $this->getEntityManager()->getConnection()->prepare($jobsSql);
-            $jobsStmt->executeQuery([':id' => $job['id'], ':status' => 2]);
+            $jobsStmt->executeQuery([':id' => $job->getId(), ':status' => 2]);
         } else {
-            $output = $this->runJob($job['id'], true);
+            $output = $this->runJob($job->getId(), true);
             if(!(isset($output['status']) && $output['status'] == 'deferred'))
             return [
                 'status' => 'ran',
