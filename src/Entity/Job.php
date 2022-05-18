@@ -57,7 +57,7 @@ class Job
     /**
      * @var Collection
      */
-    #[ORM\OneToMany(targetEntity: "App\Entity\Run", mappedBy: "job")]
+    #[ORM\OneToMany(targetEntity: "App\Entity\Run", mappedBy: "job", cascade: ["remove"])]
     private Collection $runs;
 
     public function __construct()

@@ -9,7 +9,6 @@ use App\Entity\Run;
 use App\Service\Secret;
 use DateTime;
 use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\Query;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use phpseclib3\Crypt\PublicKeyLoader;
@@ -673,8 +672,11 @@ class JobRepository extends EntityRepository
 
     public function deleteJob(int $id)
     {
-        $this->getEntityManager()->getConnection()->prepare("DELETE FROM job WHERE id = :id")->executeStatement([':id' => $id]);
-        $this->getEntityManager()->getConnection()->prepare("DELETE FROM run WHERE job_id = :id")->executeStatement([':id' => $id]);
+        $em = $this->getEntityManager();
+
+        $job = $this->find($id);
+        $em->remove($job);
+        $em->flush();
 
         return ['success' => true, 'message' => 'Cronjob succesfully deleted'];
     }
