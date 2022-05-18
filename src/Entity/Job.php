@@ -3,9 +3,9 @@
 namespace App\Entity;
 
 use App\Repository\JobRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use InvalidArgumentException;
 
 #[ORM\Entity(repositoryClass: JobRepository::class)]
 class Job
@@ -116,13 +116,7 @@ class Job
         return $data;
     }
 
-    public function setData(array $data): Job
-    {
-        $this->data = json_encode($data);
-        return $this;
-    }
-
-    public function addData(string $name, mixed $value): mixed
+    public function setData(string $name, mixed $value): Job
     {
         $data = json_decode($this->data, true);
         if (!empty($name)) {
@@ -151,6 +145,7 @@ class Job
         if (!empty($name)) {
             $this->removeDataItem($data, $name);
         }
+        $this->data = json_encode($data);
         return $this;
     }
 
@@ -248,7 +243,7 @@ class Job
     /**
      * @return Collection
      */
-    public function getRuns(): Collection|ArrayCollection
+    public function getRuns(): Collection
     {
         return $this->runs;
     }
@@ -257,7 +252,7 @@ class Job
      * @param Collection $runs
      * @return Job
      */
-    public function setRuns(Collection|ArrayCollection $runs): Job
+    public function setRuns(Collection $runs): Job
     {
         $this->runs = $runs;
         return $this;

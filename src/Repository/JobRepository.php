@@ -66,18 +66,18 @@ class JobRepository extends EntityRepository
 
         foreach ($jobs as $key=>&$job) {
             $jobData = $job->getData();
-            $job->addData('host-displayname', $jobData['host']);
-            $job->addData('host', $jobData['host']);
-            $job->addData('service', $jobData['service'] ?? '');
-            $job->addData('norun', $job->getLastrun() !== null && $job->getNextrun() > $job->getLastrun());
-            $job->addData('running', $job->getRunning() != 0);
+            $job->setData('host-displayname', $jobData['host']);
+            $job->setData('host', $jobData['host']);
+            $job->setData('service', $jobData['service'] ?? '');
+            $job->setData('norun', $job->getLastrun() !== null && $job->getNextrun() > $job->getLastrun());
+            $job->setData('running', $job->getRunning() != 0);
             $failedruns = $runRepo->getRunsForJob($job->getId(), true, $jobData['fail-days']);
             $failed = count($failedruns);
             $all = count($runRepo->getRunsForJob($job->getId(), false, $jobData['fail-days']));
-            $job->addData('lastfail', $failedruns[0] ?? NULL);
-            $job->addData('needschecking', $all > 0  && (($failed / $all) * 100) > $jobData['fail-pct']);
+            $job->setData('lastfail', $failedruns[0] ?? NULL);
+            $job->setData('needschecking', $all > 0  && (($failed / $all) * 100) > $jobData['fail-pct']);
             if(!empty($jobData['containertype']) && $jobData['containertype'] != 'none') {
-                $job->addData('host-displayname', $jobData['service'] . ' on ' . $jobData['host']);
+                $job->setData('host-displayname', $jobData['service'] . ' on ' . $jobData['host']);
             }
         }
 
@@ -209,8 +209,8 @@ class JobRepository extends EntityRepository
 
         if(!empty($job->getData('vars'))) {
             foreach($job->getData('vars') as $key => $var) {
-                if (!empty($job->getData('basicauth-username'))) $job->addData('basicauth-username', str_replace('{' . $key . '}', $var['value'], $job->getData('basicauth-username')));
-                $job->addData('url', str_replace('{' . $key . '}', $var['value'], $job->getData('url')));
+                if (!empty($job->getData('basicauth-username'))) $job->setData('basicauth-username', str_replace('{' . $key . '}', $var['value'], $job->getData('basicauth-username')));
+                $job->setData('url', str_replace('{' . $key . '}', $var['value'], $job->getData('url')));
             }
         }
 
@@ -235,7 +235,7 @@ class JobRepository extends EntityRepository
     {
         if(!empty($job->getData('vars'))) {
             foreach ($job->getData('vars') as $key => $var) {
-                $job->addData('command', str_replace('{' . $key . '}', $var['value'], $job->getData('command')));
+                $job->setData('command', str_replace('{' . $key . '}', $var['value'], $job->getData('command')));
             }
         }
 
@@ -300,12 +300,12 @@ class JobRepository extends EntityRepository
         if($job->getRunning() == 1) {
             $this->setTempVar($job->getId(), 'starttime', $starttime);
             $this->setTempVar($job->getId(), 'manual', $manual);
-            $job->addData('reboot-command', str_replace('{reboot-delay}', $job['data']['reboot-delay'], $job->getData('reboot-command')));
-            $job->addData('reboot-command', str_replace('{reboot-delay-secs}', $job['data']['reboot-delay-secs'], $job->getData('reboot-command')));
+            $job->setData('reboot-command', str_replace('{reboot-delay}', $job['data']['reboot-delay'], $job->getData('reboot-command')));
+            $job->setData('reboot-command', str_replace('{reboot-delay-secs}', $job['data']['reboot-delay-secs'], $job->getData('reboot-command')));
 
             if (!empty($job->getData('vars'))) {
                 foreach ($job->getData('vars') as $key => $var) {
-                    $job->addData('reboot-command', str_replace('{' . $key . '}', $var['value'], $job->getData('reboot-command')));
+                    $job->setData('reboot-command', str_replace('{' . $key . '}', $var['value'], $job->getData('reboot-command')));
                 }
             }
 
@@ -342,7 +342,7 @@ class JobRepository extends EntityRepository
 
             if (!empty($job->getData('vars'))) {
                 foreach ($job->getData('vars') as $key => $var) {
-                    $job->addData('getservices-command', str_replace('{' . $key . '}', $var['value'], $job->getData('getservices-command')));
+                    $job->setData('getservices-command', str_replace('{' . $key . '}', $var['value'], $job->getData('getservices-command')));
                 }
             }
             try {
@@ -640,7 +640,7 @@ class JobRepository extends EntityRepository
         if(!empty($job->getData('vars'))) {
             foreach ($job->getData('vars') as $key => &$value) {
                 if ($value['issecret']) {
-                    $job->addData('vars.' . $key . '.value', ($withSecrets) ? Secret::decrypt(base64_decode($value['value'])) : '');
+                    $job->setData('vars.' . $key . '.value', ($withSecrets) ? Secret::decrypt(base64_decode($value['value'])) : '');
                 }
             }
         }
@@ -648,13 +648,13 @@ class JobRepository extends EntityRepository
         switch($job->getData('crontype')) {
             case 'http':
                 if($job->hasData('vars.basicauth-password.value')) {
-                    $job->addData('basicauth-password', $job->getData('vars.basicauth-password.value'));
+                    $job->setData('basicauth-password', $job->getData('vars.basicauth-password.value'));
                     $job->removeData('vars.basicauth-password');
                 }
                 break;
             case 'reboot':
-                $job->addData('reboot-delay', $job->getData('vars.reboot-delay.value'));
-                $job->addData('reboot-delay-secs', $job->getData('vars.reboot-delay-secs.value'));
+                $job->setData('reboot-delay', $job->getData('vars.reboot-delay.value'));
+                $job->setData('reboot-delay-secs', $job->getData('vars.reboot-delay-secs.value'));
 
                 $job->removeData('vars.reboot-delay');
                 $job->removeData('vars.reboot-delay-secs');
@@ -664,11 +664,11 @@ class JobRepository extends EntityRepository
         switch($job->getData('hosttype')) {
             case 'ssh':
                 if($job->hasData('vars.ssh-privkey.value')) {
-                    $job->addData('ssh-privkey', $job->getData('vars.ssh-privkey.value'));
+                    $job->setData('ssh-privkey', $job->getData('vars.ssh-privkey.value'));
                     $job->removeData('vars.ssh-privkey');
                 }
                 if($job->hasData('vars.privkey-password.value')) {
-                    $job->addData('privkey-password', $job->getData('vars.privkey-password.value'));
+                    $job->setData('privkey-password', $job->getData('vars.privkey-password.value'));
                     $job->removeData('vars.privkey-password');
                 }
                 break;
