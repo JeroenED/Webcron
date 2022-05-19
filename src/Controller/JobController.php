@@ -21,27 +21,30 @@ class JobController extends AbstractController
         return $this->render('job/index.html.twig', ['jobs' => $jobs]);
     }
 
-    public function jobAction(Request $request, ManagerRegistry $doctrine, $id, $all = false): Response
+    public function jobAction(Request $request, ManagerRegistry $doctrine, int $id, mixed $all = false): Response
     {
         $jobRepo = $doctrine->getRepository(Job::class);
         $runRepo = $doctrine->getRepository(Run::class);
 
         if($request->getMethod() == 'GET') {
-            $job = $jobRepo->parseJob($id);
-            $runs = $runRepo->getRunsForJob($id, $all != 'all');
+            $job = $jobRepo->find($id);
+            $jobRepo->parseJob($job);
+            $runs = $runRepo->getRunsForJob($job, $all != 'all');
             return $this->render('job/view.html.twig', ['job' => $job, 'runs' => $runs, 'allruns' => $all == 'all']);
         } elseif($request->getMethod() == 'DELETE') {
             $success = $jobRepo->deleteJob($id);
             $this->addFlash('success', $success['message']);
             return new JsonResponse(['return_path' => $this->GenerateUrl('job_index')]);
         }
+        return new JsonResponse(['success'=>false, 'message' => 'Your request is invalid'], Response::HTTP_BAD_REQUEST);
     }
 
-    public function editAction(Request $request, ManagerRegistry $doctrine, $id)
+    public function editAction(Request $request, ManagerRegistry $doctrine, int $id): Response
     {
         if($request->getMethod() == 'GET') {
             $jobRepo = $doctrine->getRepository(Job::class);
-            $job = $jobRepo->parseJob($id, true);
+            $job = $jobRepo->find($id);
+            $jobRepo->parseJob($job, true);
             return $this->render('job/edit.html.twig', ['job' => $job]);
         } elseif($request->getMethod() == 'POST') {
             $allValues = $request->request->all();
@@ -56,9 +59,10 @@ class JobController extends AbstractController
             $this->addFlash('success', $joboutput['message']);
             return new RedirectResponse($this->GenerateUrl('job_index'));
         }
+        return new JsonResponse(['success'=>false, 'message' => 'Your request is invalid'], Response::HTTP_BAD_REQUEST);
     }
 
-    public function addAction(Request $request, ManagerRegistry $doctrine)
+    public function addAction(Request $request, ManagerRegistry $doctrine): Response
     {
         if($request->getMethod() == 'GET') {
             return $this->render('job/add.html.twig', ['data' => []]);
@@ -78,11 +82,13 @@ class JobController extends AbstractController
         }
     }
 
-    public function runNowAction(Request $request, ManagerRegistry $doctrine, int $id) {
+    public function runNowAction(Request $request, ManagerRegistry $doctrine, int $id): JsonResponse
+    {
         if($request->getMethod() == 'GET') {
             $jobRepo = $doctrine->getRepository(Job::class);
             $job = $jobRepo->find($id);
             return new JsonResponse($jobRepo->runNow($job));
         }
+        return new JsonResponse(['success'=>false, 'message' => 'Your request is invalid'], Response::HTTP_BAD_REQUEST);
     }
 }

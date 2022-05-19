@@ -88,9 +88,9 @@ class JobRepository extends EntityRepository
             $job->setData('service', $jobData['service'] ?? '');
             $job->setData('norun', $job->getLastrun() !== null && $job->getNextrun() > $job->getLastrun());
             $job->setData('running', $job->getRunning() != 0);
-            $failedruns = $runRepo->getRunsForJob($job->getId(), true, $jobData['fail-days']);
+            $failedruns = $runRepo->getRunsForJob($job, true, $jobData['fail-days']);
             $failed = count($failedruns);
-            $all = count($runRepo->getRunsForJob($job->getId(), false, $jobData['fail-days']));
+            $all = count($runRepo->getRunsForJob($job, false, $jobData['fail-days']));
             $job->setData('lastfail', $failedruns[0] ?? NULL);
             $job->setData('needschecking', $all > 0  && (($failed / $all) * 100) > $jobData['fail-pct']);
             if(!empty($jobData['containertype']) && $jobData['containertype'] != 'none') {
@@ -457,7 +457,7 @@ class JobRepository extends EntityRepository
         // saving to database
         $em->getConnection()->close();
         $runRepo = $em->getRepository(Run::class);
-        $runRepo->addRun($job->getId(), $result['exitcode'], floor($starttime), $runtime, $result['output'], $flags);
+        $runRepo->addRun($job, $result['exitcode'], floor($starttime), $runtime, $result['output'], $flags);
         if (!$manual){
             // setting nextrun to next run
             $nextrun = $job->getNextrun();

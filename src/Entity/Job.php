@@ -154,13 +154,13 @@ class Job
     {
         $names = is_array($name) ? $name : explode('.', $name);
         $current = $names[0];
-        if(is_array($data[$current]) && isset($names[1])) {
+        if(!isset($data[$current])) {
+            return false;
+        } elseif(is_array($data[$current]) && isset($names[1])) {
             unset($names[0]);
             $this->removeDataItem($data[$current], array_values($names));
-        } elseif(!isset($data[$current])) {
-            return false;
         } else {
-            unset($data[$names[0]]);
+            if(isset($data[$names[0]])) unset($data[$names[0]]);
         }
         return true;
     }

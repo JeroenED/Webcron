@@ -15,10 +15,9 @@ class RunRepository extends EntityRepository
     const SUCCESS = 'S';
     const MANUAL = 'M';
 
-    public function getRunsForJob(int $id, bool $onlyfailed = false, int $maxage = NULL, bool $ordered = true): array
+    public function getRunsForJob(Job $job, bool $onlyfailed = false, int $maxage = NULL, bool $ordered = true): array
     {
         $qb = $this->createQueryBuilder('run');
-        $job = $this->getEntityManager()->getRepository(Job::class)->find($id);
         $runs = $qb
             ->where('run.job = :job')
             ->setParameter(':job', $job);
@@ -90,7 +89,7 @@ class RunRepository extends EntityRepository
             }
         } else {
             foreach($jobids as $jobid) {
-                $job = $em->find($jobid);
+                $job = $jobRepo->find($jobid);
                 $jobRepo->parseJob($job);
                 $allJobs[] = $job;
             }

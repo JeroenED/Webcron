@@ -78,18 +78,18 @@ class Run
     }
 
     /**
-     * @return CollectionAlias
+     * @return Job
      */
-    public function getJob(): CollectionAlias
+    public function getJob(): Job
     {
         return $this->job;
     }
 
     /**
-     * @param CollectionAlias $job
+     * @param Job $job
      * @return Run
      */
-    public function setJob(CollectionAlias $job): Run
+    public function setJob(Job $job): Run
     {
         $this->job = $job;
         return $this;
