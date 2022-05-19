@@ -61,10 +61,10 @@ class DaemonCommand extends Command
                         $str   = @file_get_contents('/proc/uptime');
                         $num   = floatval($str);
                         $rebootedself = ($num < $job->getData('reboot-duration') * 60);
-                        $consolerun = $jobRepo->getTempVar($job->getId(), 'consolerun', false);
+                        $consolerun = $jobRepo->getTempVar($job, 'consolerun', false);
                         if($consolerun && !$rebootedself) continue;
                     }
-                    $jobRepo->setJobRunning($job->getId(), true);
+                    $jobRepo->setJobRunning($job, true);
                     $output->writeln('Running Job ' . $job->getId());
                     if($async) {
                         declare(ticks = 1);
@@ -75,11 +75,11 @@ class DaemonCommand extends Command
                     }
 
                     if(!$async || $pid == -1) {
-                        $jobRepo->RunJob($job->getId(), $job->getRunning() == 2);
-                        $jobRepo->setJobRunning($job->getId(), false);
+                        $jobRepo->RunJob($job, $job->getRunning() == 2);
+                        $jobRepo->setJobRunning($job, false);
                     } elseif ($pid == 0) {
-                        $jobRepo->RunJob($job->getId(), $job->getRunning() == 2);
-                        $jobRepo->setJobRunning($job->getId(), false);
+                        $jobRepo->RunJob($job, $job->getRunning() == 2);
+                        $jobRepo->setJobRunning($job, false);
                         exit;
                     }
                 }

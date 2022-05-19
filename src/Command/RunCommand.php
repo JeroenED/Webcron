@@ -35,26 +35,30 @@ class RunCommand extends Command
     {
         $jobRepo = $this->doctrine->getRepository(Job::class);
         $jobId = (int)$input->getArgument('jobid');
-        $jobRunning = $jobRepo->isLockedJob($jobId);
+        $job = $jobRepo->find($jobId);
+        if($job === NULL) {
+            $output->writeln('Job does not exist');
+            return Command::FAILURE;
+        }
+        $jobRunning = $jobRepo->isLockedJob($job);
         if($jobRunning) {
             $output->writeln('Job is already running');
             return Command::FAILURE;
         }
-        $jobRepo->setJobRunning($jobId, true);
-        $jobRepo->setTempVar($jobId, 'consolerun', true);
-        $result = $jobRepo->runNow($jobId, true);
-        $job = $jobRepo->getJob($jobId);
-        if($job['data']['crontype'] == 'reboot') {
+        $jobRepo->setJobRunning($job, true);
+        $jobRepo->setTempVar($job, 'consolerun', true);
+        $jobRepo->parseJob($job);
+        $result = $jobRepo->runNow($job, true);
+        if($job->getData('crontype') == 'reboot') {
             $sleeping = true;
             while($sleeping) {
-                $job = $jobRepo->getJob($jobId);
-                if(time() >= $job['running']) $sleeping = false;
+                if(time() >= $job->getRunning()) $sleeping = false;
                 sleep(1);
             }
-            $result = $jobRepo->runNow($jobId, true);
+            $result = $jobRepo->runNow($job, true);
         }
-        $jobRepo->setJobRunning($jobId, false);
-        $jobRepo->setTempVar($jobId, 'consolerun', false);
+        $jobRepo->setJobRunning($job, false);
+        $jobRepo->setTempVar($job, 'consolerun', false);
         $output->write($result['output']);
         if($result['success']) {
             $output->writeln('Job succeeded with  in ' . number_format($result['runtime'], 3) . 'secs with exitcode ' . $result['exitcode']);
