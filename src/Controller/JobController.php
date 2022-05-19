@@ -81,7 +81,8 @@ class JobController extends AbstractController
     public function runNowAction(Request $request, ManagerRegistry $doctrine, int $id) {
         if($request->getMethod() == 'GET') {
             $jobRepo = $doctrine->getRepository(Job::class);
-            return new JsonResponse($jobRepo->runNow($id));
+            $job = $jobRepo->find($id);
+            return new JsonResponse($jobRepo->runNow($job));
         }
     }
 }

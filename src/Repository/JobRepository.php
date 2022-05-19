@@ -340,9 +340,7 @@ class JobRepository extends EntityRepository
             $manual = $this->getTempVar($job, 'manual');
             $this->deleteTempVar($job, 'manual');
 
-            $jobsSql = "UPDATE job SET running = :status WHERE id = :id";
-            $jobsStmt = $this->getEntityManager()->getConnection()->prepare($jobsSql);
-            $jobsStmt->executeQuery([':id' => $job->getId(), ':status' => 1]);
+            $this->setJobRunning($job, true);
 
             if (!empty($job->getData('vars'))) {
                 foreach ($job->getData('vars') as $key => $var) {
@@ -374,13 +372,16 @@ class JobRepository extends EntityRepository
      * @throws \Doctrine\DBAL\Exception
      */
     public function runNow(Job &$job, $console = false) {
+        $em = $this->getEntityManager();
         $this->parseJob($job, true);
         $runRepo = $this->getEntityManager()->getRepository(Run::class);
 
-        if($console == false && ($runRepo->isSlowJob($job->getId()) || count($job->getRuns()) == 0 || $job->getData('crontype') === 'reboot')) {
-            $jobsSql = "UPDATE job SET running = :status WHERE id = :id AND running IN (0,1,2)";
-            $jobsStmt = $this->getEntityManager()->getConnection()->prepare($jobsSql);
-            $jobsStmt->executeQuery([':id' => $job->getId(), ':status' => 2]);
+        if($console == false && ($runRepo->isSlowJob($job)) || count($job->getRuns()) == 0 || $job->getData('crontype') === 'reboot') {
+            if(in_array($job->getRunning(), [0,1,2])) {
+                $job->setRunning(2);
+                $em->persist($job);
+                $em->flush();
+            }
         } else {
             $output = $this->runJob($job, true);
             if(!(isset($output['status']) && $output['status'] == 'deferred'))
@@ -477,18 +478,20 @@ class JobRepository extends EntityRepository
      * @return void
      * @throws \Doctrine\DBAL\Exception
      */
-    public function unlockJob(int $id = 0): void
+    public function unlockJob(?Job $job = NULL): void
     {
-        $jobsSql = "UPDATE job SET running = :status WHERE running = 1";
-        $params = [':status' => 0];
+        $qb = $this->createQueryBuilder('job');
+        $qry = $qb
+            ->update()
+            ->set('job.running', 0)
+            ->where('job.running = 1');
 
-        if($id != 0) {
-            $jobsSql .= " AND id = :id";
-            $params[':id'] = $id;
+        if($job !== NULL) {
+            $qry = $qry
+                ->andWhere('job = :job')
+                ->setParameter(':job', $job);
         }
-        $jobsStmt = $this->getEntityManager()->getConnection()->prepare($jobsSql);
-        $jobsStmt->executeQuery($params);
-        return;
+        $qry->getQuery()->execute();
     }
 
     /**

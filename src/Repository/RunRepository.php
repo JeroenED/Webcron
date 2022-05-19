@@ -5,6 +5,7 @@ namespace App\Repository;
 
 
 use App\Entity\Job;
+use App\Entity\Run;
 use Doctrine\DBAL\Exception;
 use Doctrine\ORM\EntityRepository;
 
@@ -32,65 +33,99 @@ class RunRepository extends EntityRepository
         return $runs->getQuery()->getResult();
     }
 
-    public function addRun(int $jobid, string $exitcode, int $starttime, float $runtime, string $output, array $flags): void
+    public function addRun(Job $job, string $exitcode, int $starttime, float $runtime, string $output, array $flags): void
     {
-        // handling of response
-        $addRunSql = 'INSERT INTO run(job_id, exitcode, output, runtime, timestamp,flags) VALUES (:job_id, :exitcode, :output, :runtime, :timestamp, :flags)';
-        $addRunStmt = $this->getEntityManager()->getConnection()->prepare($addRunSql);
-        $addRunStmt->executeQuery([':job_id' => $jobid, ':exitcode' => $exitcode, 'output' => $output, 'runtime' => $runtime, ':timestamp' => $starttime, ':flags' => implode("", $flags)]);
+        $em = $this->getEntityManager();
+
+        $run = new Run();
+        $run
+            ->setJob($job)
+            ->setExitcode($exitcode)
+            ->setTimestamp($starttime)
+            ->setRuntime($runtime)
+            ->setOutput($output)
+            ->setFlags(implode($flags));
+        $em->persist($run);
+        $em->flush();
     }
 
-    public function getLastRun(int $jobid): array
+    public function getLastRun(Job $job): array
     {
-        $lastRunSql = 'SELECT * FROM run WHERE job_id = :jobid ORDER BY timestamp DESC LIMIT 1';
-        $lastRun = $this->getEntityManager()->getConnection()->prepare($lastRunSql)->executeQuery([':jobid' => $jobid])->fetchAssociative();
-        return $lastRun;
+        $em = $this->getEntityManager();
+        $qb = $this->createQueryBuilder('run');
+
+        $lastrun = $qb
+            ->where('run.job = :job')
+            ->orderBy('run.timestamp', 'DESC')
+            ->setParameter(':job', $job)
+            ->getQuery()->getFirstResult();
+
+        return $lastrun;
     }
 
-    public function isSlowJob(int $jobid, int $timelimit = 5): bool
+    public function isSlowJob(Job $job, int $timelimit = 5): bool
     {
-        $slowJobSql = 'SELECT AVG(runtime) as average FROM run WHERE job_id = :jobid LIMIT 5';
-        $slowJob = $this->getEntityManager()->getConnection()->prepare($slowJobSql)->executeQuery([':jobid' => $jobid])->fetchAssociative();
-        return $slowJob['average'] > $timelimit;
+        $qb = $this->createQueryBuilder('run');
+
+        $slowJob = $qb
+            ->select('AVG(run.runtime) AS average')
+            ->where('run.job = :job')
+            ->setMaxResults(5)
+            ->setParameter(':job', $job)
+            ->getQuery()->getArrayResult();
+
+        return $slowJob[0]['average'] > $timelimit;
     }
 
     public function cleanupRuns(array $jobids, int $maxage = NULL): int
     {
-        $jobRepo = $this->getEntityManager()->getRepository(Job::class);
-        $allJobs = $jobRepo->getAllJobs(true);
+        $em = $this->getEntityManager();
+        $jobRepo = $em->getRepository(Job::class);
+        $allJobs = [];
+
         if(empty($jobids)) {
+            $allJobs = $jobRepo->getAllJobs(true);
             foreach($allJobs as $key=>$job) {
                 $jobids[] = $key;
             }
+        } else {
+            foreach($jobids as $jobid) {
+                $job = $em->find($jobid);
+                $jobRepo->parseJob($job);
+                $allJobs[] = $job;
+            }
         }
-        $sqldelete = [];
+        $qb = $this->createQueryBuilder('run');
+        $delete = $qb->delete();
         if($maxage == NULL) {
             foreach ($allJobs as $key=>$job) {
                 $jobData = $job->getData();
                 if(isset($jobData['retention']) && in_array($key, $jobids)) {
-                    $sqldelete[] = '( job_id = :job' . $key . ' AND timestamp < :timestamp' . $key . ')';
-                    $params[':job' . $key] = $key;
-                    $params[':timestamp' . $key] = time() - ($jobData['retention'] * 24 * 60 * 60);
+                    $delete = $delete
+                        ->orWhere(
+                            $qb->expr()->andX(
+                                $qb->expr()->eq('run.job', ':job' . $key),
+                                $qb->expr()->lt('run.timestamp', ':timestamp' . $key)
+                            )
+                        )
+                        ->setParameter(':job' . $key, $job)
+                        ->setParameter(':timestamp' . $key, time() - ($jobData['retention'] * 24 * 60 * 60));
                 }
             }
         } else {
-            $sqljobids = '';
             if(!empty($jobids)) {
-                $jobidsql = [];
-                foreach($jobids as $key=>$jobid){
-                    $jobidsql[] = ':job' . $key;
-                    $params[':job' . $key] = $jobid;
+                $jobexpr = $qb->expr()->orX();
+                foreach($allJobs as $key=>$job){
+                    $jobexpr->add('run.job = :job' . $key);
+                    $delete = $delete->setParameter(':job' . $key, $job);
                 }
-                $sqljobids = ' AND job_id in (' . implode(',', $jobidsql) . ')';
+                $delete = $delete
+                    ->where($jobexpr);
             }
-            $params[':timestamp'] = time() - ($maxage * 24 * 60 * 60);
-            $sqldelete[] = 'timestamp < :timestamp' . $sqljobids;
+            $delete = $delete
+                ->andWhere('run.timestamp < :timestamp')
+                ->setParameter(':timestamp', time() - ($maxage * 24 * 60 * 60));
         }
-        $sql = 'DELETE FROM run WHERE ' . implode(' OR ', $sqldelete);
-        try {
-            return $this->getEntityManager()->getConnection()->prepare($sql)->executeStatement($params);
-        } catch(Exception $exception) {
-            throw $exception;
-        }
+        return $delete->getQuery()->execute();
     }
 }
