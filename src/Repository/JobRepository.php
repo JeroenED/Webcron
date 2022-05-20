@@ -613,7 +613,7 @@ class JobRepository extends EntityRepository
 
         switch($job->getData('hosttype')) {
             default:
-                if($job->getData('crotype') == 'http') break;
+                if($job->getData('crontype') == 'http') break;
                 $job->setData('hosttype', 'local');
             case 'local':
                 $job->setData('host', 'localhost');
