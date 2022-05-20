@@ -91,7 +91,7 @@ class JobRepository extends EntityRepository
             $failedruns = $runRepo->getRunsForJob($job, true, $jobData['fail-days']);
             $failed = count($failedruns);
             $all = count($runRepo->getRunsForJob($job, false, $jobData['fail-days']));
-            $job->setData('lastfail', $failedruns[0] ?? NULL);
+            $job->setData('lastfail', isset($failedruns[0]) ? $failedruns[0]->toArray() : NULL);
             $job->setData('needschecking', $all > 0  && (($failed / $all) * 100) > $jobData['fail-pct']);
             if(!empty($jobData['containertype']) && $jobData['containertype'] != 'none') {
                 $job->setData('host-displayname', $jobData['service'] . ' on ' . $jobData['host']);

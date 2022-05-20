@@ -185,4 +185,16 @@ class Run
         return $this;
     }
 
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->getId(),
+            'exitcode' => $this->getExitcode(),
+            'output' => $this->getOutput(),
+            'runtime' => $this->getRuntime(),
+            'timestamp' => $this->getTimestamp(),
+            'flags' => $this->getFlags(),
+            'job' => $this->getJob()->getId(),
+        ];
+    }
 }
