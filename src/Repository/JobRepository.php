@@ -304,12 +304,13 @@ class JobRepository extends EntityRepository
         if($job->getRunning() == 1) {
             $this->setTempVar($job, 'starttime', $starttime);
             $this->setTempVar($job, 'manual', $manual);
-            $job->setData('reboot-command', str_replace('{reboot-delay}', $job['data']['reboot-delay'], $job->getData('reboot-command')));
-            $job->setData('reboot-command', str_replace('{reboot-delay-secs}', $job['data']['reboot-delay-secs'], $job->getData('reboot-command')));
+            $rebootcommand = $job->getData('reboot-command');
+            $rebootcommand = str_replace('{reboot-delay}', $job->getData('reboot-delay'), $rebootcommand);
+            $rebootcommand = str_replace('{reboot-delay-secs}', $job->getData('reboot-delay-secs'), $rebootcommand);
 
             if (!empty($job->getData('vars'))) {
                 foreach ($job->getData('vars') as $key => $var) {
-                    $job->setData('reboot-command', str_replace('{' . $key . '}', $var['value'], $job->getData('reboot-command')));
+                    $rebootcommand = str_replace('{' . $key . '}', $var['value'], $rebootcommand);
                 }
             }
 
@@ -319,9 +320,9 @@ class JobRepository extends EntityRepository
 
             try {
                 if($job->getData('hosttype') == 'local') {
-                    $this->runLocalCommand($job->getData('reboot-command'));
+                    $this->runLocalCommand($rebootcommand);
                 } elseif($job->getData('hosttype') == 'ssh') {
-                    $this->runSshCommand($job->getData('reboot-command'), $job->getData('host'), $job->getData('user'), $job->getData('ssh-privkey') ?? '', $job->getData('privkey-password') ?? '');
+                    $this->runSshCommand($rebootcommand, $job->getData('host'), $job->getData('user'), $job->getData('ssh-privkey') ?? '', $job->getData('privkey-password') ?? '');
                 }
             } catch (\RuntimeException $exception) {
                 $return['exitcode'] = $exception->getCode();
