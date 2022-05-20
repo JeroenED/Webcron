@@ -1,6 +1,7 @@
 <?php
 namespace App\Twig;
 
+use App\Service\Secret;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 
@@ -11,6 +12,7 @@ class AppExtension extends AbstractExtension
         return [
             new TwigFilter('interval', [$this, 'parseInterval']),
             new TwigFilter('parsetags', [$this, 'parseTags']),
+            new TwigFilter('decryptsecret', [$this, 'decryptSecret']),
         ];
     }
 
@@ -66,5 +68,10 @@ class AppExtension extends AbstractExtension
         } else {
             return 'dark';
         }
+    }
+
+
+    function decryptSecret(string $text) {
+        return Secret::decrypt(base64_decode($text));
     }
 }

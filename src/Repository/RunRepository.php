@@ -90,7 +90,6 @@ class RunRepository extends EntityRepository
         } else {
             foreach($jobids as $jobid) {
                 $job = $jobRepo->find($jobid);
-                $jobRepo->parseJob($job);
                 $allJobs[] = $job;
             }
         }

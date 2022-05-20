@@ -137,10 +137,7 @@
         <h4>Reboot job details</h4>
         <div class="mb-3">
             <label for="reboot-command">Reboot command</label>
-            <input type="text" name="reboot-command" class="form-control" id="reboot-command" placeholder="systemctl reboot" value="
-            {% if attribute(job.data, 'reboot-command') is defined %}
-                {{ attribute(job.data, 'reboot-command') }}
-            {% endif %}">
+            <input type="text" name="reboot-command" class="form-control" id="reboot-command" placeholder="systemctl reboot" value="{% if attribute(job.data, 'reboot-command') is defined %}{{ attribute(job.data, 'reboot-command') }}{% endif %}">
             <small id="reboot-command-help" class="form-text text-muted">Use {reboot-delay} or {reboot-delay-secs} to add the delay in your command</small>
         </div>
 
@@ -179,7 +176,7 @@
         </div>
         <div class="mb-3">
             <label for="basicauth-password">Password for Basic-Auth</label>
-            <input type="password" name="basicauth-password" class="form-control" placeholder="correct horse battery staple" value="{% if attribute(job.data, 'basicauth-password') is defined %}{{ attribute(job.data, 'basicauth-password') }}{% endif %}">
+            <input type="password" name="basicauth-password" class="form-control" placeholder="correct horse battery staple" value="{% if attribute(job.data, 'basicauth-password') is defined %}{{ attribute(job.data, 'basicauth-password') | decryptsecret }}{% endif %}">
             <small id="basicauth-password-help" class="form-text text-muted">This field is being saved as a secret</small>
         </div>
 
@@ -210,9 +207,9 @@
             <label for="privkey">Private key</label>
             <div class="input-group">
                 <span class=" input-group-text border-end-0">
-                    <input type="checkbox" name="privkey-keep" class="privkey-keep" value="true" data-privkey="{% if attribute(job.data, 'ssh-privkey') is defined %}{{ attribute(job.data, 'ssh-privkey') }}{% endif %}" checked>
+                    <input type="checkbox" name="privkey-keep" class="privkey-keep" value="true" data-privkey="{% if attribute(job.data, 'ssh-privkey') is defined %}{{ attribute(job.data, 'ssh-privkey')  | decryptsecret }}{% endif %}" checked>
                 </span>
-                <input type="hidden" name="privkey-orig" class="privkey-orig" value="{% if attribute(job.data, 'ssh-privkey') is defined %}{{ attribute(job.data, 'ssh-privkey') }}{% endif %}">
+                <input type="hidden" name="privkey-orig" class="privkey-orig" value="{% if attribute(job.data, 'ssh-privkey') is defined %}{{ attribute(job.data, 'ssh-privkey')  | decryptsecret }}{% endif %}">
                 <span class="input-group-text border-start-0">Keep</span>
                <input type="file" id="privkey" name="privkey" class="form-control " disabled>
             </div>
@@ -221,7 +218,7 @@
 
         <div class="mb-3">
             <label for="privkey-password">Password for private key</label>
-            <input type="password" name="privkey-password" class="form-control" placeholder="correct horse battery staple" value="{% if attribute(job.data, 'privkey-password') is defined %}{{ attribute(job.data, 'privkey-password') }}{% endif %}">
+            <input type="password" name="privkey-password" class="form-control" placeholder="correct horse battery staple" value="{% if attribute(job.data, 'privkey-password') is defined %}{{ attribute(job.data, 'privkey-password') | decryptsecret }}{% endif %}">
             <small id="privkey-password-help" class="form-text text-muted">If private key is empty this field is being used as ssh-password</small>
             <small id="privkey-password-help-2" class="form-text text-muted">This field is being saved as a secret</small>
         </div>
@@ -263,7 +260,7 @@
                     </div>
                     <span class="input-group-text border-start-0">Secret</span>
                     <input type="text" name="var-id[{{ key }}]" class="form-control var-id" placeholder="name" value="{{ id }}">
-                    <input type="{% if var.issecret %}password{% else %}text{% endif %}" name="var-value[{{ key }}]" class="form-control var-value" placeholder="value" value="{{ var.value }}">
+                    <input type="{% if var.issecret %}password{% else %}text{% endif %}" name="var-value[{{ key }}]" class="form-control var-value" placeholder="value" value="{% if var.issecret %}{{ var.value | decryptsecret }}{% else %}{{ var.value }}{% endif %}">
                 </div>
             {% endfor %}
         {% endif %}

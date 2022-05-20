@@ -28,7 +28,6 @@ class JobController extends AbstractController
 
         if($request->getMethod() == 'GET') {
             $job = $jobRepo->find($id);
-            $jobRepo->parseJob($job);
             $runs = $runRepo->getRunsForJob($job, $all != 'all');
             return $this->render('job/view.html.twig', ['job' => $job, 'runs' => $runs, 'allruns' => $all == 'all']);
         } elseif($request->getMethod() == 'DELETE') {
@@ -44,7 +43,6 @@ class JobController extends AbstractController
         if($request->getMethod() == 'GET') {
             $jobRepo = $doctrine->getRepository(Job::class);
             $job = $jobRepo->find($id);
-            $jobRepo->parseJob($job, true);
             return $this->render('job/edit.html.twig', ['job' => $job]);
         } elseif($request->getMethod() == 'POST') {
             $allValues = $request->request->all();
