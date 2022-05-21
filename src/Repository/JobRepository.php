@@ -140,7 +140,7 @@ class JobRepository extends EntityRepository
     {
         $em = $this->getEntityManager();
 
-        $job->setRunning($status ? 1 : 0);
+        if(in_array($job->getRunning(), [0,1,2])) $job->setRunning($status ? 1 : 0);
 
         $em->persist($job);
         $em->flush();
@@ -165,7 +165,7 @@ class JobRepository extends EntityRepository
      */
     public function deleteTempVar(Job &$job, ?string $name = NULL ): void
     {
-        $job->removeData('temp_vars' . ($name !== NULL ? '.' . $name : ''));
+        $job->removeData('temp_vars.' . ($name !== NULL ? '.' . $name : ''));
     }
 
     /**
@@ -176,7 +176,7 @@ class JobRepository extends EntityRepository
      */
     public function getTempVar(Job $job, string $name, mixed $default = NULL): mixed
     {
-        return $job->getData('temp_vars' . $name) ?? $default;
+        return $job->getData('temp_vars.' . $name) ?? $default;
     }
 
     /**
@@ -342,7 +342,9 @@ class JobRepository extends EntityRepository
             $manual = $this->getTempVar($job, 'manual');
             $this->deleteTempVar($job, 'manual');
 
-            $this->setJobRunning($job, true);
+            $job->setRunning(1);
+            $em->persist($job);
+            $em->flush();
 
             $getservicescommand = $job->getData('getservices-command');
             if (!empty($job->getData('vars'))) {
