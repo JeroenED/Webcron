@@ -1,16 +1,16 @@
 {% extends "base.html.twig" %}
-{% block title %}Overview{% endblock %}
+{% block title %}{{ 'index.title' | trans }}{% endblock %}
 {% block content %}
-    <h2>Overview of your cronjobs</h2>
+    <h2>{{ 'index.header' | trans }}</h2>
 
     <table class="table table-md-striped">
         <thead>
             <tr class="d-none d-md-table-row">
                 <th>&nbsp;</th>
-                <th>Name</th>
-                <th>Host</th>
-                <th>Delay</th>
-                <th>Next run</th>
+                <th>{{ 'index.table.headers.name' | trans }}</th>
+                <th>{{ 'index.table.headers.host' | trans }}</th>
+                <th>{{ 'index.table.headers.interval' | trans }}</th>
+                <th>{{ 'index.table.headers.nextrun' | trans }}</th>
                 <th></th>
             </tr>
         </thead>

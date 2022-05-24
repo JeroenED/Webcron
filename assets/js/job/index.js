@@ -71,7 +71,7 @@ function initRunNowButtons() {
                     tr.classList.remove('norun');
                     tr.classList.remove('text-danger');
                 } else if (data.status == 'ran') {
-                    let content = '<p>Cronjob ran in ' + data.runtime.toFixed(3) + ' seconds with exit code ' + data.exitcode +'</p>'
+                    let content = '<p>' + data.message + '</p>'
                     content += '<pre>' + data.output + '</pre>'
 
                     modal.querySelector('.modal-body').innerHTML = content;

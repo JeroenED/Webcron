@@ -13,6 +13,9 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js|health)/
             security: false
+        login:
+            pattern: ^/?(%enabled_locales%)/(login|login_check|health)(?=.*)
+            security: false
         main:
             pattern: ^\/(.*)
             provider: app_user_provider

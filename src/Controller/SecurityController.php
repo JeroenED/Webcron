@@ -4,13 +4,18 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends AbstractController
 {
-    public function loginAction(AuthenticationUtils $authenticationUtils): Response
+    public function loginAction(Request $request, AuthenticationUtils $authenticationUtils): Response
     {
+        if($this->isGranted('IS_AUTHENTICATED_FULLY')) {
+            return new RedirectResponse($this->generateUrl('job_index'));
+        }
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
 

@@ -394,11 +394,13 @@ class JobRepository extends EntityRepository
                 'output' => ($console) ? $output['output'] : htmlentities($output['output']),
                 'exitcode' => $output['exitcode'],
                 'runtime' => (float)$output['runtime'],
-                'title' => !str_contains($output['flags'], RunRepository::FAILED) ? 'Cronjob successfully ran' : 'Cronjob failed. Please check output below',
                 'success' => !str_contains($output['flags'], RunRepository::FAILED)
             ];
         }
-        return ['success' => true, 'status' => 'deferred', 'title' => 'Cronjob has been scheduled', 'message' => 'Job was scheduled to be run. You will find the output soon in the job details'];
+        return [
+            'success' => NULL,
+            'status' => 'deferred'
+        ];
     }
 
     /**

@@ -25,19 +25,19 @@
                     <form class="form-horizontal" method="post" action="{{ path('login_check') }}">
 
                         <div class="mb-3">
-                            <label for="username">Username</label>
-                            <input type="text" name="_username" class="form-control" id="username" placeholder="username">
+                            <label for="username">{{ 'security.login.username.label' | trans }}</label>
+                            <input type="text" name="_username" class="form-control" id="username" placeholder="{{ 'security.login.username.placeholder' | trans }}">
                         </div>
                         <div class="mb-3">
-                            <label for="password">Password</label>
-                            <input type="password" name="_password" class="form-control" id="password" placeholder="password">
+                            <label for="password">{{ 'security.login.password.label' | trans }}</label>
+                            <input type="password" name="_password" class="form-control" id="password" placeholder="{{ 'security.login.password.placeholder' | trans }}">
                         </div>
                         <div class="form-check mb-3">
                             <input type="checkbox" name="_remember_me" id="autologin" class="form-check-input">
-                            <label class="from-check-label" for="autologin">Remember, remember</label>
+                            <label class="from-check-label" for="autologin">{{ 'security.login.remember.label' | trans }}</label>
                         </div>
                         <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-                        <button type="submit" class="btn btn-outline-primary">Submit</button>
+                        <button type="submit" class="btn btn-outline-primary">{{ 'security.login.submit-btn.label' | trans }}</button>
                     </form>
                 </div>
             </div>

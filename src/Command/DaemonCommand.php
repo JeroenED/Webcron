@@ -64,6 +64,7 @@ class DaemonCommand extends Command
                         $consolerun = $jobRepo->getTempVar($job, 'consolerun', false);
                         if($consolerun && !$rebootedself) continue;
                     }
+                    $manual = ($job->getRunning() == 2);
                     $jobRepo->setJobRunning($job, true);
                     $output->writeln('Running Job ' . $job->getId());
                     if($async) {
@@ -75,10 +76,10 @@ class DaemonCommand extends Command
                     }
 
                     if(!$async || $pid == -1) {
-                        $jobRepo->RunJob($job, $job->getRunning() == 2);
+                        $jobRepo->RunJob($job, $manual);
                         $jobRepo->setJobRunning($job, false);
                     } elseif ($pid == 0) {
-                        $jobRepo->RunJob($job, $job->getRunning() == 2);
+                        $jobRepo->RunJob($job, $manual);
                         $jobRepo->setJobRunning($job, false);
                         exit;
                     }

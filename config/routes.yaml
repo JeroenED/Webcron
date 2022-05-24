@@ -1,7 +1,7 @@
 default:
   path: '/'
   defaults:
-    _controller: App\Controller\JobController::defaultAction
+    _controller: App\Controller\SecurityController::loginAction
 
 health:
   path: '/health'
@@ -9,7 +9,7 @@ health:
     _controller: App\Controller\SiteController::healthAction
 
 login:
-  path: '/login'
+  path: '/{_locale}/login'
   defaults:
     _controller: App\Controller\SecurityController::loginAction
 
@@ -20,12 +20,12 @@ logout:
   path: '/logout'
 
 job_index:
-  path: '/job'
+  path: '/{_locale}/job'
   defaults:
     _controller: App\Controller\JobController::defaultAction
 
 job_view:
-  path: '/job/{id}/{all}'
+  path: '/{_locale}/job/{id}/{all}'
   methods: [ 'GET' ]
   defaults:
     _controller: App\Controller\JobController::jobAction
@@ -35,7 +35,7 @@ job_view:
     all: (all|)
 
 job_delete:
-  path: '/job/{id}'
+  path: '/{_locale}/job/{id}'
   methods: [ 'DELETE' ]
   defaults:
     _controller: App\Controller\JobController::jobAction
@@ -43,20 +43,20 @@ job_delete:
     id: \d+
 
 job_edit:
-  path: '/job/{id}/edit'
+  path: '/{_locale}/job/{id}/edit'
   defaults:
     _controller: App\Controller\JobController::editAction
   requirements:
     id: \d+
 
 job_runnow:
-  path: '/job/{id}/runnow'
+  path: '/{_locale}/job/{id}/runnow'
   defaults:
     _controller: App\Controller\JobController::runNowAction
   requirements:
     id: \d+
 
 job_add:
-  path: '/job/add'
+  path: '/{_locale}/job/add'
   defaults:
     _controller: App\Controller\JobController::addAction

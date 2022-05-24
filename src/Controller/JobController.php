@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class JobController extends AbstractController
 {
@@ -80,12 +81,33 @@ class JobController extends AbstractController
         }
     }
 
-    public function runNowAction(Request $request, ManagerRegistry $doctrine, int $id): JsonResponse
+    public function runNowAction(Request $request, ManagerRegistry $doctrine, TranslatorInterface $translator,  int $id): JsonResponse
     {
         if($request->getMethod() == 'GET') {
             $jobRepo = $doctrine->getRepository(Job::class);
             $job = $jobRepo->find($id);
-            return new JsonResponse($jobRepo->runNow($job));
+            $runnowResult = $jobRepo->runNow($job);
+            if ($runnowResult['success'] === NULL) {
+                $return = [
+                    'status' => 'deferred',
+                    'success' => NULL,
+                    'title' => $translator->trans('job.runnow.deferred.title'),
+                    'message' => $translator->trans('job.runnow.deferred.message')
+                ];
+            } else {
+                $return = [
+                    'status' => 'ran',
+                    'success' => $runnowResult['success'],
+                    'title' => $runnowResult['success'] ? $translator->trans('job.runnow.ran.title.success') : $translator->trans('job.runnow.ran.title.failed'),
+                    'message' => $translator->trans('job.runnow.ran.message', [
+                        '_runtime_' => number_format($runnowResult['runtime'], 3),
+                        '_exitcode_' => $runnowResult['exitcode']
+                    ]),
+                    'exitcode' => $runnowResult['exitcode'],
+                    'output' => $runnowResult['output'],
+                ];
+            }
+            return new JsonResponse($return);
         }
         return new JsonResponse(['success'=>false, 'message' => 'Your request is invalid'], Response::HTTP_BAD_REQUEST);
     }
