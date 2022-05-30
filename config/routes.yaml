@@ -3,21 +3,26 @@ default:
   defaults:
     _controller: App\Controller\SecurityController::loginAction
 
-health:
-  path: '/health'
-  defaults:
-    _controller: App\Controller\SiteController::healthAction
-
-login:
-  path: '/{_locale}/login'
-  defaults:
-    _controller: App\Controller\SecurityController::loginAction
-
 login_check:
   path: '/login_check'
 
 logout:
   path: '/logout'
+
+health:
+  path: '/health'
+  defaults:
+    _controller: App\Controller\SiteController::healthAction
+
+default_locale:
+  path: '/{_locale}'
+  defaults:
+    _controller: App\Controller\SecurityController::loginAction
+
+login:
+  path: '/{_locale}/login'
+  defaults:
+    _controller: App\Controller\SecurityController::loginAction
 
 job_index:
   path: '/{_locale}/job'
