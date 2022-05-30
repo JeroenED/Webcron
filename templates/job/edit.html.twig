@@ -1,54 +1,54 @@
 {% extends "base.html.twig" %}
-{% block title %}Add job{% endblock %}
+{% block title %}{{ 'job.edit.title' | trans }}{% endblock %}
 {% block content %}
-    <h2>Add a cronjob</h2>
+    <h2>{{ 'job.edit.header' | trans({'_jobname_': (job.name | parsetags) }) | raw }}</h2>
 <form method="post" class="form-horizontal" enctype="multipart/form-data" action="{{ path('job_edit', { id : job.id }) }}">
 
-    <h3>General info</h3>
+    <h3>{{ 'job.addedit.generalinfo.header' | trans }}</h3>
     <div class="mb-3">
-        <label for="name">Name</label>
-        <input type="text" name="name" class="form-control" id="name" placeholder="System update" value="{{ job.name }}">
-        <small id="name-help" class="form-text text-muted">You can create colored tags by using [tag]</small>
+        <label for="name">{{ 'job.addedit.generalinfo.name.label' | trans }}</label>
+        <input type="text" name="name" class="form-control" id="name" placeholder="{{ 'job.addedit.generalinfo.name.placeholder' | trans }}" value="{{ job.name }}">
+        <small id="name-help" class="form-text text-muted">{{ 'job.addedit.generalinfo.name.helptext' | trans }}]</small>
     </div>
     <div class="mb-3">
-        <label for="name">Interval (in seconds)</label>
+        <label for="name">{{ 'job.addedit.generalinfo.interval.label' | trans }}</label>
         <div class="input-group">
             <button class="btn btn-outline-primary dropdown-toggle" type="button" id="intervalButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Patterns
+                {{ 'job.addedit.generalinfo.interval.patterns.label' | trans }}
             </button>
             <ul class="dropdown-menu" aria-labelledby="intervalButton">
-                <li><a class="dropdown-item intervalpattern-item" href="#" data-time="60">Every minute</a></li>
-                <li><a class="dropdown-item intervalpattern-item" href="#" data-time="3600">Every hour</a></li>
-                <li><a class="dropdown-item intervalpattern-item" href="#" data-time="86400">Every day</a></li>
-                <li><a class="dropdown-item intervalpattern-item" href="#" data-time="604800">Every week</a></li>
-                <li><a class="dropdown-item intervalpattern-item" href="#" data-time="2419200">Every 4 weeks</a></li>
+                <li><a class="dropdown-item intervalpattern-item" href="#" data-time="60">{{ 'job.addedit.generalinfo.interval.patterns.minute' | trans }}</a></li>
+                <li><a class="dropdown-item intervalpattern-item" href="#" data-time="3600">{{ 'job.addedit.generalinfo.interval.patterns.hour' | trans }}</a></li>
+                <li><a class="dropdown-item intervalpattern-item" href="#" data-time="86400">{{ 'job.addedit.generalinfo.interval.patterns.day' | trans }}</a></li>
+                <li><a class="dropdown-item intervalpattern-item" href="#" data-time="604800">{{ 'job.addedit.generalinfo.interval.patterns.week' | trans }}</a></li>
+                <li><a class="dropdown-item intervalpattern-item" href="#" data-time="2419200">{{ 'job.addedit.generalinfo.interval.patterns.4week' | trans }}</a></li>
             </ul>
-            <input type="number" class="form-control" id="interval" name="interval" value="{{ job.interval }}">
+            <input type="number" class="form-control" id="interval" name="interval" placeholder="{{ 'job.addedit.generalinfo.interval.placeholder' | trans }}" value="{{ job.interval }}">
         </div>
     </div>
     <div class="mb-3">
-        <label for="nextrun">Next run</label>
+        <label for="nextrun">{{ 'job.addedit.generalinfo.nextrun.label' | trans }}</label>
         <input type="text" autocomplete="off" pattern="[0-9]{2}\/[0-9]{2}\/[0-9]{4} [0-9]{2}:[0-9]{2}:[0-9]{2}" placeholder="{{ date() | date("d/m/Y H:i:s")}}" id="nextrunselector" class="form-control datetimepicker-input" data-target="#nextrunselector" data-bs-toggle="datetimepicker" name="nextrun" value="{{ job.nextrun | date("d/m/Y H:i:s")}}">
     </div>
     <div class="mb-3">
-        <label for="lastrun">Last run</label>
+        <label for="lastrun">{{ 'job.addedit.generalinfo.lastrun.label' | trans }}</label>
         <div class="input-group">
             <div class="input-group-text border-end-0">
                 <input type="checkbox" name="lastrun-eternal" class="lastrun-eternal" placeholder="value" value="true"{% if job.lastrun is not defined or job.lastrun is empty %} checked{% endif %}>
             </div>
-            <span class="input-group-text border-start-0">Eternal</span>
+            <span class="input-group-text border-start-0">{{ 'job.addedit.generalinfo.lastrun.eternal.label' | trans }}</span>
             <input type="text" autocomplete="off" pattern="[0-9]{2}\/[0-9]{2}\/[0-9]{4} [0-9]{2}:[0-9]{2}:[0-9]{2}" data-placeholder="{{ date() | date("d/m/Y H:i:s")}}" id="lastrunselector" class="form-control datetimepicker-input" data-target="#lastrunselector" data-bs-toggle="datetimepicker" name="lastrun"{% if job.lastrun is not defined or job.lastrun is empty %} disabled{% else %} value="{{ job.lastrun | date("d/m/Y H:i:s")}}"{% endif %}>
         </div>
     </div>
 
     <div class="mb-3">
-        <label for="retention">Retention (in days)</label>
-        <input type="number" name="retention" class="form-control" id="retention" placeholder="7" value="{% if attribute(job.data, 'retention') is defined %}{{ attribute(job.data, 'retention') }}{% endif %}">
-        <small id="retention-help" class="form-text text-muted">How many days (at least) to keep runs of this job in the database</small>
+        <label for="retention">{{ 'job.addedit.generalinfo.retention.label' | trans }}</label>
+        <input type="number" name="retention" class="form-control" id="retention" placeholder="{{ 'job.addedit.generalinfo.retention.placeholder' | trans }}" value="{% if attribute(job.data, 'retention') is defined %}{{ attribute(job.data, 'retention') }}{% endif %}">
+        <small id="retention-help" class="form-text text-muted">{{ 'job.addedit.generalinfo.retention.helptext' | trans }}</small>
     </div>
 
     <div class="mb-3">
-        <label for="fail-pct">Max fail percentage</label>
+        <label for="fail-pct">{{ 'job.addedit.generalinfo.failpercentage.label' | trans }}</label>
         <div class="input-group d-flex">
             <div class="range-value range-value-fail-pct pe-1">{% if attribute(job.data, 'fail-pct') is defined %}{{ attribute(job.data, 'fail-pct') }}{% else %}50{% endif %}%</div>
             <div class="range-input ps-1 flex-grow-1">
@@ -58,8 +58,8 @@
     </div>
 
     <div class="mb-3">
-        <label for="fail-days">Number of days calculated for fail percentage</label>
-        <input type="number" name="fail-days" class="form-control" id="fail-days" placeholder="7" value="{% if attribute(job.data, 'fail-days') is defined %}{{ attribute(job.data, 'fail-days') }}{% endif %}">
+        <label for="fail-days">{{ 'job.addedit.generalinfo.faildays.label' | trans }}</label>
+        <input type="number" name="fail-days" class="form-control" id="fail-days" placeholder="{{ 'job.addedit.generalinfo.faildays.placeholder' | trans }}" value="{% if attribute(job.data, 'fail-days') is defined %}{{ attribute(job.data, 'fail-days') }}{% endif %}">
     </div>
 
     <h3>Job details</h3>

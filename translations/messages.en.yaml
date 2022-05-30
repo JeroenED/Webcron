@@ -47,3 +47,41 @@ job:
       noresults:
         failed: "No failed runs found"
         all: "No runs found"
+  edit:
+    title: 'Edit job'
+    header: 'Edit job _jobname_'
+  add:
+    title: 'Add job'
+    header: 'Add new job'
+  addedit:
+    generalinfo:
+      header: 'General info'
+      name:
+        label: 'Name'
+        placeholder: 'System update'
+        helptext: 'You can create colored tags by using [tag]'
+      interval:
+        label: 'Interval (in seconds)'
+        placeholder: '3600'
+        patterns:
+          label: 'Patterns'
+          minute: 'Every minute'
+          hour: 'Every hour'
+          day: 'Every day'
+          week: 'Every week'
+          4week: 'Every 4 weeks'
+      nextrun:
+        label: 'Next run'
+      lastrun:
+        label: 'Last run'
+        eternal:
+          label: 'Eternal'
+      retention:
+        label: 'Retention (in days)'
+        placeholder: '7'
+        helptext: 'How many days (at least) to keep runs of this job in the database'
+      failpercentage:
+        label: 'Max fail percentage'
+      faildays:
+        label: 'Number of days calculated for fail percentage'
+        placeholder: '7'
