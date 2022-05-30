@@ -113,7 +113,7 @@ class JobRepository extends EntityRepository
                     $qb->expr()->lte('job.nextrun', ':timestamp'),
                     $qb->expr()->orX(
                         $qb->expr()->isNull('job.lastrun'),
-                        $qb->expr()->gt('job.lastrun', ':timestamp')
+                        $qb->expr()->lt('job.nextrun', 'job.lastrun')
                     ),
                     $qb->expr()->in('job.running', [0,2])
                 )
