@@ -24,25 +24,26 @@ index:
       interval: "Interval"
       nextrun: "Volgende uitvoering"
 job:
-  title: "Overzicht van uitvoeringen van _jobname_"
-  header: "Overzicht van uitvoeringen van _jobname_"
-  edit: "Bewerk taak"
-  runnow:
-    deferred:
-      title: "Taak werd doorgestuurd naar de daemon"
-      message: "Taak werd doorgestuurd naar de daemon. De output vind u binnenkort in de taakdetails"
-    ran:
-      title:
-        success: "Taak werd succesvol uitgevoerd"
-        failed: "Taak faalde. Hieronder vind u de output ter controle"
-      message: "Taak werd in _runtime_ seconden uitgevoerd met resultaat _exitcode_"
-  show:
-    onlyfailed: "Toon alleen gefaalde uitvoeringen"
-    all: "Toon alle uitvoeringen"
-  results:
-    exitcode: "Resultaat"
-    runtime: "Duurtijd"
-    manual: "Manuele uitvoering"
-    noresults:
-      failed: "Geen gefaalde uitvoeringen gevonden"
-      all: "Geen uitvoeringen gevonden"
+  view:
+    title: "Overzicht van uitvoeringen van _jobname_"
+    header: "Overzicht van uitvoeringen van _jobname_"
+    edit: "Bewerk taak"
+    runnow:
+      deferred:
+        title: "Taak werd doorgestuurd naar de daemon"
+        message: "Taak werd doorgestuurd naar de daemon. De output vind u binnenkort in de taakdetails"
+      ran:
+        title:
+          success: "Taak werd succesvol uitgevoerd"
+          failed: "Taak faalde. Hieronder vind u de output ter controle"
+        message: "Taak werd in _runtime_ seconden uitgevoerd met resultaat _exitcode_"
+    show:
+      onlyfailed: "Toon alleen gefaalde uitvoeringen"
+      all: "Toon alle uitvoeringen"
+    results:
+      exitcode: "Resultaat"
+      runtime: "Duurtijd"
+      manual: "Manuele uitvoering"
+      noresults:
+        failed: "Geen gefaalde uitvoeringen gevonden"
+        all: "Geen uitvoeringen gevonden"

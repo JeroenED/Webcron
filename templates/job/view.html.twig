@@ -1,11 +1,11 @@
 {% extends "base.html.twig" %}
 {% block title %}{{ 'job.title' | trans({ '_jobname_': job.name }) }}{% endblock %}
 {% block content %}
-    <h2>{{ 'job.header' | trans({ '_jobname_': (job.name  | parsetags) })  | raw }}</h2>
+    <h2>{{ 'job.view.header' | trans({ '_jobname_': (job.name  | parsetags) })  | raw }}</h2>
     <p>
-        <a href="{{ path('job_edit', { id: job.id }) }}">{{ 'job.edit' | trans }}</a>
-        {% if allruns %} | <a href="{{ path('job_view', { id: job.id })}}">{{ 'job.show.onlyfailed' | trans }}</a>
-        {% elseif not allruns %} | <a href="{{ path('job_view', { id: job.id, all: 'all' })}}">{{ 'job.show.all' | trans }}</a>
+        <a href="{{ path('job_edit', { id: job.id }) }}">{{ 'job.view.edit' | trans }}</a>
+        {% if allruns %} | <a href="{{ path('job_view', { id: job.id })}}">{{ 'job.view.show.onlyfailed' | trans }}</a>
+        {% elseif not allruns %} | <a href="{{ path('job_view', { id: job.id, all: 'all' })}}">{{ 'job.view.show.all' | trans }}</a>
         {% endif %}
     </p>
     <div id="runs" class="accordion">
@@ -15,9 +15,9 @@
                     <button class="accordion-button{% if loop.index != 1 %} collapsed{% endif %}" type="button" data-bs-toggle="collapse" data-bs-target="#run-{{ run.id }}" aria-expanded="{% if loop.index != 1 %}true{% else %}false{% endif %}" aria-controls="run-{{ run.id }}">
                         <div>
                             <div class="d-md-inline d-block text-left">{{ run.timestamp | date("d/m/Y H:i:s") }}</div>
-                            <div class="d-md-inline d-block text-left">({{ "job.results.exitcode"| trans }}: {{ run.exitcode }} | {{ "job.results.runtime"| trans }}: {{ run.runtime | interval }})</div>
+                            <div class="d-md-inline d-block text-left">({{ "job.view.results.exitcode"| trans }}: {{ run.exitcode }} | {{ "job.view.results.runtime"| trans }}: {{ run.runtime | interval }})</div>
                             {% if 'M' in run.flags %}
-                                <div class="d-md-inline d-block text-left">{{ "job.results.manual"| trans }}</div>
+                                <div class="d-md-inline d-block text-left">{{ "job.view.results.manual"| trans }}</div>
                             {% endif %}
                         </div>
                     </button>
@@ -29,8 +29,8 @@
                 </div>
             </div>
         {% else %}
-            <h4>{% if not allruns %}{{ "job.results.noresults.failed" | trans }}{% else %}{{ "job.results.noresults.all"| trans }}{% endif %}</h4>
-            <p><a href="{{ path('job_view', { id: job.id, all: 'all' })}}">{{ 'job.show.all' | trans }}</a></p>
+            <h4>{% if not allruns %}{{ "job.view.results.noresults.failed" | trans }}{% else %}{{ "job.view.results.noresults.all"| trans }}{% endif %}</h4>
+            <p><a href="{{ path('job_view', { id: job.id, all: 'all' })}}">{{ 'job.view.show.all' | trans }}</a></p>
         {% endfor %}
     </div>
 {% endblock %}

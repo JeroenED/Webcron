@@ -24,25 +24,26 @@ index:
       interval: "Interval"
       nextrun: "Nextrun"
 job:
-  title: "Overview of runs for _jobname_"
-  header: "Overview of runs for _jobname_"
-  edit: "Edit job"
-  runnow:
-    deferred:
-      title: "Cronjob has been scheduled"
-      message: "Job was scheduled to be run. You will find the output soon in the job details"
-    ran:
-      title:
-        success: "Cronjob succesfully ran"
-        failed: "Cronjob failed. Please check output below"
-      message: "Cronjob ran in _runtime_ seconds with exit code _exitcode_"
-  show:
-    onlyfailed: "Only show failed runs"
-    all: "Show all runs"
-  results:
-    exitcode: "Exit code"
-    runtime: "Runtime"
-    manual: "Manual run"
-    noresults:
-      failed: "No failed runs found"
-      all: "No runs found"
+  view:
+    title: "Overview of runs for _jobname_"
+    header: "Overview of runs for _jobname_"
+    edit: "Edit job"
+    runnow:
+      deferred:
+        title: "Cronjob has been scheduled"
+        message: "Job was scheduled to be run. You will find the output soon in the job details"
+      ran:
+        title:
+          success: "Cronjob succesfully ran"
+          failed: "Cronjob failed. Please check output below"
+        message: "Cronjob ran in _runtime_ seconds with exit code _exitcode_"
+    show:
+      onlyfailed: "Only show failed runs"
+      all: "Show all runs"
+    results:
+      exitcode: "Exit code"
+      runtime: "Runtime"
+      manual: "Manual run"
+      noresults:
+        failed: "No failed runs found"
+        all: "No runs found"

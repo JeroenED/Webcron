@@ -91,15 +91,15 @@ class JobController extends AbstractController
                 $return = [
                     'status' => 'deferred',
                     'success' => NULL,
-                    'title' => $translator->trans('job.runnow.deferred.title'),
-                    'message' => $translator->trans('job.runnow.deferred.message')
+                    'title' => $translator->trans('job.view.runnow.deferred.title'),
+                    'message' => $translator->trans('job.view.runnow.deferred.message')
                 ];
             } else {
                 $return = [
                     'status' => 'ran',
                     'success' => $runnowResult['success'],
-                    'title' => $runnowResult['success'] ? $translator->trans('job.runnow.ran.title.success') : $translator->trans('job.runnow.ran.title.failed'),
-                    'message' => $translator->trans('job.runnow.ran.message', [
+                    'title' => $runnowResult['success'] ? $translator->trans('job.view.runnow.ran.title.success') : $translator->trans('job.view.runnow.ran.title.failed'),
+                    'message' => $translator->trans('job.view.runnow.ran.message', [
                         '_runtime_' => number_format($runnowResult['runtime'], 3),
                         '_exitcode_' => $runnowResult['exitcode']
                     ]),
