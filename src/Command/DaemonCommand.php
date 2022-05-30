@@ -50,7 +50,7 @@ class DaemonCommand extends Command
             throw new \InvalidArgumentException('Time limit has incorrect value');
         }
         $jobRepo->unlockJob();
-        touch($this->kernel->getCacheDir() . '/daemon-running.lock');
+        file_put_contents($this->kernel->getCacheDir() . '/daemon-running.lock', posix_getpid());
         while(1) {
             if($endofscript !== false && time() > $endofscript) break;
 

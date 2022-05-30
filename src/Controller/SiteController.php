@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Job;
+use App\Service\DaemonHelpers;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -17,7 +18,7 @@ class SiteController extends AbstractController
         $em = $doctrine->getManager();
         $jobRepo = $em->getRepository(Job::class);
         $return = [
-            "DaemonRunning" => file_exists($kernel->getCacheDir() . '/daemon-running.lock'),
+            "DaemonRunning" => DaemonHelpers::isProcessRunning($kernel->getCacheDir() . '/daemon-running.lock'),
             "JobsTotal" => count($jobRepo->getAllJobs()),
             "JobsDue" => count($jobRepo->getJobsDue()),
             "JobsRunning" => count($jobRepo->getRunningJobs()),

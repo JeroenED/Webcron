@@ -3,7 +3,6 @@
 
 namespace App\Service;
 
-
 class Secret
 {
     static function encrypt($plaintext) {
