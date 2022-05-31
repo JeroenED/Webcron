@@ -85,3 +85,18 @@ job:
       faildays:
         label: 'Aantal dagen berekend voor faalpercentage'
         placeholder: '7'
+    crontype:
+      label: Taak type
+      command:
+        label: Commando
+        header: Commando details
+        command:
+          label: Commando
+          placeholder: sudo apt update
+        response:
+          label: Verwacht resultaat
+          placeholder: 0
+      reboot:
+        label: Herstart
+      http:
+        label: HTTP request

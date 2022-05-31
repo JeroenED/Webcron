@@ -67,13 +67,13 @@
         <div class="dropdown croncategory-group crontype-group{% if job.data.crontype != 'http' %} btn-group{% endif %}">
             <button class="btn btn-outline-primary dropdown-toggle" type="button" id="crontypeButton" data-default-text="Job type" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 {% if job.data.crontype == 'command' %}
-                    Command
+                    {{ 'job.addedit.crontype.command.label' | trans }}
                 {% elseif job.data.crontype == 'reboot' %}
-                    Reboot
+                    {{ 'job.addedit.crontype.reboot.label' | trans }}
                 {% elseif job.data.crontype == 'http' %}
-                    Http request
+                    {{ 'job.addedit.crontype.http.label' | trans }}
                 {% else %}
-                    Job type
+                    {{ 'job.addedit.crontype.label' | trans }}
                 {% endif %}
             </button>
             <div class="dropdown-menu" aria-labelledby="crontypeButton">
@@ -121,15 +121,15 @@
     </div>
 
     <div class="crontype-command crontype-inputs croncategory-inputs{% if job.data.crontype != 'command' %} d-none{% endif %}">
-        <h4>Command details</h4>
+        <h4>{{ "job.addedit.crontype.command.header"| trans }}</h4>
         <div class="mb-3">
-            <label for="command">Command</label>
-            <input type="text" name="command" class="form-control" id="command" placeholder="sudo apt update" value="{% if job.data.command is defined %}{{ job.data.command }}{% endif %}">
+            <label for="command">{{ "job.addedit.crontype.command.command.label"| trans }}</label>
+            <input type="text" name="command" class="form-control" id="command" placeholder="{{ "job.addedit.crontype.command.command.placeholder"| trans }}" value="{% if job.data.command is defined %}{{ job.data.command }}{% endif %}">
         </div>
 
         <div class="mb-3">
-            <label for="response">Expected exit code</label>
-            <input type="text" name="response" class="form-control" id="response" placeholder="0" value="{% if job.data.response is defined %}{{ job.data.response | join(',') }}{% endif %}">
+            <label for="response">{{ "job.addedit.crontype.command.response.label"| trans }}</label>
+            <input type="text" name="response" class="form-control" id="response" placeholder="{{ "job.addedit.crontype.command.response.placeholder"| trans }}" value="{% if job.data.response is defined %}{{ job.data.response | join(',') }}{% endif %}">
         </div>
     </div>
 
