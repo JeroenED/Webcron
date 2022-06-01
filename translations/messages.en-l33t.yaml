@@ -1,0 +1,16 @@
+menu:
+  overview: "0v3rv13w"
+  add: "4ÐÐ 4 n3w (r0nj0b"
+  logout: "£0g0µt"
+security:
+  login:
+    username:
+      label: "µ$3rn4m3"
+      placeholder: "j3r03n@h4x0r.£33t"
+    password:
+      label: "p4$$w0rÐ"
+      placeholder: "(0rr3(t H0r$3 B4tt3r¥ $t4mp£3"
+    remember:
+      label: "Ð0 n0t f0rg3t"
+    submit-btn:
+      label: "3nt3r"
