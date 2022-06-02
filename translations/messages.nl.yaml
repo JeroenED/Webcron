@@ -48,55 +48,76 @@ job:
         failed: "Geen gefaalde uitvoeringen gevonden"
         all: "Geen uitvoeringen gevonden"
   edit:
-    title: 'Bewerk taak'
-    header: 'Bewerk taak _jobname_'
+    title: "Bewerk taak"
+    header: "Bewerk taak _jobname_"
   add:
-    title: 'Taak toevoegen'
-    header: 'Nieuwe taak toevoegen'
+    title: "Taak toevoegen"
+    header: "Nieuwe taak toevoegen"
   addedit:
     generalinfo:
-      header: 'Algemene info'
+      header: "Algemene info"
       name:
-        label: 'Naam'
-        placeholder: 'Systemen updaten'
-        helptext: 'Je kan gekleurde tags toevoegen met [tag]'
+        label: "Naam"
+        placeholder: "Systemen updaten"
+        helptext: "Je kan gekleurde tags toevoegen met [tag]"
       interval:
-        label: 'Interval (in seconden)'
-        placeholder: '3600'
+        label: "Interval (in seconden)"
+        placeholder: "3600"
         patterns:
-          label: 'Patronen'
-          minute: 'Iedere minuut'
-          hour: 'Ieder uur'
-          day: 'Iedere dag'
-          week: 'Iedere week'
-          4week: 'Iedere 4 weken'
+          label: "Patronen"
+          minute: "Iedere minuut"
+          hour: "Ieder uur"
+          day: "Iedere dag"
+          week: "Iedere week"
+          4week: "Iedere 4 weken"
       nextrun:
-        label: 'Volgende uitvoering'
+        label: "Volgende uitvoering"
       lastrun:
-        label: 'Laatste uitvoering'
+        label: "Laatste uitvoering"
         eternal:
-          label: 'Eeuwig'
+          label: "Eeuwig"
       retention:
-        label: 'Opslag (in dagen)'
-        placeholder: '7'
-        helptext: 'Hoeveel dagen moeten uitvoeringen van een job bewaard worden'
+        label: "Opslag (in dagen)"
+        placeholder: "7"
+        helptext: "Hoeveel dagen moeten uitvoeringen van een job bewaard worden"
       failpercentage:
-        label: 'Max faalpercentage'
+        label: "Max faalpercentage"
       faildays:
-        label: 'Aantal dagen berekend voor faalpercentage'
-        placeholder: '7'
+        label: "Aantal dagen berekend voor faalpercentage"
+        placeholder: "7"
     crontype:
-      label: Taak type
+      label: "Taak type"
       command:
-        label: Commando
-        header: Commando details
+        label: "Commando"
+        header: "Commando details"
         command:
-          label: Commando
-          placeholder: sudo apt update
+          label: "Commando"
+          placeholder: "sudo apt update"
         response:
-          label: Verwacht resultaat
-          placeholder: 0
+          label: "Verwacht resultaat"
+          placeholder: "0"
       reboot:
-        label: Herstart
+        label: "Herstart"
+        header: "Herstart details"
+        reboot:
+          command:
+            label: "Herstart commando"
+            placeholder: "systemctl reboot"
+            helptext: "Gebruik {reboot-delay} of {reboot-delay-secs} om de vertraging toe te voegen in je commando"
+          delay:
+            label: "Herstart vertraging (in minuten)"
+            placeholder: "5"
+            helptext: "Tijd tussen het aanroepen van herstart commando en de eigenlijke herstart"
+          duration:
+            label: "Duurtijd van herstart (in minuten)"
+            placeholder: "10"
+            helptext: "De tijd dat de effectieve herstart duurt"
+        getservices:
+          command:
+            label: "Commando voor ophalen services"
+            placeholder: "systemctl list-units"
+          response:
+            label: "Resultaat van commando voor ophalen services"
+            placeholder: "0"
       http:
         label: HTTP request

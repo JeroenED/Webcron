@@ -48,55 +48,76 @@ job:
         failed: "No failed runs found"
         all: "No runs found"
   edit:
-    title: 'Edit job'
-    header: 'Edit job _jobname_'
+    title: "Edit job"
+    header: "Edit job _jobname_"
   add:
-    title: 'Add job'
-    header: 'Add new job'
+    title: "Add job"
+    header: "Add new job"
   addedit:
     generalinfo:
-      header: 'General info'
+      header: "General info"
       name:
-        label: 'Name'
-        placeholder: 'System update'
-        helptext: 'You can create colored tags by using [tag]'
+        label: "Name"
+        placeholder: "System update"
+        helptext: "You can create colored tags by using [tag]"
       interval:
-        label: 'Interval (in seconds)'
-        placeholder: '3600'
+        label: "Interval (in seconds)"
+        placeholder: "3600"
         patterns:
-          label: 'Patterns'
-          minute: 'Every minute'
-          hour: 'Every hour'
-          day: 'Every day'
-          week: 'Every week'
-          4week: 'Every 4 weeks'
+          label: "Patterns"
+          minute: "Every minute"
+          hour: "Every hour"
+          day: "Every day"
+          week: "Every week"
+          4week: "Every 4 weeks"
       nextrun:
-        label: 'Next run'
+        label: "Next run"
       lastrun:
-        label: 'Last run'
+        label: "Last run"
         eternal:
-          label: 'Eternal'
+          label: "Eternal"
       retention:
-        label: 'Retention (in days)'
-        placeholder: '7'
-        helptext: 'How many days (at least) to keep runs of this job in the database'
+        label: "Retention (in days)"
+        placeholder: "7"
+        helptext: "How many days (at least) to keep runs of this job in the database"
       failpercentage:
-        label: 'Max fail percentage'
+        label: "Max fail percentage"
       faildays:
-        label: 'Number of days calculated for fail percentage'
-        placeholder: '7'
-  crontype:
-    label: Job type
-    command:
-      label: Command
-      header: Command details
+        label: "Number of days calculated for fail percentage"
+        placeholder: "7"
+    crontype:
+      label: "Job type"
       command:
-        label: Command
-        placeholder: sudo apt update
-      response:
-        label: Expected exit code
-        placeholder: 0
-    reboot:
-      label: Reboot
-    http:
-      label: HTTP request
+        label: "Command"
+        header: "Command details"
+        command:
+          label: "Command"
+          placeholder: "sudo apt update"
+        response:
+          label: "Expected exit code"
+          placeholder: "0"
+      reboot:
+        label: "Reboot"
+        header: "Reboot job details"
+        reboot:
+          command:
+            label: "Reboot command"
+            placeholder: "systemctl reboot"
+            helptext: "Use {reboot-delay} or {reboot-delay-secs} to add the delay in your command"
+          delay:
+            label: "Reboot delay (in minutes)"
+            placeholder: "5"
+            helptext: "Delay between triggering reboot and actual reboot"
+          duration:
+            label: "Reboot duration (in minutes)"
+            placeholder: "10"
+            helptext: "The amount of time the system takes to actually reboot"
+        getservices:
+          command:
+            label: "Get services command"
+            placeholder: "systemctl list-units"
+          response:
+            label: "Get services command exit code"
+            placeholder: "0"
+      http:
+        label: "HTTP request"
