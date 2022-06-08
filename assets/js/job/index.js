@@ -1,23 +1,16 @@
 import {Modal} from 'bootstrap';
 import image from '/assets/images/ajax-loader.gif'
 import '/assets/scss/job/index.scss';
+import Utils from "./Utils";
 
 document.addEventListener("readystatechange", event => {
     if(event.target.readyState === 'complete') {
         initDeleteButtons();
         initRunNowButtons();
-        initTags();
+        Utils.initTags();
     }
 });
 
-function initTags() {
-    document.querySelectorAll('.tag').forEach(elem => {
-        let backcolor = elem.dataset.backgroundColor;
-        let frontcolor = elem.dataset.color;
-        elem.style.backgroundColor = backcolor;
-        elem.style.color = frontcolor;
-    })
-}
 function initDeleteButtons() {
     document.querySelectorAll('.delete-btn').forEach(elem => elem.addEventListener("click", event => {
         let me = event.currentTarget;
