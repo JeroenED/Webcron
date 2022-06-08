@@ -1,7 +1,6 @@
 default:
   path: '/'
-  defaults:
-    _controller: App\Controller\SecurityController::loginAction
+  controller: App\Controller\SecurityController::loginAction
 
 login_check:
   path: '/login_check'
@@ -11,34 +10,29 @@ logout:
 
 health:
   path: '/health'
-  defaults:
-    _controller: App\Controller\SiteController::healthAction
+  controller: App\Controller\SiteController::healthAction
 
 favicon:
   path: '/favicon.ico'
-  defaults:
-    _controller: App\Controller\SiteController::faviconAction
+  controller: App\Controller\SiteController::faviconAction
 
 default_locale:
   path: '/{_locale}'
-  defaults:
-    _controller: App\Controller\SecurityController::loginAction
+  controller: App\Controller\SecurityController::loginAction
 
 login:
   path: '/{_locale}/login'
-  defaults:
-    _controller: App\Controller\SecurityController::loginAction
+  controller: App\Controller\SecurityController::loginAction
 
 job_index:
   path: '/{_locale}/job'
-  defaults:
-    _controller: App\Controller\JobController::defaultAction
+  controller: App\Controller\JobController::defaultAction
 
 job_view:
   path: '/{_locale}/job/{id}/{all}'
   methods: [ 'GET' ]
+  controller: App\Controller\JobController::jobAction
   defaults:
-    _controller: App\Controller\JobController::jobAction
     all: false
   requirements:
     id: \d+
@@ -47,26 +41,22 @@ job_view:
 job_delete:
   path: '/{_locale}/job/{id}'
   methods: [ 'DELETE' ]
-  defaults:
-    _controller: App\Controller\JobController::jobAction
+  controller: App\Controller\JobController::jobAction
   requirements:
     id: \d+
 
 job_edit:
   path: '/{_locale}/job/{id}/edit'
-  defaults:
-    _controller: App\Controller\JobController::editAction
+  controller: App\Controller\JobController::editAction
   requirements:
     id: \d+
 
 job_runnow:
   path: '/{_locale}/job/{id}/runnow'
-  defaults:
-    _controller: App\Controller\JobController::runNowAction
+  controller: App\Controller\JobController::runNowAction
   requirements:
     id: \d+
 
 job_add:
   path: '/{_locale}/job/add'
-  defaults:
-    _controller: App\Controller\JobController::addAction
+  controller: App\Controller\JobController::addAction
