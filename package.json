@@ -18,7 +18,7 @@
     "vite-plugin-symfony": "^0.3"
   },
   "scripts": {
-    "watch": "vite",
+    "watch": "vite build --minify=false --sourcemap --watch",
     "build-dev": "vite build --minify=false --sourcemap",
     "build": "vite build"
   }
