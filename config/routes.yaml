@@ -14,6 +14,11 @@ health:
   defaults:
     _controller: App\Controller\SiteController::healthAction
 
+favicon:
+  path: '/favicon.ico'
+  defaults:
+    _controller: App\Controller\SiteController::faviconAction
+
 default_locale:
   path: '/{_locale}'
   defaults:

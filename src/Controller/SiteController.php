@@ -8,6 +8,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\KernelInterface;
 
 class SiteController extends AbstractController
@@ -25,5 +26,10 @@ class SiteController extends AbstractController
             "JobsFailing" => count($jobRepo->getFailingJobs()),
         ];
         return new JsonResponse($return, $return['DaemonRunning'] ? 200 : 500);
+    }
+
+    public function faviconAction(Request $request)
+    {
+        return new Response('', 200);
     }
 }
