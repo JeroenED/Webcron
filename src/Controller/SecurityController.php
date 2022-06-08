@@ -13,7 +13,7 @@ class SecurityController extends AbstractController
 {
     public function loginAction(Request $request, AuthenticationUtils $authenticationUtils): Response
     {
-        if($this->isGranted('IS_AUTHENTICATED_FULLY')) {
+        if($this->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
             return new RedirectResponse($this->generateUrl('job_index'));
         }
         // get the login error if there is one
@@ -35,7 +35,7 @@ class SecurityController extends AbstractController
         throw new \Exception('Don\'t forget to activate logout in security.yaml');
     }
 
-    public function loginCheckAction(): Response
+    public function loginCheckAction(): void
     {
 
     }
