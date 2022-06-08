@@ -5,6 +5,9 @@
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
     enabled_locales: 'en|nl'
+    security:
+        csp_policy: "default-src 'none'; font-src 'self' data:; style-src 'self'; script-src 'self'; connect-src 'self'; img-src 'self' data:; form-action 'self'; require-trusted-types-for 'script'; frame-ancestors 'none'; base-uri 'none'"
+        referer_policy: "same-origin"
 
 services:
     # default configuration for services in *this* file
