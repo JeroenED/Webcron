@@ -120,4 +120,70 @@ job:
             label: "Resultaat van commando voor ophalen services"
             placeholder: "0"
       http:
-        label: HTTP request
+        label: "HTTP request"
+        header: "HTTP request details"
+        url:
+          label: "Url"
+          placeholder: "https://www.example.com"
+        basic-auth:
+          username:
+            label: "Gebruikersnaam voor basic auth"
+            placeholder: "www-data"
+          password:
+            label: "Wachtwoord voor basic auth"
+            placeholder: "correct horse battery staple"
+            helptext: "Dit veld word opgeslagen als geheime waarde"
+        response:
+          label: "Verwachte http status code"
+          placeholder: "418"
+    hosttype:
+      label: "Host type"
+      local:
+        label: "Lokaal"
+        header: "Localhost details"
+        nodetails: "Geen opties"
+      ssh:
+        label: "SSH"
+        header: "SSH host details"
+        hostname:
+          label: "Hostnaam"
+          placeholder: "ssh.abc.xyz"
+        username:
+          label: "Gebruikersnaam"
+          placeholder: "larry"
+        privatekey:
+          label: "Privésleutel"
+          helptext: "Dit bestand word opgeslagen als geheime waarde"
+          keep:
+            label: "Behoud"
+        passphrase:
+          label: "Wachtwoord voor privésleutel"
+          placeholder: "abc123"
+          helptext: "Indien er geen privésleutel is meegegeven zal dit gebruikt worden als gewoon wachtwoord. Dit veld word opgeslagen als geheime waarde"
+    containertype:
+      label: "Container type"
+      none:
+        label: "Geen"
+      docker:
+        label: "Docker"
+        header: "Docker container details"
+        service:
+          label: "Service"
+          placeholder: "mysql"
+        username:
+          label: "Gebruikersnaam"
+          placeholder: "larry"
+    variables:
+      header: "Variabelen"
+      secret:
+        label: "Geheim"
+      name:
+        placeholder: "Naam"
+      value:
+        placeholder: "Waarde"
+      helptext: "Je kan variabelen gebruiken via {variabele-naam} in de job details"
+      add:
+        label: "Variable toevoegen"
+    submit:
+      label: "Verzend!"
+

@@ -121,3 +121,67 @@ job:
             placeholder: "0"
       http:
         label: "HTTP request"
+        header: "HTTP request details"
+        url:
+          label: "Url"
+          placeholder: "https://www.example.com"
+        basic-auth:
+          username:
+            label: "Username for basic auth"
+            placeholder: "www-data"
+          password:
+            label: "Password for basic auth"
+            placeholder: "correct horse battery staple"
+            helptext: "This field is being saved as a secret"
+        response:
+          label: "Expected http status code"
+          placeholder: "418"
+    hosttype:
+      label: "Host type"
+      local:
+        label: "Local"
+        header: "Localhost details"
+        nodetails: "No options"
+      ssh:
+        label: "SSH"
+        header: "SSH host details"
+        hostname:
+          label: "Hostname"
+          placeholder: "ssh.abc.xyz"
+        username:
+          label: "Username"
+          placeholder: "larry"
+        privatekey:
+          label: "Private key"
+          helptext: "This file is being saves as a secret"
+          keep:
+            label: "Keep"
+        passphrase:
+          label: "Passphrase for private key"
+          placeholder: "correct horse battery staple"
+          helptext: "If private key is empty this field is being used as ssh-password This field is being saved as a secret"
+    containertype:
+      label: "Container type"
+      none:
+        label: "None"
+      docker:
+        header: "Docker container details"
+        service:
+          label: "Service"
+          placeholder: "mysql"
+        username:
+          label: "Username"
+          placeholder: "larry"
+    variables:
+      header: "Variables"
+      secret:
+        label: "Secret"
+      name:
+        placeholder: "Name"
+      value:
+        placeholder: "Value"
+      helptext: "You can add variables by using {variable-name} in job details"
+      add:
+        label: "Add variable"
+    submit:
+      label: "Submit!"

@@ -1,58 +1,58 @@
 {% extends "base.html.twig" %}
-{% block title %}Add job{% endblock %}
+{% block title %}{{ "job.add.title" | trans }}{% endblock %}
 {% block content %}
-    <h2>Add a cronjob</h2>
+    <h2>{{ "job.add.header" | trans }}</h2>
 <form method="post" class="form-horizontal" enctype="multipart/form-data" action="{{ path('job_add') }}">
 
-    <h3>General info</h3>
+    <h3>{{ "job.addedit.generalinfo.header" | trans }}</h3>
 
     <div class="mb-3">
-        <label for="name">Name</label>
-        <input type="text" name="name" class="form-control" id="name" placeholder="System update">
-        <small id="name-help" class="form-text text-muted">You can create colored tags by using [tag]</small>
+        <label for="name">{{ "job.addedit.generalinfo.name.label" | trans }}</label>
+        <input type="text" name="name" class="form-control" id="name" placeholder="{{ "job.addedit.generalinfo.name.placeholder" | trans }}">
+        <small id="name-help" class="form-text text-muted">{{ "job.addedit.generalinfo.name.helptext" | trans }}</small>
     </div>
 
     <div class="mb-3">
-        <label for="name">Interval (in seconds)</label>
+        <label for="name">{{ "job.addedit.generalinfo.interval.label" | trans }}</label>
         <div class="input-group">
             <button class="btn btn-outline-primary dropdown-toggle" type="button" id="intervalButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Patterns
+                {{ "job.addedit.generalinfo.interval.patterns.label" | trans }}
             </button>
             <ul class="dropdown-menu" aria-labelledby="intervalButton">
-                <li><a class="dropdown-item intervalpattern-item" href="#" data-time="60">Every minute</a></li>
-                <li><a class="dropdown-item intervalpattern-item" href="#" data-time="3600">Every hour</a></li>
-                <li><a class="dropdown-item intervalpattern-item" href="#" data-time="86400">Every day</a></li>
-                <li><a class="dropdown-item intervalpattern-item" href="#" data-time="604800">Every week</a></li>
-                <li><a class="dropdown-item intervalpattern-item" href="#" data-time="2419200">Every 4 weeks</a></li>
+                <li><a class="dropdown-item intervalpattern-item" href="#" data-time="60">{{ "job.addedit.generalinfo.interval.patterns.minute" | trans }}</a></li>
+                <li><a class="dropdown-item intervalpattern-item" href="#" data-time="3600">{{ "job.addedit.generalinfo.interval.patterns.hour" | trans }}</a></li>
+                <li><a class="dropdown-item intervalpattern-item" href="#" data-time="86400">{{ "job.addedit.generalinfo.interval.patterns.day" | trans }}</a></li>
+                <li><a class="dropdown-item intervalpattern-item" href="#" data-time="604800">{{ "job.addedit.generalinfo.interval.patterns.week" | trans }}</a></li>
+                <li><a class="dropdown-item intervalpattern-item" href="#" data-time="2419200">{{ "job.addedit.generalinfo.interval.patterns.4week" | trans }}</a></li>
             </ul>
             <input type="number" class="form-control" id="interval" name="interval">
         </div>
     </div>
 
     <div class="mb-3">
-        <label for="nextrun">Next run</label>
-        <input type="text" autocomplete="off" pattern="[0-9]{2}\/[0-9]{2}\/[0-9]{4} [0-9]{2}:[0-9]{2}:[0-9]{2}"placeholder="{{ date() | date("d/m/Y H:i:s")}}" step="1" id="nextrunselector" class="form-control datetimepicker-input" data-target="#nextrunselector" data-bs-toggle="datetimepicker" name="nextrun">
+        <label for="nextrun">{{ "job.addedit.generalinfo.nextrun.label" | trans }}</label>
+        <input type="text" autocomplete="off" pattern="[0-9]{2}\/[0-9]{2}\/[0-9]{4} [0-9]{2}:[0-9]{2}:[0-9]{2}" placeholder="{{ date() | date("d/m/Y H:i:s")}}" step="1" id="nextrunselector" class="form-control datetimepicker-input" data-target="#nextrunselector" data-bs-toggle="datetimepicker" name="nextrun">
     </div>
 
     <div class="mb-3">
-        <label for="lastrun">Last run</label>
+        <label for="lastrun">{{ "job.addedit.generalinfo.lastrun.label" | trans }}</label>
         <div class="input-group">
             <div class="input-group-text border-end-0">
                 <input type="checkbox" name="lastrun-eternal" class="lastrun-eternal" placeholder="value" value="true">
             </div>
-            <span class="input-group-text border-start-0">Eternal</span>
+            <span class="input-group-text border-start-0">{{ "job.addedit.generalinfo.lastrun.eternal.label" | trans }}</span>
             <input type="text" autocomplete="off" pattern="[0-9]{2}\/[0-9]{2}\/[0-9]{4} [0-9]{2}:[0-9]{2}:[0-9]{2}" placeholder="{{ date() | date("d/m/Y H:i:s")}}" data-placeholder="{{ date() | date("d/m/Y H:i:s")}}" id="lastrunselector" class="form-control datetimepicker-input" data-target="#lastrunselector" data-bs-toggle="datetimepicker" name="lastrun">
         </div>
     </div>
 
     <div class="mb-3">
-        <label for="retention">Retention (in days)</label>
-        <input type="number" name="retention" class="form-control" id="retention" placeholder="7">
-        <small id="retention-help" class="form-text text-muted">How many days (at least) to keep runs of this job in the database</small>
+        <label for="retention">{{ "job.addedit.generalinfo.retention.label" | trans }}</label>
+        <input type="number" name="retention" class="form-control" id="retention" placeholder="{{ "job.addedit.generalinfo.retention.placeholder" | trans }}">
+        <small id="retention-help" class="form-text text-muted">{{ "job.addedit.generalinfo.retention.placeholder" | trans }}</small>
     </div>
 
     <div class="mb-3">
-        <label for="fail-pct">Max fail percentage</label>
+        <label for="fail-pct">{{ "job.addedit.generalinfo.failpercentage.label" | trans }}</label>
         <div class="input-group d-flex">
             <div class="range-value range-value-fail-pct pe-1">50%</div>
             <div class="range-input ps-1 flex-grow-1">
@@ -62,140 +62,139 @@
     </div>
 
     <div class="mb-3">
-        <label for="fail-days">Number of days calculated for fail percentage</label>
-        <input type="number" name="fail-days" class="form-control" id="fail-days" placeholder="7">
+        <label for="fail-days">{{ "job.addedit.generalinfo.faildays.label" | trans }}</label>
+        <input type="number" name="fail-days" class="form-control" id="fail-days" placeholder="{{ "job.addedit.generalinfo.faildays.placeholder" | trans }}">
     </div>
 
     <h3>Job details</h3>
     <div class="mb-3 btn-group croncategory-selector">
         <div class="dropdown croncategory-group crontype-group">
             <button class="btn btn-outline-primary dropdown-toggle" type="button" id="crontypeButton" data-default-text="" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Job type
+                {{ "job.addedit.crontype.label" | trans }}
             </button>
             <ul class="dropdown-menu" aria-labelledby="crontypeButton">
-                <li><a class="dropdown-item crontype-item" href="#" data-type="command">Command</a></li>
-                <li><a class="dropdown-item crontype-item" href="#" data-type="reboot">Reboot</a></li>
-                <li><a class="dropdown-item crontype-item" href="#" data-type="http">Http request</a></li>
+                <li><a class="dropdown-item crontype-item" href="#" data-type="command">{{ "job.addedit.crontype.command.label" | trans }}</a></li>
+                <li><a class="dropdown-item crontype-item" href="#" data-type="reboot">{{ "job.addedit.crontype.reboot.label" | trans }}</a></li>
+                <li><a class="dropdown-item crontype-item" href="#" data-type="http">{{ "job.addedit.crontype.http.label" | trans }}</a></li>
             </ul>
         </div>
 
         <div class="dropdown croncategory-group d-none hosttype-group">
             <button class="btn btn-outline-primary dropdown-toggle" type="button" id="hosttypeButton" data-default-text="" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Host type
+                {{ "job.addedit.hosttype.label" | trans }}
             </button>
             <ul class="dropdown-menu" aria-labelledby="hosttypeButton">
-                <li><a class="dropdown-item hosttype-item" href="#" data-type="local">Local</a></li>
-                <li><a class="dropdown-item hosttype-item" href="#" data-type="ssh">SSH</a></li>
+                <li><a class="dropdown-item hosttype-item" href="#" data-type="local">{{ "job.addedit.hosttype.local.label" | trans }}</a></li>
+                <li><a class="dropdown-item hosttype-item" href="#" data-type="ssh">{{ "job.addedit.hosttype.ssh.label" | trans }}</a></li>
             </ul>
         </div>
 
         <div class="dropdown croncategory-group d-none containertype-group">
             <button class="btn btn-outline-primary dropdown-toggle" type="button" id="containertypeButton" data-default-text="" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Container
+                {{ "job.addedit.containertype.label" | trans }}
             </button>
             <ul class="dropdown-menu" aria-labelledby="containertypeButton">
-                <li><a class="dropdown-item containertype-item" href="#" data-type="none">None</a></li>
-                <li><a class="dropdown-item containertype-item" href="#" data-type="docker">Docker</a></li>
+                <li><a class="dropdown-item containertype-item" href="#" data-type="none">{{ "job.addedit.containertype.none.label" | trans }}</a></li>
+                <li><a class="dropdown-item containertype-item" href="#" data-type="docker">{{ "job.addedit.containertype.docker.label" | trans }}</a></li>
             </ul>
         </div>
     </div>
 
     <div class="crontype-command crontype-inputs croncategory-inputs d-none">
-        <h4>Command details</h4>
+        <h4>{{ "job.addedit.crontype.command.label" | trans }}</h4>
         <div class="mb-3">
-            <label for="command">Command</label>
-            <input type="text" name="command" class="form-control" id="command" placeholder="sudo apt update">
+            <label for="command">{{ "job.addedit.crontype.command.command.label" | trans }}</label>
+            <input type="text" name="command" class="form-control" id="command" placeholder="{{ "job.addedit.crontype.command.command.placeholder" | trans }}">
         </div>
 
         <div class="mb-3">
-            <label for="response">Expected exit code</label>
-            <input type="text" name="response" class="form-control" id="response" placeholder="0">
+            <label for="response">{{ "job.addedit.crontype.command.response.label" | trans }}</label>
+            <input type="text" name="response" class="form-control" id="response" placeholder="{{ "job.addedit.crontype.command.response.placeholder" | trans }}">
         </div>
     </div>
 
     <div class="crontype-reboot crontype-inputs croncategory-inputs d-none">
-        <h4>Reboot job details</h4>
+        <h4>{{ "job.addedit.crontype.reboot.header" | trans }}</h4>
         <div class="mb-3">
-            <label for="reboot-command">Reboot command</label>
-            <input type="text" name="reboot-command" class="form-control" id="reboot-command" placeholder="systemctl reboot">
-            <small id="reboot-command-help" class="form-text text-muted">Use {reboot-delay} or {reboot-delay-secs} to add the delay in your command</small>
+            <label for="reboot-command">{{ "job.addedit.crontype.reboot.reboot.command.label" | trans }}</label>
+            <input type="text" name="reboot-command" class="form-control" id="reboot-command" placeholder="{{ "job.addedit.crontype.reboot.reboot.command.placeholder" | trans }}">
+            <small id="reboot-command-help" class="form-text text-muted">{{ "job.addedit.crontype.reboot.reboot.command.placeholder" | trans }}</small>
         </div>
 
         <div class="mb-3">
-            <label for="getservices-command">Get services command</label>
-            <input type="text" name="getservices-command" class="form-control" id="getservices-command" placeholder="systemctl list-units">
+            <label for="getservices-command">{{ "job.addedit.crontype.reboot.getservices.command.label" | trans }}</label>
+            <input type="text" name="getservices-command" class="form-control" id="getservices-command" placeholder="{{ "job.addedit.crontype.reboot.getservices.command.placeholder" | trans }}">
         </div>
 
         <div class="mb-3">
-            <label for="getservices-response">Get services command exit code</label>
-            <input type="text" name="getservices-response" class="form-control" id="getservices-response" placeholder="0">
+            <label for="getservices-response">{{ "job.addedit.crontype.reboot.getservices.response.label" | trans }}</label>
+            <input type="text" name="getservices-response" class="form-control" id="getservices-response" placeholder="{{ "job.addedit.crontype.reboot.getservices.response.placeholder" | trans }}">
         </div>
 
         <div class="mb-3">
-            <label for="reboot-delay">Reboot delay (in minutes)</label>
-            <input type="number" name="reboot-delay" class="form-control" placeholder="5">
-            <small id="reboot-delay-help" class="form-text text-muted">Delay between triggering reboot and actual reboot</small>
+            <label for="reboot-delay">{{ "job.addedit.crontype.reboot.reboot.delay.label" | trans }}</label>
+            <input type="number" name="reboot-delay" class="form-control" placeholder="{{ "job.addedit.crontype.reboot.reboot.delay.placeholder" | trans }}">
+            <small id="reboot-delay-help" class="form-text text-muted">{{ "job.addedit.crontype.reboot.reboot.delay.helptext" | trans }}</small>
         </div>
 
         <div class="mb-3">
-            <label for="reboot-duration">Reboot duration (in minutes)</label>
-            <input type="number" name="reboot-duration" class="form-control" placeholder="10">
-            <small id="reboot-duration-help" class="form-text text-muted">The amount of time the system takes to actually reboot</small>
+            <label for="reboot-duration">{{ "job.addedit.crontype.reboot.reboot.duration.label" | trans }}</label>
+            <input type="number" name="reboot-duration" class="form-control" placeholder="{{ "job.addedit.crontype.reboot.reboot.duration.placeholder" | trans }}">
+            <small id="reboot-duration-help" class="form-text text-muted">{{ "job.addedit.crontype.reboot.reboot.duration.helptext" | trans }}</small>
         </div>
     </div>
 
     <div class="crontype-http crontype-inputs croncategory-inputs d-none">
-        <h4>HTTP request details</h4>
+        <h4>{{ "job.addedit.crontype.http.header" | trans }}</h4>
         <div class="mb-3">
-            <label for="url">Url</label>
-            <input type="text" name="url" class="form-control" id="url" placeholder="https://scripts.example.com/">
+            <label for="url">{{ "job.addedit.crontype.http.url.label" | trans }}</label>
+            <input type="text" name="url" class="form-control" id="url" placeholder="{{ "job.addedit.crontype.http.url.placeholder" | trans }}">
         </div>
         <div class="mb-3">
-            <label for="basicauth-username">Username for Basic-Auth</label>
-            <input type="text" name="basicauth-username" class="form-control" id="basicauth-username" placeholder="www-data">
+            <label for="basicauth-username">{{ "job.addedit.crontype.http.basic-auth.username.label" | trans }}</label>
+            <input type="text" name="basicauth-username" class="form-control" id="basicauth-username" placeholder="{{ "job.addedit.crontype.http.basic-auth.username.placeholder" | trans }}">
         </div>
         <div class="mb-3">
-            <label for="basicauth-password">Password for Basic-Auth</label>
-            <input type="password" name="basicauth-password" class="form-control" placeholder="correct horse battery staple">
-            <small id="basicauth-password-help" class="form-text text-muted">This field is being saved as a secret</small>
+            <label for="basicauth-password">{{ "job.addedit.crontype.http.basic-auth.password.label" | trans }}</label>
+            <input type="password" name="basicauth-password" class="form-control" placeholder="{{ "job.addedit.crontype.http.basic-auth.password.placeholder" | trans }}">
+            <small id="basicauth-password-help" class="form-text text-muted">{{ "job.addedit.crontype.http.basic-auth.password.helptext" | trans }}</small>
         </div>
 
         <div class="mb-3">
-            <label for="http-status">Expected response status code</label>
-            <input type="text" name="http-status" class="form-control" id="http-status" placeholder="200">
+            <label for="http-status">{{ "job.addedit.crontype.http.response.label" | trans }}</label>
+            <input type="text" name="http-status" class="form-control" id="http-status" placeholder="{{ "job.addedit.crontype.http.response.placeholder" | trans }}">
         </div>
     </div>
 
     <div class="hosttype-local hosttype-inputs croncategory-inputs d-none">
-        <h4>Localhost details</h4>
-        <h5>No options</h5>
+        <h4>{{ "job.addedit.hosttype.local.header" | trans }}</h4>
+        <h5>{{ "job.addedit.hosttype.local.nodetails" | trans }}</h5>
     </div>
 
     <div class="hosttype-ssh hosttype-inputs croncategory-inputs d-none">
-        <h4>SSH host details</h4>
+        <h4>{{ "job.addedit.hosttype.ssh.header" | trans }}</h4>
         <div class="mb-3">
-            <label for="host">Hostname</label>
-            <input type="text" name="host" class="form-control" id="host" placeholder="ssh.abc.xyz">
+            <label for="host">{{ "job.addedit.hosttype.ssh.hostname.label" | trans }}</label>
+            <input type="text" name="host" class="form-control" id="host" placeholder="{{ "job.addedit.hosttype.ssh.hostname.placeholder" | trans }}">
         </div>
 
         <div class="mb-3">
-            <label for="user">Username</label>
-            <input type="text" name="user" class="form-control" id="user" placeholder="larry">
+            <label for="user">{{ "job.addedit.hosttype.ssh.username.label" | trans }}</label>
+            <input type="text" name="user" class="form-control" id="user" placeholder="{{ "job.addedit.hosttype.ssh.username.placeholder" | trans }}">
         </div>
 
         <div class="mb-3">
-            <label for="privkey">Private key</label>
+            <label for="privkey">{{ "job.addedit.hosttype.ssh.privatekey.label" | trans }}</label>
             <div class="input-group">
                 <input type="file" class="form-control" id="privkey" class="form-control" name="privkey">
             </div>
-            <small id="custom-file-help" class="form-text text-muted">This file is being saved as a secret</small>
+            <small id="custom-file-help" class="form-text text-muted">{{ "job.addedit.hosttype.ssh.privatekey.helptext" | trans }}</small>
         </div>
 
         <div class="mb-3">
-            <label for="privkey-password">Password for private key</label>
-            <input type="password" name="privkey-password" class="form-control" placeholder="correct horse battery staple">
-            <small id="privkey-password-help" class="form-text text-muted">If private key is empty this field is being used as ssh-password</small>
-            <small id="privkey-password-help-2" class="form-text text-muted">This field is being saved as a secret</small>
+            <label for="privkey-password">{{ "job.addedit.hosttype.ssh.passphrase.label" | trans }}</label>
+            <input type="password" name="privkey-password" class="form-control" placeholder="{{ "job.addedit.hosttype.ssh.passphrase.placeholder" | trans }}">
+            <small id="privkey-password-help" class="form-text text-muted">{{ "job.addedit.hosttype.ssh.passphrase.helptext" | trans }}</small>
         </div>
     </div>
 
@@ -203,45 +202,45 @@
     </div>
 
     <div class="containertype-docker containertype-inputs croncategory-inputs d-none">
-        <h4>Docker container details</h4>
+        <h4>{{ "job.addedit.containertype.docker.header" | trans }}</h4>
         <div class="mb-3">
-            <label for="service">Service</label>
-            <input type="text" name="service" class="form-control" id="service" placeholder="mysql">
+            <label for="service">{{ "job.addedit.containertype.docker.service.label" | trans }}</label>
+            <input type="text" name="service" class="form-control" id="service" placeholder="{{ "job.addedit.containertype.docker.service.placeholder" | trans }}">
         </div>
 
         <div class="mb-3">
-            <label for="user">Username</label>
-            <input type="text" name="container-user" class="form-control" id="container-user" placeholder="larry">
+            <label for="user">{{ "job.addedit.containertype.docker.username.label" | trans }}</label>
+            <input type="text" name="container-user" class="form-control" id="container-user" placeholder="{{ "job.addedit.containertype.docker.username.placeholder" | trans }}">
         </div>
     </div>
 
-    <h3>Variables</h3>
+    <h3>{{ "job.addedit.variables.header" | trans }}</h3>
 
     <div class="vars mb-3">
         <div class="input-group var-group d-none">
             <span class="input-group-text border-end-0">
                 <input type="checkbox" name="var-issecret[0]" class="var-issecret" placeholder="value" value="true">
             </span>
-            <span class="input-group-text border-start-0">Secret</span>
-            <input type="text" name="var-id[0]" class="form-control var-id" placeholder="name">
-            <input type="text" name="var-value[0]" class="form-control var-value" placeholder="value">
+            <span class="input-group-text border-start-0">{{ "job.addedit.variables.secret.label" | trans }}</span>
+            <input type="text" name="var-id[0]" class="form-control var-id" placeholder="{{ "job.addedit.variables.name.placeholder" | trans }}">
+            <input type="text" name="var-value[0]" class="form-control var-value" placeholder="{{ "job.addedit.variables.value.placeholder" | trans }}">
 
         </div>
     </div>
 
     <div class="vars-description mb-3 d-none">
         <p>
-            You can add variables by using {variable-name} in job details
+            {{ "job.addedit.variables.helptext" | trans }}
         </p>
     </div>
     <div class="mb-3">
-        <a href="#" class="btn btn-outline-primary addvar-btn">Add variable</a>
+        <a href="#" class="btn btn-outline-primary addvar-btn">{{ "job.addedit.variables.add.label" | trans }}</a>
     </div>
 
     <input type="hidden" name="crontype" class="crontype" value="">
     <input type="hidden" name="hosttype" class="hosttype" value="">
     <input type="hidden" name="containertype" class="containertype" value="">
-    <button type="submit" class="btn btn-outline-primary">Submit</button>
+    <button type="submit" class="btn btn-outline-primary">{{ "job.addedit.submit.label" | trans }}</button>
 </form>
 
 {% endblock %}

@@ -86,16 +86,16 @@
         <div class="dropdown croncategory-group hosttype-group{% if job.data.crontype != 'http' %} btn-group{% else %} d-none{% endif %}">
             <button class="btn btn-outline-primary dropdown-toggle" type="button" id="hosttypeButton" data-default-text="Host type" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 {% if job.data.hosttype == 'local' %}
-                    Local
+                    {{ 'job.addedit.hosttype.local.label' | trans }}
                 {% elseif job.data.hosttype == 'ssh' %}
-                    SSH
+                    {{ 'job.addedit.hosttype.ssh.label' | trans }}
                 {% else %}
-                    Host type
+                    {{ 'job.addedit.hosttype.label' | trans }}
                 {% endif %}
             </button>
             <div class="dropdown-menu" aria-labelledby="hosttypeButton">
-                <a class="dropdown-item hosttype-item" href="#" data-type="local">Local</a>
-                <a class="dropdown-item hosttype-item" href="#" data-type="ssh">SSH</a>
+                <a class="dropdown-item hosttype-item" href="#" data-type="local">{{ 'job.addedit.hosttype.local.label' | trans }}</a>
+                <a class="dropdown-item hosttype-item" href="#" data-type="ssh">{{ 'job.addedit.hosttype.ssh.label' | trans }}</a>
             </div>
         </div>
 
@@ -106,16 +106,16 @@
         <div class="dropdown croncategory-group containertype-group{% if job.data.crontype != 'http' %} btn-group{% else %} d-none{% endif %}">
             <button class="btn btn-outline-primary dropdown-toggle" type="button" id="containertypeButton" data-default-text="Container" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 {% if job.data.containertype == 'none' or job.data.containertype == '' %}
-                    None
+                    {{ 'job.addedit.containertype.none.label' | trans }}
                 {% elseif job.data.containertype == 'docker' %}
-                    Docker
+                    {{ 'job.addedit.containertype.docker.label' | trans }}
                 {% else %}
-                    Container
+                    {{ 'job.addedit.containertype.label' | trans }}
                 {% endif %}
             </button>
             <div class="dropdown-menu" aria-labelledby="containertypeButton">
-                <a class="dropdown-item containertype-item" href="#" data-type="none">None</a>
-                <a class="dropdown-item containertype-item" href="#" data-type="docker">Docker</a>
+                <a class="dropdown-item containertype-item" href="#" data-type="none">{{ 'job.addedit.containertype.none.label' | trans }}</a>
+                <a class="dropdown-item containertype-item" href="#" data-type="docker">{{ 'job.addedit.containertype.docker.label' | trans }}</a>
             </div>
         </div>
     </div>
@@ -165,62 +165,61 @@
     </div>
 
     <div class="crontype-http crontype-inputs croncategory-inputs{% if job.data.crontype != 'http' %} d-none{% endif %}">
-        <h4>HTTP request details</h4>
+        <h4>{{ "job.addedit.crontype.http.header" | trans }}</h4>
         <div class="mb-3">
-            <label for="url">Url</label>
-            <input type="text" name="url" class="form-control" id="url" placeholder="https://scripts.example.com/" value="{% if job.data.url is defined %}{{ job.data.url }}{% endif %}">
+            <label for="url">{{ "job.addedit.crontype.http.url.label" | trans }}</label>
+            <input type="text" name="url" class="form-control" id="url" placeholder="{{ "job.addedit.crontype.http.url.placeholder" | trans }}" value="{% if job.data.url is defined %}{{ job.data.url }}{% endif %}">
         </div>
         <div class="mb-3">
-            <label for="basicauth-username">Username for Basic-Auth</label>
-            <input type="text" name="basicauth-username" class="form-control" id="basicauth-username" placeholder="www-data" value="{% if attribute(job.data, 'basicauth-username') is defined %}{{ attribute(job.data, 'basicauth-username') }}{% endif %}">
+            <label for="basicauth-username">{{ "job.addedit.crontype.http.basic-auth.username.label" | trans }}</label>
+            <input type="text" name="basicauth-username" class="form-control" id="basicauth-username" placeholder="{{ "job.addedit.crontype.http.basic-auth.username.placeholder" | trans }}" value="{% if attribute(job.data, 'basicauth-username') is defined %}{{ attribute(job.data, 'basicauth-username') }}{% endif %}">
         </div>
         <div class="mb-3">
-            <label for="basicauth-password">Password for Basic-Auth</label>
-            <input type="password" name="basicauth-password" class="form-control" placeholder="correct horse battery staple" value="{% if attribute(job.data, 'basicauth-password') is defined %}{{ attribute(job.data, 'basicauth-password') | decryptsecret }}{% endif %}">
-            <small id="basicauth-password-help" class="form-text text-muted">This field is being saved as a secret</small>
+            <label for="basicauth-password">{{ "job.addedit.crontype.http.basic-auth.password.label" | trans }}</label>
+            <input type="password" name="basicauth-password" class="form-control" placeholder="{{ "job.addedit.crontype.http.basic-auth.password.placeholder" | trans }}" value="{% if attribute(job.data, 'basicauth-password') is defined %}{{ attribute(job.data, 'basicauth-password') | decryptsecret }}{% endif %}">
+            <small id="basicauth-password-help" class="form-text text-muted">{{ "job.addedit.crontype.http.basic-auth.password.helptext" | trans }}</small>
         </div>
 
         <div class="mb-3">
-            <label for="http-status">Expected http status code</label>
-            <input type="text" name="http-status" class="form-control" id="http-status" placeholder="200" value="{% if attribute(job.data, 'http-status') is defined %}{{ attribute(job.data, 'http-status') | join(',')}}{% endif %}">
+            <label for="http-status">{{ "job.addedit.crontype.http.response.label" | trans }}</label>
+            <input type="text" name="http-status" class="form-control" id="http-status" placeholder="{{ "job.addedit.crontype.http.response.placeholder" | trans }}" value="{% if attribute(job.data, 'http-status') is defined %}{{ attribute(job.data, 'http-status') | join(',')}}{% endif %}">
         </div>
     </div>
 
     <div class="hosttype-local hosttype-inputs croncategory-inputs{% if job.data.hosttype != 'local' %} d-none{% endif %}">
-        <h4>Localhost details</h4>
-        <h5>No options</h5>
+        <h4>{{ "job.addedit.hosttype.local.header" | trans }}</h4>
+        <h5>{{ "job.addedit.hosttype.local.nodetails" | trans }}</h5>
     </div>
 
     <div class="hosttype-ssh hosttype-inputs croncategory-inputs{% if job.data.hosttype != 'ssh' %} d-none{% endif %}">
-        <h4>SSH host details</h4>
+        <h4>{{ "job.addedit.hosttype.ssh.header" | trans }}</h4>
         <div class="mb-3">
-            <label for="host">Hostname</label>
-            <input type="text" name="host" class="form-control" id="host" placeholder="ssh.abc.xyz" value="{% if job.data.host is defined %}{{ job.data.host }}{% endif %}">
+            <label for="host">{{ "job.addedit.hosttype.ssh.hostname.label" | trans }}</label>
+            <input type="text" name="host" class="form-control" id="host" placeholder="{{ "job.addedit.hosttype.ssh.hostname.placeholder" | trans }}" value="{% if job.data.host is defined %}{{ job.data.host }}{% endif %}">
         </div>
 
         <div class="mb-3">
-            <label for="user">Username</label>
-            <input type="text" name="user" class="form-control" id="user" placeholder="larry" value="{% if job.data.user is defined %}{{ job.data.user }}{% endif %}">
+            <label for="user">{{ "job.addedit.hosttype.ssh.username.label" | trans }}</label>
+            <input type="text" name="user" class="form-control" id="user" placeholder="{{ "job.addedit.hosttype.ssh.username.placeholder" | trans }}" value="{% if job.data.user is defined %}{{ job.data.user }}{% endif %}">
         </div>
 
         <div class="mb-3">
-            <label for="privkey">Private key</label>
+            <label for="privkey">{{ "job.addedit.hosttype.ssh.privatekey.label" | trans }}</label>
             <div class="input-group">
                 <span class=" input-group-text border-end-0">
                     <input type="checkbox" name="privkey-keep" class="privkey-keep" value="true" data-privkey="{% if attribute(job.data, 'ssh-privkey') is defined %}{{ attribute(job.data, 'ssh-privkey')  | decryptsecret }}{% endif %}" checked>
                 </span>
                 <input type="hidden" name="privkey-orig" class="privkey-orig" value="{% if attribute(job.data, 'ssh-privkey') is defined %}{{ attribute(job.data, 'ssh-privkey')  | decryptsecret }}{% endif %}">
-                <span class="input-group-text border-start-0">Keep</span>
-               <input type="file" id="privkey" name="privkey" class="form-control " disabled>
+                <span class="input-group-text border-start-0">{{ "job.addedit.hosttype.ssh.privatekey.keep.label" | trans }}</span>
+                <input type="file" id="privkey" name="privkey" class="form-control " disabled>
             </div>
-            <small id="custom-file-help" class="form-text text-muted">This file is being saved as a secret</small>
+            <small id="custom-file-help" class="form-text text-muted">{{ "job.addedit.hosttype.ssh.privatekey.helptext" | trans }}</small>
         </div>
 
         <div class="mb-3">
-            <label for="privkey-password">Password for private key</label>
-            <input type="password" name="privkey-password" class="form-control" placeholder="correct horse battery staple" value="{% if attribute(job.data, 'privkey-password') is defined %}{{ attribute(job.data, 'privkey-password') | decryptsecret }}{% endif %}">
-            <small id="privkey-password-help" class="form-text text-muted">If private key is empty this field is being used as ssh-password</small>
-            <small id="privkey-password-help-2" class="form-text text-muted">This field is being saved as a secret</small>
+            <label for="privkey-password">{{ "job.addedit.hosttype.ssh.passphrase.label" | trans }}</label>
+            <input type="password" name="privkey-password" class="form-control" placeholder="{{ "job.addedit.hosttype.ssh.passphrase.placeholder" | trans }}" value="{% if attribute(job.data, 'privkey-password') is defined %}{{ attribute(job.data, 'privkey-password') | decryptsecret }}{% endif %}">
+            <small id="privkey-password-help" class="form-text text-muted">{{ "job.addedit.hosttype.ssh.passphrase.helptext" | trans }}</small>
         </div>
     </div>
 
@@ -228,28 +227,28 @@
     </div>
 
     <div class="containertype-docker containertype-inputs croncategory-inputs{% if job.data.containertype != 'docker' %} d-none{% endif %}">
-        <h4>Docker container details</h4>
+        <h4>{{ "job.addedit.containertype.docker.header" | trans }}</h4>
         <div class="mb-3">
-            <label for="service">Service</label>
-            <input type="text" name="service" class="form-control" id="service" placeholder="mysql" value="{% if attribute(job.data, 'service') is defined %}{{ attribute(job.data, 'service') }}{% endif %}">
+            <label for="service">{{ "job.addedit.containertype.docker.service.label" | trans }}</label>
+            <input type="text" name="service" class="form-control" id="service" placeholder="{{ "job.addedit.containertype.docker.service.placeholder" | trans }}" value="{% if attribute(job.data, 'service') is defined %}{{ attribute(job.data, 'service') }}{% endif %}">
         </div>
 
         <div class="mb-3">
-            <label for="container-user">Username</label>
-            <input type="text" name="container-user" class="form-control" id="container-user" placeholder="larry" value="{% if attribute(job.data, 'container-user') is defined %}{{ attribute(job.data, 'container-user') }}{% endif %}">
+            <label for="container-user">{{ "job.addedit.containertype.docker.username.label" | trans }}</label>
+            <input type="text" name="container-user" class="form-control" id="container-user" placeholder="{{ "job.addedit.containertype.docker.username.placeholder" | trans }}" value="{% if attribute(job.data, 'container-user') is defined %}{{ attribute(job.data, 'container-user') }}{% endif %}">
         </div>
     </div>
 
-    <h3>Variables</h3>
+    <h3>{{ "job.addedit.variables.header" | trans }}</h3>
 
     <div class="vars mb-3">
         <div class="input-group var-group d-none">
             <div class="input-group-text border-end-0">
                 <input type="checkbox" name="var-issecret[0]" class="var-issecret" placeholder="value" value="true">
             </div>
-            <span class="input-group-text border-start-0">Secret</span>
-            <input type="text" name="var-id[0]" class="form-control var-id" placeholder="name">
-            <input type="text" name="var-value[0]" class="form-control var-value" placeholder="value">
+            <span class="input-group-text border-start-0">{{ "job.addedit.variables.secret.label" | trans }}</span>
+            <input type="text" name="var-id[0]" class="form-control var-id" placeholder="{{ "job.addedit.variables.name.placeholder" | trans }}">
+            <input type="text" name="var-value[0]" class="form-control var-value" placeholder="{{ "job.addedit.variables.value.placeholder" | trans }}">
         </div>
         {% set key = 1 %}
         {% if job.data.vars is defined %}
@@ -258,9 +257,9 @@
                     <div class="input-group-text border-end-0">
                         <input type="checkbox" name="var-issecret[{{ key }}]" class="var-issecret" placeholder="value" value="true"{%  if var.issecret %} checked{% endif %}>
                     </div>
-                    <span class="input-group-text border-start-0">Secret</span>
-                    <input type="text" name="var-id[{{ key }}]" class="form-control var-id" placeholder="name" value="{{ id }}">
-                    <input type="{% if var.issecret %}password{% else %}text{% endif %}" name="var-value[{{ key }}]" class="form-control var-value" placeholder="value" value="{% if var.issecret %}{{ var.value | decryptsecret }}{% else %}{{ var.value }}{% endif %}">
+                    <span class="input-group-text border-start-0">{{ "job.addedit.variables.secret.label" | trans }}</span>
+                    <input type="text" name="var-id[{{ key }}]" class="form-control var-id" placeholder="{{ "job.addedit.variables.name.placeholder" | trans }}" value="{{ id }}">
+                    <input type="{% if var.issecret %}password{% else %}text{% endif %}" name="var-value[{{ key }}]" class="form-control var-value" placeholder="{{ "job.addedit.variables.value.placeholder" | trans }}" value="{% if var.issecret %}{{ var.value | decryptsecret }}{% else %}{{ var.value }}{% endif %}">
                 </div>
             {% endfor %}
         {% endif %}
@@ -268,17 +267,17 @@
 
     <div class="vars-description mb-3 d-none">
         <p>
-            You can add variables by using {variable-name} in job details
+            {{ "job.addedit.variables.helptext" | trans }}
         </p>
     </div>
     <div class="mb-3">
-        <a href="#" class="btn btn-outline-primary addvar-btn">Add variable</a>
+        <a href="#" class="btn btn-outline-primary addvar-btn">{{ "job.addedit.variables.add.label" | trans }}</a>
     </div>
 
     <input type="hidden" name="crontype" class="crontype" value="{{ job.data.crontype }}">
     <input type="hidden" name="hosttype" class="hosttype" value="{{ job.data.hosttype }}">
     <input type="hidden" name="containertype" class="containertype" value="{{ job.data.containertype }}">
-    <button type="submit" class="btn btn-outline-primary">Submit</button>
+    <button type="submit" class="btn btn-outline-primary">{{ "job.addedit.submit.label" | trans }}</button>
 </form>
 
 {% endblock %}
