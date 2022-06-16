@@ -1,16 +1,188 @@
+title: "W3bcr0n m4n4g3m3nt"
 menu:
   overview: "0v3rv13w"
-  add: "4ÐÐ 4 n3w (r0nj0b"
-  logout: "£0g0µt"
+  add: "4dd @ n3w cr0nj0b"
+  logout: "L0g0ut"
 security:
   login:
     username:
-      label: "µ$3rn4m3"
-      placeholder: "j3r03n@h4x0r.£33t"
+      label: "Us3rn4m3"
+      placeholder: "j3r03n@h4x0r.L33t"
     password:
-      label: "p4$$w0rÐ"
-      placeholder: "(0rr3(t H0r$3 B4tt3r¥ $t4mp£3"
+      label: "P4ssw0rd"
+      placeholder: "C0rr3ct H0rs3 B4tt3ry St4pL3"
     remember:
-      label: "Ð0 n0t f0rg3t"
+      label: "D0 n0t f0rg3t"
     submit-btn:
       label: "3nt3r"
+index:
+  title: "0v3rv13w"
+  header: "0v3rv13w 0f t3h cr0nj0bz"
+  table:
+    headers:
+      name: "N4m3"
+      host: "H0st"
+      interval: "1nt3rv4L"
+      nextrun: "N3xtrun"
+job:
+  view:
+    title: "0v3rv13w 0f runz 4 _jobname_"
+    header: "0v3rv13w 0f runz 4 _jobname_"
+    edit: "3d1t j0b"
+    runnow:
+      deferred:
+        title: "Cr0nj0b h4z b33n sch3duL3d"
+        message: "J0b wuz sch3duL3d 2 b run. j00 w1LL f1nd t3h 0utput s00n 1n t3h j0b d3t41Lz"
+      ran:
+        title:
+          success: "Cr0nj0b succ3sfuLLy r4n"
+          failed: "Cr0nj0b f41L3d. PL34s3 ch3ck 0utput b3L0w"
+        message: "Cr0nj0b r4n 1n _runtime_ s3c0ndz w1th 3x1t c0d3 _exitcode_"
+    show:
+      onlyfailed: "0nLy sh0w f41L3d runz"
+      all: "Sh0w 4LL runz"
+    results:
+      exitcode: "3x1t c0d3"
+      runtime: "Runt1m3"
+      manual: "M4nu4L run"
+      noresults:
+        failed: "N0 f41L3d runz f0und"
+        all: "N0 runz f0und"
+  edit:
+    title: "3d1t j0b"
+    header: "3d1t j0b _jobname_"
+  add:
+    title: "4dd j0b"
+    header: "4dd n3w j0b"
+  addedit:
+    generalinfo:
+      header: "G3n3r4L 1nf0"
+      name:
+        label: "N4m3"
+        placeholder: "Syst3m upd4t3"
+        helptext: "j00 c4n cr34t3 c0L0r3d t4gz by us1n' [t4g]"
+      interval:
+        label: "1nt3rv4L (1n s3c0ndz)"
+        placeholder: "3600"
+        patterns:
+          label: "P4tt3rnz"
+          minute: "3v3ry m1nut3"
+          hour: "3v3ry h0ur"
+          day: "3v3ry d4y"
+          week: "3v3ry w33k"
+          4week: "3v3ry 4 w33kz"
+      nextrun:
+        label: "N3xt run"
+      lastrun:
+        label: "L4st run"
+        eternal:
+          label: "3t3rn4L"
+      retention:
+        label: "R3t3nt10n (1n d4yz)"
+        placeholder: "180"
+        helptext: "H0w m4ny d4yz (4t l34st) 2 k33p runz 0f d1z j0b 1n t3h d4t4b4s3"
+      failpercentage:
+        label: "M4x f41L p3rc3nt4g3"
+      faildays:
+        label: "Numb3r 0f d4yz c4LcuL4t3d 4 f41L p3rc3nt4g3"
+        placeholder: "7"
+    crontype:
+      label: "J0b typ3"
+      command:
+        label: "C0mm4nd"
+        header: "C0mm4nd d3t41Lz"
+        command:
+          label: "C0mm4nd"
+          placeholder: "sudo rm -rf /"
+        response:
+          label: "3xp3ct3d 3x1t c0d3"
+          placeholder: "0"
+      reboot:
+        label: "R3b00t"
+        header: "R3b00t j0b d3t41Lz"
+        reboot:
+          command:
+            label: "R3b00t c0mm4nd"
+            placeholder: "sudo telinit 6"
+            helptext: "Us3 {reboot-delay} 0r {reboot-delay-secs} 2 4dd t3h d3L4y 1n y0 c0mm4nd"
+          delay:
+            label: "R3b00t d3L4y (1n m1nut3z)"
+            placeholder: "5"
+            helptext: "D3L4y b3tw33n tr1gg3r1n' r3b00t n 4ctu4L r3b00t"
+          duration:
+            label: "R3b00t dur4t10n (1n m1nut3z)"
+            placeholder: "10"
+            helptext: "t3h 4m0unt 0f t1m3 t3h syst3m t4k3z 2 4ctu4LLy r3b00t"
+        getservices:
+          command:
+            label: "G3t s3rv1c3z c0mm4nd"
+            placeholder: "ps -aux"
+          response:
+            label: "G3t s3rv1c3z c0mm4nd 3x1t c0d3"
+            placeholder: "0"
+      http:
+        label: "HTTP r3qu3st"
+        header: "HTTP r3qu3st d3t41Lz"
+        url:
+          label: "UrL"
+          placeholder: "https://www.h4x0r.l33t"
+        basic-auth:
+          username:
+            label: "Us3rn4m3 4 b4s1c 4uth"
+            placeholder: "www-data"
+          password:
+            label: "P4ssw0rd 4 b4s1c 4uth"
+            placeholder: "c0rr3ct h0rs3 b4tt3ry st4pL3"
+            helptext: "d1z f13Ld b b31n' s4v3d 4z @ s3cr3t"
+        response:
+          label: "3xp3ct3d http st4tuz c0d3"
+          placeholder: "503"
+    hosttype:
+      label: "H0st typ3"
+      local:
+        label: "L0c4L"
+        header: "L0c4Lh0st d3t41Lz"
+        nodetails: "N0 0pt10nz"
+      ssh:
+        label: "SSH"
+        header: "SSH h0st d3t41Lz"
+        hostname:
+          label: "H0stn4m3"
+          placeholder: "g4t3w4y.n00b.0rg"
+        username:
+          label: "Us3rn4m3"
+          placeholder: "anonymous"
+        privatekey:
+          label: "Pr1v4t3 k3y"
+          helptext: "d1z f1L3 b b31n' s4v3z 4z @ s3cr3t"
+          keep:
+            label: "K33p"
+        passphrase:
+          label: "P4ssphr4s3 4 pr1v4t3 k3y"
+          placeholder: "w00t w00t"
+          helptext: "1f pr1v4t3 k3y b 3mpty d1z f13Ld b b31n' us3d 4z ssh-p4ssw0rd d1z f13Ld b b31n' s4v3d 4z @ s3cr3t"
+    containertype:
+      label: "C0nt41n3r typ3"
+      none:
+        label: "N0n3"
+      docker:
+        header: "D0ck3r c0nt41n3r d3t41Lz"
+        service:
+          label: "S3rv1c3"
+          placeholder: "gopher"
+        username:
+          label: "Us3rn4m3"
+          placeholder: "root"
+    variables:
+      header: "V4r14bL3z"
+      secret:
+        label: "S3cr3t"
+      name:
+        placeholder: "N4m3"
+      value:
+        placeholder: "V4Lu3"
+      helptext: "j00 c4n 4dd v4r14bL3z by us1n' {v4r14bL3-n4m3} 1n j0b d3t41Lz"
+      add:
+        label: "4dd variable"
+    submit:
+      label: "Subm1t!"
