@@ -1,3 +1,4 @@
+title: "Webcron management"
 menu:
   overview: "Overview"
   add: "Add a new cronjob"
@@ -19,7 +20,7 @@ index:
   header: "Overview of the cronjobs"
   table:
     headers:
-      name: "Hame"
+      name: "Name"
       host: "Host"
       interval: "Interval"
       nextrun: "Nextrun"
