@@ -78,7 +78,7 @@ job:
           label: "Eternal"
       retention:
         label: "Retention (in days)"
-        placeholder: "7"
+        placeholder: "180"
         helptext: "How many days (at least) to keep runs of this job in the database"
       failpercentage:
         label: "Max fail percentage"

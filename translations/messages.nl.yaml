@@ -78,7 +78,7 @@ job:
           label: "Eeuwig"
       retention:
         label: "Opslag (in dagen)"
-        placeholder: "7"
+        placeholder: "180"
         helptext: "Hoeveel dagen moeten uitvoeringen van een job bewaard worden"
       failpercentage:
         label: "Max faalpercentage"
