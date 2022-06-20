@@ -11,24 +11,24 @@
         "ext-openssl": "*",
         "ext-pcntl": "*",
         "ext-posix": "*",
-        "doctrine/doctrine-bundle": "^2.6",
+        "doctrine/doctrine-bundle": "^2.7",
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "doctrine/orm": "^2.12",
         "guzzlehttp/guzzle": "~7.4.0",
         "pentatrion/vite-bundle": "^1.2",
         "phpseclib/phpseclib": "^3.0",
         "scienta/doctrine-json-functions": "~5.0.0",
-        "symfony/console": "^6.0",
-        "symfony/dotenv": "^6.0",
-        "symfony/flex": "^2",
-        "symfony/framework-bundle": "^6.0",
-        "symfony/mailer": "^6.0",
-        "symfony/proxy-manager-bridge": "^6.0",
-        "symfony/runtime": "^6.0",
-        "symfony/security-bundle": "^6.0",
-        "symfony/translation": "^6.0",
-        "symfony/twig-bundle": "^6.0",
-        "symfony/yaml": "^6.0"
+        "symfony/console": "^6.1",
+        "symfony/dotenv": "^6.1",
+        "symfony/flex": "^2.2",
+        "symfony/framework-bundle": "^6.1",
+        "symfony/mailer": "^6.1",
+        "symfony/proxy-manager-bridge": "^6.1",
+        "symfony/runtime": "^6.1",
+        "symfony/security-bundle": "^6.1",
+        "symfony/translation": "^6.1",
+        "symfony/twig-bundle": "^6.1",
+        "symfony/yaml": "^6.1"
     },
     "config": {
         "allow-plugins": {
@@ -78,14 +78,14 @@
     "extra": {
         "symfony": {
             "allow-contrib": true,
-            "require": "6.0.*"
+            "require": "6.1.*"
         }
     },
     "require-dev": {
-        "symfony/debug-bundle": "6.0.*",
+        "symfony/debug-bundle": "6.1.*",
         "symfony/maker-bundle": "^1.40",
         "symfony/monolog-bundle": "^3.0",
-        "symfony/stopwatch": "6.0.*",
-        "symfony/web-profiler-bundle": "6.0.*"
+        "symfony/stopwatch": "6.1.*",
+        "symfony/web-profiler-bundle": "6.1.*"
     }
 }
