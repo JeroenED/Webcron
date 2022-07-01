@@ -16,7 +16,7 @@
                     {{ include('flashes.html.twig') }}
                     {% if error %}
                         <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                            {{ error.messageKey|trans(error.messageData, 'security') }}
+                            {{ error.messageKey | trans(error.messageData, 'security') }}
                             <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close">
                             </button>
                         </div>
@@ -37,8 +37,16 @@
                             <label class="from-check-label" for="autologin">{{ 'security.login.remember.label' | trans }}</label>
                         </div>
                         <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-                        <button type="submit" class="btn btn-outline-primary">{{ 'security.login.submit-btn.label' | trans }}</button>
+                        <button type="submit" class="mb-3 btn btn-outline-primary">{{ 'security.login.submit-btn.label' | trans }}</button>
                     </form>
+                    {% if app.request.server.get('DEMO_MODE') %}
+                    {# Demo mode credentials #}
+                        <div class="mb-3 text-muted small">
+                            <p class="mb-0">{{ 'demomode.credentials.header' | trans }}</p>
+                            <p class="mb-0">{{ 'demomode.credentials.username' | trans }}: {{ app.request.server.get('DEMO_USER') }}</p>
+                            <p class="mb-0">{{ 'demomode.credentials.password' | trans }}: {{ app.request.server.get('DEMO_PASS') }}</p>
+                        </div>
+                    {% endif %}
                 </div>
             </div>
         </div>

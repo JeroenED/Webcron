@@ -1,5 +1,11 @@
 title: "Webcron management"
 header: "Webcron management"
+demomode:
+  flashnotice: "This application is in demo mode. Changes are persisted in the database, but jobs are not being executed"
+  credentials:
+    header: "Login for demo mode"
+    username: "Username"
+    password: "Password"
 menu:
   overview: "Overview"
   add: "Add a new cronjob"

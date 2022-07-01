@@ -1,5 +1,12 @@
 title: "Webcron management"
 header: "Webcron management"
+demomode:
+  flashnotice: "Deze applicatie is in demo modus. Alle functies zijn actief, maar taken worden niet uitgevoerd"
+  credentials:
+    header: "Aanmeldgegevens voor demo modus:"
+    username: "Gebruikersnaam"
+    password: "Wachtwoord"
+
 menu:
   overview: "Overzicht"
   add: "Taak toevoegen"

@@ -13,6 +13,8 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use phpseclib3\Crypt\PublicKeyLoader;
 use phpseclib3\Net\SSH2;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 /**
  *
@@ -185,6 +187,14 @@ class JobRepository extends EntityRepository
      */
     private function runHttpJob(Job &$job): array
     {
+        if(isset($_ENV['DEMO_MODE']) && $_ENV['DEMO_MODE']) {
+            $exitcodes = [...array_fill(0,120, $job->getData('http-status')[0]), ...array_keys(Response::$statusTexts)];
+            $return['exitcode'] = $exitcodes[random_int(0, 181)];
+            $return['failed'] = !in_array($return['exitcode'], $job->getData('http-status'));
+            $return['output'] = 'Demo mode!';
+
+            return $return;
+        }
         $client = new Client();
 
         $url = $job->getData('url');
@@ -218,6 +228,14 @@ class JobRepository extends EntityRepository
      */
     private function runCommandJob(Job &$job): array
     {
+        if(isset($_ENV['DEMO_MODE']) && $_ENV['DEMO_MODE']) {
+            $exitcodes = [...array_fill(0,400, $job->getData('response')), ...range(0, 255)];
+            $return['exitcode'] = $exitcodes[random_int(0, 655)];
+            $return['failed'] = !in_array($return['exitcode'], $job->getData('response'));
+            $return['output'] = 'Demo mode!';
+
+            return $return;
+        }
         $command = $job->getData('command');
         if(!empty($job->getData('vars'))) {
             foreach ($job->getData('vars') as $key => $var) {
@@ -303,6 +321,13 @@ class JobRepository extends EntityRepository
     {
         $em = $this->getEntityManager();
         if($job->getRunning() == 1) {
+            if(isset($_ENV['DEMO_MODE']) && $_ENV['DEMO_MODE']) {
+                $job->setRunning(time() + $job->getData('reboot-delay-secs') + ($job->getData('reboot-duration') * 60));
+                $em->persist($job);
+                $em->flush();
+
+                return ['status' => 'deferred'];
+            }
             $this->setTempVar($job, 'starttime', $starttime);
             $this->setTempVar($job, 'manual', $manual);
             $rebootcommand = $job->getData('reboot-command');
@@ -336,6 +361,16 @@ class JobRepository extends EntityRepository
         } elseif($job->getRunning() != 0) {
             if($job->getRunning() > time()) {
                 return ['status' => 'deferred'];
+            }
+            if(isset($_ENV['DEMO_MODE']) && $_ENV['DEMO_MODE']) {
+                $exitcodes = [...array_fill(0,400, $job->getData('getservices-response')), ...range(0, 255)];
+                $return['exitcode'] = $exitcodes[random_int(0, 655)];
+                $return['failed'] = !in_array($return['exitcode'], $job->getData('getservices-response'));
+                $return['output'] = 'Demo mode!';
+                $job->setRunning(1);
+                $em->persist($job);
+                $em->flush();
+                return $return;
             }
             $starttime = (float)$this->getTempVar($job, 'starttime');
             $this->deleteTempVar($job, 'starttime');

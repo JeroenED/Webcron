@@ -7,3 +7,10 @@
         </div>
     {% endfor %}
 {% endfor %}
+{% if app.request.server.get('DEMO_MODE') %}
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        {{ 'demomode.flashnotice' | trans }}
+        <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close">
+        </button>
+    </div>
+{% endif %}

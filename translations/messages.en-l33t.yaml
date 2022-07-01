@@ -1,5 +1,11 @@
 title: "W3bcr0n m4n4g3m3nt"
 header: "W3bcr0n m4n4g3m3nt"
+demomode:
+  flashnotice: "d1z 4ppL1c4t10n b 1n d3m0 m0d3. Ch4ng3z 1z p3rs1st3d 1n t3h d4t4b4s3, but j0bz 1z n0t b31n' 3x3cut3d"
+  credentials:
+    header: "L0g1n 4 d3m0 m0d3"
+    username: "Us3rn4m3"
+    password: "P4ssw0rd"
 menu:
   overview: "0v3rv13w"
   add: "4dd @ n3w cr0nj0b"
