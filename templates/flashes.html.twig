@@ -1,9 +1,9 @@
-{% if flashes is defined and flashes is not empty %}
-    {% for flash in flashes %}
-        <div class="alert alert-{{ flash.category }} alert-dismissible fade show" role="alert">
-            {{ flash.content }}
+{% for label, messages in app.flashes %}
+    {% for message in messages %}
+        <div class="alert alert-{{ label }} alert-dismissible fade show" role="alert">
+            {{ message | trans }}
             <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close">
             </button>
         </div>
     {% endfor %}
-{% endif %}
+{% endfor %}
