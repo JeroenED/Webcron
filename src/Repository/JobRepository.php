@@ -187,7 +187,7 @@ class JobRepository extends EntityRepository
      */
     private function runHttpJob(Job &$job): array
     {
-        if(isset($_ENV['DEMO_MODE']) && $_ENV['DEMO_MODE']) {
+        if(isset($_ENV['DEMO_MODE']) && $_ENV['DEMO_MODE'] == 'true') {
             $exitcodes = [...array_fill(0,120, $job->getData('http-status')[0]), ...array_keys(Response::$statusTexts)];
             $return['exitcode'] = $exitcodes[random_int(0, 181)];
             $return['failed'] = !in_array($return['exitcode'], $job->getData('http-status'));
@@ -228,8 +228,8 @@ class JobRepository extends EntityRepository
      */
     private function runCommandJob(Job &$job): array
     {
-        if(isset($_ENV['DEMO_MODE']) && $_ENV['DEMO_MODE']) {
-            $exitcodes = [...array_fill(0,400, $job->getData('response')), ...range(0, 255)];
+        if(isset($_ENV['DEMO_MODE']) && $_ENV['DEMO_MODE'] == 'true') {
+            $exitcodes = [...array_fill(0,400, $job->getData('response')[0]), ...range(0, 255)];
             $return['exitcode'] = $exitcodes[random_int(0, 655)];
             $return['failed'] = !in_array($return['exitcode'], $job->getData('response'));
             $return['output'] = 'Demo mode!';
@@ -321,7 +321,7 @@ class JobRepository extends EntityRepository
     {
         $em = $this->getEntityManager();
         if($job->getRunning() == 1) {
-            if(isset($_ENV['DEMO_MODE']) && $_ENV['DEMO_MODE']) {
+            if(isset($_ENV['DEMO_MODE']) && $_ENV['DEMO_MODE'] == 'true') {
                 $job->setRunning(time() + $job->getData('reboot-delay-secs') + ($job->getData('reboot-duration') * 60));
                 $em->persist($job);
                 $em->flush();
@@ -362,8 +362,8 @@ class JobRepository extends EntityRepository
             if($job->getRunning() > time()) {
                 return ['status' => 'deferred'];
             }
-            if(isset($_ENV['DEMO_MODE']) && $_ENV['DEMO_MODE']) {
-                $exitcodes = [...array_fill(0,400, $job->getData('getservices-response')), ...range(0, 255)];
+            if(isset($_ENV['DEMO_MODE']) && $_ENV['DEMO_MODE'] == 'true') {
+                $exitcodes = [...array_fill(0,400, $job->getData('getservices-response')[0]), ...range(0, 255)];
                 $return['exitcode'] = $exitcodes[random_int(0, 655)];
                 $return['failed'] = !in_array($return['exitcode'], $job->getData('getservices-response'));
                 $return['output'] = 'Demo mode!';
