@@ -34,7 +34,7 @@ class AppExtension extends AbstractExtension
         $time = round($time, 3);
         $return .= ($time != 0 || !empty($return)) ? "{$time}s " : '';
 
-        return $return;
+        return (!empty($return)) ? trim($return) : '0.000s';
     }
 
     function parseTags(string $text) {
