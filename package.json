@@ -14,8 +14,8 @@
   },
   "devDependencies": {
     "sass": "^1.5",
-    "vite": "^2.8",
-    "vite-plugin-symfony": "^0.3"
+    "vite": "^3.0",
+    "vite-plugin-symfony": "^0.4"
   },
   "scripts": {
     "watch": "vite build --minify=false --sourcemap --watch",
