@@ -39,7 +39,7 @@
                         <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
                         <button type="submit" class="mb-3 btn btn-outline-primary">{{ 'security.login.submit-btn.label' | trans }}</button>
                     </form>
-                    {% if app.request.server.get('DEMO_MODE') %}
+                    {% if app.request.server.get('DEMO_MODE') == 'true' %}
                     {# Demo mode credentials #}
                         <div class="mb-3 text-muted small">
                             <p class="mb-0">{{ 'demomode.credentials.header' | trans }}</p>
