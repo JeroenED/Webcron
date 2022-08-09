@@ -26,7 +26,7 @@ class RunCommand extends Command
     protected function configure()
     {
         $this
-            ->setDescription('RunRepository a single cronjob')
+            ->setDescription('Run a single cronjob')
             ->setHelp('This command runs a single command')
             ->addArgument('jobid', InputArgument::REQUIRED, 'The id of the job to be run');
     }
