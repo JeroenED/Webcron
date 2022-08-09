@@ -3,9 +3,6 @@
 
 Webcron management is an easy-to-use interface to manage cronjobs running on a publicly available http-location.
 
-## Status update
-Rewrite is currently beta-quality. Production-use is possible, but use with caution. Personally, I'm using it myself already in a production-like environment.
-
 ### Known bugs
 * Datepicker ([Tempus dominus v6](https://getdatepicker.com/)) is currently alpha-quality software. Altough [the dev states it is usable](https://jonathanpeterson.com/posts/state-of-my-datetime-picker-part-2.html) 
 
@@ -14,7 +11,7 @@ Rewrite is currently beta-quality. Production-use is possible, but use with caut
 * php <= 8.0
   * ext-openssl
   * ext-pcntl (highly recommended)
-* MySQL/MariaDB or SQLite
+* MySQL/MariaDB
 * Ability to change the webroot directory
 * Ability to run a script as daemon (eg. supervisor or systemd units)
 
