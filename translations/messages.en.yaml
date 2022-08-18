@@ -173,6 +173,7 @@ job:
       none:
         label: "None"
       docker:
+        label: "Docker"
         header: "Docker container details"
         service:
           label: "Service"

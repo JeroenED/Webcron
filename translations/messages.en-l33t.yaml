@@ -173,6 +173,7 @@ job:
       none:
         label: "N0n3"
       docker:
+        label: "D0ck3r"
         header: "D0ck3r c0nt41n3r d3t41Lz"
         service:
           label: "S3rv1c3"
