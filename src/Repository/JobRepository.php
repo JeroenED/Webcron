@@ -617,6 +617,7 @@ class JobRepository extends EntityRepository
         $job->setData('containertype', $values['containertype']);
         $job->setData('fail-pct', !empty($values['fail-pct']) ? (int)$values['fail-pct'] : 50);
         $job->setData('fail-days', !empty($values['fail-days']) ? (int)$values['fail-days'] : 7);
+        $job->setData('hostlabel', !empty($values['hostlabel']) ? $values['hostlabel'] : '');
 
         if(!$job->hasData('crontype')) {
             throw new \InvalidArgumentException("Crontype cannot be empty");

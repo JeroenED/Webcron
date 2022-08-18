@@ -93,6 +93,10 @@ job:
       faildays:
         label: "Number of days calculated for fail percentage"
         placeholder: "7"
+      hostlabel:
+        label: "Host label"
+        placeholder: "petrosian.jeroened.be"
+        helptext: "Which label for the hostname should be displayed? If empty the this will be the hostname provided below"
     crontype:
       label: "Job type"
       command:

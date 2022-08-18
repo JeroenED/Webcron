@@ -21,7 +21,7 @@
                     <td class="d-block d-md-table-cell align-middle job-name">
                         <span class="d-inline d-md-none">{% if job.data.needschecking %}<i class="icon icon-warning text-warning"></i>{% endif %}</span>
                         {{ job.name | parsetags | raw }}</td>
-                    <td class="d-block d-md-table-cell align-middle">{{ attribute(job.data, 'host-displayname') }}</td>
+                    <td class="d-block d-md-table-cell align-middle">{% if job.data.hostlabel is defined and job.data.hostlabel is not empty %}{{ job.data.hostlabel }}{% else %}{{ attribute(job.data, 'host-displayname') }}{% endif %}</td>
                     <td class="d-block d-md-table-cell align-middle">{{ job.interval | interval }}</td>
                     <td class="d-block d-md-table-cell align-middle">{{ job.nextrun |  date("d/m/Y H:i:s") }}</td>
                     <td class="text-md-end d-block d-md-table-cell align-middle">

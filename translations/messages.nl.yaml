@@ -94,6 +94,10 @@ job:
       faildays:
         label: "Aantal dagen berekend voor faalpercentage"
         placeholder: "7"
+      hostlabel:
+        label: "Host label"
+        placeholder: "petrosian.jeroened.be"
+        helptext: "Geef hier een eenvoudig te herkennen hostnaam. Indien leeg zal hostnaam uit de job details gebruikt worden"
     crontype:
       label: "Taak type"
       command:
