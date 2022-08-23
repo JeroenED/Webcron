@@ -43,7 +43,7 @@ const timepickerOptions = {
 }
 function initDatePickers()
 {
-    tempusDominus.extend(momentparse, 'DD/MM/yyyy HH:mm:ss');
+    tempusDominus.extend(momentparse.load, 'DD/MM/yyyy HH:mm:ss');
     new tempusDominus.TempusDominus(document.querySelector('#nextrunselector'), timepickerOptions);
     new tempusDominus.TempusDominus(document.querySelector('#lastrunselector'), timepickerOptions);
 }

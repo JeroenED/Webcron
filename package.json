@@ -14,12 +14,13 @@
   },
   "devDependencies": {
     "sass": "^1.5",
-    "vite": "^3.0",
-    "vite-plugin-symfony": "^0.4"
+    "sass-loader": "^13.0",
+    "@symfony/webpack-encore": "^3.0",
+    "core-js": "^3.24"
   },
   "scripts": {
-    "watch": "vite build --minify=false --sourcemap --watch",
-    "build-dev": "vite build --minify=false --sourcemap",
-    "build": "vite build"
+    "watch" : "encore dev --watch",
+    "build-dev": "encore dev",
+    "build": "encore prod"
   }
 }
