@@ -86,7 +86,11 @@ class DaemonCommand extends Command
                 }
             }
             $this->doctrine->getManager()->clear();
-            sleep(1);
+
+            $maxwait = time() + 30;
+            $nextrun = $jobRepo->getTimeOfNextRun();
+            $sleepuntil = min($maxwait, $nextrun);
+            if($sleepuntil > time()) time_sleep_until($sleepuntil);
         }
         $output->writeln('Ended after ' . $timelimit . ' seconds');
         pcntl_wait($status);

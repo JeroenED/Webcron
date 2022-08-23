@@ -589,6 +589,37 @@ class JobRepository extends EntityRepository
         return ['success' => true, 'message' => 'Cronjob succesfully edited'];
     }
 
+    public function getTimeOfNextRun()
+    {
+        if(!empty($this->getJobsDue())) return time();
+
+        $qb = $this->createQueryBuilder('job');
+        $firstScheduledJob = $qb
+            ->where('job.running = 0')
+            ->orderBy('job.nextrun')
+            ->getQuery()->getResult();
+
+        $firstRebootJob = $qb
+            ->where('job.running > 2')
+            ->orderBy('job.running')
+            ->getQuery()->getResult();
+
+
+        if(empty($firstScheduledJob)) {
+            $val1 = PHP_INT_MAX;
+        } else {
+            $val1 = $firstScheduledJob[0]->getNextRun();
+        }
+
+        if(empty($firstRebootJob)) {
+            $val2 =  PHP_INT_MAX;
+        } else {
+            $val2 = $firstRebootJob[0]->getRunning();
+        }
+
+        return min($val1, $val2);
+    }
+
     /**
      * @param array $values
      * @param Job|null $job
