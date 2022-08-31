@@ -16,7 +16,7 @@ use Symfony\Component\HttpKernel\KernelInterface;
 class DaemonCommand extends Command
 {
 
-    protected static $defaultName = 'daemon';
+    protected static $defaultName = 'webcron:daemon';
     protected $kernel;
     protected $doctrine;
 

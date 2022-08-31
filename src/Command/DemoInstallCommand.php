@@ -17,7 +17,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class DemoInstallCommand extends Command
 {
-    protected static $defaultName = 'install:demodata';
+    protected static $defaultName = 'webcron:demodata';
     protected $kernel;
     protected $doctrine;
     protected $passwordHasher;
@@ -33,8 +33,8 @@ class DemoInstallCommand extends Command
     protected function configure()
     {
         $this
-            ->setDescription('Run a single cronjob')
-            ->setHelp('This command runs a single command');
+            ->setDescription('Install demo data')
+            ->setHelp('This command installs the demo data');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

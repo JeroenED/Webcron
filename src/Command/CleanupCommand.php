@@ -16,7 +16,7 @@ use Symfony\Component\HttpKernel\KernelInterface;
 
 class CleanupCommand extends Command
 {
-    protected static $defaultName = 'cleanup';
+    protected static $defaultName = 'webcron:cleanup';
     protected $kernel;
     protected $doctrine;
 

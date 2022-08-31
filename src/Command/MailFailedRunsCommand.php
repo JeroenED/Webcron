@@ -20,7 +20,7 @@ use Twig\Environment;
 
 class MailFailedRunsCommand extends Command
 {
-    protected static $defaultName = 'mail-failed-runs';
+    protected static $defaultName = 'webcron:mail-failed-runs';
     protected $kernel;
     protected $doctrine;
     protected $templating;

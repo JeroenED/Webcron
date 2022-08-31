@@ -12,7 +12,7 @@ use Symfony\Component\HttpKernel\KernelInterface;
 
 class RunCommand extends Command
 {
-    protected static $defaultName = 'run';
+    protected static $defaultName = 'webcron:run';
     protected $kernel;
     protected $doctrine;
 
