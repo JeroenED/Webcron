@@ -24,6 +24,7 @@ Encore
     .addEntry('job.index', './assets/js/job/index.js')
     .addEntry('job.view', './assets/js/job/view.js')
     .addEntry('job.add', './assets/js/job/add.js')
+    .addEntry('job.edit', './assets/js/job/edit.js')
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()
