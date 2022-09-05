@@ -4,6 +4,7 @@ namespace App\Twig;
 use App\Service\Secret;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
+use Twig\TwigTest;
 
 class AppExtension extends AbstractExtension
 {
@@ -13,10 +14,19 @@ class AppExtension extends AbstractExtension
             new TwigFilter('interval', [$this, 'parseInterval']),
             new TwigFilter('parsetags', [$this, 'parseTags']),
             new TwigFilter('decryptsecret', [$this, 'decryptSecret']),
+            new TwigFilter('contents', [$this, 'getContents']),
         ];
     }
 
-    function parseInterval(int|float $time) {
+    public function getTests()
+    {
+        return [
+            new TwigTest('ondisk', [$this, 'onDisk'])
+        ];
+    }
+
+    function parseInterval(int|float $time)
+    {
         $return = '';
 
         $days = floor($time / (60 * 60 * 24));
@@ -37,7 +47,8 @@ class AppExtension extends AbstractExtension
         return (!empty($return)) ? trim($return) : '0.000s';
     }
 
-    function parseTags(string $text) {
+    function parseTags(string $text)
+    {
         $results = [];
         preg_match_all('/\[([A-Za-z0-9 \-]+)\]/', $text, $results);
         foreach ($results[0] as $key=>$result) {
@@ -48,7 +59,8 @@ class AppExtension extends AbstractExtension
         return $text;
     }
 
-    private function lightOrDark ($color) {
+    private function lightOrDark ($color)
+    {
         $color = str_split($color, 2);
         foreach($color as &$value) {
             $value = hexdec($value);
@@ -70,8 +82,18 @@ class AppExtension extends AbstractExtension
         }
     }
 
-
-    function decryptSecret(string $text) {
+    function decryptSecret(string $text)
+    {
         return Secret::decrypt(base64_decode($text));
+    }
+
+    function getContents(string $file)
+    {
+        return file_get_contents($file);
+    }
+
+    public function onDisk(string $file)
+    {
+        return file_exists($file);
     }
 }

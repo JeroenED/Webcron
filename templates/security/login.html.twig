@@ -47,6 +47,9 @@
                             <p class="mb-0">{{ 'demomode.credentials.password' | trans }}: {{ app.request.server.get('DEMO_PASS') }}</p>
                         </div>
                     {% endif %}
+                    <div class="mb-3 text-muted small">
+                        {% if (kernelProjectDir ~ "/version") is ondisk %}{{ (kernelProjectDir ~ "/version") | contents }}{% else %}dev-main{% endif %}
+                    </div>
                 </div>
             </div>
         </div>

@@ -27,6 +27,9 @@
                         <li class="nav-item"><a class="nav-link" href="{{ path('job_add') }}">{{ 'menu.add' | trans }}</a></li>
                         <li class="nav-item"><a class="nav-link" href="{{ path('logout') }}">{{ 'menu.logout' | trans }}</a></li>
                     </ul>
+                    <div class="m-3 text-muted small">
+                        {% if (kernelProjectDir ~ "/version") is ondisk %}{{ (kernelProjectDir ~ "/version") | contents }}{% else %}dev-main{% endif %}
+                    </div>
                 </div>
                 <div class="col-12 col-xxl-10">
                     {{ include('flashes.html.twig') }}
