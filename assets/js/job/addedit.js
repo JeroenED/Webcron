@@ -1,7 +1,7 @@
 import 'bootstrap';
 import moment from 'moment';
 import * as tempusDominus from '@eonasdan/tempus-dominus/dist/js/tempus-dominus';
-import momentparse from './momentjs-parse';
+import customDateFormat from '@eonasdan/tempus-dominus/dist/plugins/customDateFormat'
 import Utils from "./Utils";
 
 document.addEventListener("readystatechange", event => {
@@ -20,7 +20,8 @@ document.addEventListener("readystatechange", event => {
 
 const timepickerOptions = {
     localization:{
-        locale: 'nl'
+        locale: 'nl',
+        format: 'dd/MM/yyyy HH:mm:ss'
     },
     display: {
         icons: {
@@ -42,7 +43,7 @@ const timepickerOptions = {
 }
 function initDatePickers()
 {
-    tempusDominus.extend(momentparse.load, 'DD/MM/yyyy HH:mm:ss');
+    tempusDominus.extend(customDateFormat);
     new tempusDominus.TempusDominus(document.querySelector('#nextrunselector'), timepickerOptions);
     new tempusDominus.TempusDominus(document.querySelector('#lastrunselector'), timepickerOptions);
 }
