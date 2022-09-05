@@ -16,8 +16,9 @@
 #/
 
 ## Dependencies
-php=8.0
-npm=7.0
+php=8.1
+npm=8.0
+node=16.0
 
 ## Globals
 script_name=$(basename "${0}")
@@ -28,8 +29,11 @@ environment=main
 root=/tmp/webcron
 
 APP_ENV="prod"
-DATABASE_URL="mysql://root:letmein@127.0.0.1:3306/webcron"
 APP_SECRET=$(tr -dc A-Za-z0-9 </dev/urandom | head -c 20 ; echo '')
+DATABASE_URL="mysql://root:letmein@127.0.0.1:3306/webcron"
+DEMO_MODE="false"
+DEMO_USER="example@example.com"
+DEMO_PASS="password"
 ENCRYPTION_METHOD="AES-256-CBC"
 HASHING_METHOD="sha256"
 DEBUG=false
@@ -95,11 +99,11 @@ CheckDeps() {
     CheckDep "PHP" "php --version" "PHP is not available. Exiting" "FAIL" ${php} "echo '<?php echo phpversion();' | php" "PHP version too low. Exiting" "FAIL"
     CheckDep "Composer" "composer --version" "Composer is not available. Exiting" "FAIL"
     CheckDep "MySQL" "/usr/sbin/mysqld --version" "MySQL is not available. SQLite can be used" "WARNING"
-    CheckDep "NodeJS" "node --version" "NodeJS is not available. Exiting" "FAIL"
+    CheckDep "NodeJS" "node --version" "NodeJS is not available. Exiting" "FAIL" ${node} "node --version" "Node version too low. Exiting" "FAIL"
     CheckDep "NPM" "npm --version" "NPM is not available. Exiting" "FAIL" ${npm} "npm --version" "NPM version too low. Exiting" "FAIL"
     CheckDep "php-pcntl" "php -me | grep pcntl" "php-pcntl extension is not available. Cronjobs will not be running asyncronous" "WARNING"
     CheckDep "php-intl" "php -me | grep intl" "php-intl extension is not available. Exiting" "FAIL"
-    CheckDep "php-xml" "php -me | grep xml" "php-xml extension is not available. Exiting" "FAIL"
+    CheckDep "php-openssl" "php -me | grep openssl" "php-openssl extension is not available. Exiting" "FAIL"
     echo -e "\e[1;32mDependency test OK\e[0m"
 }
 
@@ -146,8 +150,11 @@ CreateEnvFile() {
         touch .env 1> /dev/null 2>&1
     fi
     echo "APP_ENV=\"$APP_ENV\"" >> .env
-    echo "DATABASE_URL=\"$DATABASE_URL\"" >> .env
     echo "APP_SECRET=\"$APP_SECRET\"" >> .env
+    echo "DATABASE_URL=\"$DATABASE_URL\"" >> .env
+    echo "DEMO_MODE=\"$DEMO_MODE\"" >> .env
+    echo "DEMO_USER=\"$DEMO_USER\"" >> .env
+    echo "DEMO_PASS=\"$DEMO_PASS\"" >> .env
     echo "ENCRYPTION_METHOD=\"$ENCRYPTION_METHOD\"" >> .env
     echo "HASHING_METHOD=\"$HASHING_METHOD\"" >> .env
     echo "DEBUG=\"$DEBUG\"" >> .env

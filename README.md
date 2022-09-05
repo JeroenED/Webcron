@@ -8,17 +8,18 @@ Webcron management is an easy-to-use interface to manage cronjobs running on a p
 
 ## Deploying
 ### Requirements for web-server
-* php <= 8.0
+* php <= 8.1
   * ext-openssl
+  * ext-intl
   * ext-pcntl (highly recommended)
-* MySQL/MariaDB
+* MariaDB
 * Ability to change the webroot directory
 * Ability to run a script as daemon (eg. supervisor or systemd units)
 
 
 ### Requirements for build-server
-* php <= 8.0 (incl composer <= 2)
-* NodeJS <= 14.0 (incl. npm <= 7)
+* php <= 8.1 (incl composer <= 2)
+* NodeJS <= 16.0 (incl. npm <= 8)
 
 ### Building
 Please run following command on the build server
