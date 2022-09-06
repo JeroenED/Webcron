@@ -97,6 +97,8 @@ job:
         label: "H0st l4b3L"
         placeholder: "N3wb13 s3rv3r"
         helptext: "Wh1ch l4b3L 4 t3h h0stn4m3 sh0uLd b d1spL4y3d? 1f 3mpty t3h d1z w1LL b t3h h0stn4m3 pr0v1d3d b3L0w"
+    jobdetails:
+      header: "J0b d3t41Lz"
     crontype:
       label: "J0b typ3"
       command:

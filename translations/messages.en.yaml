@@ -97,6 +97,8 @@ job:
         label: "Host label"
         placeholder: "petrosian.jeroened.be"
         helptext: "Which label for the hostname should be displayed? If empty the this will be the hostname provided below"
+    jobdetails:
+      header: "Job details"
     crontype:
       label: "Job type"
       command:

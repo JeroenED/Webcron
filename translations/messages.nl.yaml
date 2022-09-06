@@ -97,7 +97,9 @@ job:
       hostlabel:
         label: "Host label"
         placeholder: "petrosian.jeroened.be"
-        helptext: "Geef hier een eenvoudig te herkennen hostnaam. Indien leeg zal hostnaam uit de job details gebruikt worden"
+        helptext: "Geef hier een eenvoudig te herkennen hostnaam. Indien leeg zal hostnaam uit de taak details gebruikt worden"
+    jobdetails:
+      header: "Taak details"
     crontype:
       label: "Taak type"
       command:
