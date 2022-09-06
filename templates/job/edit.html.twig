@@ -17,11 +17,11 @@
                 {{ 'job.addedit.generalinfo.interval.patterns.label' | trans }}
             </button>
             <ul class="dropdown-menu" aria-labelledby="intervalButton">
-                <li><a class="dropdown-item intervalpattern-item" href="#" data-time="60">{{ 'job.addedit.generalinfo.interval.patterns.minute' | trans }}</a></li>
-                <li><a class="dropdown-item intervalpattern-item" href="#" data-time="3600">{{ 'job.addedit.generalinfo.interval.patterns.hour' | trans }}</a></li>
-                <li><a class="dropdown-item intervalpattern-item" href="#" data-time="86400">{{ 'job.addedit.generalinfo.interval.patterns.day' | trans }}</a></li>
-                <li><a class="dropdown-item intervalpattern-item" href="#" data-time="604800">{{ 'job.addedit.generalinfo.interval.patterns.week' | trans }}</a></li>
-                <li><a class="dropdown-item intervalpattern-item" href="#" data-time="2419200">{{ 'job.addedit.generalinfo.interval.patterns.4week' | trans }}</a></li>
+                <li><a class="dropdown-item intervalpattern-item" href="javascript:void(0);" data-time="60">{{ 'job.addedit.generalinfo.interval.patterns.minute' | trans }}</a></li>
+                <li><a class="dropdown-item intervalpattern-item" href="javascript:void(0);" data-time="3600">{{ 'job.addedit.generalinfo.interval.patterns.hour' | trans }}</a></li>
+                <li><a class="dropdown-item intervalpattern-item" href="javascript:void(0);" data-time="86400">{{ 'job.addedit.generalinfo.interval.patterns.day' | trans }}</a></li>
+                <li><a class="dropdown-item intervalpattern-item" href="javascript:void(0);" data-time="604800">{{ 'job.addedit.generalinfo.interval.patterns.week' | trans }}</a></li>
+                <li><a class="dropdown-item intervalpattern-item" href="javascript:void(0);" data-time="2419200">{{ 'job.addedit.generalinfo.interval.patterns.4week' | trans }}</a></li>
             </ul>
             <input type="number" class="form-control" id="interval" name="interval" placeholder="{{ 'job.addedit.generalinfo.interval.placeholder' | trans }}" value="{{ job.interval }}">
         </div>
@@ -83,9 +83,9 @@
                 {% endif %}
             </button>
             <div class="dropdown-menu" aria-labelledby="crontypeButton">
-                <a class="dropdown-item crontype-item" href="#" data-type="command">{{ 'job.addedit.crontype.command.label' | trans }}</a>
-                <a class="dropdown-item crontype-item" href="#" data-type="reboot">{{ 'job.addedit.crontype.reboot.label' | trans }}</a>
-                <a class="dropdown-item crontype-item" href="#" data-type="http">{{ 'job.addedit.crontype.http.label' | trans }}</a>
+                <a class="dropdown-item crontype-item" href="javascript:void(0);" data-type="command">{{ 'job.addedit.crontype.command.label' | trans }}</a>
+                <a class="dropdown-item crontype-item" href="javascript:void(0);" data-type="reboot">{{ 'job.addedit.crontype.reboot.label' | trans }}</a>
+                <a class="dropdown-item crontype-item" href="javascript:void(0);" data-type="http">{{ 'job.addedit.crontype.http.label' | trans }}</a>
             </div>
         </div>
 
@@ -100,8 +100,8 @@
                 {% endif %}
             </button>
             <div class="dropdown-menu" aria-labelledby="hosttypeButton">
-                <a class="dropdown-item hosttype-item" href="#" data-type="local">{{ 'job.addedit.hosttype.local.label' | trans }}</a>
-                <a class="dropdown-item hosttype-item" href="#" data-type="ssh">{{ 'job.addedit.hosttype.ssh.label' | trans }}</a>
+                <a class="dropdown-item hosttype-item" href="javascript:void(0);" data-type="local">{{ 'job.addedit.hosttype.local.label' | trans }}</a>
+                <a class="dropdown-item hosttype-item" href="javascript:void(0);" data-type="ssh">{{ 'job.addedit.hosttype.ssh.label' | trans }}</a>
             </div>
         </div>
 
@@ -120,8 +120,8 @@
                 {% endif %}
             </button>
             <div class="dropdown-menu" aria-labelledby="containertypeButton">
-                <a class="dropdown-item containertype-item" href="#" data-type="none">{{ 'job.addedit.containertype.none.label' | trans }}</a>
-                <a class="dropdown-item containertype-item" href="#" data-type="docker">{{ 'job.addedit.containertype.docker.label' | trans }}</a>
+                <a class="dropdown-item containertype-item" href="javascript:void(0);" data-type="none">{{ 'job.addedit.containertype.none.label' | trans }}</a>
+                <a class="dropdown-item containertype-item" href="javascript:void(0);" data-type="docker">{{ 'job.addedit.containertype.docker.label' | trans }}</a>
             </div>
         </div>
     </div>
@@ -277,7 +277,7 @@
         </p>
     </div>
     <div class="mb-3">
-        <a href="#" class="btn btn-outline-primary addvar-btn">{{ "job.addedit.variables.add.label" | trans }}</a>
+        <a href="javascript:void(0);" class="btn btn-outline-primary addvar-btn">{{ "job.addedit.variables.add.label" | trans }}</a>
     </div>
 
     <input type="hidden" name="crontype" class="crontype" value="{{ job.data.crontype }}">
