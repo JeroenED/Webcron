@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html class="h-100">
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         
@@ -11,8 +11,8 @@
 
     </head>
     
-    <body>
-        <div class="container-fluid">
+    <body class="d-flex flex-column h-100">
+        <main class="flex-shrink-0 container-fluid">
             <div class="row py-3">
                 <div class="col-12">
                     <div class="page-header">
@@ -27,18 +27,16 @@
                         <li class="nav-item"><a class="nav-link" href="{{ path('job_add') }}">{{ 'menu.add' | trans }}</a></li>
                         <li class="nav-item"><a class="nav-link" href="{{ path('logout') }}">{{ 'menu.logout' | trans }}</a></li>
                     </ul>
-                    <div class="m-3 text-muted small">
-                        {% if (kernelProjectDir ~ "/version") is ondisk %}{{ (kernelProjectDir ~ "/version") | contents }}{% else %}dev-main{% endif %}
-                    </div>
                 </div>
                 <div class="col-12 col-xxl-10">
                     {{ include('flashes.html.twig') }}
                     {% block content %}{% endblock %}
                 </div>
             </div>
-        </div>
+        </main>
 
         {% block extrahtml %}{% endblock %}
+        {{ include('footer.html.twig') }}
     </body>
 </html>
 

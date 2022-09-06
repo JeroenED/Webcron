@@ -194,9 +194,11 @@ job:
         placeholder: "Naam"
       value:
         placeholder: "Waarde"
-      helptext: "Je kan variabelen gebruiken via {variabele-naam} in de job details"
+      helptext: "Je kan variabelen gebruiken via {variabele-naam} in de taak details"
       add:
         label: "Variable toevoegen"
     submit:
       label: "Verzend!"
-
+footer:
+  title: "Webcron Management"
+  source: "Broncode"

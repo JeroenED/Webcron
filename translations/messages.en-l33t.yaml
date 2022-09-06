@@ -198,3 +198,6 @@ job:
         label: "4dd variable"
     submit:
       label: "Subm1t!"
+footer:
+  title: "W3bcr0n m4n4g3m3nt"
+  source: "S0urc3"

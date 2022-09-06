@@ -198,3 +198,6 @@ job:
         label: "Add variable"
     submit:
       label: "Submit!"
+footer:
+  title: "Webcron Management"
+  source: "Source"

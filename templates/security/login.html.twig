@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html class="h-100">
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         
@@ -9,8 +9,8 @@
         {{ encore_entry_script_tags('security.login') }}
     </head>
     
-    <body>
-        <div class="container-fluid py-3">
+    <body class="d-flex flex-column h-100">
+        <main class="container-fluid py-3">
             <div class="row justify-content-md-center">
                 <div class="col-md-4 col-xs-12">
                     {{ include('flashes.html.twig') }}
@@ -47,11 +47,9 @@
                             <p class="mb-0">{{ 'demomode.credentials.password' | trans }}: {{ app.request.server.get('DEMO_PASS') }}</p>
                         </div>
                     {% endif %}
-                    <div class="mb-3 text-muted small">
-                        {% if (kernelProjectDir ~ "/version") is ondisk %}{{ (kernelProjectDir ~ "/version") | contents }}{% else %}dev-main{% endif %}
-                    </div>
                 </div>
             </div>
-        </div>
+        </main>
+        {{ include('footer.html.twig') }}
     </body>
 </html>

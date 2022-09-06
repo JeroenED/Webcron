@@ -1,0 +1,12 @@
+<footer class="footer mt-auto py-3 bg-light">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col align-self-start text-start text-muted">
+                {{ 'footer.title' | trans}} {% if (kernelProjectDir ~ "/version") is ondisk %}{{ (kernelProjectDir ~ "/version") | contents }}{% else %}dev-main{% endif %}
+            </div>
+            <div class="col align-self-end text-end text-muted">
+                <a href="https://git.jeroened.be/webcron/" target="_blank">{{ 'footer.source' | trans}}</a>
+            </div>
+        </div>
+    </div>
+</footer>
