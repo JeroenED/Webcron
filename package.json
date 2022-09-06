@@ -6,9 +6,9 @@
   "license": "AGPL-3.0-or-later",
   "private": true,
   "dependencies": {
-    "@eonasdan/tempus-dominus": "latest",
+    "@eonasdan/tempus-dominus": "6.0",
     "@popperjs/core": "^2.11",
-    "bootstrap": "^5.1",
+    "bootstrap": "^5.2",
     "bootstrap-dark-5": "^1.1",
     "moment": "^2.29"
   },
