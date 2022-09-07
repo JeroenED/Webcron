@@ -17,6 +17,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
@@ -27,17 +28,20 @@ class UserCommand extends Command
     protected ManagerRegistry $doctrine;
     protected UserPasswordHasherInterface  $passwordHasher;
     protected SymfonyStyle $io;
+    protected ParameterBagInterface $params;
 
     private $action;
     private $username;
     private $password;
+    private $locale;
     private $confirm;
 
-    public function __construct(KernelInterface $kernel, ManagerRegistry $doctrine, UserPasswordHasherInterface $passwordHasher)
+    public function __construct(KernelInterface $kernel, ManagerRegistry $doctrine, UserPasswordHasherInterface $passwordHasher, ParameterBagInterface $params)
     {
         $this->kernel = $kernel;
         $this->doctrine = $doctrine;
         $this->passwordHasher = $passwordHasher;
+        $this->params = $params;
         parent::__construct();
     }
 
@@ -100,6 +104,12 @@ class UserCommand extends Command
                     $this->password = $password1;
                 }
             }
+
+            if(empty($this->locale)) {
+                $locales = $this->params->get('enabled_locales');
+
+                $this->locale = $this->io->choice('What locale should be used? ', $locales);
+            }
         } elseif ($this->action == 'delete') {
             $this->confirm = $this->io->confirm('Are you sure you want to delete ' . $this->username . '? ', false);
         }
@@ -145,7 +155,7 @@ class UserCommand extends Command
         $user
             ->setEmail($this->username)
             ->setPassword($hashedpassword)
-            ->setSendmail($userSendMail === NULL);
+            ->setLocale($this->locale);
 
         $em->persist($user);
         $em->flush();
@@ -173,7 +183,8 @@ class UserCommand extends Command
         $hashedpassword = $this->passwordHasher->hashPassword($user, $this->password);
         $user
             ->setEmail($this->username)
-            ->setPassword($hashedpassword);
+            ->setPassword($hashedpassword)
+            ->setLocale($this->locale);
 
         $em->persist($user);
         $em->flush();

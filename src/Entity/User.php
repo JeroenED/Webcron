@@ -31,6 +31,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private string $password;
 
     /**
+     * @var string
+     */
+    #[ORM\Column(type: "string", length: 15)]
+    private string $locale;
+
+    /**
      * @return int|null
      */
     public function getId(): ?int
@@ -81,6 +87,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPassword(string $password): User
     {
         $this->password = $password;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLocale(): string
+    {
+        return $this->locale;
+    }
+
+    /**
+     * @param string $locale
+     * @return User
+     */
+    public function setLocale(string $locale): User
+    {
+        $this->locale = $locale;
         return $this;
     }
 

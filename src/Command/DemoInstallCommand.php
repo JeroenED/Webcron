@@ -55,7 +55,7 @@ class DemoInstallCommand extends Command
         $user
             ->setEmail($_ENV['DEMO_USER'])
             ->setPassword($hashedpassword)
-            ->setSendmail(true);
+            ->setLocale('en');
 
         $em->persist($user);
         $em->flush();

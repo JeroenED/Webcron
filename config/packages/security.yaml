@@ -14,7 +14,7 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         login:
-            pattern: ^/?(%enabled_locales%)?/(health)$
+            pattern: ^/?([a-zA-Z0-9-]+)?/(health)$
             security: false
         main:
             pattern: ^/(.*)
@@ -41,5 +41,12 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        - { path: ^/?(%enabled_locales%)?/job, roles: ROLE_USER }
+        - { path: ^/?([a-zA-Z0-9-]+)?/job, roles: ROLE_USER }
         # - { path: ^/profile, roles: ROLE_USER }
+
+when@dev:
+    security:
+        firewalls:
+            main:
+                remember_me:
+                    secure:   false

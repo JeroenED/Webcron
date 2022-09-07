@@ -14,7 +14,10 @@ class SecurityController extends AbstractController
     public function loginAction(Request $request, AuthenticationUtils $authenticationUtils): Response
     {
         if($this->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
-            return new RedirectResponse($this->generateUrl('job_index'));
+            $session = $request->getSession();
+            $user = $this->getUser();
+            $session->set('_locale', $user->getLocale());
+            return new RedirectResponse($this->generateUrl('job_index', ['_locale' => $user->getLocale()]));
         }
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
