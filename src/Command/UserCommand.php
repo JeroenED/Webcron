@@ -23,10 +23,10 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 class UserCommand extends Command
 {
     protected static $defaultName = 'webcron:user';
-    protected $kernel;
-    protected $doctrine;
-    protected $passwordHasher;
-    protected $io;
+    protected KernelInterface $kernel;
+    protected ManagerRegistry $doctrine;
+    protected UserPasswordHasherInterface  $passwordHasher;
+    protected SymfonyStyle $io;
 
     private $action;
     private $username;
@@ -65,19 +65,37 @@ class UserCommand extends Command
             $this->io->warning('It is not safe to send password directly via STDIN');
         }
 
-        if(empty($this->username)) {
-            $this->username =  $this->io->ask('Please provide the username? ');
+        if(in_array($this->action, ['add'])) {
+            if (empty($this->username)) {
+                $this->username = $this->io->ask('Please provide the username? ');
+            }
         }
 
-        if($this->action == 'add') {
+        if(in_array($this->action, ['update', 'delete'])) {
+            if (empty($this->username)) {
+                $users = $this->doctrine->getRepository(User::class)->findAll();
+                $choices = [];
+                foreach($users as $user) {
+                    $choices[] = $user->getEmail();
+                }
+                if(count($choices) > 1) {
+                    $this->username = $this->io->choice('Please provide the username? ', $choices);
+                } else {
+                    $this->username = $choices[0];
+                    $this->io->info('Selected user ' . $this->username);
+                }
+            }
+        }
+
+        if(in_array($this->action, ['add', 'update'])) {
             if(empty($this->password)) {
                 $password1 = $this->io->askHidden('Please enter the password? ');
                 $password2 = $this->io->askHidden('Please confirm the password? ');
 
                 if ($password1 != $password2) {
-                    $this->password = NULL;
+                    $this->io->error('Passwords didn\'t match. Exiting');
                 } elseif ($password1 == '') {
-                    $this->password = NULL;
+                    $this->io->error('Passwords cannot be empty. Exiting');
                 } else {
                     $this->password = $password1;
                 }
@@ -96,6 +114,9 @@ class UserCommand extends Command
                 break;
             case 'delete':
                 $return = $this->deleteUser();
+                break;
+            case 'update':
+                $return = $this->updateUser();
                 break;
         }
         return $return;
@@ -133,9 +154,39 @@ class UserCommand extends Command
 
         return Command::SUCCESS;
     }
+
+    private function updateUser() {
+
+        $em = $this->doctrine->getManager();
+
+        $user = $em->getRepository(User::class)->findOneBy(['email' => $this->username]);
+
+        if ($user === NULL) {
+            $this->io->error('User does not exist');
+            return Command::FAILURE;
+        }
+
+        if ($this->password === NULL) {
+            return Command::FAILURE;
+        }
+
+        $hashedpassword = $this->passwordHasher->hashPassword($user, $this->password);
+        $user
+            ->setEmail($this->username)
+            ->setPassword($hashedpassword);
+
+        $em->persist($user);
+        $em->flush();
+
+        $this->io->success('User updated');
+
+        return Command::SUCCESS;
+    }
+
     private function deleteUser() {
 
         if(!$this->confirm) {
+            $this->io->info('User not deleted');
             return Command::SUCCESS;
         }
         $em = $this->doctrine->getManager();
