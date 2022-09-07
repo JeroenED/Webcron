@@ -3,22 +3,9 @@
 
 Webcron management is an easy-to-use interface to manage cronjobs running on a publicly available http-location.
 
-### Known bugs
-* Datepicker ([Tempus dominus v6](https://getdatepicker.com/)) is currently alpha-quality software. Altough [the dev states it is usable](https://jonathanpeterson.com/posts/state-of-my-datetime-picker-part-2.html) 
-
-## Deploying
-### Requirements for web-server
-* php <= 8.1
-  * ext-openssl
-  * ext-intl
-  * ext-pcntl (highly recommended)
-* MariaDB
-* Ability to change the webroot directory
-* Ability to run a script as daemon (eg. supervisor or systemd units)
-
-
+## Building
 ### Requirements for build-server
-* php <= 8.1 (incl composer <= 2)
+* php <= 8.1 (incl composer <= 2, ext-pcntl, ext-openssl, ext-intl)
 * NodeJS <= 16.0 (incl. npm <= 8)
 
 ### Building
@@ -26,32 +13,46 @@ Please run following command on the build server
 ```shell
 $ composer install --no-dev --optimize-autoloader
 $ npm install
-$ npx build prod
+$ npm run build
 $ rm -rf node_modules # Node modules are only required for building
 ```
 
-### Configuration
-All configuration can be found in .env.sample. Please copy this to file to .env and change its values
+## Installation
+### Requirements
+* php <= 8.1
+  * ext-openssl
+  * ext-intl
+  * ext-pcntl (highly recommended)
+* MariaDB
+* SSH-access to the server
+* Ability to change the webroot directory
+* Ability to run a script as daemon (eg. supervisor or systemd units)
 
 ### Installation
-First follow the build and configuration instructions. If you don't follow them correctly Webcron Management won't work correctly
-1. Create your database and import the storage/database.sql file into the database
-2. Create a first user by inserting a first record to the users table (Password is hashed using the HASHING_METHOD in your .env)
+1. Create a build yourself or download the build from the releases page
+2. Upload the build to the webserver.
 3. Set up your webhosting to use the `/public` directory as web root
-4. Upload the repository to the webserver
-5. Set up the daemon script using systemd, supervisord or similar system
-   * If this is not possible running the daemon using a cronjob is still possible using below gist (Not recommended)
+4. Create the .env file by copying .env.sample to .env and change the values
+5. Run `php bin/console doctrine:migrations:migrate` to create or migrate the database
+6. Create a first user by running `php bin/console webcron:user add`
+7. Set up the daemon script using systemd, supervisord or similar system
+   
+   If this is not possible running the daemon using a cronjob is still possible using below gist (Not recommended)
 
 ```shell
 0 * * * * cd /path/to/webcron/ && php webcron daemon --time-limit=3600 > /dev/null 1&>2
 ```
 
-The webcron interface should now work as expected.
+## Upgrading
+### Requirements
+Same requirements and deploying
+
+### Procedure
+1. Remove all files except .env from the webserver
+2. Upload the new build to the webserver
+3. Run `php bin/console doctrine:migrations:migrate` to migrate the database
 
 ## Common pitfalls
-### Cronjobs are not running
-Did you edit the crontab?
-
 ### I can't do an automatic system upgrade!
 Doing a system upgrade requires sudo which has a certain number security measurements. To enable running anything with sudo (eg. `sudo apt dist-upgrade -y`) the user needs to be able to run sudo without tty and password.
 
