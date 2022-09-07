@@ -8,6 +8,7 @@ use App\Repository\JobRepository;
 use App\Repository\UserRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
@@ -39,7 +40,8 @@ class MailFailedRunsCommand extends Command
     {
         $this
             ->setDescription('Sends email about failed runs')
-            ->setHelp('This command will send emails to the users when jobs are failing');
+            ->setHelp('This command will send emails to the users when jobs are failing')
+            ->addArgument('recipients', InputArgument::REQUIRED + InputArgument::IS_ARRAY, 'Which e-mailaddress should receive the notifications');
     }
 
     /**
@@ -49,8 +51,6 @@ class MailFailedRunsCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-
-        $userRepo = $this->doctrine->getRepository(User::class);
         $jobRepo = $this->doctrine->getRepository(Job::class);
 
         $failedJobs = $jobRepo->getFailingJobs();
@@ -63,7 +63,7 @@ class MailFailedRunsCommand extends Command
                 ->subject('Some cronjobs are failing')
                 ->html($html);
 
-            $recipients = $userRepo->getMailAddresses();
+            $recipients = $input->getArgument('recipients');
             foreach ($recipients as $recipient) {
                 $email->addTo($recipient);
             }

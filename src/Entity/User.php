@@ -31,12 +31,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private string $password;
 
     /**
-     * @var bool
-     */
-    #[ORM\Column(type: "boolean")]
-    private bool $sendmail;
-
-    /**
      * @return int|null
      */
     public function getId(): ?int
@@ -87,24 +81,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPassword(string $password): User
     {
         $this->password = $password;
-        return $this;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isSendmail(): bool
-    {
-        return $this->sendmail;
-    }
-
-    /**
-     * @param bool $sendmail
-     * @return User
-     */
-    public function setSendmail(bool $sendmail): User
-    {
-        $this->sendmail = $sendmail;
         return $this;
     }
 
