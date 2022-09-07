@@ -23,20 +23,16 @@ security:
       label: "Onthoud mij!"
     submit-btn:
       label: "Aanmelden"
-index:
-  title: "Overzicht"
-  header: "Overzicht van de geplande taken"
-  table:
-    headers:
-      name: "Naam"
-      host: "Host"
-      interval: "Interval"
-      nextrun: "Volgende uitvoering"
 job:
-  view:
-    title: "Overzicht van uitvoeringen van _jobname_"
-    header: "Overzicht van uitvoeringen van _jobname_"
-    edit: "Bewerk taak"
+  index:
+    title: "Overzicht"
+    header: "Overzicht van de geplande taken"
+    table:
+      headers:
+        name: "Naam"
+        host: "Host"
+        interval: "Interval"
+        nextrun: "Volgende uitvoering"
     runnow:
       deferred:
         title: "Taak werd doorgestuurd naar de daemon"
@@ -46,6 +42,10 @@ job:
           success: "Taak werd succesvol uitgevoerd"
           failed: "Taak faalde. Hieronder vind u de output ter controle"
         message: "Taak werd in _runtime_ seconden uitgevoerd met resultaat _exitcode_"
+  view:
+    title: "Overzicht van uitvoeringen van _jobname_"
+    header: "Overzicht van uitvoeringen van _jobname_"
+    edit: "Bewerk taak"
     show:
       onlyfailed: "Toon alleen gefaalde uitvoeringen"
       all: "Toon alle uitvoeringen"

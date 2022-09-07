@@ -22,20 +22,16 @@ security:
       label: "Remember, remember"
     submit-btn:
       label: "Login"
-index:
-  title: "Overview"
-  header: "Overview of the cronjobs"
-  table:
-    headers:
-      name: "Name"
-      host: "Host"
-      interval: "Interval"
-      nextrun: "Nextrun"
 job:
-  view:
-    title: "Overview of runs for _jobname_"
-    header: "Overview of runs for _jobname_"
-    edit: "Edit job"
+  index:
+    title: "Overview"
+    header: "Overview of the cronjobs"
+    table:
+      headers:
+        name: "Name"
+        host: "Host"
+        interval: "Interval"
+        nextrun: "Nextrun"
     runnow:
       deferred:
         title: "Cronjob has been scheduled"
@@ -45,6 +41,10 @@ job:
           success: "Cronjob succesfully ran"
           failed: "Cronjob failed. Please check output below"
         message: "Cronjob ran in _runtime_ seconds with exit code _exitcode_"
+  view:
+    title: "Overview of runs for _jobname_"
+    header: "Overview of runs for _jobname_"
+    edit: "Edit job"
     show:
       onlyfailed: "Only show failed runs"
       all: "Show all runs"

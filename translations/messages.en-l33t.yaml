@@ -22,20 +22,16 @@ security:
       label: "D0 n0t f0rg3t"
     submit-btn:
       label: "3nt3r"
-index:
-  title: "0v3rv13w"
-  header: "0v3rv13w 0f t3h cr0nj0bz"
-  table:
-    headers:
-      name: "N4m3"
-      host: "H0st"
-      interval: "1nt3rv4L"
-      nextrun: "N3xtrun"
 job:
-  view:
-    title: "0v3rv13w 0f runz 4 _jobname_"
-    header: "0v3rv13w 0f runz 4 _jobname_"
-    edit: "3d1t j0b"
+  index:
+    title: "0v3rv13w"
+    header: "0v3rv13w 0f t3h cr0nj0bz"
+    table:
+      headers:
+        name: "N4m3"
+        host: "H0st"
+        interval: "1nt3rv4L"
+        nextrun: "N3xtrun"
     runnow:
       deferred:
         title: "Cr0nj0b h4z b33n sch3duL3d"
@@ -45,6 +41,10 @@ job:
           success: "Cr0nj0b succ3sfuLLy r4n"
           failed: "Cr0nj0b f41L3d. PL34s3 ch3ck 0utput b3L0w"
         message: "Cr0nj0b r4n 1n _runtime_ s3c0ndz w1th 3x1t c0d3 _exitcode_"
+  view:
+    title: "0v3rv13w 0f runz 4 _jobname_"
+    header: "0v3rv13w 0f runz 4 _jobname_"
+    edit: "3d1t j0b"
     show:
       onlyfailed: "0nLy sh0w f41L3d runz"
       all: "Sh0w 4LL runz"
