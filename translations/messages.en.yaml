@@ -41,6 +41,8 @@ job:
           success: "Cronjob succesfully ran"
           failed: "Cronjob failed. Please check output below"
         message: "Cronjob ran in _runtime_ seconds with exit code _exitcode_"
+    flashes:
+      jobdeleted: "Cronjob is successfully deleted"
   view:
     title: "Overview of runs for _jobname_"
     header: "Overview of runs for _jobname_"
@@ -58,9 +60,13 @@ job:
   edit:
     title: "Edit job"
     header: "Edit job _jobname_"
+    flashes:
+      jobadded: "Cronjob successfully edited"
   add:
     title: "Add job"
     header: "Add new job"
+    flashes:
+      jobadded: "Cronjob successfully added"
   addedit:
     generalinfo:
       header: "General info"

@@ -42,6 +42,8 @@ job:
           success: "Taak werd succesvol uitgevoerd"
           failed: "Taak faalde. Hieronder vind u de output ter controle"
         message: "Taak werd in _runtime_ seconden uitgevoerd met resultaat _exitcode_"
+    flashes:
+      jobdeleted: "Taak werd succesvol verwijderd"
   view:
     title: "Overzicht van uitvoeringen van _jobname_"
     header: "Overzicht van uitvoeringen van _jobname_"
@@ -59,9 +61,13 @@ job:
   edit:
     title: "Bewerk taak"
     header: "Bewerk taak _jobname_"
+    flashes:
+      jobedited: "Taak werd succesvol bijgewerkt"
   add:
     title: "Taak toevoegen"
     header: "Nieuwe taak toevoegen"
+    flashes:
+      jobadded: "Taak werd succesvol toegevoegd"
   addedit:
     generalinfo:
       header: "Algemene info"

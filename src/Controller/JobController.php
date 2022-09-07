@@ -33,7 +33,7 @@ class JobController extends AbstractController
             return $this->render('job/view.html.twig', ['job' => $job, 'runs' => $runs, 'allruns' => $all == 'all']);
         } elseif($request->getMethod() == 'DELETE') {
             $success = $jobRepo->deleteJob($id);
-            $this->addFlash('success', $success['message']);
+            $this->addFlash('success', 'job.index.flashes.jobdeleted');
             return new JsonResponse(['return_path' => $this->GenerateUrl('job_index')]);
         }
         return new JsonResponse(['success'=>false, 'message' => 'Your request is invalid'], Response::HTTP_BAD_REQUEST);
@@ -55,7 +55,7 @@ class JobController extends AbstractController
                 $this->addFlash('danger', $e->getMessage());
                 return new RedirectResponse($this->GenerateUrl('job_edit', ['id' => $allValues['id']]));
             }
-            $this->addFlash('success', $joboutput['message']);
+            $this->addFlash('success', 'settings.edit.flashes.jobedited');
             return new RedirectResponse($this->GenerateUrl('job_index'));
         }
         return new JsonResponse(['success'=>false, 'message' => 'Your request is invalid'], Response::HTTP_BAD_REQUEST);
@@ -74,7 +74,7 @@ class JobController extends AbstractController
                 $this->addFlash('danger', $e->getMessage());
                 return new RedirectResponse($this->GenerateUrl('job_add'));
             }
-            $this->addFlash('success', $joboutput['message']);
+            $this->addFlash('success', 'settings.add.flashes.jobadded');
             return new RedirectResponse($this->GenerateUrl('job_index'));
         } else {
             return new Response('Not implemented yet', Response::HTTP_TOO_EARLY);

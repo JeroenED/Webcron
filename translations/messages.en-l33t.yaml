@@ -41,6 +41,8 @@ job:
           success: "Cr0nj0b succ3sfuLLy r4n"
           failed: "Cr0nj0b f41L3d. PL34s3 ch3ck 0utput b3L0w"
         message: "Cr0nj0b r4n 1n _runtime_ s3c0ndz w1th 3x1t c0d3 _exitcode_"
+  flashes:
+    jobdeleted: "Cr0nj0b b succ3ssfuLLy d3L3t3d"
   view:
     title: "0v3rv13w 0f runz 4 _jobname_"
     header: "0v3rv13w 0f runz 4 _jobname_"
@@ -58,9 +60,13 @@ job:
   edit:
     title: "3d1t j0b"
     header: "3d1t j0b _jobname_"
+    flashes:
+      jobadded: "Cr0nj0b succ3ssfuLLy 3d1t3d"
   add:
     title: "4dd j0b"
     header: "4dd n3w j0b"
+    flashes:
+      jobadded: "Cr0nj0b succ3ssfuLLy 4dd3d"
   addedit:
     generalinfo:
       header: "G3n3r4L 1nf0"
