@@ -6,10 +6,10 @@ demomode:
     header: "Aanmeldgegevens voor demo modus:"
     username: "Gebruikersnaam"
     password: "Wachtwoord"
-
 menu:
   overview: "Overzicht"
   add: "Taak toevoegen"
+  settings: "Instellingen"
   logout: "Afmelden"
 security:
   login:
@@ -23,6 +23,32 @@ security:
       label: "Onthoud mij!"
     submit-btn:
       label: "Aanmelden"
+settings:
+  title: "Instellingen"
+  header: "Instellingen"
+  flashes:
+    inexistinglocale: "Taal bestaat niet"
+    localesaved: "Taal werd opgeslagen"
+    repeatpasswordnotok: "Wachtwoorden zijn niet gelijk"
+    currentpassnotok: "Wachtwoord is not correct"
+    passwordsaved: "Wachtwoord werd opgeslagen"
+  password:
+    header: "Wachtwoord"
+    current:
+      label: "Huidig wachtwoord"
+      placeholder: "abc123"
+    password:
+      label: "Nieuw wachtwoord"
+      placeholder: "abc123"
+    repeat:
+      label: "Herhaal wachtwoord"
+      placeholder: "abc123"
+  other:
+    header: "Andere instellingen"
+    locale:
+      label: "Taal"
+  submit:
+    label: "Verzend!"
 job:
   index:
     title: "Overzicht"

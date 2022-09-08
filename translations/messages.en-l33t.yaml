@@ -9,6 +9,7 @@ demomode:
 menu:
   overview: "0v3rv13w"
   add: "4dd @ n3w cr0nj0b"
+  settings: "S3tt1ngz"
   logout: "L0g0ut"
 security:
   login:
@@ -22,6 +23,32 @@ security:
       label: "D0 n0t f0rg3t"
     submit-btn:
       label: "3nt3r"
+settings:
+  title: "S3tt1ngz"
+  header: "S3tt1ngz"
+  flashes:
+    inexistinglocale: "L0c4L3 d03z n0t 3x1st"
+    localesaved: "L0c4L3 b s4v3d"
+    repeatpasswordnoto: "P4ssw0rdz 1z n0t 3qu4L"
+    currentpassnotok: "P4ssw0rd b n0t c0rr3ct"
+    passwordsaved: "P4ssw0rd b s4v3d"
+  password:
+    header: "P4ssw0rd"
+    current:
+      label: "Curr3nt p4ssw0rd"
+      placeholder: "abc123"
+    password:
+      label: "N3w p4ssw0rd"
+      placeholder: "abc123"
+    repeat:
+      label: "R3p34t p4ssw0rd"
+      placeholder: "abc123"
+  other:
+    header: "0th3r s3tt1ngz"
+    locale:
+      label: "L0c4L3"
+  submit:
+    label: "Subm1t"
 job:
   index:
     title: "0v3rv13w"

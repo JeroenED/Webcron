@@ -9,6 +9,7 @@ demomode:
 menu:
   overview: "Overview"
   add: "Add a new cronjob"
+  settings: "Settings"
   logout: "Logout"
 security:
   login:
@@ -22,6 +23,32 @@ security:
       label: "Remember, remember"
     submit-btn:
       label: "Login"
+settings:
+  title: "Settings"
+  header: "Settings"
+  flashes:
+    inexistinglocale: "Locale does not exist"
+    localesaved: "Locale is saved"
+    repeatpasswordnoto: "Passwords are not equal"
+    currentpassnotok: "Password is not correct"
+    passwordsaved: "Password is saved"
+  password:
+    header: "Password"
+    current:
+      label: "Current password"
+      placeholder: "abc123"
+    password:
+      label: "New password"
+      placeholder: "abc123"
+    repeat:
+      label: "Repeat password"
+      placeholder: "abc123"
+  other:
+    header: "Other settings"
+    locale:
+      label: "Locale"
+  submit:
+    label: "Submit"
 job:
   index:
     title: "Overview"

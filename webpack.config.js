@@ -20,6 +20,7 @@ Encore
      * Each entry will result in one JavaScript file (e.g. app.js)
      * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
      */
+    .addEntry('settings', './assets/js/settings.js')
     .addEntry('security.login', './assets/js/security/login.js')
     .addEntry('job.index', './assets/js/job/index.js')
     .addEntry('job.view', './assets/js/job/view.js')

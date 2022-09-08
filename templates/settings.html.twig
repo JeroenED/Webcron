@@ -1,0 +1,44 @@
+{% extends "base.html.twig" %}
+{% block title %}{{ "settings.title" | trans }}{% endblock %}
+{% block content %}
+<h2>{{ "settings.header" | trans }}</h2>
+<form method="post" class="form-horizontal" enctype="multipart/form-data" action="{{ path('settings_save') }}">
+
+    <h3>{{ "settings.password.header" | trans }}</h3>
+
+    <div class="mb-3">
+        <label for="current">{{ "settings.password.current.label" | trans }}</label>
+        <input type="password" name="current" class="form-control" id="current" placeholder="{{ "settings.password.current.placeholder" | trans }}">
+    </div>
+
+    <div class="mb-3">
+        <label for="password">{{ "settings.password.password.label" | trans }}</label>
+        <input type="password" name="password" class="form-control" id="password" placeholder="{{ "settings.password.password.placeholder" | trans }}">
+    </div>
+
+    <div class="mb-3">
+        <label for="repeat">{{ "settings.password.repeat.label" | trans }}</label>
+        <input type="password" name="repeat" class="form-control" id="repeat" placeholder="{{ "settings.password.repeat.placeholder" | trans }}">
+    </div>
+
+    <h3>{{ "settings.other.header" | trans }}</h3>
+    <div class="mb-3">
+        <label for="locale">{{ "settings.other.locale.label" | trans }}</label>
+        <select name="locale" class="form-select">
+            {% for code,locale in locales %}
+                <option value="{{ code }}"{% if code == user.locale %} selected{% endif %}>{{ locale }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <button type="submit" class="btn btn-outline-primary">{{ "settings.submit.label" | trans }}</button>
+</form>
+
+{% endblock %}
+
+{% block styles %}
+    {{ encore_entry_link_tags('settings') }}
+{% endblock %}
+
+{% block scripts %}
+    {{ encore_entry_script_tags('settings') }}
+{% endblock %}

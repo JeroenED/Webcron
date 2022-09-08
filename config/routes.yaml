@@ -1,6 +1,6 @@
 default:
   path: '/'
-  controller: App\Controller\SecurityController::loginAction
+  controller: App\Controller\UserController::loginAction
 
 login_check:
   path: '/login_check'
@@ -16,13 +16,23 @@ favicon:
   path: '/favicon.ico'
   controller: App\Controller\SiteController::faviconAction
 
+settings:
+  path: '/{_locale}/settings'
+  methods: [ 'GET' ]
+  controller: App\Controller\UserController::settingsAction
+
+settings_save:
+  path: '/{_locale}/settings'
+  methods: [ 'POST' ]
+  controller: App\Controller\UserController::settingsSaveAction
+
 default_locale:
   path: '/{_locale}'
-  controller: App\Controller\SecurityController::loginAction
+  controller: App\Controller\UserController::loginAction
 
 login:
   path: '/{_locale}/login'
-  controller: App\Controller\SecurityController::loginAction
+  controller: App\Controller\UserController::loginAction
 
 job_index:
   path: '/{_locale}/job'
