@@ -55,7 +55,7 @@ class JobController extends AbstractController
                 $this->addFlash('danger', $e->getMessage());
                 return new RedirectResponse($this->GenerateUrl('job_edit', ['id' => $allValues['id']]));
             }
-            $this->addFlash('success', 'settings.edit.flashes.jobedited');
+            $this->addFlash('success', 'job.edit.flashes.jobedited');
             return new RedirectResponse($this->GenerateUrl('job_index'));
         }
         return new JsonResponse(['success'=>false, 'message' => 'Your request is invalid'], Response::HTTP_BAD_REQUEST);
@@ -74,7 +74,7 @@ class JobController extends AbstractController
                 $this->addFlash('danger', $e->getMessage());
                 return new RedirectResponse($this->GenerateUrl('job_add'));
             }
-            $this->addFlash('success', 'settings.add.flashes.jobadded');
+            $this->addFlash('success', 'job.add.flashes.jobadded');
             return new RedirectResponse($this->GenerateUrl('job_index'));
         } else {
             return new Response('Not implemented yet', Response::HTTP_TOO_EARLY);
