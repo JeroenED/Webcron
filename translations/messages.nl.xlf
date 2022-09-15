@@ -1,0 +1,618 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" target-language="nl" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="qvIyBkY" resname="title">
+        <source>title</source>
+        <target state="final">Webcron management</target>
+      </trans-unit>
+      <trans-unit id="HgWEol2" resname="header">
+        <source>header</source>
+        <target state="final">Webcron management</target>
+      </trans-unit>
+      <trans-unit id="Q54TzT5" resname="demomode.flashnotice">
+        <source>demomode.flashnotice</source>
+        <target state="final">Deze applicatie is in demo modus. Alle functies zijn actief, maar taken worden niet uitgevoerd</target>
+      </trans-unit>
+      <trans-unit id="rpq61qN" resname="demomode.credentials.header">
+        <source>demomode.credentials.header</source>
+        <target state="final">Aanmeldgegevens voor demo modus:</target>
+      </trans-unit>
+      <trans-unit id="jUz9fVE" resname="demomode.credentials.username">
+        <source>demomode.credentials.username</source>
+        <target state="final">Gebruikersnaam</target>
+      </trans-unit>
+      <trans-unit id="QNu97w_" resname="demomode.credentials.password">
+        <source>demomode.credentials.password</source>
+        <target state="final">Wachtwoord</target>
+      </trans-unit>
+      <trans-unit id="U8IBiON" resname="menu.overview">
+        <source>menu.overview</source>
+        <target state="final">Overzicht</target>
+      </trans-unit>
+      <trans-unit id="iGC7eCk" resname="menu.add">
+        <source>menu.add</source>
+        <target state="final">Taak toevoegen</target>
+      </trans-unit>
+      <trans-unit id="4UTsL.X" resname="menu.settings">
+        <source>menu.settings</source>
+        <target state="final">Instellingen</target>
+      </trans-unit>
+      <trans-unit id="wBTFKFR" resname="menu.logout">
+        <source>menu.logout</source>
+        <target state="final">Afmelden</target>
+      </trans-unit>
+      <trans-unit id="4cxyGOO" resname="security.login.username.label">
+        <source>security.login.username.label</source>
+        <target state="final">Gebruikersnaam</target>
+      </trans-unit>
+      <trans-unit id="u2tKtI1" resname="security.login.username.placeholder">
+        <source>security.login.username.placeholder</source>
+        <target state="final">jeroen@example.com</target>
+      </trans-unit>
+      <trans-unit id="Niy_SZ2" resname="security.login.password.label">
+        <source>security.login.password.label</source>
+        <target state="final">Wachtwoord</target>
+      </trans-unit>
+      <trans-unit id="3rU2_6v" resname="security.login.password.placeholder">
+        <source>security.login.password.placeholder</source>
+        <target state="final">abc123</target>
+      </trans-unit>
+      <trans-unit id="0MGdvgf" resname="security.login.remember.label">
+        <source>security.login.remember.label</source>
+        <target state="final">Onthoud mij!</target>
+      </trans-unit>
+      <trans-unit id="4GvZndQ" resname="security.login.submit-btn.label">
+        <source>security.login.submit-btn.label</source>
+        <target state="final">Aanmelden</target>
+      </trans-unit>
+      <trans-unit id="W.225Bj" resname="settings.title">
+        <source>settings.title</source>
+        <target state="final">Instellingen</target>
+      </trans-unit>
+      <trans-unit id="a1bm5YC" resname="settings.header">
+        <source>settings.header</source>
+        <target state="final">Instellingen</target>
+      </trans-unit>
+      <trans-unit id="qUrJMfo" resname="settings.flashes.inexistinglocale">
+        <source>settings.flashes.inexistinglocale</source>
+        <target state="final">Taal bestaat niet</target>
+      </trans-unit>
+      <trans-unit id="XcSnV8X" resname="settings.flashes.localesaved">
+        <source>settings.flashes.localesaved</source>
+        <target state="final">Taal werd opgeslagen</target>
+      </trans-unit>
+      <trans-unit id="kpbry92" resname="settings.flashes.repeatpasswordnotok">
+        <source>settings.flashes.repeatpasswordnotok</source>
+        <target state="final">Wachtwoorden zijn niet gelijk</target>
+      </trans-unit>
+      <trans-unit id="DpJMsln" resname="settings.flashes.currentpassnotok">
+        <source>settings.flashes.currentpassnotok</source>
+        <target state="final">Wachtwoord is not correct</target>
+      </trans-unit>
+      <trans-unit id="tB3o6UA" resname="settings.flashes.passwordsaved">
+        <source>settings.flashes.passwordsaved</source>
+        <target state="final">Wachtwoord werd opgeslagen</target>
+      </trans-unit>
+      <trans-unit id="aAt4FLV" resname="settings.password.header">
+        <source>settings.password.header</source>
+        <target state="final">Wachtwoord</target>
+      </trans-unit>
+      <trans-unit id="qqAzx9b" resname="settings.password.current.label">
+        <source>settings.password.current.label</source>
+        <target state="final">Huidig wachtwoord</target>
+      </trans-unit>
+      <trans-unit id="rr8bU5t" resname="settings.password.current.placeholder">
+        <source>settings.password.current.placeholder</source>
+        <target state="final">abc123</target>
+      </trans-unit>
+      <trans-unit id="YVhGwqr" resname="settings.password.password.label">
+        <source>settings.password.password.label</source>
+        <target state="final">Nieuw wachtwoord</target>
+      </trans-unit>
+      <trans-unit id="OZpjE9T" resname="settings.password.password.placeholder">
+        <source>settings.password.password.placeholder</source>
+        <target state="final">123abc</target>
+      </trans-unit>
+      <trans-unit id="TNBtpD_" resname="settings.password.repeat.label">
+        <source>settings.password.repeat.label</source>
+        <target state="final">Herhaal wachtwoord</target>
+      </trans-unit>
+      <trans-unit id="bYb7Tz." resname="settings.password.repeat.placeholder">
+        <source>settings.password.repeat.placeholder</source>
+        <target state="final">123abc</target>
+      </trans-unit>
+      <trans-unit id="_OGkxC8" resname="settings.other.header">
+        <source>settings.other.header</source>
+        <target state="final">Andere instellingen</target>
+      </trans-unit>
+      <trans-unit id="78Yswpr" resname="settings.other.locale.label">
+        <source>settings.other.locale.label</source>
+        <target state="final">Taal</target>
+      </trans-unit>
+      <trans-unit id="WQ4J4Fx" resname="settings.submit.label">
+        <source>settings.submit.label</source>
+        <target state="final">Verzend!</target>
+      </trans-unit>
+      <trans-unit id="0eRDYaC" resname="job.index.title">
+        <source>job.index.title</source>
+        <target state="final">Overzicht</target>
+      </trans-unit>
+      <trans-unit id="J.7dT3_" resname="job.index.header">
+        <source>job.index.header</source>
+        <target state="final">Overzicht van de geplande taken</target>
+      </trans-unit>
+      <trans-unit id="T0URP45" resname="job.index.table.headers.name">
+        <source>job.index.table.headers.name</source>
+        <target state="final">Naam</target>
+      </trans-unit>
+      <trans-unit id="vNWgxUJ" resname="job.index.table.headers.host">
+        <source>job.index.table.headers.host</source>
+        <target state="final">Host</target>
+      </trans-unit>
+      <trans-unit id="1YQJCGW" resname="job.index.table.headers.interval">
+        <source>job.index.table.headers.interval</source>
+        <target state="final">Interval</target>
+      </trans-unit>
+      <trans-unit id="mZ.gLJq" resname="job.index.table.headers.nextrun">
+        <source>job.index.table.headers.nextrun</source>
+        <target state="final">Volgende uitvoering</target>
+      </trans-unit>
+      <trans-unit id="n9XSrh3" resname="job.index.runnow.deferred.title">
+        <source>job.index.runnow.deferred.title</source>
+        <target state="final">Taak werd doorgestuurd naar de daemon</target>
+      </trans-unit>
+      <trans-unit id="2QVNoEx" resname="job.index.runnow.deferred.message">
+        <source>job.index.runnow.deferred.message</source>
+        <target state="final">Taak werd doorgestuurd naar de daemon. De output vind u binnenkort in de taakdetails</target>
+      </trans-unit>
+      <trans-unit id="_9vL1xO" resname="job.index.runnow.ran.title.success">
+        <source>job.index.runnow.ran.title.success</source>
+        <target state="final">Taak werd succesvol uitgevoerd</target>
+      </trans-unit>
+      <trans-unit id="SH3oarr" resname="job.index.runnow.ran.title.failed">
+        <source>job.index.runnow.ran.title.failed</source>
+        <target state="final">Taak faalde. Hieronder vind u de output ter controle</target>
+      </trans-unit>
+      <trans-unit id="az3XJT4" resname="job.index.runnow.ran.message">
+        <source>job.index.runnow.ran.message</source>
+        <target state="final">Taak werd in _runtime_ seconden uitgevoerd met resultaat _exitcode_</target>
+      </trans-unit>
+      <trans-unit id="mokjk0L" resname="job.index.flashes.jobdeleted">
+        <source>job.index.flashes.jobdeleted</source>
+        <target state="final">Taak werd succesvol verwijderd</target>
+      </trans-unit>
+      <trans-unit id="SF_jXZZ" resname="job.view.title">
+        <source>job.view.title</source>
+        <target state="final">Overzicht van uitvoeringen van _jobname_</target>
+      </trans-unit>
+      <trans-unit id="ysrfPnl" resname="job.view.header">
+        <source>job.view.header</source>
+        <target state="final">Overzicht van uitvoeringen van _jobname_</target>
+      </trans-unit>
+      <trans-unit id="KBsRhNs" resname="job.view.edit">
+        <source>job.view.edit</source>
+        <target state="final">Bewerk taak</target>
+      </trans-unit>
+      <trans-unit id="xvdCrX2" resname="job.view.show.onlyfailed">
+        <source>job.view.show.onlyfailed</source>
+        <target state="final">Toon alleen gefaalde uitvoeringen</target>
+      </trans-unit>
+      <trans-unit id="_zWmcxu" resname="job.view.show.all">
+        <source>job.view.show.all</source>
+        <target state="final">Toon alle uitvoeringen</target>
+      </trans-unit>
+      <trans-unit id="lpu6CQS" resname="job.view.results.exitcode">
+        <source>job.view.results.exitcode</source>
+        <target state="final">Resultaat</target>
+      </trans-unit>
+      <trans-unit id="9EemRnl" resname="job.view.results.runtime">
+        <source>job.view.results.runtime</source>
+        <target state="final">Duurtijd</target>
+      </trans-unit>
+      <trans-unit id="juzEgkd" resname="job.view.results.manual">
+        <source>job.view.results.manual</source>
+        <target state="final">Manuele uitvoering</target>
+      </trans-unit>
+      <trans-unit id="H.6.gtG" resname="job.view.results.noresults.failed">
+        <source>job.view.results.noresults.failed</source>
+        <target state="final">Geen gefaalde uitvoeringen gevonden</target>
+      </trans-unit>
+      <trans-unit id="u3QkQi1" resname="job.view.results.noresults.all">
+        <source>job.view.results.noresults.all</source>
+        <target state="final">Geen uitvoeringen gevonden</target>
+      </trans-unit>
+      <trans-unit id="zBxeZSL" resname="job.edit.title">
+        <source>job.edit.title</source>
+        <target state="final">Bewerk taak</target>
+      </trans-unit>
+      <trans-unit id="CDJme2K" resname="job.edit.header">
+        <source>job.edit.header</source>
+        <target state="final">Bewerk taak _jobname_</target>
+      </trans-unit>
+      <trans-unit id="eU2m5Zf" resname="job.edit.flashes.jobedited">
+        <source>job.edit.flashes.jobedited</source>
+        <target state="final">Taak werd succesvol bijgewerkt</target>
+      </trans-unit>
+      <trans-unit id="CPdXoro" resname="job.add.title">
+        <source>job.add.title</source>
+        <target state="final">Taak toevoegen</target>
+      </trans-unit>
+      <trans-unit id=".pKQkI0" resname="job.add.header">
+        <source>job.add.header</source>
+        <target state="final">Nieuwe taak toevoegen</target>
+      </trans-unit>
+      <trans-unit id="66iDRun" resname="job.add.flashes.jobadded">
+        <source>job.add.flashes.jobadded</source>
+        <target state="final">Taak werd succesvol toegevoegd</target>
+      </trans-unit>
+      <trans-unit id="h9UI9nK" resname="job.addedit.generalinfo.header">
+        <source>job.addedit.generalinfo.header</source>
+        <target state="final">Algemene info</target>
+      </trans-unit>
+      <trans-unit id="2.rDz7o" resname="job.addedit.generalinfo.name.label">
+        <source>job.addedit.generalinfo.name.label</source>
+        <target state="final">Naam</target>
+      </trans-unit>
+      <trans-unit id="3FV9jvC" resname="job.addedit.generalinfo.name.placeholder">
+        <source>job.addedit.generalinfo.name.placeholder</source>
+        <target state="final">Systemen updaten</target>
+      </trans-unit>
+      <trans-unit id="j9FTkRt" resname="job.addedit.generalinfo.name.helptext">
+        <source>job.addedit.generalinfo.name.helptext</source>
+        <target state="final">Je kan gekleurde tags toevoegen met [tag]</target>
+      </trans-unit>
+      <trans-unit id="CL7GVb3" resname="job.addedit.generalinfo.interval.label">
+        <source>job.addedit.generalinfo.interval.label</source>
+        <target state="final">Interval (in seconden)</target>
+      </trans-unit>
+      <trans-unit id="iSs41MC" resname="job.addedit.generalinfo.interval.placeholder">
+        <source>job.addedit.generalinfo.interval.placeholder</source>
+        <target state="final">3600</target>
+      </trans-unit>
+      <trans-unit id="OTx9beS" resname="job.addedit.generalinfo.interval.patterns.label">
+        <source>job.addedit.generalinfo.interval.patterns.label</source>
+        <target state="final">Patronen</target>
+      </trans-unit>
+      <trans-unit id="0ATgoBe" resname="job.addedit.generalinfo.interval.patterns.minute">
+        <source>job.addedit.generalinfo.interval.patterns.minute</source>
+        <target state="final">Iedere minuut</target>
+      </trans-unit>
+      <trans-unit id="f0o1GlZ" resname="job.addedit.generalinfo.interval.patterns.hour">
+        <source>job.addedit.generalinfo.interval.patterns.hour</source>
+        <target state="final">Ieder uur</target>
+      </trans-unit>
+      <trans-unit id="hCmc8AA" resname="job.addedit.generalinfo.interval.patterns.day">
+        <source>job.addedit.generalinfo.interval.patterns.day</source>
+        <target state="final">Iedere dag</target>
+      </trans-unit>
+      <trans-unit id="zmUXvRU" resname="job.addedit.generalinfo.interval.patterns.week">
+        <source>job.addedit.generalinfo.interval.patterns.week</source>
+        <target state="final">Iedere week</target>
+      </trans-unit>
+      <trans-unit id="ISEzS__" resname="job.addedit.generalinfo.interval.patterns.4week">
+        <source>job.addedit.generalinfo.interval.patterns.4week</source>
+        <target state="final">Iedere 4 weken</target>
+      </trans-unit>
+      <trans-unit id="HWDmm9f" resname="job.addedit.generalinfo.nextrun.label">
+        <source>job.addedit.generalinfo.nextrun.label</source>
+        <target state="final">Volgende uitvoering</target>
+      </trans-unit>
+      <trans-unit id="e1RkhOF" resname="job.addedit.generalinfo.lastrun.label">
+        <source>job.addedit.generalinfo.lastrun.label</source>
+        <target state="final">Laatste uitvoering</target>
+      </trans-unit>
+      <trans-unit id="kw_hgon" resname="job.addedit.generalinfo.lastrun.eternal.label">
+        <source>job.addedit.generalinfo.lastrun.eternal.label</source>
+        <target state="final">Eeuwig</target>
+      </trans-unit>
+      <trans-unit id="sdUg23G" resname="job.addedit.generalinfo.retention.label">
+        <source>job.addedit.generalinfo.retention.label</source>
+        <target state="final">Opslag (in dagen)</target>
+      </trans-unit>
+      <trans-unit id="nWofDbf" resname="job.addedit.generalinfo.retention.placeholder">
+        <source>job.addedit.generalinfo.retention.placeholder</source>
+        <target state="final">180</target>
+      </trans-unit>
+      <trans-unit id="eHfLjBO" resname="job.addedit.generalinfo.retention.helptext">
+        <source>job.addedit.generalinfo.retention.helptext</source>
+        <target state="final">Hoeveel dagen moeten uitvoeringen van een job bewaard worden</target>
+      </trans-unit>
+      <trans-unit id="kfQDfoB" resname="job.addedit.generalinfo.failpercentage.label">
+        <source>job.addedit.generalinfo.failpercentage.label</source>
+        <target state="final">Max faalpercentage</target>
+      </trans-unit>
+      <trans-unit id="Ytyhy77" resname="job.addedit.generalinfo.faildays.label">
+        <source>job.addedit.generalinfo.faildays.label</source>
+        <target state="final">Aantal dagen berekend voor faalpercentage</target>
+      </trans-unit>
+      <trans-unit id="2O_wFoD" resname="job.addedit.generalinfo.faildays.placeholder">
+        <source>job.addedit.generalinfo.faildays.placeholder</source>
+        <target state="final">7</target>
+      </trans-unit>
+      <trans-unit id="UvMb6oM" resname="job.addedit.generalinfo.hostlabel.label">
+        <source>job.addedit.generalinfo.hostlabel.label</source>
+        <target state="final">Host label</target>
+      </trans-unit>
+      <trans-unit id="GjPGKoQ" resname="job.addedit.generalinfo.hostlabel.placeholder">
+        <source>job.addedit.generalinfo.hostlabel.placeholder</source>
+        <target state="final">petrosian.jeroened.be</target>
+      </trans-unit>
+      <trans-unit id="moGlM4y" resname="job.addedit.generalinfo.hostlabel.helptext">
+        <source>job.addedit.generalinfo.hostlabel.helptext</source>
+        <target state="final">Geef hier een eenvoudig te herkennen hostnaam. Indien leeg zal hostnaam uit de taak details gebruikt worden</target>
+      </trans-unit>
+      <trans-unit id="VEORPjf" resname="job.addedit.jobdetails.header">
+        <source>job.addedit.jobdetails.header</source>
+        <target state="final">Taak details</target>
+      </trans-unit>
+      <trans-unit id="7haVx1t" resname="job.addedit.crontype.label">
+        <source>job.addedit.crontype.label</source>
+        <target state="final">Taak type</target>
+      </trans-unit>
+      <trans-unit id="kw_PINJ" resname="job.addedit.crontype.command.label">
+        <source>job.addedit.crontype.command.label</source>
+        <target state="final">Commando</target>
+      </trans-unit>
+      <trans-unit id="sxAwNxW" resname="job.addedit.crontype.command.header">
+        <source>job.addedit.crontype.command.header</source>
+        <target state="final">Commando details</target>
+      </trans-unit>
+      <trans-unit id="ZNQUrj7" resname="job.addedit.crontype.command.command.label">
+        <source>job.addedit.crontype.command.command.label</source>
+        <target state="final">Commando</target>
+      </trans-unit>
+      <trans-unit id="aWesJsc" resname="job.addedit.crontype.command.command.placeholder">
+        <source>job.addedit.crontype.command.command.placeholder</source>
+        <target state="final">sudo apt update</target>
+      </trans-unit>
+      <trans-unit id="os3VpHs" resname="job.addedit.crontype.command.response.label">
+        <source>job.addedit.crontype.command.response.label</source>
+        <target state="final">Verwacht resultaat</target>
+      </trans-unit>
+      <trans-unit id="RIWj._C" resname="job.addedit.crontype.command.response.placeholder">
+        <source>job.addedit.crontype.command.response.placeholder</source>
+        <target state="final">0</target>
+      </trans-unit>
+      <trans-unit id="A66vsIi" resname="job.addedit.crontype.reboot.label">
+        <source>job.addedit.crontype.reboot.label</source>
+        <target state="final">Herstart</target>
+      </trans-unit>
+      <trans-unit id="Kv8GihO" resname="job.addedit.crontype.reboot.header">
+        <source>job.addedit.crontype.reboot.header</source>
+        <target state="final">Herstart details</target>
+      </trans-unit>
+      <trans-unit id="hy8z.7x" resname="job.addedit.crontype.reboot.reboot.command.label">
+        <source>job.addedit.crontype.reboot.reboot.command.label</source>
+        <target state="final">Herstart commando</target>
+      </trans-unit>
+      <trans-unit id="tw3YvLz" resname="job.addedit.crontype.reboot.reboot.command.placeholder">
+        <source>job.addedit.crontype.reboot.reboot.command.placeholder</source>
+        <target state="final">systemctl reboot</target>
+      </trans-unit>
+      <trans-unit id="p0Seiyx" resname="job.addedit.crontype.reboot.reboot.command.helptext">
+        <source>job.addedit.crontype.reboot.reboot.command.helptext</source>
+        <target state="final">Gebruik {reboot-delay} of {reboot-delay-secs} om de vertraging toe te voegen in je commando</target>
+      </trans-unit>
+      <trans-unit id="bEPANkU" resname="job.addedit.crontype.reboot.reboot.delay.label">
+        <source>job.addedit.crontype.reboot.reboot.delay.label</source>
+        <target state="final">Herstart vertraging (in minuten)</target>
+      </trans-unit>
+      <trans-unit id="f38i.f6" resname="job.addedit.crontype.reboot.reboot.delay.placeholder">
+        <source>job.addedit.crontype.reboot.reboot.delay.placeholder</source>
+        <target state="final">5</target>
+      </trans-unit>
+      <trans-unit id="T55_j9D" resname="job.addedit.crontype.reboot.reboot.delay.helptext">
+        <source>job.addedit.crontype.reboot.reboot.delay.helptext</source>
+        <target state="final">Tijd tussen het aanroepen van herstart commando en de eigenlijke herstart</target>
+      </trans-unit>
+      <trans-unit id="EbgF04P" resname="job.addedit.crontype.reboot.reboot.duration.label">
+        <source>job.addedit.crontype.reboot.reboot.duration.label</source>
+        <target state="final">Duurtijd van herstart (in minuten)</target>
+      </trans-unit>
+      <trans-unit id="1FVsnYa" resname="job.addedit.crontype.reboot.reboot.duration.placeholder">
+        <source>job.addedit.crontype.reboot.reboot.duration.placeholder</source>
+        <target state="final">10</target>
+      </trans-unit>
+      <trans-unit id="VWOhJBY" resname="job.addedit.crontype.reboot.reboot.duration.helptext">
+        <source>job.addedit.crontype.reboot.reboot.duration.helptext</source>
+        <target state="final">De tijd dat de effectieve herstart duurt</target>
+      </trans-unit>
+      <trans-unit id="ENLtpfK" resname="job.addedit.crontype.reboot.getservices.command.label">
+        <source>job.addedit.crontype.reboot.getservices.command.label</source>
+        <target state="final">Commando voor ophalen services</target>
+      </trans-unit>
+      <trans-unit id="yxIObGq" resname="job.addedit.crontype.reboot.getservices.command.placeholder">
+        <source>job.addedit.crontype.reboot.getservices.command.placeholder</source>
+        <target state="final">systemctl list-units</target>
+      </trans-unit>
+      <trans-unit id="aurJI0X" resname="job.addedit.crontype.reboot.getservices.response.label">
+        <source>job.addedit.crontype.reboot.getservices.response.label</source>
+        <target state="final">Resultaat van commando voor ophalen services</target>
+      </trans-unit>
+      <trans-unit id="xMbagrx" resname="job.addedit.crontype.reboot.getservices.response.placeholder">
+        <source>job.addedit.crontype.reboot.getservices.response.placeholder</source>
+        <target state="final">0</target>
+      </trans-unit>
+      <trans-unit id="ze4mr8D" resname="job.addedit.crontype.http.label">
+        <source>job.addedit.crontype.http.label</source>
+        <target state="final">HTTP request</target>
+      </trans-unit>
+      <trans-unit id="oJn3xvZ" resname="job.addedit.crontype.http.header">
+        <source>job.addedit.crontype.http.header</source>
+        <target state="final">HTTP request details</target>
+      </trans-unit>
+      <trans-unit id="hwhqEtB" resname="job.addedit.crontype.http.url.label">
+        <source>job.addedit.crontype.http.url.label</source>
+        <target state="final">Url</target>
+      </trans-unit>
+      <trans-unit id="31CZuNl" resname="job.addedit.crontype.http.url.placeholder">
+        <source>job.addedit.crontype.http.url.placeholder</source>
+        <target state="final">https://www.example.com</target>
+      </trans-unit>
+      <trans-unit id="gGpY1Gz" resname="job.addedit.crontype.http.basic-auth.username.label">
+        <source>job.addedit.crontype.http.basic-auth.username.label</source>
+        <target state="final">Gebruikersnaam voor basic auth</target>
+      </trans-unit>
+      <trans-unit id="9d3Trxr" resname="job.addedit.crontype.http.basic-auth.username.placeholder">
+        <source>job.addedit.crontype.http.basic-auth.username.placeholder</source>
+        <target state="final">www-data</target>
+      </trans-unit>
+      <trans-unit id="27zbUzr" resname="job.addedit.crontype.http.basic-auth.password.label">
+        <source>job.addedit.crontype.http.basic-auth.password.label</source>
+        <target state="final">Wachtwoord voor basic auth</target>
+      </trans-unit>
+      <trans-unit id="ROX9KeU" resname="job.addedit.crontype.http.basic-auth.password.placeholder">
+        <source>job.addedit.crontype.http.basic-auth.password.placeholder</source>
+        <target state="final">correct horse battery staple</target>
+      </trans-unit>
+      <trans-unit id="pRPdCPd" resname="job.addedit.crontype.http.basic-auth.password.helptext">
+        <source>job.addedit.crontype.http.basic-auth.password.helptext</source>
+        <target state="final">Dit veld word opgeslagen als geheime waarde</target>
+      </trans-unit>
+      <trans-unit id="SnZXqhK" resname="job.addedit.crontype.http.response.label">
+        <source>job.addedit.crontype.http.response.label</source>
+        <target state="final">Verwachte http status code</target>
+      </trans-unit>
+      <trans-unit id="aLSDlKd" resname="job.addedit.crontype.http.response.placeholder">
+        <source>job.addedit.crontype.http.response.placeholder</source>
+        <target state="final">418</target>
+      </trans-unit>
+      <trans-unit id="oV9GuKJ" resname="job.addedit.hosttype.label">
+        <source>job.addedit.hosttype.label</source>
+        <target state="final">Host type</target>
+      </trans-unit>
+      <trans-unit id="eBXA85X" resname="job.addedit.hosttype.local.label">
+        <source>job.addedit.hosttype.local.label</source>
+        <target state="final">Lokaal</target>
+      </trans-unit>
+      <trans-unit id="ZeflLHK" resname="job.addedit.hosttype.local.header">
+        <source>job.addedit.hosttype.local.header</source>
+        <target state="final">Localhost details</target>
+      </trans-unit>
+      <trans-unit id="1atQ8Ot" resname="job.addedit.hosttype.local.nodetails">
+        <source>job.addedit.hosttype.local.nodetails</source>
+        <target state="final">Geen opties</target>
+      </trans-unit>
+      <trans-unit id="oUUVCNC" resname="job.addedit.hosttype.ssh.label">
+        <source>job.addedit.hosttype.ssh.label</source>
+        <target state="final">SSH</target>
+      </trans-unit>
+      <trans-unit id="HIND6DD" resname="job.addedit.hosttype.ssh.header">
+        <source>job.addedit.hosttype.ssh.header</source>
+        <target state="final">SSH host details</target>
+      </trans-unit>
+      <trans-unit id="n_JNj3z" resname="job.addedit.hosttype.ssh.hostname.label">
+        <source>job.addedit.hosttype.ssh.hostname.label</source>
+        <target state="final">Hostnaam</target>
+      </trans-unit>
+      <trans-unit id="4ZEnTLC" resname="job.addedit.hosttype.ssh.hostname.placeholder">
+        <source>job.addedit.hosttype.ssh.hostname.placeholder</source>
+        <target state="final">ssh.abc.xyz</target>
+      </trans-unit>
+      <trans-unit id="08j0NEG" resname="job.addedit.hosttype.ssh.username.label">
+        <source>job.addedit.hosttype.ssh.username.label</source>
+        <target state="final">Gebruikersnaam</target>
+      </trans-unit>
+      <trans-unit id="EJOhQKe" resname="job.addedit.hosttype.ssh.username.placeholder">
+        <source>job.addedit.hosttype.ssh.username.placeholder</source>
+        <target state="final">larry</target>
+      </trans-unit>
+      <trans-unit id="VEZQ7fY" resname="job.addedit.hosttype.ssh.privatekey.label">
+        <source>job.addedit.hosttype.ssh.privatekey.label</source>
+        <target state="final">Privésleutel</target>
+      </trans-unit>
+      <trans-unit id="1MzOMSK" resname="job.addedit.hosttype.ssh.privatekey.helptext">
+        <source>job.addedit.hosttype.ssh.privatekey.helptext</source>
+        <target state="final">Dit bestand word opgeslagen als geheime waarde</target>
+      </trans-unit>
+      <trans-unit id="uVSkZpl" resname="job.addedit.hosttype.ssh.privatekey.keep.label">
+        <source>job.addedit.hosttype.ssh.privatekey.keep.label</source>
+        <target state="final">Behoud</target>
+      </trans-unit>
+      <trans-unit id="nxl.bTZ" resname="job.addedit.hosttype.ssh.passphrase.label">
+        <source>job.addedit.hosttype.ssh.passphrase.label</source>
+        <target state="final">Wachtwoord voor privésleutel</target>
+      </trans-unit>
+      <trans-unit id="rYaggeh" resname="job.addedit.hosttype.ssh.passphrase.placeholder">
+        <source>job.addedit.hosttype.ssh.passphrase.placeholder</source>
+        <target state="final">abc123</target>
+      </trans-unit>
+      <trans-unit id="MAQ8t1s" resname="job.addedit.hosttype.ssh.passphrase.helptext">
+        <source>job.addedit.hosttype.ssh.passphrase.helptext</source>
+        <target state="final">Indien er geen privésleutel is meegegeven zal dit gebruikt worden als gewoon wachtwoord. Dit veld word opgeslagen als geheime waarde</target>
+      </trans-unit>
+      <trans-unit id="8q0z3bf" resname="job.addedit.containertype.label">
+        <source>job.addedit.containertype.label</source>
+        <target state="final">Container type</target>
+      </trans-unit>
+      <trans-unit id="ZPis4Xx" resname="job.addedit.containertype.none.label">
+        <source>job.addedit.containertype.none.label</source>
+        <target state="final">Geen</target>
+      </trans-unit>
+      <trans-unit id="AGADEB_" resname="job.addedit.containertype.docker.label">
+        <source>job.addedit.containertype.docker.label</source>
+        <target state="final">Docker</target>
+      </trans-unit>
+      <trans-unit id="1hg_Lri" resname="job.addedit.containertype.docker.header">
+        <source>job.addedit.containertype.docker.header</source>
+        <target state="final">Docker container details</target>
+      </trans-unit>
+      <trans-unit id="fddg1.3" resname="job.addedit.containertype.docker.service.label">
+        <source>job.addedit.containertype.docker.service.label</source>
+        <target state="final">Service</target>
+      </trans-unit>
+      <trans-unit id="mmNVzOj" resname="job.addedit.containertype.docker.service.placeholder">
+        <source>job.addedit.containertype.docker.service.placeholder</source>
+        <target state="final">mysql</target>
+      </trans-unit>
+      <trans-unit id="kaHv1qa" resname="job.addedit.containertype.docker.username.label">
+        <source>job.addedit.containertype.docker.username.label</source>
+        <target state="final">Gebruikersnaam</target>
+      </trans-unit>
+      <trans-unit id="UzbvieZ" resname="job.addedit.containertype.docker.username.placeholder">
+        <source>job.addedit.containertype.docker.username.placeholder</source>
+        <target state="final">larry</target>
+      </trans-unit>
+      <trans-unit id="BsHxmnc" resname="job.addedit.variables.header">
+        <source>job.addedit.variables.header</source>
+        <target state="final">Variabelen</target>
+      </trans-unit>
+      <trans-unit id="pawk4nL" resname="job.addedit.variables.secret.label">
+        <source>job.addedit.variables.secret.label</source>
+        <target state="final">Geheim</target>
+      </trans-unit>
+      <trans-unit id="roGfPFi" resname="job.addedit.variables.name.placeholder">
+        <source>job.addedit.variables.name.placeholder</source>
+        <target state="final">Naam</target>
+      </trans-unit>
+      <trans-unit id="WWsh_72" resname="job.addedit.variables.value.placeholder">
+        <source>job.addedit.variables.value.placeholder</source>
+        <target state="final">Waarde</target>
+      </trans-unit>
+      <trans-unit id="Ve0r_Wy" resname="job.addedit.variables.helptext">
+        <source>job.addedit.variables.helptext</source>
+        <target state="final">Je kan variabelen gebruiken via {variabele-naam} in de taak details</target>
+      </trans-unit>
+      <trans-unit id="tL8wand" resname="job.addedit.variables.add.label">
+        <source>job.addedit.variables.add.label</source>
+        <target state="final">Variable toevoegen</target>
+      </trans-unit>
+      <trans-unit id="or7JWUe" resname="job.addedit.submit.label">
+        <source>job.addedit.submit.label</source>
+        <target state="final">Verzend!</target>
+      </trans-unit>
+      <trans-unit id="g7pEpsB" resname="footer.title">
+        <source>footer.title</source>
+        <target state="final">Webcron Management</target>
+      </trans-unit>
+      <trans-unit id="Lz7YjVX" resname="footer.source">
+        <source>footer.source</source>
+        <target state="final">Broncode</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

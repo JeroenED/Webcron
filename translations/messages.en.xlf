@@ -1,0 +1,618 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" target-language="en" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="qvIyBkY" resname="title">
+        <source>title</source>
+        <target>Webcron management</target>
+      </trans-unit>
+      <trans-unit id="HgWEol2" resname="header">
+        <source>header</source>
+        <target>Webcron management</target>
+      </trans-unit>
+      <trans-unit id="Q54TzT5" resname="demomode.flashnotice">
+        <source>demomode.flashnotice</source>
+        <target>This application is in demo mode. Changes are persisted in the database, but jobs are not being executed</target>
+      </trans-unit>
+      <trans-unit id="rpq61qN" resname="demomode.credentials.header">
+        <source>demomode.credentials.header</source>
+        <target>Login for demo mode</target>
+      </trans-unit>
+      <trans-unit id="jUz9fVE" resname="demomode.credentials.username">
+        <source>demomode.credentials.username</source>
+        <target>Username</target>
+      </trans-unit>
+      <trans-unit id="QNu97w_" resname="demomode.credentials.password">
+        <source>demomode.credentials.password</source>
+        <target>Password</target>
+      </trans-unit>
+      <trans-unit id="U8IBiON" resname="menu.overview">
+        <source>menu.overview</source>
+        <target>Overview</target>
+      </trans-unit>
+      <trans-unit id="iGC7eCk" resname="menu.add">
+        <source>menu.add</source>
+        <target>Add a new cronjob</target>
+      </trans-unit>
+      <trans-unit id="4UTsL.X" resname="menu.settings">
+        <source>menu.settings</source>
+        <target>Settings</target>
+      </trans-unit>
+      <trans-unit id="wBTFKFR" resname="menu.logout">
+        <source>menu.logout</source>
+        <target>Logout</target>
+      </trans-unit>
+      <trans-unit id="4cxyGOO" resname="security.login.username.label">
+        <source>security.login.username.label</source>
+        <target>Username</target>
+      </trans-unit>
+      <trans-unit id="u2tKtI1" resname="security.login.username.placeholder">
+        <source>security.login.username.placeholder</source>
+        <target>jeroen@example.com</target>
+      </trans-unit>
+      <trans-unit id="Niy_SZ2" resname="security.login.password.label">
+        <source>security.login.password.label</source>
+        <target>Password</target>
+      </trans-unit>
+      <trans-unit id="3rU2_6v" resname="security.login.password.placeholder">
+        <source>security.login.password.placeholder</source>
+        <target>abc123</target>
+      </trans-unit>
+      <trans-unit id="0MGdvgf" resname="security.login.remember.label">
+        <source>security.login.remember.label</source>
+        <target>Remember, remember</target>
+      </trans-unit>
+      <trans-unit id="4GvZndQ" resname="security.login.submit-btn.label">
+        <source>security.login.submit-btn.label</source>
+        <target>Login</target>
+      </trans-unit>
+      <trans-unit id="W.225Bj" resname="settings.title">
+        <source>settings.title</source>
+        <target>Settings</target>
+      </trans-unit>
+      <trans-unit id="a1bm5YC" resname="settings.header">
+        <source>settings.header</source>
+        <target>Settings</target>
+      </trans-unit>
+      <trans-unit id="qUrJMfo" resname="settings.flashes.inexistinglocale">
+        <source>settings.flashes.inexistinglocale</source>
+        <target>Locale does not exist</target>
+      </trans-unit>
+      <trans-unit id="XcSnV8X" resname="settings.flashes.localesaved">
+        <source>settings.flashes.localesaved</source>
+        <target>Locale is saved</target>
+      </trans-unit>
+      <trans-unit id="kpbry92" resname="settings.flashes.repeatpasswordnotok">
+        <source>settings.flashes.repeatpasswordnotok</source>
+        <target>Passwords are not equal</target>
+      </trans-unit>
+      <trans-unit id="DpJMsln" resname="settings.flashes.currentpassnotok">
+        <source>settings.flashes.currentpassnotok</source>
+        <target>Password is not correct</target>
+      </trans-unit>
+      <trans-unit id="tB3o6UA" resname="settings.flashes.passwordsaved">
+        <source>settings.flashes.passwordsaved</source>
+        <target>Password is saved</target>
+      </trans-unit>
+      <trans-unit id="aAt4FLV" resname="settings.password.header">
+        <source>settings.password.header</source>
+        <target>Password</target>
+      </trans-unit>
+      <trans-unit id="qqAzx9b" resname="settings.password.current.label">
+        <source>settings.password.current.label</source>
+        <target>Current password</target>
+      </trans-unit>
+      <trans-unit id="rr8bU5t" resname="settings.password.current.placeholder">
+        <source>settings.password.current.placeholder</source>
+        <target>abc123</target>
+      </trans-unit>
+      <trans-unit id="YVhGwqr" resname="settings.password.password.label">
+        <source>settings.password.password.label</source>
+        <target>New password</target>
+      </trans-unit>
+      <trans-unit id="OZpjE9T" resname="settings.password.password.placeholder">
+        <source>settings.password.password.placeholder</source>
+        <target>password</target>
+      </trans-unit>
+      <trans-unit id="TNBtpD_" resname="settings.password.repeat.label">
+        <source>settings.password.repeat.label</source>
+        <target>Repeat password</target>
+      </trans-unit>
+      <trans-unit id="bYb7Tz." resname="settings.password.repeat.placeholder">
+        <source>settings.password.repeat.placeholder</source>
+        <target>password</target>
+      </trans-unit>
+      <trans-unit id="_OGkxC8" resname="settings.other.header">
+        <source>settings.other.header</source>
+        <target>Other settings</target>
+      </trans-unit>
+      <trans-unit id="78Yswpr" resname="settings.other.locale.label">
+        <source>settings.other.locale.label</source>
+        <target>Locale</target>
+      </trans-unit>
+      <trans-unit id="WQ4J4Fx" resname="settings.submit.label">
+        <source>settings.submit.label</source>
+        <target>Submit</target>
+      </trans-unit>
+      <trans-unit id="0eRDYaC" resname="job.index.title">
+        <source>job.index.title</source>
+        <target>Overview</target>
+      </trans-unit>
+      <trans-unit id="J.7dT3_" resname="job.index.header">
+        <source>job.index.header</source>
+        <target>Overview of the cronjobs</target>
+      </trans-unit>
+      <trans-unit id="T0URP45" resname="job.index.table.headers.name">
+        <source>job.index.table.headers.name</source>
+        <target>Name</target>
+      </trans-unit>
+      <trans-unit id="vNWgxUJ" resname="job.index.table.headers.host">
+        <source>job.index.table.headers.host</source>
+        <target>Host</target>
+      </trans-unit>
+      <trans-unit id="1YQJCGW" resname="job.index.table.headers.interval">
+        <source>job.index.table.headers.interval</source>
+        <target>Interval</target>
+      </trans-unit>
+      <trans-unit id="mZ.gLJq" resname="job.index.table.headers.nextrun">
+        <source>job.index.table.headers.nextrun</source>
+        <target>Nextrun</target>
+      </trans-unit>
+      <trans-unit id="n9XSrh3" resname="job.index.runnow.deferred.title">
+        <source>job.index.runnow.deferred.title</source>
+        <target>Cronjob has been scheduled</target>
+      </trans-unit>
+      <trans-unit id="2QVNoEx" resname="job.index.runnow.deferred.message">
+        <source>job.index.runnow.deferred.message</source>
+        <target>Job was scheduled to be run. You will find the output soon in the job details</target>
+      </trans-unit>
+      <trans-unit id="_9vL1xO" resname="job.index.runnow.ran.title.success">
+        <source>job.index.runnow.ran.title.success</source>
+        <target>Cronjob succesfully ran</target>
+      </trans-unit>
+      <trans-unit id="SH3oarr" resname="job.index.runnow.ran.title.failed">
+        <source>job.index.runnow.ran.title.failed</source>
+        <target>Cronjob failed. Please check output below</target>
+      </trans-unit>
+      <trans-unit id="az3XJT4" resname="job.index.runnow.ran.message">
+        <source>job.index.runnow.ran.message</source>
+        <target>Cronjob ran in _runtime_ seconds with exit code _exitcode_</target>
+      </trans-unit>
+      <trans-unit id="mokjk0L" resname="job.index.flashes.jobdeleted">
+        <source>job.index.flashes.jobdeleted</source>
+        <target>Cronjob is successfully deleted</target>
+      </trans-unit>
+      <trans-unit id="SF_jXZZ" resname="job.view.title">
+        <source>job.view.title</source>
+        <target>Overview of runs for _jobname_</target>
+      </trans-unit>
+      <trans-unit id="ysrfPnl" resname="job.view.header">
+        <source>job.view.header</source>
+        <target>Overview of runs for _jobname_</target>
+      </trans-unit>
+      <trans-unit id="KBsRhNs" resname="job.view.edit">
+        <source>job.view.edit</source>
+        <target>Edit job</target>
+      </trans-unit>
+      <trans-unit id="xvdCrX2" resname="job.view.show.onlyfailed">
+        <source>job.view.show.onlyfailed</source>
+        <target>Only show failed runs</target>
+      </trans-unit>
+      <trans-unit id="_zWmcxu" resname="job.view.show.all">
+        <source>job.view.show.all</source>
+        <target>Show all runs</target>
+      </trans-unit>
+      <trans-unit id="lpu6CQS" resname="job.view.results.exitcode">
+        <source>job.view.results.exitcode</source>
+        <target>Exit code</target>
+      </trans-unit>
+      <trans-unit id="9EemRnl" resname="job.view.results.runtime">
+        <source>job.view.results.runtime</source>
+        <target>Runtime</target>
+      </trans-unit>
+      <trans-unit id="juzEgkd" resname="job.view.results.manual">
+        <source>job.view.results.manual</source>
+        <target>Manual run</target>
+      </trans-unit>
+      <trans-unit id="H.6.gtG" resname="job.view.results.noresults.failed">
+        <source>job.view.results.noresults.failed</source>
+        <target>No failed runs found</target>
+      </trans-unit>
+      <trans-unit id="u3QkQi1" resname="job.view.results.noresults.all">
+        <source>job.view.results.noresults.all</source>
+        <target>No runs found</target>
+      </trans-unit>
+      <trans-unit id="zBxeZSL" resname="job.edit.title">
+        <source>job.edit.title</source>
+        <target>Edit job</target>
+      </trans-unit>
+      <trans-unit id="CDJme2K" resname="job.edit.header">
+        <source>job.edit.header</source>
+        <target>Edit job _jobname_</target>
+      </trans-unit>
+      <trans-unit id="eU2m5Zf" resname="job.edit.flashes.jobedited">
+        <source>job.edit.flashes.jobedited</source>
+        <target>Cronjob successfully edited</target>
+      </trans-unit>
+      <trans-unit id="CPdXoro" resname="job.add.title">
+        <source>job.add.title</source>
+        <target>Add job</target>
+      </trans-unit>
+      <trans-unit id=".pKQkI0" resname="job.add.header">
+        <source>job.add.header</source>
+        <target>Add new job</target>
+      </trans-unit>
+      <trans-unit id="66iDRun" resname="job.add.flashes.jobadded">
+        <source>job.add.flashes.jobadded</source>
+        <target>Cronjob successfully added</target>
+      </trans-unit>
+      <trans-unit id="h9UI9nK" resname="job.addedit.generalinfo.header">
+        <source>job.addedit.generalinfo.header</source>
+        <target>General info</target>
+      </trans-unit>
+      <trans-unit id="2.rDz7o" resname="job.addedit.generalinfo.name.label">
+        <source>job.addedit.generalinfo.name.label</source>
+        <target>Name</target>
+      </trans-unit>
+      <trans-unit id="3FV9jvC" resname="job.addedit.generalinfo.name.placeholder">
+        <source>job.addedit.generalinfo.name.placeholder</source>
+        <target>System update</target>
+      </trans-unit>
+      <trans-unit id="j9FTkRt" resname="job.addedit.generalinfo.name.helptext">
+        <source>job.addedit.generalinfo.name.helptext</source>
+        <target>You can create colored tags by using [tag]</target>
+      </trans-unit>
+      <trans-unit id="CL7GVb3" resname="job.addedit.generalinfo.interval.label">
+        <source>job.addedit.generalinfo.interval.label</source>
+        <target>Interval (in seconds)</target>
+      </trans-unit>
+      <trans-unit id="iSs41MC" resname="job.addedit.generalinfo.interval.placeholder">
+        <source>job.addedit.generalinfo.interval.placeholder</source>
+        <target>3600</target>
+      </trans-unit>
+      <trans-unit id="OTx9beS" resname="job.addedit.generalinfo.interval.patterns.label">
+        <source>job.addedit.generalinfo.interval.patterns.label</source>
+        <target>Patterns</target>
+      </trans-unit>
+      <trans-unit id="0ATgoBe" resname="job.addedit.generalinfo.interval.patterns.minute">
+        <source>job.addedit.generalinfo.interval.patterns.minute</source>
+        <target>Every minute</target>
+      </trans-unit>
+      <trans-unit id="f0o1GlZ" resname="job.addedit.generalinfo.interval.patterns.hour">
+        <source>job.addedit.generalinfo.interval.patterns.hour</source>
+        <target>Every hour</target>
+      </trans-unit>
+      <trans-unit id="hCmc8AA" resname="job.addedit.generalinfo.interval.patterns.day">
+        <source>job.addedit.generalinfo.interval.patterns.day</source>
+        <target>Every day</target>
+      </trans-unit>
+      <trans-unit id="zmUXvRU" resname="job.addedit.generalinfo.interval.patterns.week">
+        <source>job.addedit.generalinfo.interval.patterns.week</source>
+        <target>Every week</target>
+      </trans-unit>
+      <trans-unit id="ISEzS__" resname="job.addedit.generalinfo.interval.patterns.4week">
+        <source>job.addedit.generalinfo.interval.patterns.4week</source>
+        <target>Every 4 weeks</target>
+      </trans-unit>
+      <trans-unit id="HWDmm9f" resname="job.addedit.generalinfo.nextrun.label">
+        <source>job.addedit.generalinfo.nextrun.label</source>
+        <target>Next run</target>
+      </trans-unit>
+      <trans-unit id="e1RkhOF" resname="job.addedit.generalinfo.lastrun.label">
+        <source>job.addedit.generalinfo.lastrun.label</source>
+        <target>Last run</target>
+      </trans-unit>
+      <trans-unit id="kw_hgon" resname="job.addedit.generalinfo.lastrun.eternal.label">
+        <source>job.addedit.generalinfo.lastrun.eternal.label</source>
+        <target>Eternal</target>
+      </trans-unit>
+      <trans-unit id="sdUg23G" resname="job.addedit.generalinfo.retention.label">
+        <source>job.addedit.generalinfo.retention.label</source>
+        <target>Retention (in days)</target>
+      </trans-unit>
+      <trans-unit id="nWofDbf" resname="job.addedit.generalinfo.retention.placeholder">
+        <source>job.addedit.generalinfo.retention.placeholder</source>
+        <target>180</target>
+      </trans-unit>
+      <trans-unit id="eHfLjBO" resname="job.addedit.generalinfo.retention.helptext">
+        <source>job.addedit.generalinfo.retention.helptext</source>
+        <target>How many days (at least) to keep runs of this job in the database</target>
+      </trans-unit>
+      <trans-unit id="kfQDfoB" resname="job.addedit.generalinfo.failpercentage.label">
+        <source>job.addedit.generalinfo.failpercentage.label</source>
+        <target>Max fail percentage</target>
+      </trans-unit>
+      <trans-unit id="Ytyhy77" resname="job.addedit.generalinfo.faildays.label">
+        <source>job.addedit.generalinfo.faildays.label</source>
+        <target>Number of days calculated for fail percentage</target>
+      </trans-unit>
+      <trans-unit id="2O_wFoD" resname="job.addedit.generalinfo.faildays.placeholder">
+        <source>job.addedit.generalinfo.faildays.placeholder</source>
+        <target>7</target>
+      </trans-unit>
+      <trans-unit id="UvMb6oM" resname="job.addedit.generalinfo.hostlabel.label">
+        <source>job.addedit.generalinfo.hostlabel.label</source>
+        <target>Host label</target>
+      </trans-unit>
+      <trans-unit id="GjPGKoQ" resname="job.addedit.generalinfo.hostlabel.placeholder">
+        <source>job.addedit.generalinfo.hostlabel.placeholder</source>
+        <target>petrosian.jeroened.be</target>
+      </trans-unit>
+      <trans-unit id="moGlM4y" resname="job.addedit.generalinfo.hostlabel.helptext">
+        <source>job.addedit.generalinfo.hostlabel.helptext</source>
+        <target>Which label for the hostname should be displayed? If empty the this will be the hostname provided below</target>
+      </trans-unit>
+      <trans-unit id="VEORPjf" resname="job.addedit.jobdetails.header">
+        <source>job.addedit.jobdetails.header</source>
+        <target>Job details</target>
+      </trans-unit>
+      <trans-unit id="7haVx1t" resname="job.addedit.crontype.label">
+        <source>job.addedit.crontype.label</source>
+        <target>Job type</target>
+      </trans-unit>
+      <trans-unit id="kw_PINJ" resname="job.addedit.crontype.command.label">
+        <source>job.addedit.crontype.command.label</source>
+        <target>Command</target>
+      </trans-unit>
+      <trans-unit id="sxAwNxW" resname="job.addedit.crontype.command.header">
+        <source>job.addedit.crontype.command.header</source>
+        <target>Command details</target>
+      </trans-unit>
+      <trans-unit id="ZNQUrj7" resname="job.addedit.crontype.command.command.label">
+        <source>job.addedit.crontype.command.command.label</source>
+        <target>Command</target>
+      </trans-unit>
+      <trans-unit id="aWesJsc" resname="job.addedit.crontype.command.command.placeholder">
+        <source>job.addedit.crontype.command.command.placeholder</source>
+        <target>sudo apt update</target>
+      </trans-unit>
+      <trans-unit id="os3VpHs" resname="job.addedit.crontype.command.response.label">
+        <source>job.addedit.crontype.command.response.label</source>
+        <target>Expected exit code</target>
+      </trans-unit>
+      <trans-unit id="RIWj._C" resname="job.addedit.crontype.command.response.placeholder">
+        <source>job.addedit.crontype.command.response.placeholder</source>
+        <target>0</target>
+      </trans-unit>
+      <trans-unit id="A66vsIi" resname="job.addedit.crontype.reboot.label">
+        <source>job.addedit.crontype.reboot.label</source>
+        <target>Reboot</target>
+      </trans-unit>
+      <trans-unit id="Kv8GihO" resname="job.addedit.crontype.reboot.header">
+        <source>job.addedit.crontype.reboot.header</source>
+        <target>Reboot job details</target>
+      </trans-unit>
+      <trans-unit id="hy8z.7x" resname="job.addedit.crontype.reboot.reboot.command.label">
+        <source>job.addedit.crontype.reboot.reboot.command.label</source>
+        <target>Reboot command</target>
+      </trans-unit>
+      <trans-unit id="tw3YvLz" resname="job.addedit.crontype.reboot.reboot.command.placeholder">
+        <source>job.addedit.crontype.reboot.reboot.command.placeholder</source>
+        <target>systemctl reboot</target>
+      </trans-unit>
+      <trans-unit id="p0Seiyx" resname="job.addedit.crontype.reboot.reboot.command.helptext">
+        <source>job.addedit.crontype.reboot.reboot.command.helptext</source>
+        <target>Use {reboot-delay} or {reboot-delay-secs} to add the delay in your command</target>
+      </trans-unit>
+      <trans-unit id="bEPANkU" resname="job.addedit.crontype.reboot.reboot.delay.label">
+        <source>job.addedit.crontype.reboot.reboot.delay.label</source>
+        <target>Reboot delay (in minutes)</target>
+      </trans-unit>
+      <trans-unit id="f38i.f6" resname="job.addedit.crontype.reboot.reboot.delay.placeholder">
+        <source>job.addedit.crontype.reboot.reboot.delay.placeholder</source>
+        <target>5</target>
+      </trans-unit>
+      <trans-unit id="T55_j9D" resname="job.addedit.crontype.reboot.reboot.delay.helptext">
+        <source>job.addedit.crontype.reboot.reboot.delay.helptext</source>
+        <target>Delay between triggering reboot and actual reboot</target>
+      </trans-unit>
+      <trans-unit id="EbgF04P" resname="job.addedit.crontype.reboot.reboot.duration.label">
+        <source>job.addedit.crontype.reboot.reboot.duration.label</source>
+        <target>Reboot duration (in minutes)</target>
+      </trans-unit>
+      <trans-unit id="1FVsnYa" resname="job.addedit.crontype.reboot.reboot.duration.placeholder">
+        <source>job.addedit.crontype.reboot.reboot.duration.placeholder</source>
+        <target>10</target>
+      </trans-unit>
+      <trans-unit id="VWOhJBY" resname="job.addedit.crontype.reboot.reboot.duration.helptext">
+        <source>job.addedit.crontype.reboot.reboot.duration.helptext</source>
+        <target>The amount of time the system takes to actually reboot</target>
+      </trans-unit>
+      <trans-unit id="ENLtpfK" resname="job.addedit.crontype.reboot.getservices.command.label">
+        <source>job.addedit.crontype.reboot.getservices.command.label</source>
+        <target>Get services command</target>
+      </trans-unit>
+      <trans-unit id="yxIObGq" resname="job.addedit.crontype.reboot.getservices.command.placeholder">
+        <source>job.addedit.crontype.reboot.getservices.command.placeholder</source>
+        <target>systemctl list-units</target>
+      </trans-unit>
+      <trans-unit id="aurJI0X" resname="job.addedit.crontype.reboot.getservices.response.label">
+        <source>job.addedit.crontype.reboot.getservices.response.label</source>
+        <target>Get services command exit code</target>
+      </trans-unit>
+      <trans-unit id="xMbagrx" resname="job.addedit.crontype.reboot.getservices.response.placeholder">
+        <source>job.addedit.crontype.reboot.getservices.response.placeholder</source>
+        <target>0</target>
+      </trans-unit>
+      <trans-unit id="ze4mr8D" resname="job.addedit.crontype.http.label">
+        <source>job.addedit.crontype.http.label</source>
+        <target>HTTP request</target>
+      </trans-unit>
+      <trans-unit id="oJn3xvZ" resname="job.addedit.crontype.http.header">
+        <source>job.addedit.crontype.http.header</source>
+        <target>HTTP request details</target>
+      </trans-unit>
+      <trans-unit id="hwhqEtB" resname="job.addedit.crontype.http.url.label">
+        <source>job.addedit.crontype.http.url.label</source>
+        <target>Url</target>
+      </trans-unit>
+      <trans-unit id="31CZuNl" resname="job.addedit.crontype.http.url.placeholder">
+        <source>job.addedit.crontype.http.url.placeholder</source>
+        <target>https://www.example.com</target>
+      </trans-unit>
+      <trans-unit id="gGpY1Gz" resname="job.addedit.crontype.http.basic-auth.username.label">
+        <source>job.addedit.crontype.http.basic-auth.username.label</source>
+        <target>Username for basic auth</target>
+      </trans-unit>
+      <trans-unit id="9d3Trxr" resname="job.addedit.crontype.http.basic-auth.username.placeholder">
+        <source>job.addedit.crontype.http.basic-auth.username.placeholder</source>
+        <target>www-data</target>
+      </trans-unit>
+      <trans-unit id="27zbUzr" resname="job.addedit.crontype.http.basic-auth.password.label">
+        <source>job.addedit.crontype.http.basic-auth.password.label</source>
+        <target>Password for basic auth</target>
+      </trans-unit>
+      <trans-unit id="ROX9KeU" resname="job.addedit.crontype.http.basic-auth.password.placeholder">
+        <source>job.addedit.crontype.http.basic-auth.password.placeholder</source>
+        <target>correct horse battery staple</target>
+      </trans-unit>
+      <trans-unit id="pRPdCPd" resname="job.addedit.crontype.http.basic-auth.password.helptext">
+        <source>job.addedit.crontype.http.basic-auth.password.helptext</source>
+        <target>This field is being saved as a secret</target>
+      </trans-unit>
+      <trans-unit id="SnZXqhK" resname="job.addedit.crontype.http.response.label">
+        <source>job.addedit.crontype.http.response.label</source>
+        <target>Expected http status code</target>
+      </trans-unit>
+      <trans-unit id="aLSDlKd" resname="job.addedit.crontype.http.response.placeholder">
+        <source>job.addedit.crontype.http.response.placeholder</source>
+        <target>418</target>
+      </trans-unit>
+      <trans-unit id="oV9GuKJ" resname="job.addedit.hosttype.label">
+        <source>job.addedit.hosttype.label</source>
+        <target>Host type</target>
+      </trans-unit>
+      <trans-unit id="eBXA85X" resname="job.addedit.hosttype.local.label">
+        <source>job.addedit.hosttype.local.label</source>
+        <target>Local</target>
+      </trans-unit>
+      <trans-unit id="ZeflLHK" resname="job.addedit.hosttype.local.header">
+        <source>job.addedit.hosttype.local.header</source>
+        <target>Localhost details</target>
+      </trans-unit>
+      <trans-unit id="1atQ8Ot" resname="job.addedit.hosttype.local.nodetails">
+        <source>job.addedit.hosttype.local.nodetails</source>
+        <target>No options</target>
+      </trans-unit>
+      <trans-unit id="oUUVCNC" resname="job.addedit.hosttype.ssh.label">
+        <source>job.addedit.hosttype.ssh.label</source>
+        <target>SSH</target>
+      </trans-unit>
+      <trans-unit id="HIND6DD" resname="job.addedit.hosttype.ssh.header">
+        <source>job.addedit.hosttype.ssh.header</source>
+        <target>SSH host details</target>
+      </trans-unit>
+      <trans-unit id="n_JNj3z" resname="job.addedit.hosttype.ssh.hostname.label">
+        <source>job.addedit.hosttype.ssh.hostname.label</source>
+        <target>Hostname</target>
+      </trans-unit>
+      <trans-unit id="4ZEnTLC" resname="job.addedit.hosttype.ssh.hostname.placeholder">
+        <source>job.addedit.hosttype.ssh.hostname.placeholder</source>
+        <target>ssh.abc.xyz</target>
+      </trans-unit>
+      <trans-unit id="08j0NEG" resname="job.addedit.hosttype.ssh.username.label">
+        <source>job.addedit.hosttype.ssh.username.label</source>
+        <target>Username</target>
+      </trans-unit>
+      <trans-unit id="EJOhQKe" resname="job.addedit.hosttype.ssh.username.placeholder">
+        <source>job.addedit.hosttype.ssh.username.placeholder</source>
+        <target>larry</target>
+      </trans-unit>
+      <trans-unit id="VEZQ7fY" resname="job.addedit.hosttype.ssh.privatekey.label">
+        <source>job.addedit.hosttype.ssh.privatekey.label</source>
+        <target>Private key</target>
+      </trans-unit>
+      <trans-unit id="1MzOMSK" resname="job.addedit.hosttype.ssh.privatekey.helptext">
+        <source>job.addedit.hosttype.ssh.privatekey.helptext</source>
+        <target>This file is being saves as a secret</target>
+      </trans-unit>
+      <trans-unit id="uVSkZpl" resname="job.addedit.hosttype.ssh.privatekey.keep.label">
+        <source>job.addedit.hosttype.ssh.privatekey.keep.label</source>
+        <target>Keep</target>
+      </trans-unit>
+      <trans-unit id="nxl.bTZ" resname="job.addedit.hosttype.ssh.passphrase.label">
+        <source>job.addedit.hosttype.ssh.passphrase.label</source>
+        <target>Passphrase for private key</target>
+      </trans-unit>
+      <trans-unit id="rYaggeh" resname="job.addedit.hosttype.ssh.passphrase.placeholder">
+        <source>job.addedit.hosttype.ssh.passphrase.placeholder</source>
+        <target>correct horse battery staple</target>
+      </trans-unit>
+      <trans-unit id="MAQ8t1s" resname="job.addedit.hosttype.ssh.passphrase.helptext">
+        <source>job.addedit.hosttype.ssh.passphrase.helptext</source>
+        <target>If private key is empty this field is being used as ssh-password This field is being saved as a secret</target>
+      </trans-unit>
+      <trans-unit id="8q0z3bf" resname="job.addedit.containertype.label">
+        <source>job.addedit.containertype.label</source>
+        <target>Container type</target>
+      </trans-unit>
+      <trans-unit id="ZPis4Xx" resname="job.addedit.containertype.none.label">
+        <source>job.addedit.containertype.none.label</source>
+        <target>None</target>
+      </trans-unit>
+      <trans-unit id="AGADEB_" resname="job.addedit.containertype.docker.label">
+        <source>job.addedit.containertype.docker.label</source>
+        <target>Docker</target>
+      </trans-unit>
+      <trans-unit id="1hg_Lri" resname="job.addedit.containertype.docker.header">
+        <source>job.addedit.containertype.docker.header</source>
+        <target>Docker container details</target>
+      </trans-unit>
+      <trans-unit id="fddg1.3" resname="job.addedit.containertype.docker.service.label">
+        <source>job.addedit.containertype.docker.service.label</source>
+        <target>Service</target>
+      </trans-unit>
+      <trans-unit id="mmNVzOj" resname="job.addedit.containertype.docker.service.placeholder">
+        <source>job.addedit.containertype.docker.service.placeholder</source>
+        <target>mysql</target>
+      </trans-unit>
+      <trans-unit id="kaHv1qa" resname="job.addedit.containertype.docker.username.label">
+        <source>job.addedit.containertype.docker.username.label</source>
+        <target>Username</target>
+      </trans-unit>
+      <trans-unit id="UzbvieZ" resname="job.addedit.containertype.docker.username.placeholder">
+        <source>job.addedit.containertype.docker.username.placeholder</source>
+        <target>larry</target>
+      </trans-unit>
+      <trans-unit id="BsHxmnc" resname="job.addedit.variables.header">
+        <source>job.addedit.variables.header</source>
+        <target>Variables</target>
+      </trans-unit>
+      <trans-unit id="pawk4nL" resname="job.addedit.variables.secret.label">
+        <source>job.addedit.variables.secret.label</source>
+        <target>Secret</target>
+      </trans-unit>
+      <trans-unit id="roGfPFi" resname="job.addedit.variables.name.placeholder">
+        <source>job.addedit.variables.name.placeholder</source>
+        <target>Name</target>
+      </trans-unit>
+      <trans-unit id="WWsh_72" resname="job.addedit.variables.value.placeholder">
+        <source>job.addedit.variables.value.placeholder</source>
+        <target>Value</target>
+      </trans-unit>
+      <trans-unit id="Ve0r_Wy" resname="job.addedit.variables.helptext">
+        <source>job.addedit.variables.helptext</source>
+        <target>You can add variables by using {variable-name} in job details</target>
+      </trans-unit>
+      <trans-unit id="tL8wand" resname="job.addedit.variables.add.label">
+        <source>job.addedit.variables.add.label</source>
+        <target>Add variable</target>
+      </trans-unit>
+      <trans-unit id="or7JWUe" resname="job.addedit.submit.label">
+        <source>job.addedit.submit.label</source>
+        <target>Submit!</target>
+      </trans-unit>
+      <trans-unit id="g7pEpsB" resname="footer.title">
+        <source>footer.title</source>
+        <target>Webcron Management</target>
+      </trans-unit>
+      <trans-unit id="Lz7YjVX" resname="footer.source">
+        <source>footer.source</source>
+        <target>Source</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" target-language="lol" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="qvIyBkY" resname="title">
+        <source>title</source>
+        <target state="final">webcROn managemnt</target>
+      </trans-unit>
+      <trans-unit id="HgWEol2" resname="header">
+        <source>header</source>
+        <target state="final">webcROn managemnt</target>
+      </trans-unit>
+      <trans-unit id="Q54TzT5" resname="demomode.flashnotice">
+        <source>demomode.flashnotice</source>
+        <target state="final">tHIZ ApplicashuN R in deEMo mode?? changez iz persisTd in tEH dATabase but jobz iz not bean executd k?</target>
+      </trans-unit>
+      <trans-unit id="rpq61qN" resname="demomode.credentials.header">
+        <source>demomode.credentials.header</source>
+        <target state="final">loGIN fr DEEmo mode</target>
+      </trans-unit>
+      <trans-unit id="jUz9fVE" resname="demomode.credentials.username">
+        <source>demomode.credentials.username</source>
+        <target state="final">oH hi username</target>
+      </trans-unit>
+      <trans-unit id="QNu97w_" resname="demomode.credentials.password">
+        <source>demomode.credentials.password</source>
+        <target state="final">oh hi paswORD k?</target>
+      </trans-unit>
+      <trans-unit id="U8IBiON" resname="menu.overview">
+        <source>menu.overview</source>
+        <target state="final">ovrview plz?</target>
+      </trans-unit>
+      <trans-unit id="iGC7eCk" resname="menu.add">
+        <source>menu.add</source>
+        <target state="final">ADD  new cRONJob plz?</target>
+      </trans-unit>
+      <trans-unit id="4UTsL.X" resname="menu.settings">
+        <source>menu.settings</source>
+        <target state="final">settingz</target>
+      </trans-unit>
+      <trans-unit id="wBTFKFR" resname="menu.logout">
+        <source>menu.logout</source>
+        <target state="final">oh hi logowt plz?</target>
+      </trans-unit>
+      <trans-unit id="4cxyGOO" resname="security.login.username.label">
+        <source>security.login.username.label</source>
+        <target state="final">oH hi username</target>
+      </trans-unit>
+      <trans-unit id="u2tKtI1" resname="security.login.username.placeholder">
+        <source>security.login.username.placeholder</source>
+        <target state="final">jeroen@example.com</target>
+      </trans-unit>
+      <trans-unit id="Niy_SZ2" resname="security.login.password.label">
+        <source>security.login.password.label</source>
+        <target state="final">oh hi paswORD k?</target>
+      </trans-unit>
+      <trans-unit id="3rU2_6v" resname="security.login.password.placeholder">
+        <source>security.login.password.placeholder</source>
+        <target state="final">burgerz plz?</target>
+      </trans-unit>
+      <trans-unit id="0MGdvgf" resname="security.login.remember.label">
+        <source>security.login.remember.label</source>
+        <target state="final">rememBr me</target>
+      </trans-unit>
+      <trans-unit id="4GvZndQ" resname="security.login.submit-btn.label">
+        <source>security.login.submit-btn.label</source>
+        <target state="final">login</target>
+      </trans-unit>
+      <trans-unit id="W.225Bj" resname="settings.title">
+        <source>settings.title</source>
+        <target state="final">settingz</target>
+      </trans-unit>
+      <trans-unit id="a1bm5YC" resname="settings.header">
+        <source>settings.header</source>
+        <target state="final">settingz</target>
+      </trans-unit>
+      <trans-unit id="qUrJMfo" resname="settings.flashes.inexistinglocale">
+        <source>settings.flashes.inexistinglocale</source>
+        <target state="final">oh hi Language dus not EXIs plz?</target>
+      </trans-unit>
+      <trans-unit id="XcSnV8X" resname="settings.flashes.localesaved">
+        <source>settings.flashes.localesaved</source>
+        <target state="final">LAnguage r savd k?</target>
+      </trans-unit>
+      <trans-unit id="kpbry92" resname="settings.flashes.repeatpasswordnotok">
+        <source>settings.flashes.repeatpasswordnotok</source>
+        <target state="final">oh hi PASwordz iz not Ekwel</target>
+      </trans-unit>
+      <trans-unit id="DpJMsln" resname="settings.flashes.currentpassnotok">
+        <source>settings.flashes.currentpassnotok</source>
+        <target state="final">paswordz r not correcT Plz?</target>
+      </trans-unit>
+      <trans-unit id="tB3o6UA" resname="settings.flashes.passwordsaved">
+        <source>settings.flashes.passwordsaved</source>
+        <target state="final">paSWORd r SAVD</target>
+      </trans-unit>
+      <trans-unit id="aAt4FLV" resname="settings.password.header">
+        <source>settings.password.header</source>
+        <target state="final">oh hi paswORD k?</target>
+      </trans-unit>
+      <trans-unit id="qqAzx9b" resname="settings.password.current.label">
+        <source>settings.password.current.label</source>
+        <target state="final">currnt paswoRD</target>
+      </trans-unit>
+      <trans-unit id="rr8bU5t" resname="settings.password.current.placeholder">
+        <source>settings.password.current.placeholder</source>
+        <target state="final">burgerz plz?</target>
+      </trans-unit>
+      <trans-unit id="YVhGwqr" resname="settings.password.password.label">
+        <source>settings.password.password.label</source>
+        <target state="final">new pasword</target>
+      </trans-unit>
+      <trans-unit id="OZpjE9T" resname="settings.password.password.placeholder">
+        <source>settings.password.password.placeholder</source>
+        <target state="final">MOAr paswoRD</target>
+      </trans-unit>
+      <trans-unit id="TNBtpD_" resname="settings.password.repeat.label">
+        <source>settings.password.repeat.label</source>
+        <target state="final">Repeet pasword plz?</target>
+      </trans-unit>
+      <trans-unit id="bYb7Tz." resname="settings.password.repeat.placeholder">
+        <source>settings.password.repeat.placeholder</source>
+        <target state="final">MOAr paswoRD</target>
+      </trans-unit>
+      <trans-unit id="_OGkxC8" resname="settings.other.header">
+        <source>settings.other.header</source>
+        <target state="final">othr settingz plz?</target>
+      </trans-unit>
+      <trans-unit id="78Yswpr" resname="settings.other.locale.label">
+        <source>settings.other.locale.label</source>
+        <target state="final">languagE</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
