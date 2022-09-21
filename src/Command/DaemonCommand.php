@@ -50,7 +50,7 @@ class DaemonCommand extends Command
             throw new \InvalidArgumentException('Time limit has incorrect value');
         }
         $jobRepo->unlockJob();
-        file_put_contents($this->kernel->getCacheDir() . '/daemon-running.lock', posix_getpid());
+        file_put_contents($this->kernel->getCacheDir() . '/daemon-running.lock', time());
         while(1) {
             if($endofscript !== false && time() > $endofscript) break;
 
@@ -86,6 +86,7 @@ class DaemonCommand extends Command
                 }
             }
             $this->doctrine->getManager()->clear();
+            file_put_contents($this->kernel->getCacheDir() . '/daemon-running.lock', time());
 
             $maxwait = time() + 30;
             $nextrun = $jobRepo->getTimeOfNextRun();

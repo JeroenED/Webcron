@@ -14,8 +14,8 @@ class DaemonHelpers
      */
     public static function isProcessRunning($pidFile = '/var/run/myfile.pid') {
         if (!file_exists($pidFile) || !is_file($pidFile)) return false;
-        $pid = file_get_contents($pidFile);
-        $return = posix_kill((int)$pid, 0);
+        $lasttick = file_get_contents($pidFile);
+        $return = ((int)$lasttick >= (time() - 30));
         if (!$return) unlink($pidFile);
         return $return;
     }
