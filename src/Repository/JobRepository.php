@@ -506,10 +506,12 @@ class JobRepository extends EntityRepository
             } while ($nextrun < time());
 
             $job->setNextrun($nextrun);
-            $this->deleteTempVar($job);
-            $em->persist($job);
-            $em->flush();
+
         }
+
+        $this->deleteTempVar($job);
+        $em->persist($job);
+        $em->flush();
         return  ['job_id' =>  $job->getId(), 'exitcode' => $result['exitcode'], 'timestamp' =>floor($starttime), 'runtime' => $runtime, 'output' => (string)$result['output'], 'flags' => implode("", $flags)];
     }
 
