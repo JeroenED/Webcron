@@ -56,7 +56,7 @@ class DaemonCommand extends Command
 
             $jobsToRun = $jobRepo->getJobsDue();
             if(!empty($jobsToRun)) {
-                foreach($jobsToRun as $job) {
+                foreach($jobsToRun as $key=>$job) {
                     if($job->getData('crontype') == 'reboot') {
                         $str   = @file_get_contents('/proc/uptime');
                         $num   = floatval($str);
@@ -83,6 +83,8 @@ class DaemonCommand extends Command
                         $jobRepo->setJobRunning($job, false);
                         exit;
                     }
+                    unset($jobsToRun[$key]);
+                    unset($job);
                 }
             }
             $this->doctrine->getManager()->clear();
@@ -92,6 +94,7 @@ class DaemonCommand extends Command
             $nextrun = max($jobRepo->getTimeOfNextRun(), time() + 1);
             $sleepuntil = min($maxwait, $nextrun);
             if($sleepuntil > time()) time_sleep_until($sleepuntil);
+            gc_collect_cycles();
         }
         $output->writeln('Ended after ' . $timelimit . ' seconds');
         pcntl_wait($status);

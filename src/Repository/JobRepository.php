@@ -14,7 +14,6 @@ use GuzzleHttp\Exception\GuzzleException;
 use phpseclib3\Crypt\PublicKeyLoader;
 use phpseclib3\Net\SSH2;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 /**
  *
@@ -108,6 +107,7 @@ class JobRepository extends EntityRepository
      */
     public function getJobsDue(): array
     {
+        $this->getEntityManager()->clear();
         $qb = $this->createQueryBuilder('job');
         return $qb
             ->where(
