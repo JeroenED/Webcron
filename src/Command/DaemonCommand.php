@@ -89,7 +89,7 @@ class DaemonCommand extends Command
             file_put_contents($this->kernel->getCacheDir() . '/daemon-running.lock', time());
 
             $maxwait = time() + 30;
-            $nextrun = $jobRepo->getTimeOfNextRun();
+            $nextrun = max($jobRepo->getTimeOfNextRun(), time() + 1);
             $sleepuntil = min($maxwait, $nextrun);
             if($sleepuntil > time()) time_sleep_until($sleepuntil);
         }
