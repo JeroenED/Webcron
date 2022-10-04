@@ -37,7 +37,7 @@ class DemoInstallCommand extends Command
             ->setHelp('This command installs the demo data');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output) : int
     {
         $em = $this->doctrine->getManager();
 

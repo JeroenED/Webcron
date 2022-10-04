@@ -18,7 +18,6 @@ use Symfony\Component\HttpKernel\KernelInterface;
 #[AsCommand(name: 'webcron:cleanup', description: 'Cleanup runs')]
 class CleanupCommand extends Command
 {
-    protected static $defaultName = 'webcron:cleanup';
     protected $kernel;
     protected $doctrine;
 
@@ -36,19 +35,13 @@ class CleanupCommand extends Command
             ->addOption('maxage', 'm', InputOption::VALUE_REQUIRED, 'The maximum age of the oldest runs');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output) : int
     {
         $maxage = $input->getOption('maxage');
         $jobs = $input->getOption('jobid');
         $runRepo = $this->doctrine->getRepository(Run::class);
-        try {
-            $deleted = $runRepo->cleanupRuns($jobs, $maxage);
-            $output->writeln('Deleted ' . $deleted . ' runs');
-            return Command::SUCCESS;
-        } catch(Exception $exception) {
-            $output->writeln($exception->getMessage());
-            return Command::FAILURE;
-        }
+        $deleted = $runRepo->cleanupRuns($jobs, $maxage);
+        $output->writeln('Deleted ' . $deleted . ' runs');
         return Command::SUCCESS;
     }
 }

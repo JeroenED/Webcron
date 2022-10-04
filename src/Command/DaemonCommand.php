@@ -35,7 +35,7 @@ class DaemonCommand extends Command
             ->addOption('async', 'a', InputOption::VALUE_NEGATABLE, 'Time limit in seconds before stopping the daemon.');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output) : int
     {
         $jobRepo = $this->doctrine->getRepository(Job::class);
         $timelimit = $input->getOption('time-limit') ?? false;

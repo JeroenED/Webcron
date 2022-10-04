@@ -31,7 +31,7 @@ class RunCommand extends Command
             ->addArgument('jobid', InputArgument::REQUIRED, 'The id of the job to be run');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output) : int
     {
         $jobRepo = $this->doctrine->getRepository(Job::class);
         $jobId = (int)$input->getArgument('jobid');

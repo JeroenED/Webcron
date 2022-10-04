@@ -49,7 +49,7 @@ class MailFailedRunsCommand extends Command
      * @throws \Twig\Error\SyntaxError
      * @throws \Twig\Error\LoaderError
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output) : int
     {
         $jobRepo = $this->doctrine->getRepository(Job::class);
 

@@ -56,7 +56,7 @@ class UserCommand extends Command
             ->addOption('password', 'p', InputOption::VALUE_OPTIONAL, 'What action should be executed? [add, delete, update]', '');
     }
 
-    protected function initialize(InputInterface $input, OutputInterface $output)
+    protected function initialize(InputInterface $input, OutputInterface $output) : void
     {
         $this->action = $input->getArgument('action');
         $this->username = $input->getOption('username');
@@ -64,7 +64,7 @@ class UserCommand extends Command
         $this->io = new SymfonyStyle($input, $output);
     }
 
-    protected function interact(InputInterface $input, OutputInterface $output)
+    protected function interact(InputInterface $input, OutputInterface $output) : void
     {
         if(!empty($this->password)) {
             $this->io->warning('It is not safe to send password directly via STDIN');
@@ -117,7 +117,7 @@ class UserCommand extends Command
 
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output) : int
     {
         switch ($this->action) {
             case 'add':
