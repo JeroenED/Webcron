@@ -8,6 +8,7 @@ use App\Entity\User;
 use App\Repository\RunRepository;
 use Doctrine\DBAL\Connection;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -15,9 +16,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
+#[AsCommand(name: 'webcron:demodata', description: 'Install demo data')]
 class DemoInstallCommand extends Command
 {
-    protected static $defaultName = 'webcron:demodata';
     protected $kernel;
     protected $doctrine;
     protected $passwordHasher;
@@ -33,7 +34,6 @@ class DemoInstallCommand extends Command
     protected function configure()
     {
         $this
-            ->setDescription('Install demo data')
             ->setHelp('This command installs the demo data');
     }
 

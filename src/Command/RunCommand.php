@@ -4,15 +4,16 @@ namespace App\Command;
 
 use App\Entity\Job;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
 
+#[AsCommand(name: 'webcron:run', description: 'Run a single cronjob')]
 class RunCommand extends Command
 {
-    protected static $defaultName = 'webcron:run';
     protected $kernel;
     protected $doctrine;
 
@@ -26,7 +27,6 @@ class RunCommand extends Command
     protected function configure()
     {
         $this
-            ->setDescription('Run a single cronjob')
             ->setHelp('This command runs a single command')
             ->addArgument('jobid', InputArgument::REQUIRED, 'The id of the job to be run');
     }

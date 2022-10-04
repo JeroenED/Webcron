@@ -6,17 +6,16 @@ namespace App\Command;
 use App\Entity\Job;
 use App\Repository\JobRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
 
-
+#[AsCommand(name: 'webcron:daemon', description: 'The master script of Webcron Management')]
 class DaemonCommand extends Command
 {
-
-    protected static $defaultName = 'webcron:daemon';
     protected $kernel;
     protected $doctrine;
 
@@ -31,7 +30,6 @@ class DaemonCommand extends Command
     protected function configure()
     {
         $this
-            ->setDescription('The deamon slayer of webcron')
             ->setHelp('This command is the daemon process of webcron, enabling webcron to actually run jobs on time')
             ->addOption('time-limit', 't', InputOption::VALUE_REQUIRED, 'Time limit in seconds before stopping the daemon.')
             ->addOption('async', 'a', InputOption::VALUE_NEGATABLE, 'Time limit in seconds before stopping the daemon.');

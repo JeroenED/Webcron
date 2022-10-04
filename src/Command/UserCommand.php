@@ -8,6 +8,7 @@ use App\Entity\User;
 use App\Repository\RunRepository;
 use Doctrine\DBAL\Connection;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Completion\CompletionInput;
 use Symfony\Component\Console\Completion\CompletionSuggestions;
@@ -21,6 +22,7 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
+#[AsCommand(name: 'webcron:user', description: 'User stuff')]
 class UserCommand extends Command
 {
     protected static $defaultName = 'webcron:user';
@@ -48,7 +50,6 @@ class UserCommand extends Command
     protected function configure()
     {
         $this
-            ->setDescription('User stuff')
             ->setHelp('The command is doing user stuff')
             ->addArgument('action', InputArgument::REQUIRED, 'What action should be executed? [add, delete, update]', null, ['add', 'update', 'delete'])
             ->addOption('username', 'u', InputOption::VALUE_OPTIONAL, 'What action should be executed? [add, delete, update]', '')

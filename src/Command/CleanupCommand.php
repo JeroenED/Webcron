@@ -8,12 +8,14 @@ use App\Entity\Run;
 use Doctrine\DBAL\Exception;
 use App\Repository\RunRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
 
+#[AsCommand(name: 'webcron:cleanup', description: 'Cleanup runs')]
 class CleanupCommand extends Command
 {
     protected static $defaultName = 'webcron:cleanup';
@@ -30,8 +32,6 @@ class CleanupCommand extends Command
     protected function configure()
     {
         $this
-            ->setDescription('Cleanup runs')
-            ->setHelp('This command cleans the runs table')
             ->addOption('jobid', 'j', InputOption::VALUE_IS_ARRAY + InputOption::VALUE_REQUIRED, 'The ids of the jobs to clean')
             ->addOption('maxage', 'm', InputOption::VALUE_REQUIRED, 'The maximum age of the oldest runs');
     }
