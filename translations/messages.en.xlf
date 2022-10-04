@@ -159,7 +159,7 @@
       </trans-unit>
       <trans-unit id="mZ.gLJq" resname="job.index.table.headers.nextrun">
         <source>job.index.table.headers.nextrun</source>
-        <target>Nextrun</target>
+        <target>Next run</target>
       </trans-unit>
       <trans-unit id="n9XSrh3" resname="job.index.runnow.deferred.title">
         <source>job.index.runnow.deferred.title</source>
