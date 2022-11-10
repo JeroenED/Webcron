@@ -18,7 +18,7 @@
         "phpseclib/phpseclib": "^3.0",
         "scienta/doctrine-json-functions": "^5.1",
         "symfony/console": "^6.1",
-        "symfony/crowdin-translation-provider": "6.1.*",
+        "symfony/crowdin-translation-provider": "^6.1",
         "symfony/dotenv": "^6.1",
         "symfony/flex": "^2.2",
         "symfony/framework-bundle": "^6.1",
@@ -79,7 +79,7 @@
     "extra": {
         "symfony": {
             "allow-contrib": true,
-            "require": "6.1.*"
+            "require": "^6.1"
         }
     },
     "require-dev": {
