@@ -13,10 +13,10 @@
         "ext-posix": "*",
         "doctrine/doctrine-bundle": "^2.7",
         "doctrine/doctrine-migrations-bundle": "^3.2",
-        "doctrine/orm": "^2.12",
-        "guzzlehttp/guzzle": "^7.4",
+        "doctrine/orm": "^2.13",
+        "guzzlehttp/guzzle": "^7.5",
         "phpseclib/phpseclib": "^3.0",
-        "scienta/doctrine-json-functions": "^5.1",
+        "scienta/doctrine-json-functions": "^5.2",
         "symfony/console": "^6.1",
         "symfony/crowdin-translation-provider": "^6.1",
         "symfony/dotenv": "^6.1",
@@ -28,7 +28,7 @@
         "symfony/security-bundle": "^6.1",
         "symfony/translation": "^6.1",
         "symfony/twig-bundle": "^6.1",
-        "symfony/webpack-encore-bundle": "^1.15",
+        "symfony/webpack-encore-bundle": "^1.16",
         "symfony/yaml": "^6.1"
     },
     "config": {
@@ -84,7 +84,7 @@
     },
     "require-dev": {
         "symfony/debug-bundle": "^6.1",
-        "symfony/maker-bundle": "^1.45",
+        "symfony/maker-bundle": "^1.48",
         "symfony/monolog-bundle": "^3.8",
         "symfony/stopwatch": "^6.1",
         "symfony/web-profiler-bundle": "^6.1"
