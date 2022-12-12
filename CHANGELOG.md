@@ -13,6 +13,7 @@
 * User command now has update action
 * Mail-failed-runs now takes an argument with recipients. Eliminating the need for a user account
 * Docker images are build for amd64, arm and arm64
+* Symfony framework has been updated to version 6.2
 
 ### Fixed
 * Some flashes were not translated
