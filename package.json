@@ -6,7 +6,7 @@
   "license": "AGPL-3.0-or-later",
   "private": true,
   "dependencies": {
-    "@eonasdan/tempus-dominus": "6.2",
+    "@eonasdan/tempus-dominus": "^6.2",
     "@popperjs/core": "^2.11",
     "bootstrap": "^5.2",
     "bootstrap-dark-5": "^1.1",
@@ -15,7 +15,7 @@
   "devDependencies": {
     "sass": "^1.56",
     "sass-loader": "^13.2",
-    "@symfony/webpack-encore": "^3.1",
+    "@symfony/webpack-encore": "^4.1",
     "core-js": "^3.26"
   },
   "scripts": {
