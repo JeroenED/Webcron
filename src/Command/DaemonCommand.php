@@ -37,6 +37,7 @@ class DaemonCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output) : int
     {
+        ini_set('memory_limit', '4G');
         $jobRepo = $this->doctrine->getRepository(Job::class);
         $timelimit = $input->getOption('time-limit') ?? false;
         $async = $input->getOption('async') ?? function_exists('pcntl_fork');
