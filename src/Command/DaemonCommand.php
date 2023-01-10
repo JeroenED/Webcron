@@ -63,7 +63,7 @@ class DaemonCommand extends Command
                         $consolerun = $jobRepo->getTempVar($job, 'consolerun', false);
                         if($consolerun && !$rebootedself) continue;
                     }
-                    $manual = ($job->getRunning() == 2);
+                    $manual = ($job->getRunning() > 1);
                     $jobRepo->setJobRunning($job, true);
                     $output->writeln('Running Job ' . $job->getId());
                     if($async) {

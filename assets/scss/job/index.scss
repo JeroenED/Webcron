@@ -1,5 +1,7 @@
-@import "/assets/scss/base";
-@import "/assets/scss/icons";
+@import "assets/scss/base";
+@import "assets/scss/icons";
+@import "/node_modules/@eonasdan/tempus-dominus/dist/css/tempus-dominus.css";
+@import "assets/scss/tempus-dominus-dark";
 
 tr.norun td {
   background-color: #f8d7da;
@@ -33,8 +35,8 @@ td.status-col {
   filter: blur(3px);
 }
 
-.runnow-overlay {
-  .runnow-blur {
+.run-overlay {
+  .run-blur {
     bottom: 0;
     left: 0;
     position: fixed;
@@ -43,7 +45,7 @@ td.status-col {
     z-index: 1500;
   }
 
-  .runnow-content {
+  .run-content {
     font-size: 10px;
     height: 50px;
     position: absolute;
@@ -53,5 +55,23 @@ td.status-col {
     left: 50%;
     margin-left: -50px;
     margin-top: -50px;
+  }
+}
+
+#run_selecttime {
+  .tempus-dominus-widget {
+    box-shadow: none;
+
+    &.timepicker-sbs {
+      width: 19em;
+
+      .td-row {
+        flex-direction: column;
+
+        .td-half {
+          width: 19em;
+        }
+      }
+    }
   }
 }

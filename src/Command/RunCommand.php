@@ -47,14 +47,14 @@ class RunCommand extends Command
         }
         $jobRepo->setJobRunning($job, true);
         $jobRepo->setTempVar($job, 'consolerun', true);
-        $result = $jobRepo->runNow($job, true);
+        $result = $jobRepo->run($job, true);
         if($job->getData('crontype') == 'reboot') {
             $sleeping = true;
             while($sleeping) {
                 if(time() >= $job->getRunning()) $sleeping = false;
                 sleep(1);
             }
-            $result = $jobRepo->runNow($job, true);
+            $result = $jobRepo->run($job, true);
         }
         $jobRepo->setJobRunning($job, false);
         $jobRepo->setTempVar($job, 'consolerun', false);

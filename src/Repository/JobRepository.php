@@ -142,7 +142,7 @@ class JobRepository extends EntityRepository
     {
         $em = $this->getEntityManager();
 
-        if(in_array($job->getRunning(), [0,1,2])) $job->setRunning($status ? 1 : 0);
+        $job->setRunning($status ? 1 : 0);
 
         $em->persist($job);
         $em->flush();
@@ -320,7 +320,7 @@ class JobRepository extends EntityRepository
     private function runRebootJob(Job &$job, float &$starttime, bool &$manual): array
     {
         $em = $this->getEntityManager();
-        if($job->getRunning() == 1) {
+        if($this->getTempVar($job, 'rebooting', false) === false) {
             if(isset($_ENV['DEMO_MODE']) && $_ENV['DEMO_MODE'] == 'true') {
                 $job->setRunning(time() + $job->getData('reboot-delay-secs') + ($job->getData('reboot-duration') * 60));
                 $em->persist($job);
@@ -341,6 +341,7 @@ class JobRepository extends EntityRepository
             }
 
             $job->setRunning(time() + $job->getData('reboot-delay-secs') + ($job->getData('reboot-duration') * 60));
+            $this->setTempVar($job, 'rebooting', true);
             $em->persist($job);
             $em->flush();
 
@@ -358,7 +359,7 @@ class JobRepository extends EntityRepository
             }
             return ['status' => 'deferred'];
 
-        } elseif($job->getRunning() != 0) {
+        } elseif($this->getTempVar($job, 'rebooting', false) === true) {
             if($job->getRunning() > time()) {
                 return ['status' => 'deferred'];
             }
@@ -411,11 +412,15 @@ class JobRepository extends EntityRepository
      * @return array
      * @throws \Doctrine\DBAL\Exception
      */
-    public function runNow(Job &$job, $console = false) {
+    public function run(Job &$job, $console = false, int $timestamp = 0)
+    {
         $em = $this->getEntityManager();
         $runRepo = $this->getEntityManager()->getRepository(Run::class);
-
-        if($console == false && ($runRepo->isSlowJob($job)) || count($job->getRuns()) == 0 || $job->getData('crontype') === 'reboot') {
+        if ($timestamp > 0) {
+            $job->setRunning($timestamp);
+            $em->persist($job);
+            $em->flush();
+        } elseif($console == false && ($runRepo->isSlowJob($job)) || count($job->getRuns()) == 0 || $job->getData('crontype') === 'reboot') {
             if(in_array($job->getRunning(), [0,1,2])) {
                 $job->setRunning(2);
                 $em->persist($job);
@@ -506,7 +511,6 @@ class JobRepository extends EntityRepository
             } while ($nextrun < time());
 
             $job->setNextrun($nextrun);
-
         }
 
         $this->deleteTempVar($job);

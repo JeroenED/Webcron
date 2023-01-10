@@ -1,4 +1,7 @@
 # Changelog
+## Version 1.2
+### New
+* Added timed scheduled runs
 
 ## Version 1.1
 

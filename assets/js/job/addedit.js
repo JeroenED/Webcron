@@ -1,7 +1,6 @@
 import 'bootstrap';
-import moment from 'moment';
-import * as tempusDominus from '@eonasdan/tempus-dominus/dist/js/tempus-dominus';
-import customDateFormat from '@eonasdan/tempus-dominus/dist/plugins/customDateFormat'
+import {TempusDominus,extend} from "@eonasdan/tempus-dominus";
+import customDateFormat from '@eonasdan/tempus-dominus/dist/plugins/customDateFormat';
 import Utils from "./Utils";
 
 document.addEventListener("readystatechange", event => {
@@ -18,34 +17,11 @@ document.addEventListener("readystatechange", event => {
     }
 });
 
-const timepickerOptions = {
-    localization:{
-        locale: 'nl',
-        format: 'dd/MM/yyyy HH:mm:ss'
-    },
-    display: {
-        icons: {
-            time: 'icon-clock-o',
-            date: 'icon-calendar',
-            up: 'icon-arrow-up',
-            down: 'icon-arrow-down',
-            previous: 'icon-chevron-left',
-            next: 'icon-chevron-right',
-            today: 'icon-calendar-check-o',
-            clear: 'icon-delete',
-            close: 'icon-x',
-        },
-        components: {
-            seconds: true,
-            useTwentyfourHour: true
-        }
-    },
-}
 function initDatePickers()
 {
-    tempusDominus.extend(customDateFormat);
-    new tempusDominus.TempusDominus(document.querySelector('#nextrunselector'), timepickerOptions);
-    new tempusDominus.TempusDominus(document.querySelector('#lastrunselector'), timepickerOptions);
+    extend(customDateFormat);
+    new TempusDominus(document.querySelector('#nextrunselector'), Utils.timepickerOptions);
+    new TempusDominus(document.querySelector('#lastrunselector'), Utils.timepickerOptions);
 }
 
 function initCronType()

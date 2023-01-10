@@ -61,11 +61,14 @@ job_edit:
   requirements:
     id: \d+
 
-job_runnow:
-  path: '/{_locale}/job/{id}/runnow'
-  controller: App\Controller\JobController::runNowAction
+job_run:
+  path: '/{_locale}/job/{id}/run/{timestamp}'
+  controller: App\Controller\JobController::runAction
   requirements:
     id: \d+
+    timestamp: \d+
+  defaults:
+    timestamp: 0
 
 job_add:
   path: '/{_locale}/job/add'

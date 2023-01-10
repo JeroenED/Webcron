@@ -2,11 +2,14 @@ import {Modal} from 'bootstrap';
 import image from '/assets/images/ajax-loader.gif'
 import '/assets/scss/job/index.scss';
 import Utils from "./Utils";
+import customDateFormat from '@eonasdan/tempus-dominus/dist/plugins/customDateFormat';
+import {DateTime,TempusDominus,extend} from "@eonasdan/tempus-dominus";
 
 document.addEventListener("readystatechange", event => {
     if(event.target.readyState === 'complete') {
         initDeleteButtons();
-        initRunNowButtons();
+        initRunButtons();
+        initTimepicker();
         Utils.initTags();
     }
 });
@@ -27,55 +30,98 @@ function initDeleteButtons() {
     }));
 }
 
-function initRunNowButtons() {
-    document.querySelectorAll('.runnow').forEach(elem => elem.addEventListener("click", event => {
+var selecttimedatepicker;
+function initTimepicker() {
+    extend(customDateFormat);
+    let modal = document.querySelector('#run_selecttime');
+    let datepickeroptions = Utils.timepickerOptions;
+    datepickeroptions.display.inline = true;
+    datepickeroptions.display.sideBySide = true;
+    datepickeroptions.restrictions = {
+        minDate: new Date()
+    };
+    selecttimedatepicker = new TempusDominus(document.querySelector('#selecttime_datepicker'), datepickeroptions);
+}
+function initRunButtons() {
+    document.querySelectorAll('.run').forEach(elem => elem.addEventListener("click", event => {
         let me = event.currentTarget;
-        let href = me.dataset.href;
-
-        let runnowCnt = document.querySelector('.runnow-content');
-        if(runnowCnt.querySelector('img') === null) {
-            let loaderImg = document.createElement('img');
-            loaderImg.src = image;
-            runnowCnt.appendChild(loaderImg);
+        let norun = me.closest('tr').classList.contains('norun')
+        let maxdate = new DateTime(me.dataset.nextrun)
+        if (maxdate < new DateTime() ) {
+            if (norun) {
+                maxdate = undefined;
+            } else {
+                console.error('You cannot have to be run jobs in the past');
+                return;
+            }
         }
-        document.querySelector('.container-fluid').classList.add('blur');
-        document.querySelector('.runnow-overlay').classList.add('d-block');
-        document.querySelector('.runnow-overlay').classList.remove('d-none');
-
-        fetch(href, { method: 'GET' })
-            .then(response => response.json())
-            .then(data => {
-                let modal = document.querySelector('#runnow_result');
-                modal.querySelector('.modal-title').innerHTML = data.title;
-                if (data.status == 'deferred') {
-                    modal.querySelector('.modal-body').innerHTML = data.message;
-                    me.classList.add('disabled');
-                    let td = me.closest('td');
-                    td.querySelectorAll('.btn').forEach(btn => {
-                        btn.classList.add('btn-outline-success');
-                        btn.classList.remove('btn-outline-primary');
-                        btn.classList.remove('btn-outline-danger');
-                    })
-
-
-                    let tr = me.closest('tr');
-                    tr.classList.add('running');
-                    tr.classList.add('text-success');
-                    tr.classList.remove('norun');
-                    tr.classList.remove('text-danger');
-                } else if (data.status == 'ran') {
-                    let content = '<p>' + data.message + '</p>'
-                    content += '<pre>' + data.output + '</pre>'
-
-                    modal.querySelector('.modal-body').innerHTML = content;
-                }
-
-                var bsModal = new Modal('#runnow_result').show();
-
-                document.querySelector('.container-fluid').classList.remove('blur');
-                document.querySelector('.runnow-overlay').classList.remove('d-block');
-                document.querySelector('.runnow-overlay').classList.add('d-none');
-            })
+        selecttimedatepicker.updateOptions({
+            restrictions: {
+                maxDate: maxdate
+            }
         })
-    )
+        selecttimedatepicker.viewDate = new DateTime();
+        var bsModal = new Modal('#run_selecttime');
+        bsModal.show();
+
+        document.querySelectorAll('.schedule').forEach(elem => elem.addEventListener("click", event => {
+            bsModal.hide();
+            let time = Math.floor(selecttimedatepicker.viewDate / 1000);
+            run(me, time);
+        }));
+        document.querySelectorAll('.run-now').forEach(elem => elem.addEventListener("click", event => {
+            bsModal.hide();
+            run(me);
+        }));
+    }));
+}
+function run(elem, time = 0) {
+    let href = elem.dataset.href;
+    if (time > 0) href = href + '/' + time.toString();
+
+    let runCnt = document.querySelector('.run-content');
+    if(runCnt.querySelector('img') === null) {
+        let loaderImg = document.createElement('img');
+        loaderImg.src = image;
+        runCnt.appendChild(loaderImg);
+    }
+    document.querySelector('.container-fluid').classList.add('blur');
+    document.querySelector('.run-overlay').classList.add('d-block');
+    document.querySelector('.run-overlay').classList.remove('d-none');
+
+    fetch(href, { method: 'GET' })
+        .then(response => response.json())
+        .then(data => {
+            let modal = document.querySelector('#run_result');
+            modal.querySelector('.modal-title').innerHTML = data.title;
+            if (data.status == 'deferred') {
+                modal.querySelector('.modal-body').innerHTML = data.message;
+                elem.classList.add('disabled');
+                let td = elem.closest('td');
+                td.querySelectorAll('.btn').forEach(btn => {
+                    btn.classList.add('btn-outline-success');
+                    btn.classList.remove('btn-outline-primary');
+                    btn.classList.remove('btn-outline-danger');
+                })
+
+
+                let tr = elem.closest('tr');
+                tr.classList.add('running');
+                tr.classList.add('text-success');
+                tr.classList.remove('norun');
+                tr.classList.remove('text-danger');
+            } else if (data.status == 'ran') {
+                let content = '<p>' + data.message + '</p>'
+                content += '<pre>' + data.output + '</pre>'
+
+                modal.querySelector('.modal-body').innerHTML = content;
+            }
+
+            var runModal = new Modal('#run_result');
+            runModal.show();
+
+            document.querySelector('.container-fluid').classList.remove('blur');
+            document.querySelector('.run-overlay').classList.remove('d-block');
+            document.querySelector('.run-overlay').classList.add('d-none');
+        })
 }

@@ -81,30 +81,30 @@ class JobController extends AbstractController
         }
     }
 
-    public function runNowAction(Request $request, ManagerRegistry $doctrine, TranslatorInterface $translator,  int $id): JsonResponse
+    public function runAction(Request $request, ManagerRegistry $doctrine, TranslatorInterface $translator, int $id, int $timestamp): JsonResponse
     {
         if($request->getMethod() == 'GET') {
             $jobRepo = $doctrine->getRepository(Job::class);
             $job = $jobRepo->find($id);
-            $runnowResult = $jobRepo->runNow($job);
-            if ($runnowResult['success'] === NULL) {
+            $runResult = $jobRepo->run($job, false, $timestamp);
+            if ($runResult['success'] === NULL) {
                 $return = [
                     'status' => 'deferred',
                     'success' => NULL,
-                    'title' => $translator->trans('job.index.runnow.deferred.title'),
-                    'message' => $translator->trans('job.index.runnow.deferred.message')
+                    'title' => $translator->trans('job.index.run.deferred.title'),
+                    'message' => $translator->trans('job.index.run.deferred.message')
                 ];
             } else {
                 $return = [
                     'status' => 'ran',
-                    'success' => $runnowResult['success'],
-                    'title' => $runnowResult['success'] ? $translator->trans('job.index.runnow.ran.title.success') : $translator->trans('job.index.runnow.ran.title.failed'),
-                    'message' => $translator->trans('job.index.runnow.ran.message', [
-                        '_runtime_' => number_format($runnowResult['runtime'], 3),
-                        '_exitcode_' => $runnowResult['exitcode']
+                    'success' => $runResult['success'],
+                    'title' => $runResult['success'] ? $translator->trans('job.index.run.ran.title.success') : $translator->trans('job.index.run.ran.title.failed'),
+                    'message' => $translator->trans('job.index.run.ran.message', [
+                        '_runtime_' => number_format($runResult['runtime'], 3),
+                        '_exitcode_' => $runResult['exitcode']
                     ]),
-                    'exitcode' => $runnowResult['exitcode'],
-                    'output' => $runnowResult['output'],
+                    'exitcode' => $runResult['exitcode'],
+                    'output' => $runResult['output'],
                 ];
             }
             return new JsonResponse($return);

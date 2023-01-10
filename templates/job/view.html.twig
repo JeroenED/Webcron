@@ -1,5 +1,5 @@
 {% extends "base.html.twig" %}
-{% block title %}{{ 'job.title' | trans({ '_jobname_': job.name }) }}{% endblock %}
+{% block title %}{{ 'job.view.title' | trans({ '_jobname_': job.name }) }}{% endblock %}
 {% block content %}
     <h2>{{ 'job.view.header' | trans({ '_jobname_': (job.name  | parsetags) })  | raw }}</h2>
     <p>
