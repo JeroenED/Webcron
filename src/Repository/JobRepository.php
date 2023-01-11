@@ -167,7 +167,7 @@ class JobRepository extends EntityRepository
      */
     public function deleteTempVar(Job &$job, ?string $name = NULL ): void
     {
-        $job->removeData('temp_vars.' . ($name !== NULL ? '.' . $name : ''));
+        $job->removeData('temp_vars' . ($name !== NULL ? '.' . $name : ''));
     }
 
     /**
