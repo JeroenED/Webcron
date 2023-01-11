@@ -123,7 +123,7 @@ class JobRepository extends EntityRepository
             ->orWhere(
                 $qb->expr()->andX(
                     $qb->expr()->notIn('job.running', [0,1,2]),
-                    $qb->expr()->lt('job.running', ':timestamp')
+                    $qb->expr()->lte('job.running', ':timestamp')
                 )
             )
             ->orWhere('job.running = 2')
