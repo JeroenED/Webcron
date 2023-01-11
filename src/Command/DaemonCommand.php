@@ -74,13 +74,10 @@ class DaemonCommand extends Command
                         $jobRepo = $this->doctrine->getRepository(Job::class);
                     }
 
-                    if(!$async || $pid == -1) {
-                        $jobRepo->RunJob($job, $manual);
-                        $jobRepo->setJobRunning($job, false);
-                    } elseif ($pid == 0) {
-                        $jobRepo->RunJob($job, $manual);
-                        $jobRepo->setJobRunning($job, false);
-                        exit;
+                    if((!$async || $pid == -1) || $pid == 0) {
+                        $result = $jobRepo->RunJob($job, $manual);
+                        if ($result['status'] == 'ran') $jobRepo->setJobRunning($job, false);
+                        if ($pid == 0) exit;
                     }
                     unset($jobsToRun[$key]);
                     unset($job);

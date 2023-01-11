@@ -516,7 +516,7 @@ class JobRepository extends EntityRepository
         $this->deleteTempVar($job);
         $em->persist($job);
         $em->flush();
-        return  ['job_id' =>  $job->getId(), 'exitcode' => $result['exitcode'], 'timestamp' =>floor($starttime), 'runtime' => $runtime, 'output' => (string)$result['output'], 'flags' => implode("", $flags)];
+        return  ['job_id' =>  $job->getId(), 'status' => 'ran',  'exitcode' => $result['exitcode'], 'timestamp' =>floor($starttime), 'runtime' => $runtime, 'output' => (string)$result['output'], 'flags' => implode("", $flags)];
     }
 
     /**
