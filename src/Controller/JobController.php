@@ -111,4 +111,15 @@ class JobController extends AbstractController
         }
         return new JsonResponse(['success'=>false, 'message' => 'Your request is invalid'], Response::HTTP_BAD_REQUEST);
     }
+
+    public function hookAction(Request $request, ManagerRegistry $doctrine, int $id, string $token)
+    {
+        $jobRepo = $doctrine->getRepository(Job::class);
+        $job = $jobRepo->find($id);
+        if(!empty($job->getToken()) && $job->getToken() == $token && $job->getRunning() != 1) {
+            return new JsonResponse($jobRepo->run($job, false, time()));
+        }
+
+        return new JsonResponse(['success'=>false, 'message' => 'Your request is invalid'], Response::HTTP_BAD_REQUEST);
+    }
 }

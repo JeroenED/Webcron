@@ -2,6 +2,7 @@
 {% block title %}{{ 'job.view.title' | trans({ '_jobname_': job.name }) }}{% endblock %}
 {% block content %}
     <h2>{{ 'job.view.header' | trans({ '_jobname_': (job.name  | parsetags) })  | raw }}</h2>
+    <p class="text-muted small">{{ 'job.view.webhookurl' | trans }}: {{ url('webhook', {id: job.id, token: job.data('hooktoken') }) }}</p>
     <p>
         <a href="{{ path('job_edit', { id: job.id }) }}">{{ 'job.view.edit' | trans }}</a>
         {% if allruns %} | <a href="{{ path('job_view', { id: job.id })}}">{{ 'job.view.show.onlyfailed' | trans }}</a>

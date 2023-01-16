@@ -633,6 +633,10 @@
         <source>job.index.run.ran.message</source>
         <target>Cronjob ran in _runtime_ seconds with exit code _exitcode_</target>
       </trans-unit>
+      <trans-unit id="2mVlLNJ" resname="job.view.webhookurl">
+        <source>job.view.webhookurl</source>
+        <target>Webhook URL</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

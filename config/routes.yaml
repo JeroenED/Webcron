@@ -34,6 +34,13 @@ login:
   path: '/{_locale}/login'
   controller: App\Controller\UserController::loginAction
 
+webhook:
+  path: '/hook/{id}/{token}'
+  controller: App\Controller\JobController::hookAction
+  requirements:
+    id: \d+
+    token: '[A-Za-z0-9]+'
+
 job_index:
   path: '/{_locale}/job'
   controller: App\Controller\JobController::defaultAction

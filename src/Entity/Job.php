@@ -259,4 +259,29 @@ class Job
         return $this;
     }
 
+    public function getToken(): string
+    {
+        return $this->getData('hooktoken') ?? '';
+    }
+
+    public function deleteToken(): Job
+    {
+        $this->removeData('hooktoken');
+        return $this;
+    }
+
+    public function addToken(): Job
+    {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $randomString = '';
+        $length = 32;
+
+        for ($i = 0; $i < $length; $i++) {
+            $index = rand(0, strlen($characters) - 1);
+            $randomString .= $characters[$index];
+        }
+
+        $this->setData('hooktoken', $randomString);
+        return $this;
+    }
 }
