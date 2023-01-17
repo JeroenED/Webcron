@@ -637,6 +637,10 @@
         <source>job.view.webhookurl</source>
         <target>Webhook URL</target>
       </trans-unit>
+      <trans-unit id="aoV2sV4" resname="job.view.results.webhook">
+        <source>job.view.results.webhook</source>
+        <target>Triggered run</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

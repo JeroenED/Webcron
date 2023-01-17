@@ -19,6 +19,8 @@
                             <div class="d-md-inline d-block text-left">({{ "job.view.results.exitcode"| trans }}: {{ run.exitcode }} | {{ "job.view.results.runtime"| trans }}: {{ run.runtime | interval }})</div>
                             {% if 'M' in run.flags %}
                                 <div class="d-md-inline d-block text-left">{{ "job.view.results.manual"| trans }}</div>
+                            {% elseif 'T' in run.flags %}
+                                <div class="d-md-inline d-block text-left">{{ "job.view.results.webhook"| trans }}</div>
                             {% endif %}
                         </div>
                     </button>

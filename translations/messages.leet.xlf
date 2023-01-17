@@ -7,635 +7,639 @@
     <body>
       <trans-unit id="qvIyBkY" resname="title">
         <source>title</source>
-        <target>W3bcr0n m4n4g3m3nt</target>
+        <target state="final">W3bcr0n m4n4g3m3nt</target>
       </trans-unit>
       <trans-unit id="HgWEol2" resname="header">
         <source>header</source>
-        <target>W3bcr0n m4n4g3m3nt</target>
+        <target state="final">W3bcr0n m4n4g3m3nt</target>
       </trans-unit>
       <trans-unit id="Q54TzT5" resname="demomode.flashnotice">
         <source>demomode.flashnotice</source>
-        <target>d1z 4ppL1c4t10n b 1n d3m0 m0d3. Ch4ng3z 1z p3rs1st3d 1n t3h d4t4b4s3, but j0bz 1z n0t b31n' 3x3cut3d</target>
+        <target state="final">d1z 4ppL1c4t10n b 1n d3m0 m0d3. Ch4ng3z 1z p3rs1st3d 1n t3h d4t4b4s3, but j0bz 1z n0t b31n' 3x3cut3d</target>
       </trans-unit>
       <trans-unit id="rpq61qN" resname="demomode.credentials.header">
         <source>demomode.credentials.header</source>
-        <target>L0g1n 4 d3m0 m0d3</target>
+        <target state="final">L0g1n 4 d3m0 m0d3</target>
       </trans-unit>
       <trans-unit id="jUz9fVE" resname="demomode.credentials.username">
         <source>demomode.credentials.username</source>
-        <target>Us3rn4m3</target>
+        <target state="final">Us3rn4m3</target>
       </trans-unit>
       <trans-unit id="QNu97w_" resname="demomode.credentials.password">
         <source>demomode.credentials.password</source>
-        <target>P4ssw0rd</target>
+        <target state="final">P4ssw0rd</target>
       </trans-unit>
       <trans-unit id="U8IBiON" resname="menu.overview">
         <source>menu.overview</source>
-        <target>0v3rv13w</target>
+        <target state="final">0v3rv13w</target>
       </trans-unit>
       <trans-unit id="iGC7eCk" resname="menu.add">
         <source>menu.add</source>
-        <target>4dd @ n3w cr0nj0b</target>
+        <target state="final">4dd @ n3w cr0nj0b</target>
       </trans-unit>
       <trans-unit id="4UTsL.X" resname="menu.settings">
         <source>menu.settings</source>
-        <target>S3tt1ngz</target>
+        <target state="final">S3tt1ngz</target>
       </trans-unit>
       <trans-unit id="wBTFKFR" resname="menu.logout">
         <source>menu.logout</source>
-        <target>L0g0ut</target>
+        <target state="final">L0g0ut</target>
       </trans-unit>
       <trans-unit id="4cxyGOO" resname="security.login.username.label">
         <source>security.login.username.label</source>
-        <target>Us3rn4m3</target>
+        <target state="final">Us3rn4m3</target>
       </trans-unit>
       <trans-unit id="u2tKtI1" resname="security.login.username.placeholder">
         <source>security.login.username.placeholder</source>
-        <target>j3r03n@h4x0r.L33t</target>
+        <target state="final">j3r03n@h4x0r.L33t</target>
       </trans-unit>
       <trans-unit id="Niy_SZ2" resname="security.login.password.label">
         <source>security.login.password.label</source>
-        <target>P4ssw0rd</target>
+        <target state="final">P4ssw0rd</target>
       </trans-unit>
       <trans-unit id="3rU2_6v" resname="security.login.password.placeholder">
         <source>security.login.password.placeholder</source>
-        <target>C0rr3ct H0rs3 B4tt3ry St4pL3</target>
+        <target state="final">C0rr3ct H0rs3 B4tt3ry St4pL3</target>
       </trans-unit>
       <trans-unit id="0MGdvgf" resname="security.login.remember.label">
         <source>security.login.remember.label</source>
-        <target>D0 n0t f0rg3t</target>
+        <target state="final">D0 n0t f0rg3t</target>
       </trans-unit>
       <trans-unit id="4GvZndQ" resname="security.login.submit-btn.label">
         <source>security.login.submit-btn.label</source>
-        <target>3nt3r</target>
+        <target state="final">3nt3r</target>
       </trans-unit>
       <trans-unit id="W.225Bj" resname="settings.title">
         <source>settings.title</source>
-        <target>S3tt1ngz</target>
+        <target state="final">S3tt1ngz</target>
       </trans-unit>
       <trans-unit id="a1bm5YC" resname="settings.header">
         <source>settings.header</source>
-        <target>S3tt1ngz</target>
+        <target state="final">S3tt1ngz</target>
       </trans-unit>
       <trans-unit id="qUrJMfo" resname="settings.flashes.inexistinglocale">
         <source>settings.flashes.inexistinglocale</source>
-        <target>L0c4L3 d03z n0t 3x1st</target>
+        <target state="final">L0c4L3 d03z n0t 3x1st</target>
       </trans-unit>
       <trans-unit id="XcSnV8X" resname="settings.flashes.localesaved">
         <source>settings.flashes.localesaved</source>
-        <target>L0c4L3 b s4v3d</target>
+        <target state="final">L0c4L3 b s4v3d</target>
       </trans-unit>
       <trans-unit id="kpbry92" resname="settings.flashes.repeatpasswordnotok">
         <source>settings.flashes.repeatpasswordnotok</source>
-        <target>P4ssw0rdz 1z n0t 3qu4L</target>
+        <target state="final">P4ssw0rdz 1z n0t 3qu4L</target>
       </trans-unit>
       <trans-unit id="DpJMsln" resname="settings.flashes.currentpassnotok">
         <source>settings.flashes.currentpassnotok</source>
-        <target>P4ssw0rd b n0t c0rr3ct</target>
+        <target state="final">P4ssw0rd b n0t c0rr3ct</target>
       </trans-unit>
       <trans-unit id="tB3o6UA" resname="settings.flashes.passwordsaved">
         <source>settings.flashes.passwordsaved</source>
-        <target>P4ssw0rd b s4v3d</target>
+        <target state="final">P4ssw0rd b s4v3d</target>
       </trans-unit>
       <trans-unit id="aAt4FLV" resname="settings.password.header">
         <source>settings.password.header</source>
-        <target>P4ssw0rd</target>
+        <target state="final">P4ssw0rd</target>
       </trans-unit>
       <trans-unit id="qqAzx9b" resname="settings.password.current.label">
         <source>settings.password.current.label</source>
-        <target>Curr3nt p4ssw0rd</target>
+        <target state="final">Curr3nt p4ssw0rd</target>
       </trans-unit>
       <trans-unit id="rr8bU5t" resname="settings.password.current.placeholder">
         <source>settings.password.current.placeholder</source>
-        <target>qwerty</target>
+        <target state="final">qwerty</target>
       </trans-unit>
       <trans-unit id="YVhGwqr" resname="settings.password.password.label">
         <source>settings.password.password.label</source>
-        <target>N3w p4ssw0rd</target>
+        <target state="final">N3w p4ssw0rd</target>
       </trans-unit>
       <trans-unit id="OZpjE9T" resname="settings.password.password.placeholder">
         <source>settings.password.password.placeholder</source>
-        <target>azerty</target>
+        <target state="final">azerty</target>
       </trans-unit>
       <trans-unit id="TNBtpD_" resname="settings.password.repeat.label">
         <source>settings.password.repeat.label</source>
-        <target>R3p34t p4ssw0rd</target>
+        <target state="final">R3p34t p4ssw0rd</target>
       </trans-unit>
       <trans-unit id="bYb7Tz." resname="settings.password.repeat.placeholder">
         <source>settings.password.repeat.placeholder</source>
-        <target>azerty</target>
+        <target state="final">azerty</target>
       </trans-unit>
       <trans-unit id="_OGkxC8" resname="settings.other.header">
         <source>settings.other.header</source>
-        <target>0th3r s3tt1ngz</target>
+        <target state="final">0th3r s3tt1ngz</target>
       </trans-unit>
       <trans-unit id="78Yswpr" resname="settings.other.locale.label">
         <source>settings.other.locale.label</source>
-        <target>L0c4L3</target>
+        <target state="final">L0c4L3</target>
       </trans-unit>
       <trans-unit id="WQ4J4Fx" resname="settings.submit.label">
         <source>settings.submit.label</source>
-        <target>Subm1t</target>
+        <target state="final">Subm1t</target>
       </trans-unit>
       <trans-unit id="0eRDYaC" resname="job.index.title">
         <source>job.index.title</source>
-        <target>0v3rv13w</target>
+        <target state="final">0v3rv13w</target>
       </trans-unit>
       <trans-unit id="J.7dT3_" resname="job.index.header">
         <source>job.index.header</source>
-        <target>0v3rv13w 0f t3h cr0nj0bz</target>
+        <target state="final">0v3rv13w 0f t3h cr0nj0bz</target>
       </trans-unit>
       <trans-unit id="T0URP45" resname="job.index.table.headers.name">
         <source>job.index.table.headers.name</source>
-        <target>N4m3</target>
+        <target state="final">N4m3</target>
       </trans-unit>
       <trans-unit id="vNWgxUJ" resname="job.index.table.headers.host">
         <source>job.index.table.headers.host</source>
-        <target>H0st</target>
+        <target state="final">H0st</target>
       </trans-unit>
       <trans-unit id="1YQJCGW" resname="job.index.table.headers.interval">
         <source>job.index.table.headers.interval</source>
-        <target>1nt3rv4L</target>
+        <target state="final">1nt3rv4L</target>
       </trans-unit>
       <trans-unit id="mZ.gLJq" resname="job.index.table.headers.nextrun">
         <source>job.index.table.headers.nextrun</source>
-        <target>N3xtrun</target>
+        <target state="final">N3xtrun</target>
       </trans-unit>
       <trans-unit id="mokjk0L" resname="job.index.flashes.jobdeleted">
         <source>job.index.flashes.jobdeleted</source>
-        <target>Cr0nj0b b succ3ssfuLLy d3L3t3d</target>
+        <target state="final">Cr0nj0b b succ3ssfuLLy d3L3t3d</target>
       </trans-unit>
       <trans-unit id="SF_jXZZ" resname="job.view.title">
         <source>job.view.title</source>
-        <target>0v3rv13w 0f runz 4 _jobname_</target>
+        <target state="final">0v3rv13w 0f runz 4 _jobname_</target>
       </trans-unit>
       <trans-unit id="ysrfPnl" resname="job.view.header">
         <source>job.view.header</source>
-        <target>0v3rv13w 0f runz 4 _jobname_</target>
+        <target state="final">0v3rv13w 0f runz 4 _jobname_</target>
       </trans-unit>
       <trans-unit id="KBsRhNs" resname="job.view.edit">
         <source>job.view.edit</source>
-        <target>3d1t j0b</target>
+        <target state="final">3d1t j0b</target>
       </trans-unit>
       <trans-unit id="xvdCrX2" resname="job.view.show.onlyfailed">
         <source>job.view.show.onlyfailed</source>
-        <target>0nLy sh0w f41L3d runz</target>
+        <target state="final">0nLy sh0w f41L3d runz</target>
       </trans-unit>
       <trans-unit id="_zWmcxu" resname="job.view.show.all">
         <source>job.view.show.all</source>
-        <target>Sh0w 4LL runz</target>
+        <target state="final">Sh0w 4LL runz</target>
       </trans-unit>
       <trans-unit id="lpu6CQS" resname="job.view.results.exitcode">
         <source>job.view.results.exitcode</source>
-        <target>3x1t c0d3</target>
+        <target state="final">3x1t c0d3</target>
       </trans-unit>
       <trans-unit id="9EemRnl" resname="job.view.results.runtime">
         <source>job.view.results.runtime</source>
-        <target>Runt1m3</target>
+        <target state="final">Runt1m3</target>
       </trans-unit>
       <trans-unit id="juzEgkd" resname="job.view.results.manual">
         <source>job.view.results.manual</source>
-        <target>M4nu4L run</target>
+        <target state="final">M4nu4L run</target>
       </trans-unit>
       <trans-unit id="H.6.gtG" resname="job.view.results.noresults.failed">
         <source>job.view.results.noresults.failed</source>
-        <target>N0 f41L3d runz f0und</target>
+        <target state="final">N0 f41L3d runz f0und</target>
       </trans-unit>
       <trans-unit id="u3QkQi1" resname="job.view.results.noresults.all">
         <source>job.view.results.noresults.all</source>
-        <target>N0 runz f0und</target>
+        <target state="final">N0 runz f0und</target>
       </trans-unit>
       <trans-unit id="zBxeZSL" resname="job.edit.title">
         <source>job.edit.title</source>
-        <target>3d1t j0b</target>
+        <target state="final">3d1t j0b</target>
       </trans-unit>
       <trans-unit id="CDJme2K" resname="job.edit.header">
         <source>job.edit.header</source>
-        <target>3d1t j0b _jobname_</target>
+        <target state="final">3d1t j0b _jobname_</target>
       </trans-unit>
       <trans-unit id="eU2m5Zf" resname="job.edit.flashes.jobedited">
         <source>job.edit.flashes.jobedited</source>
-        <target>Cr0nj0b b succ3ssfuLLy d3L3t3d</target>
+        <target state="final">Cr0nj0b b succ3ssfuLLy d3L3t3d</target>
       </trans-unit>
       <trans-unit id="CPdXoro" resname="job.add.title">
         <source>job.add.title</source>
-        <target>4dd j0b</target>
+        <target state="final">4dd j0b</target>
       </trans-unit>
       <trans-unit id=".pKQkI0" resname="job.add.header">
         <source>job.add.header</source>
-        <target>4dd n3w j0b</target>
+        <target state="final">4dd n3w j0b</target>
       </trans-unit>
       <trans-unit id="66iDRun" resname="job.add.flashes.jobadded">
         <source>job.add.flashes.jobadded</source>
-        <target>Cr0nj0b succ3ssfuLLy 4dd3d</target>
+        <target state="final">Cr0nj0b succ3ssfuLLy 4dd3d</target>
       </trans-unit>
       <trans-unit id="h9UI9nK" resname="job.addedit.generalinfo.header">
         <source>job.addedit.generalinfo.header</source>
-        <target>G3n3r4L 1nf0</target>
+        <target state="final">G3n3r4L 1nf0</target>
       </trans-unit>
       <trans-unit id="2.rDz7o" resname="job.addedit.generalinfo.name.label">
         <source>job.addedit.generalinfo.name.label</source>
-        <target>N4m3</target>
+        <target state="final">N4m3</target>
       </trans-unit>
       <trans-unit id="3FV9jvC" resname="job.addedit.generalinfo.name.placeholder">
         <source>job.addedit.generalinfo.name.placeholder</source>
-        <target>Syst3m upd4t3</target>
+        <target state="final">Syst3m upd4t3</target>
       </trans-unit>
       <trans-unit id="j9FTkRt" resname="job.addedit.generalinfo.name.helptext">
         <source>job.addedit.generalinfo.name.helptext</source>
-        <target>j00 c4n cr34t3 c0L0r3d t4gz by us1n' [t4g]</target>
+        <target state="final">j00 c4n cr34t3 c0L0r3d t4gz by us1n' [t4g]</target>
       </trans-unit>
       <trans-unit id="CL7GVb3" resname="job.addedit.generalinfo.interval.label">
         <source>job.addedit.generalinfo.interval.label</source>
-        <target>1nt3rv4L (1n s3c0ndz)</target>
+        <target state="final">1nt3rv4L (1n s3c0ndz)</target>
       </trans-unit>
       <trans-unit id="iSs41MC" resname="job.addedit.generalinfo.interval.placeholder">
         <source>job.addedit.generalinfo.interval.placeholder</source>
-        <target>3600</target>
+        <target state="final">3600</target>
       </trans-unit>
       <trans-unit id="OTx9beS" resname="job.addedit.generalinfo.interval.patterns.label">
         <source>job.addedit.generalinfo.interval.patterns.label</source>
-        <target>P4tt3rnz</target>
+        <target state="final">P4tt3rnz</target>
       </trans-unit>
       <trans-unit id="0ATgoBe" resname="job.addedit.generalinfo.interval.patterns.minute">
         <source>job.addedit.generalinfo.interval.patterns.minute</source>
-        <target>3v3ry m1nut3</target>
+        <target state="final">3v3ry m1nut3</target>
       </trans-unit>
       <trans-unit id="f0o1GlZ" resname="job.addedit.generalinfo.interval.patterns.hour">
         <source>job.addedit.generalinfo.interval.patterns.hour</source>
-        <target>3v3ry h0ur</target>
+        <target state="final">3v3ry h0ur</target>
       </trans-unit>
       <trans-unit id="hCmc8AA" resname="job.addedit.generalinfo.interval.patterns.day">
         <source>job.addedit.generalinfo.interval.patterns.day</source>
-        <target>3v3ry d4y</target>
+        <target state="final">3v3ry d4y</target>
       </trans-unit>
       <trans-unit id="zmUXvRU" resname="job.addedit.generalinfo.interval.patterns.week">
         <source>job.addedit.generalinfo.interval.patterns.week</source>
-        <target>3v3ry w33k</target>
+        <target state="final">3v3ry w33k</target>
       </trans-unit>
       <trans-unit id="ISEzS__" resname="job.addedit.generalinfo.interval.patterns.4week">
         <source>job.addedit.generalinfo.interval.patterns.4week</source>
-        <target>3v3ry 4 w33kz</target>
+        <target state="final">3v3ry 4 w33kz</target>
       </trans-unit>
       <trans-unit id="HWDmm9f" resname="job.addedit.generalinfo.nextrun.label">
         <source>job.addedit.generalinfo.nextrun.label</source>
-        <target>N3xt run</target>
+        <target state="final">N3xt run</target>
       </trans-unit>
       <trans-unit id="e1RkhOF" resname="job.addedit.generalinfo.lastrun.label">
         <source>job.addedit.generalinfo.lastrun.label</source>
-        <target>L4st run</target>
+        <target state="final">L4st run</target>
       </trans-unit>
       <trans-unit id="kw_hgon" resname="job.addedit.generalinfo.lastrun.eternal.label">
         <source>job.addedit.generalinfo.lastrun.eternal.label</source>
-        <target>3t3rn4L</target>
+        <target state="final">3t3rn4L</target>
       </trans-unit>
       <trans-unit id="sdUg23G" resname="job.addedit.generalinfo.retention.label">
         <source>job.addedit.generalinfo.retention.label</source>
-        <target>R3t3nt10n (1n d4yz)</target>
+        <target state="final">R3t3nt10n (1n d4yz)</target>
       </trans-unit>
       <trans-unit id="nWofDbf" resname="job.addedit.generalinfo.retention.placeholder">
         <source>job.addedit.generalinfo.retention.placeholder</source>
-        <target>180</target>
+        <target state="final">180</target>
       </trans-unit>
       <trans-unit id="eHfLjBO" resname="job.addedit.generalinfo.retention.helptext">
         <source>job.addedit.generalinfo.retention.helptext</source>
-        <target>H0w m4ny d4yz (4t l34st) 2 k33p runz 0f d1z j0b 1n t3h d4t4b4s3</target>
+        <target state="final">H0w m4ny d4yz (4t l34st) 2 k33p runz 0f d1z j0b 1n t3h d4t4b4s3</target>
       </trans-unit>
       <trans-unit id="kfQDfoB" resname="job.addedit.generalinfo.failpercentage.label">
         <source>job.addedit.generalinfo.failpercentage.label</source>
-        <target>M4x f41L p3rc3nt4g3</target>
+        <target state="final">M4x f41L p3rc3nt4g3</target>
       </trans-unit>
       <trans-unit id="Ytyhy77" resname="job.addedit.generalinfo.faildays.label">
         <source>job.addedit.generalinfo.faildays.label</source>
-        <target>Numb3r 0f d4yz c4LcuL4t3d 4 f41L p3rc3nt4g3</target>
+        <target state="final">Numb3r 0f d4yz c4LcuL4t3d 4 f41L p3rc3nt4g3</target>
       </trans-unit>
       <trans-unit id="2O_wFoD" resname="job.addedit.generalinfo.faildays.placeholder">
         <source>job.addedit.generalinfo.faildays.placeholder</source>
-        <target>7</target>
+        <target state="final">7</target>
       </trans-unit>
       <trans-unit id="UvMb6oM" resname="job.addedit.generalinfo.hostlabel.label">
         <source>job.addedit.generalinfo.hostlabel.label</source>
-        <target>H0st l4b3L</target>
+        <target state="final">H0st l4b3L</target>
       </trans-unit>
       <trans-unit id="GjPGKoQ" resname="job.addedit.generalinfo.hostlabel.placeholder">
         <source>job.addedit.generalinfo.hostlabel.placeholder</source>
-        <target>N3wb13 s3rv3r</target>
+        <target state="final">N3wb13 s3rv3r</target>
       </trans-unit>
       <trans-unit id="moGlM4y" resname="job.addedit.generalinfo.hostlabel.helptext">
         <source>job.addedit.generalinfo.hostlabel.helptext</source>
-        <target>Wh1ch l4b3L 4 t3h h0stn4m3 sh0uLd b d1spL4y3d? 1f 3mpty t3h d1z w1LL b t3h h0stn4m3 pr0v1d3d b3L0w</target>
+        <target state="final">Wh1ch l4b3L 4 t3h h0stn4m3 sh0uLd b d1spL4y3d? 1f 3mpty t3h d1z w1LL b t3h h0stn4m3 pr0v1d3d b3L0w</target>
       </trans-unit>
       <trans-unit id="VEORPjf" resname="job.addedit.jobdetails.header">
         <source>job.addedit.jobdetails.header</source>
-        <target>J0b d3t41Lz</target>
+        <target state="final">J0b d3t41Lz</target>
       </trans-unit>
       <trans-unit id="7haVx1t" resname="job.addedit.crontype.label">
         <source>job.addedit.crontype.label</source>
-        <target>J0b typ3</target>
+        <target state="final">J0b typ3</target>
       </trans-unit>
       <trans-unit id="kw_PINJ" resname="job.addedit.crontype.command.label">
         <source>job.addedit.crontype.command.label</source>
-        <target>C0mm4nd</target>
+        <target state="final">C0mm4nd</target>
       </trans-unit>
       <trans-unit id="sxAwNxW" resname="job.addedit.crontype.command.header">
         <source>job.addedit.crontype.command.header</source>
-        <target>C0mm4nd d3t41Lz</target>
+        <target state="final">C0mm4nd d3t41Lz</target>
       </trans-unit>
       <trans-unit id="ZNQUrj7" resname="job.addedit.crontype.command.command.label">
         <source>job.addedit.crontype.command.command.label</source>
-        <target>C0mm4nd</target>
+        <target state="final">C0mm4nd</target>
       </trans-unit>
       <trans-unit id="aWesJsc" resname="job.addedit.crontype.command.command.placeholder">
         <source>job.addedit.crontype.command.command.placeholder</source>
-        <target>sudo rm -rf /</target>
+        <target state="final">sudo rm -rf /</target>
       </trans-unit>
       <trans-unit id="os3VpHs" resname="job.addedit.crontype.command.response.label">
         <source>job.addedit.crontype.command.response.label</source>
-        <target>3xp3ct3d 3x1t c0d3</target>
+        <target state="final">3xp3ct3d 3x1t c0d3</target>
       </trans-unit>
       <trans-unit id="RIWj._C" resname="job.addedit.crontype.command.response.placeholder">
         <source>job.addedit.crontype.command.response.placeholder</source>
-        <target>0</target>
+        <target state="final">0</target>
       </trans-unit>
       <trans-unit id="A66vsIi" resname="job.addedit.crontype.reboot.label">
         <source>job.addedit.crontype.reboot.label</source>
-        <target>R3b00t</target>
+        <target state="final">R3b00t</target>
       </trans-unit>
       <trans-unit id="Kv8GihO" resname="job.addedit.crontype.reboot.header">
         <source>job.addedit.crontype.reboot.header</source>
-        <target>R3b00t j0b d3t41Lz</target>
+        <target state="final">R3b00t j0b d3t41Lz</target>
       </trans-unit>
       <trans-unit id="hy8z.7x" resname="job.addedit.crontype.reboot.reboot.command.label">
         <source>job.addedit.crontype.reboot.reboot.command.label</source>
-        <target>R3b00t c0mm4nd</target>
+        <target state="final">R3b00t c0mm4nd</target>
       </trans-unit>
       <trans-unit id="tw3YvLz" resname="job.addedit.crontype.reboot.reboot.command.placeholder">
         <source>job.addedit.crontype.reboot.reboot.command.placeholder</source>
-        <target>sudo telinit 6</target>
+        <target state="final">sudo telinit 6</target>
       </trans-unit>
       <trans-unit id="p0Seiyx" resname="job.addedit.crontype.reboot.reboot.command.helptext">
         <source>job.addedit.crontype.reboot.reboot.command.helptext</source>
-        <target>Us3 {reboot-delay} 0r {reboot-delay-secs} 2 4dd t3h d3L4y 1n y0 c0mm4nd</target>
+        <target state="final">Us3 {reboot-delay} 0r {reboot-delay-secs} 2 4dd t3h d3L4y 1n y0 c0mm4nd</target>
       </trans-unit>
       <trans-unit id="bEPANkU" resname="job.addedit.crontype.reboot.reboot.delay.label">
         <source>job.addedit.crontype.reboot.reboot.delay.label</source>
-        <target>R3b00t d3L4y (1n m1nut3z)</target>
+        <target state="final">R3b00t d3L4y (1n m1nut3z)</target>
       </trans-unit>
       <trans-unit id="f38i.f6" resname="job.addedit.crontype.reboot.reboot.delay.placeholder">
         <source>job.addedit.crontype.reboot.reboot.delay.placeholder</source>
-        <target>5</target>
+        <target state="final">0</target>
       </trans-unit>
       <trans-unit id="T55_j9D" resname="job.addedit.crontype.reboot.reboot.delay.helptext">
         <source>job.addedit.crontype.reboot.reboot.delay.helptext</source>
-        <target>D3L4y b3tw33n tr1gg3r1n' r3b00t n 4ctu4L r3b00t</target>
+        <target state="final">D3L4y b3tw33n tr1gg3r1n' r3b00t n 4ctu4L r3b00t</target>
       </trans-unit>
       <trans-unit id="EbgF04P" resname="job.addedit.crontype.reboot.reboot.duration.label">
         <source>job.addedit.crontype.reboot.reboot.duration.label</source>
-        <target>R3b00t dur4t10n (1n m1nut3z)</target>
+        <target state="final">R3b00t dur4t10n (1n m1nut3z)</target>
       </trans-unit>
       <trans-unit id="1FVsnYa" resname="job.addedit.crontype.reboot.reboot.duration.placeholder">
         <source>job.addedit.crontype.reboot.reboot.duration.placeholder</source>
-        <target>10</target>
+        <target state="final">10</target>
       </trans-unit>
       <trans-unit id="VWOhJBY" resname="job.addedit.crontype.reboot.reboot.duration.helptext">
         <source>job.addedit.crontype.reboot.reboot.duration.helptext</source>
-        <target>t3h 4m0unt 0f t1m3 t3h syst3m t4k3z 2 4ctu4LLy r3b00t</target>
+        <target state="final">t3h 4m0unt 0f t1m3 t3h syst3m t4k3z 2 4ctu4LLy r3b00t</target>
       </trans-unit>
       <trans-unit id="ENLtpfK" resname="job.addedit.crontype.reboot.getservices.command.label">
         <source>job.addedit.crontype.reboot.getservices.command.label</source>
-        <target>G3t s3rv1c3z c0mm4nd</target>
+        <target state="final">G3t s3rv1c3z c0mm4nd</target>
       </trans-unit>
       <trans-unit id="yxIObGq" resname="job.addedit.crontype.reboot.getservices.command.placeholder">
         <source>job.addedit.crontype.reboot.getservices.command.placeholder</source>
-        <target>ps -aux</target>
+        <target state="final">ps -aux</target>
       </trans-unit>
       <trans-unit id="aurJI0X" resname="job.addedit.crontype.reboot.getservices.response.label">
         <source>job.addedit.crontype.reboot.getservices.response.label</source>
-        <target>G3t s3rv1c3z c0mm4nd 3x1t c0d3</target>
+        <target state="final">G3t s3rv1c3z c0mm4nd 3x1t c0d3</target>
       </trans-unit>
       <trans-unit id="xMbagrx" resname="job.addedit.crontype.reboot.getservices.response.placeholder">
         <source>job.addedit.crontype.reboot.getservices.response.placeholder</source>
-        <target>0</target>
+        <target state="final">0</target>
       </trans-unit>
       <trans-unit id="ze4mr8D" resname="job.addedit.crontype.http.label">
         <source>job.addedit.crontype.http.label</source>
-        <target>HTTP r3qu3st</target>
+        <target state="final">HTTP r3qu3st</target>
       </trans-unit>
       <trans-unit id="oJn3xvZ" resname="job.addedit.crontype.http.header">
         <source>job.addedit.crontype.http.header</source>
-        <target>HTTP r3qu3st d3t41Lz</target>
+        <target state="final">HTTP r3qu3st d3t41Lz</target>
       </trans-unit>
       <trans-unit id="hwhqEtB" resname="job.addedit.crontype.http.url.label">
         <source>job.addedit.crontype.http.url.label</source>
-        <target>UrL</target>
+        <target state="final">UrL</target>
       </trans-unit>
       <trans-unit id="31CZuNl" resname="job.addedit.crontype.http.url.placeholder">
         <source>job.addedit.crontype.http.url.placeholder</source>
-        <target>https://www.h4x0r.l33t</target>
+        <target state="final">https://www.h4x0r.l33t</target>
       </trans-unit>
       <trans-unit id="gGpY1Gz" resname="job.addedit.crontype.http.basic-auth.username.label">
         <source>job.addedit.crontype.http.basic-auth.username.label</source>
-        <target>Us3rn4m3 4 b4s1c 4uth</target>
+        <target state="final">Us3rn4m3 4 b4s1c 4uth</target>
       </trans-unit>
       <trans-unit id="9d3Trxr" resname="job.addedit.crontype.http.basic-auth.username.placeholder">
         <source>job.addedit.crontype.http.basic-auth.username.placeholder</source>
-        <target>root</target>
+        <target state="final">root</target>
       </trans-unit>
       <trans-unit id="27zbUzr" resname="job.addedit.crontype.http.basic-auth.password.label">
         <source>job.addedit.crontype.http.basic-auth.password.label</source>
-        <target>P4ssw0rd 4 b4s1c 4uth</target>
+        <target state="final">P4ssw0rd 4 b4s1c 4uth</target>
       </trans-unit>
       <trans-unit id="ROX9KeU" resname="job.addedit.crontype.http.basic-auth.password.placeholder">
         <source>job.addedit.crontype.http.basic-auth.password.placeholder</source>
-        <target>c0rr3ct h0rs3 b4tt3ry st4pL3</target>
+        <target state="final">c0rr3ct h0rs3 b4tt3ry st4pL3</target>
       </trans-unit>
       <trans-unit id="pRPdCPd" resname="job.addedit.crontype.http.basic-auth.password.helptext">
         <source>job.addedit.crontype.http.basic-auth.password.helptext</source>
-        <target>d1z f13Ld b b31n' s4v3d 4z @ s3cr3t</target>
+        <target state="final">d1z f13Ld b b31n' s4v3d 4z @ s3cr3t</target>
       </trans-unit>
       <trans-unit id="SnZXqhK" resname="job.addedit.crontype.http.response.label">
         <source>job.addedit.crontype.http.response.label</source>
-        <target>3xp3ct3d http st4tuz c0d3</target>
+        <target state="final">3xp3ct3d http st4tuz c0d3</target>
       </trans-unit>
       <trans-unit id="aLSDlKd" resname="job.addedit.crontype.http.response.placeholder">
         <source>job.addedit.crontype.http.response.placeholder</source>
-        <target>503</target>
+        <target state="final">503</target>
       </trans-unit>
       <trans-unit id="oV9GuKJ" resname="job.addedit.hosttype.label">
         <source>job.addedit.hosttype.label</source>
-        <target>H0st typ3</target>
+        <target state="final">H0st typ3</target>
       </trans-unit>
       <trans-unit id="eBXA85X" resname="job.addedit.hosttype.local.label">
         <source>job.addedit.hosttype.local.label</source>
-        <target>L0c4L</target>
+        <target state="final">L0c4L</target>
       </trans-unit>
       <trans-unit id="ZeflLHK" resname="job.addedit.hosttype.local.header">
         <source>job.addedit.hosttype.local.header</source>
-        <target>L0c4Lh0st d3t41Lz</target>
+        <target state="final">L0c4Lh0st d3t41Lz</target>
       </trans-unit>
       <trans-unit id="1atQ8Ot" resname="job.addedit.hosttype.local.nodetails">
         <source>job.addedit.hosttype.local.nodetails</source>
-        <target>N0 0pt10nz</target>
+        <target state="final">N0 0pt10nz</target>
       </trans-unit>
       <trans-unit id="oUUVCNC" resname="job.addedit.hosttype.ssh.label">
         <source>job.addedit.hosttype.ssh.label</source>
-        <target>SSH</target>
+        <target state="final">SSH</target>
       </trans-unit>
       <trans-unit id="HIND6DD" resname="job.addedit.hosttype.ssh.header">
         <source>job.addedit.hosttype.ssh.header</source>
-        <target>SSH h0st d3t41Lz</target>
+        <target state="final">SSH h0st d3t41Lz</target>
       </trans-unit>
       <trans-unit id="n_JNj3z" resname="job.addedit.hosttype.ssh.hostname.label">
         <source>job.addedit.hosttype.ssh.hostname.label</source>
-        <target>H0stn4m3</target>
+        <target state="final">H0stn4m3</target>
       </trans-unit>
       <trans-unit id="4ZEnTLC" resname="job.addedit.hosttype.ssh.hostname.placeholder">
         <source>job.addedit.hosttype.ssh.hostname.placeholder</source>
-        <target>g4t3w4y.n00b.0rg</target>
+        <target state="final">g4t3w4y.n00b.0rg</target>
       </trans-unit>
       <trans-unit id="08j0NEG" resname="job.addedit.hosttype.ssh.username.label">
         <source>job.addedit.hosttype.ssh.username.label</source>
-        <target>Us3rn4m3</target>
+        <target state="final">Us3rn4m3</target>
       </trans-unit>
       <trans-unit id="EJOhQKe" resname="job.addedit.hosttype.ssh.username.placeholder">
         <source>job.addedit.hosttype.ssh.username.placeholder</source>
-        <target>anonymous</target>
+        <target state="final">anonymous</target>
       </trans-unit>
       <trans-unit id="VEZQ7fY" resname="job.addedit.hosttype.ssh.privatekey.label">
         <source>job.addedit.hosttype.ssh.privatekey.label</source>
-        <target>Pr1v4t3 k3y</target>
+        <target state="final">Pr1v4t3 k3y</target>
       </trans-unit>
       <trans-unit id="1MzOMSK" resname="job.addedit.hosttype.ssh.privatekey.helptext">
         <source>job.addedit.hosttype.ssh.privatekey.helptext</source>
-        <target>d1z f1L3 b b31n' s4v3z 4z @ s3cr3t</target>
+        <target state="final">d1z f1L3 b b31n' s4v3z 4z @ s3cr3t</target>
       </trans-unit>
       <trans-unit id="uVSkZpl" resname="job.addedit.hosttype.ssh.privatekey.keep.label">
         <source>job.addedit.hosttype.ssh.privatekey.keep.label</source>
-        <target>K33p</target>
+        <target state="final">K33p</target>
       </trans-unit>
       <trans-unit id="nxl.bTZ" resname="job.addedit.hosttype.ssh.passphrase.label">
         <source>job.addedit.hosttype.ssh.passphrase.label</source>
-        <target>P4ssphr4s3 4 pr1v4t3 k3y</target>
+        <target state="final">P4ssphr4s3 4 pr1v4t3 k3y</target>
       </trans-unit>
       <trans-unit id="rYaggeh" resname="job.addedit.hosttype.ssh.passphrase.placeholder">
         <source>job.addedit.hosttype.ssh.passphrase.placeholder</source>
-        <target>w00t w00t</target>
+        <target state="final">w00t w00t</target>
       </trans-unit>
       <trans-unit id="MAQ8t1s" resname="job.addedit.hosttype.ssh.passphrase.helptext">
         <source>job.addedit.hosttype.ssh.passphrase.helptext</source>
-        <target>1f pr1v4t3 k3y b 3mpty d1z f13Ld b b31n' us3d 4z ssh-p4ssw0rd d1z f13Ld b b31n' s4v3d 4z @ s3cr3t</target>
+        <target state="final">1f pr1v4t3 k3y b 3mpty d1z f13Ld b b31n' us3d 4z ssh-p4ssw0rd d1z f13Ld b b31n' s4v3d 4z @ s3cr3t</target>
       </trans-unit>
       <trans-unit id="8q0z3bf" resname="job.addedit.containertype.label">
         <source>job.addedit.containertype.label</source>
-        <target>C0nt41n3r typ3</target>
+        <target state="final">C0nt41n3r typ3</target>
       </trans-unit>
       <trans-unit id="ZPis4Xx" resname="job.addedit.containertype.none.label">
         <source>job.addedit.containertype.none.label</source>
-        <target>N0n3</target>
+        <target state="final">N0n3</target>
       </trans-unit>
       <trans-unit id="AGADEB_" resname="job.addedit.containertype.docker.label">
         <source>job.addedit.containertype.docker.label</source>
-        <target>D0ck3r</target>
+        <target state="final">D0ck3r</target>
       </trans-unit>
       <trans-unit id="1hg_Lri" resname="job.addedit.containertype.docker.header">
         <source>job.addedit.containertype.docker.header</source>
-        <target>D0ck3r c0nt41n3r d3t41Lz</target>
+        <target state="final">D0ck3r c0nt41n3r d3t41Lz</target>
       </trans-unit>
       <trans-unit id="fddg1.3" resname="job.addedit.containertype.docker.service.label">
         <source>job.addedit.containertype.docker.service.label</source>
-        <target>S3rv1c3</target>
+        <target state="final">S3rv1c3</target>
       </trans-unit>
       <trans-unit id="mmNVzOj" resname="job.addedit.containertype.docker.service.placeholder">
         <source>job.addedit.containertype.docker.service.placeholder</source>
-        <target>gopher</target>
+        <target state="final">gopher</target>
       </trans-unit>
       <trans-unit id="kaHv1qa" resname="job.addedit.containertype.docker.username.label">
         <source>job.addedit.containertype.docker.username.label</source>
-        <target>Us3rn4m3</target>
+        <target state="final">Us3rn4m3</target>
       </trans-unit>
       <trans-unit id="UzbvieZ" resname="job.addedit.containertype.docker.username.placeholder">
         <source>job.addedit.containertype.docker.username.placeholder</source>
-        <target>root</target>
+        <target state="final">root</target>
       </trans-unit>
       <trans-unit id="BsHxmnc" resname="job.addedit.variables.header">
         <source>job.addedit.variables.header</source>
-        <target>V4r14bL3z</target>
+        <target state="final">V4r14bL3z</target>
       </trans-unit>
       <trans-unit id="pawk4nL" resname="job.addedit.variables.secret.label">
         <source>job.addedit.variables.secret.label</source>
-        <target>S3cr3t</target>
+        <target state="final">S3cr3t</target>
       </trans-unit>
       <trans-unit id="roGfPFi" resname="job.addedit.variables.name.placeholder">
         <source>job.addedit.variables.name.placeholder</source>
-        <target>N4m3</target>
+        <target state="final">N4m3</target>
       </trans-unit>
       <trans-unit id="WWsh_72" resname="job.addedit.variables.value.placeholder">
         <source>job.addedit.variables.value.placeholder</source>
-        <target>V4Lu3</target>
+        <target state="final">V4Lu3</target>
       </trans-unit>
       <trans-unit id="Ve0r_Wy" resname="job.addedit.variables.helptext">
         <source>job.addedit.variables.helptext</source>
-        <target>j00 c4n 4dd v4r14bL3z by us1n' {v4r14bL3-n4m3} 1n j0b d3t41Lz</target>
+        <target state="final">j00 c4n 4dd v4r14bL3z by us1n' {v4r14bL3-n4m3} 1n j0b d3t41Lz</target>
       </trans-unit>
       <trans-unit id="tL8wand" resname="job.addedit.variables.add.label">
         <source>job.addedit.variables.add.label</source>
-        <target>4dd variable</target>
+        <target state="final">4dd variable</target>
       </trans-unit>
       <trans-unit id="or7JWUe" resname="job.addedit.submit.label">
         <source>job.addedit.submit.label</source>
-        <target>Subm1t!</target>
+        <target state="final">Subm1t!</target>
       </trans-unit>
       <trans-unit id="g7pEpsB" resname="footer.title">
         <source>footer.title</source>
-        <target>W3bcr0n m4n4g3m3nt</target>
+        <target state="final">W3bcr0n m4n4g3m3nt</target>
       </trans-unit>
       <trans-unit id="Lz7YjVX" resname="footer.source">
         <source>footer.source</source>
-        <target>S0urc3</target>
+        <target state="final">S0urc3</target>
       </trans-unit>
       <trans-unit id="X.uZ4TL" resname="job.index.run.selecttime.header">
         <source>job.index.run.selecttime.header</source>
-        <target>Wh3n 2 run d1z j0b?</target>
+        <target state="final">Wh3n 2 run d1z j0b?</target>
       </trans-unit>
       <trans-unit id="i4An5BC" resname="job.index.run.selecttime.description">
         <source>job.index.run.selecttime.description</source>
-        <target>PL34s3 s3L3ct t3h t1m3 2 run d1z j0b</target>
+        <target state="final">PL34s3 s3L3ct t3h t1m3 2 run d1z j0b</target>
       </trans-unit>
       <trans-unit id="tav8v0S" resname="job.index.run.selecttime.btnschedule.label">
         <source>job.index.run.selecttime.btnschedule.label</source>
-        <target>Sch3duL3</target>
+        <target state="final">Sch3duL3</target>
       </trans-unit>
       <trans-unit id="St.ceTi" resname="job.index.run.selecttime.btnrunnow.label">
         <source>job.index.run.selecttime.btnrunnow.label</source>
-        <target>Run n0w</target>
+        <target state="final">Run n0w</target>
       </trans-unit>
       <trans-unit id="XAxpenS" resname="job.index.run.ran.btnclose.label">
         <source>job.index.run.ran.btnclose.label</source>
-        <target>CL0s3</target>
+        <target state="final">CL0s3</target>
       </trans-unit>
       <trans-unit id="QH_iTBI" resname="job.index.run.deferred.title">
         <source>job.index.run.deferred.title</source>
-        <target>Cr0nj0b h4z b33n sch3duL3d</target>
+        <target state="final">Cr0nj0b h4z b33n sch3duL3d</target>
       </trans-unit>
       <trans-unit id="QqC.rDo" resname="job.index.run.deferred.message">
         <source>job.index.run.deferred.message</source>
-        <target>J0b wuz sch3duL3d 2 b run. j00 w1LL f1nd t3h 0utput s00n 1n t3h j0b d3t41Lz</target>
+        <target state="final">J0b wuz sch3duL3d 2 b run. j00 w1LL f1nd t3h 0utput s00n 1n t3h j0b d3t41Lz</target>
       </trans-unit>
       <trans-unit id="0DypXnU" resname="job.index.run.ran.title.success">
         <source>job.index.run.ran.title.success</source>
-        <target>Cr0nj0b succ3sfuLLy r4n</target>
+        <target state="final">Cr0nj0b succ3sfuLLy r4n</target>
       </trans-unit>
       <trans-unit id="7wkhcjy" resname="job.index.run.ran.title.failed">
         <source>job.index.run.ran.title.failed</source>
-        <target>Cr0nj0b f41L3d. PL34s3 ch3ck 0utput b3L0w</target>
+        <target state="final">Cr0nj0b f41L3d. PL34s3 ch3ck 0utput b3L0w</target>
       </trans-unit>
       <trans-unit id="W_dAs4D" resname="job.index.run.ran.message">
         <source>job.index.run.ran.message</source>
-        <target>Cr0nj0b r4n 1n _runtime_ s3c0ndz w1th 3x1t c0d3 _exitcode_</target>
+        <target state="final">Cr0nj0b r4n 1n _runtime_ s3c0ndz w1th 3x1t c0d3 _exitcode_</target>
       </trans-unit>
       <trans-unit id="2mVlLNJ" resname="job.view.webhookurl">
         <source>job.view.webhookurl</source>
-        <target>W3bh00k URL</target>
+        <target state="final">W3bh00k URL</target>
+      </trans-unit>
+      <trans-unit id="aoV2sV4" resname="job.view.results.webhook">
+        <source>job.view.results.webhook</source>
+        <target state="final">Tr1gg3r3d run</target>
       </trans-unit>
     </body>
   </file>

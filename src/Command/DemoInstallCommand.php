@@ -86,6 +86,7 @@ class DemoInstallCommand extends Command
                 false,
             ]
         ]);
+        $job1->addToken();
 
         $job2 = $jobRepo->prepareJob([
             'name' => '[Website] Update texts to latest version',
@@ -111,6 +112,8 @@ class DemoInstallCommand extends Command
                 true,
             ]
         ]);
+        $job2->addToken();
+
         $job3 = $jobRepo->prepareJob([
             'name' => '[Server][Reboot] Monthly reboot',
             'interval' => (60*60*24*30),
@@ -136,6 +139,8 @@ class DemoInstallCommand extends Command
             'var-issecret' => [
             ]
         ]);
+        $job3->addToken();
+
         $em->persist($job1);
         $em->persist($job2);
         $em->persist($job3);
@@ -218,6 +223,15 @@ rtt min/avg/max/mdev = 101.362/101.362/101.362/0.000 ms')
             ->setOutput(json_encode(['success' => true, 'message' => 'Texts are updated succesfully']))
             ->setTimestamp(7200 * ceil( time() / 7200) - (4 * 7200))
             ->setFlags(RunRepository::SUCCESS);
+        $em->persist($run);
+
+        $run = new Run();
+        $run->setExitcode(200)
+            ->setJob($job2)
+            ->setRuntime(rand(0, 10000) / 1000)
+            ->setOutput(json_encode(['success' => true, 'message' => 'Texts are updated succesfully']))
+            ->setTimestamp(7200 * ceil( time() / 7200) - (3542))
+            ->setFlags(RunRepository::SUCCESS . RunRepository::TRIGGERED);
         $em->persist($run);
 
         $run = new Run();

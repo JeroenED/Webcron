@@ -317,7 +317,7 @@ class JobRepository extends EntityRepository
      * @return array|string[]
      * @throws \Doctrine\DBAL\Exception
      */
-    private function runRebootJob(Job &$job, float &$starttime, bool &$manual): array
+    private function runRebootJob(Job &$job, float &$starttime, string &$manual): array
     {
         $em = $this->getEntityManager();
         if($this->getTempVar($job, 'rebooting', false) === false) {
@@ -463,7 +463,7 @@ class JobRepository extends EntityRepository
      * @return array|string[]
      * @throws \Doctrine\DBAL\Exception
      */
-    public function runJob(Job &$job, bool $manual): array
+    public function runJob(Job &$job, string $manual): array
     {
         $em = $this->getEntityManager();
         $starttime = microtime(true);
@@ -486,8 +486,10 @@ class JobRepository extends EntityRepository
             $flags[] = RunRepository::SUCCESS;
         }
 
-        if ($manual === true) {
+        if ($manual == 'Manual') {
             $flags[] = RunRepository::MANUAL;
+        } elseif ($manual == 'Webhook') {
+            $flags[] = RunRepository::TRIGGERED;
         }
 
         // Remove secrets from output

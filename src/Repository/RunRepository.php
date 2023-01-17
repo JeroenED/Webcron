@@ -14,6 +14,7 @@ class RunRepository extends EntityRepository
     const FAILED = 'F';
     const SUCCESS = 'S';
     const MANUAL = 'M';
+    const TRIGGERED = 'T';
 
     public function getRunsForJob(Job $job, bool $onlyfailed = false, int $maxage = NULL, bool $ordered = true): array
     {

@@ -117,6 +117,7 @@ class JobController extends AbstractController
         $jobRepo = $doctrine->getRepository(Job::class);
         $job = $jobRepo->find($id);
         if(!empty($job->getToken()) && $job->getToken() == $token && $job->getRunning() != 1) {
+            $jobRepo->setTempVar($job, 'webhook', true);
             return new JsonResponse($jobRepo->run($job, false, time()));
         }
 

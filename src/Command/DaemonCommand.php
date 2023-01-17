@@ -56,14 +56,19 @@ class DaemonCommand extends Command
             $jobsToRun = $jobRepo->getJobsDue();
             if(!empty($jobsToRun)) {
                 foreach($jobsToRun as $key=>$job) {
-                    if($job->getData('crontype') == 'reboot') {
-                        $str   = @file_get_contents('/proc/uptime');
-                        $num   = floatval($str);
+                    if ($job->getData('crontype') == 'reboot') {
+                        $str = @file_get_contents('/proc/uptime');
+                        $num = floatval($str);
                         $rebootedself = ($num < $job->getData('reboot-duration') * 60);
                         $consolerun = $jobRepo->getTempVar($job, 'consolerun', false);
-                        if($consolerun && !$rebootedself) continue;
+                        if ($consolerun && !$rebootedself) continue;
                     }
-                    $manual = ($job->getRunning() > 1);
+                    $manual = '';
+                    if($jobRepo->getTempVar($job, 'webhook', false)) {
+                        $manual = 'Webhook';
+                    } elseif($job->getRunning() > 1) {
+                        $manual = 'Manual';
+                    };
                     $jobRepo->setJobRunning($job, true);
                     $output->writeln('Running Job ' . $job->getId());
                     if($async) {
