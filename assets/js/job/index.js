@@ -68,11 +68,11 @@ function initRunButtons() {
             bsModal.hide();
             let time = Math.floor(selecttimedatepicker.viewDate / 1000);
             run(me, time);
-        }));
+        }, { once: true } ));
         document.querySelectorAll('.run-now').forEach(elem => elem.addEventListener("click", event => {
             bsModal.hide();
             run(me);
-        }));
+        }, { once: true } ));
     }));
 }
 function run(elem, time = 0) {
