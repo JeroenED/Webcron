@@ -64,16 +64,24 @@ function initRunButtons() {
         var bsModal = new Modal('#run_selecttime');
         bsModal.show();
 
-        document.querySelectorAll('.schedule').forEach(elem => elem.addEventListener("click", event => {
+        let schedulefn = event => {
             bsModal.hide();
             let time = Math.floor(selecttimedatepicker.viewDate / 1000);
             run(me, time);
-        }, { once: true } ));
-        document.querySelectorAll('.run-now').forEach(elem => elem.addEventListener("click", event => {
+        }
+        let runnowfn = event => {
             bsModal.hide();
             run(me);
-        }, { once: true } ));
-    }));
+        }
+        let closebtnfn = event => {
+            bsModal.hide();
+            document.querySelectorAll('.schedule').forEach(elem => elem.removeEventListener("click", schedulefn));
+            document.querySelectorAll('.run-now').forEach(elem => elem.removeEventListener("click",runnowfn));
+        }
+        document.querySelectorAll('.schedule').forEach(elem => elem.addEventListener("click", schedulefn, { once: true } ));
+        document.querySelectorAll('.run-now').forEach(elem => elem.addEventListener("click", runnowfn, { once: true } ));
+        document.querySelectorAll('.btn-close').forEach(elem => elem.addEventListener("click", closebtnfn ));
+    } ));
 }
 function run(elem, time = 0) {
     let href = elem.dataset.href;
