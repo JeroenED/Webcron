@@ -6,20 +6,20 @@
   "license": "AGPL-3.0-or-later",
   "private": true,
   "dependencies": {
-    "@eonasdan/tempus-dominus": "^6.2",
+    "@eonasdan/tempus-dominus": "^6.7",
     "@popperjs/core": "^2.11",
     "bootstrap": "^5.2",
     "bootstrap-dark-5": "^1.1",
     "moment": "^2.29"
   },
   "devDependencies": {
-    "sass": "^1.56",
-    "sass-loader": "^13.2",
-    "@symfony/webpack-encore": "^4.1",
-    "core-js": "^3.26"
+    "@symfony/webpack-encore": "^4.3",
+    "core-js": "^3.30",
+    "sass": "^1.62",
+    "sass-loader": "^13.2"
   },
   "scripts": {
-    "watch" : "encore dev --watch",
+    "watch": "encore dev --watch",
     "build-dev": "encore dev",
     "build": "encore prod"
   }

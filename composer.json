@@ -11,9 +11,9 @@
         "ext-openssl": "*",
         "ext-pcntl": "*",
         "ext-posix": "*",
-        "doctrine/doctrine-bundle": "^2.7",
+        "doctrine/doctrine-bundle": "^2.9",
         "doctrine/doctrine-migrations-bundle": "^3.2",
-        "doctrine/orm": "^2.13",
+        "doctrine/orm": "^2.14",
         "guzzlehttp/guzzle": "^7.5",
         "phpseclib/phpseclib": "^3.0",
         "scienta/doctrine-json-functions": "^5.2",
@@ -84,7 +84,7 @@
     },
     "require-dev": {
         "symfony/debug-bundle": "^6.2",
-        "symfony/maker-bundle": "^v1.48.0",
+        "symfony/maker-bundle": "^v1.48",
         "symfony/monolog-bundle": "^3.8",
         "symfony/stopwatch": "^6.2",
         "symfony/web-profiler-bundle": "^6.2"
