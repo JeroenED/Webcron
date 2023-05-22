@@ -31,10 +31,11 @@ function initDeleteButtons() {
 }
 
 var selecttimedatepicker;
+var datepickeroptions
 function initTimepicker() {
     extend(customDateFormat);
     let modal = document.querySelector('#run_selecttime');
-    let datepickeroptions = Utils.timepickerOptions;
+    datepickeroptions = Utils.timepickerOptions;
     datepickeroptions.display.inline = true;
     datepickeroptions.display.sideBySide = true;
     datepickeroptions.restrictions = {
@@ -55,18 +56,22 @@ function initRunButtons() {
                 return;
             }
         }
+        if(selecttimedatepicker.dates.lastPicked > maxdate) {
+            selecttimedatepicker.dispose();
+            selecttimedatepicker = new TempusDominus(document.querySelector('#selecttime_datepicker'), datepickeroptions);
+        }
         selecttimedatepicker.updateOptions({
             restrictions: {
                 maxDate: maxdate
             }
         })
-        selecttimedatepicker.viewDate = new DateTime();
+
         var bsModal = new Modal('#run_selecttime');
         bsModal.show();
 
         let schedulefn = event => {
             bsModal.hide();
-            let time = Math.floor(selecttimedatepicker.viewDate / 1000);
+            let time = Math.floor(selecttimedatepicker.dates.lastPicked / 1000);
             run(me, time);
         }
         let runnowfn = event => {
