@@ -10,10 +10,12 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\KernelInterface;
+use Symfony\Component\Routing\Annotation\Route;
 
 class SiteController extends AbstractController
 {
 
+    #[Route('/health', name: 'health')]
     public function healthAction(Request $request, ManagerRegistry $doctrine, KernelInterface $kernel)
     {
         $em = $doctrine->getManager();
@@ -28,6 +30,7 @@ class SiteController extends AbstractController
         return new JsonResponse($return, $return['DaemonRunning'] ? 200 : 500);
     }
 
+    #[Route('/favicon.ico', name: 'favicon')]
     public function faviconAction(Request $request)
     {
         return new Response('', 200);

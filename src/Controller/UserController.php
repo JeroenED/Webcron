@@ -11,10 +11,13 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class UserController extends AbstractController
 {
+
+    #[Route('/', name: 'default')]
     public function loginAction(Request $request, AuthenticationUtils $authenticationUtils): Response
     {
         if($this->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
@@ -42,13 +45,14 @@ class UserController extends AbstractController
         ]);
     }
 
+    #[Route('/{_locale}/settings', name: 'settings', methods: ['GET'])]
     public function settingsAction(Request $request)
     {
         $params['locales'] = $this->getParameter('enabled_locales');
         $params['user'] = $this->getUser();
         return $this->render('settings.html.twig', $params);
     }
-
+    #[Route('/{_locale}/settings', name: 'settings_save', methods: ['POST'])]
     public function settingsSaveAction(Request $request, ManagerRegistry $em, UserPasswordHasherInterface $passwordHasher)
     {
         $session = $request->getSession();
@@ -94,12 +98,14 @@ class UserController extends AbstractController
         return $this->redirect($this->generateUrl($route, ['_locale' => $locale]));
     }
 
+    #[Route('/logout', name: 'logout')]
     public function logoutAction(): void
     {
         // controller can be blank: it will never be called!
         throw new \Exception('Don\'t forget to activate logout in security.yaml');
     }
 
+    #[Route('/login_check', name: 'login_check')]
     public function loginCheckAction(): void
     {
 

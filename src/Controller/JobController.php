@@ -11,10 +11,12 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class JobController extends AbstractController
 {
+    #[Route('/{_locale}/job', name: 'job_index')]
     public function defaultAction(ManagerRegistry $doctrine): Response
     {
         $jobRepo = $doctrine->getRepository(Job::class);
@@ -22,23 +24,27 @@ class JobController extends AbstractController
         return $this->render('job/index.html.twig', ['jobs' => $jobs]);
     }
 
-    public function jobAction(Request $request, ManagerRegistry $doctrine, int $id, mixed $all = false): Response
+    #[Route('/{_locale}/job/{id}/{all}', name: 'job_view', methods: ['GET'], defaults: [ 'all' => false ], requirements: ['id' => '\d+', 'all' => '(all|)'])]
+    public function viewAction(Request $request, ManagerRegistry $doctrine, int $id, mixed $all = false): Response
     {
         $jobRepo = $doctrine->getRepository(Job::class);
         $runRepo = $doctrine->getRepository(Run::class);
 
-        if($request->getMethod() == 'GET') {
-            $job = $jobRepo->find($id);
-            $runs = $runRepo->getRunsForJob($job, $all != 'all');
-            return $this->render('job/view.html.twig', ['job' => $job, 'runs' => $runs, 'allruns' => $all == 'all']);
-        } elseif($request->getMethod() == 'DELETE') {
-            $success = $jobRepo->deleteJob($id);
-            $this->addFlash('success', 'job.index.flashes.jobdeleted');
-            return new JsonResponse(['return_path' => $this->GenerateUrl('job_index')]);
-        }
-        return new JsonResponse(['success'=>false, 'message' => 'Your request is invalid'], Response::HTTP_BAD_REQUEST);
+        $job = $jobRepo->find($id);
+        $runs = $runRepo->getRunsForJob($job, $all != 'all');
+        return $this->render('job/view.html.twig', ['job' => $job, 'runs' => $runs, 'allruns' => $all == 'all']);
     }
 
+    #[Route('/{_locale}/job/{id}', name: 'job_delete', methods: ['DELETE'], defaults: [ 'all' => false ], requirements: ['id' => '\d+', 'all' => '(all|)'])]
+    public function deleteAction(Request $request, ManagerRegistry $doctrine, int $id, mixed $all = false): Response
+    {
+        $jobRepo = $doctrine->getRepository(Job::class);
+        $success = $jobRepo->deleteJob($id);
+        $this->addFlash('success', 'job.index.flashes.jobdeleted');
+        return new JsonResponse(['return_path' => $this->GenerateUrl('job_index')]);
+    }
+
+    #[Route('/{_locale}/job/{id}/edit', name: 'job_edit', requirements: ['id' => '\d+'])]
     public function editAction(Request $request, ManagerRegistry $doctrine, int $id): Response
     {
         if($request->getMethod() == 'GET') {
@@ -61,6 +67,7 @@ class JobController extends AbstractController
         return new JsonResponse(['success'=>false, 'message' => 'Your request is invalid'], Response::HTTP_BAD_REQUEST);
     }
 
+    #[Route('/{_locale}/job/add', name: 'job_add')]
     public function addAction(Request $request, ManagerRegistry $doctrine): Response
     {
         if($request->getMethod() == 'GET') {
@@ -80,7 +87,7 @@ class JobController extends AbstractController
             return new Response('Not implemented yet', Response::HTTP_TOO_EARLY);
         }
     }
-
+    #[Route('/{_locale}/job/{id}/run/{timestamp}', name: 'job_run', defaults: ['timestamp' => 0 ], requirements: ['id' => '\d+', 'timestamp' => '\d+'])]
     public function runAction(Request $request, ManagerRegistry $doctrine, TranslatorInterface $translator, int $id, int $timestamp): JsonResponse
     {
         if($request->getMethod() == 'GET') {
@@ -112,6 +119,7 @@ class JobController extends AbstractController
         return new JsonResponse(['success'=>false, 'message' => 'Your request is invalid'], Response::HTTP_BAD_REQUEST);
     }
 
+    #[Route('/hook/{id}/{token}', name: 'webhook', requirements: ['id' => '\d+', 'token' => '[A-Za-z0-9]+'])]
     public function hookAction(Request $request, ManagerRegistry $doctrine, int $id, string $token)
     {
         $jobRepo = $doctrine->getRepository(Job::class);
