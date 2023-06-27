@@ -741,16 +741,7 @@ class JobRepository extends EntityRepository
             }
         }
         if(empty($job->getData('hooktoken'))) {
-            $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-            $randomString = '';
-            $length = 32;
-
-            for ($i = 0; $i < $length; $i++) {
-                $index = rand(0, strlen($characters) - 1);
-                $randomString .= $characters[$index];
-            }
-
-            $job->setData('hooktoken', $randomString);
+            $job->addToken();
         }
         return $job;
     }
