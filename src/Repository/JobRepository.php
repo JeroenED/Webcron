@@ -239,7 +239,7 @@ class JobRepository extends EntityRepository
         $command = $job->getData('command');
         if(!empty($job->getData('vars'))) {
             foreach ($job->getData('vars') as $key => $var) {
-                $command = str_replace('{' . $key . '}', $var['value'], $job->getData('command'));
+                $command = str_replace('{' . $key . '}', ($var['issecret'] ? Secret::decrypt(base64_decode($var['value'])) : $var['value']), $job->getData('command'));
             }
         }
 
@@ -336,7 +336,7 @@ class JobRepository extends EntityRepository
 
             if (!empty($job->getData('vars'))) {
                 foreach ($job->getData('vars') as $key => $var) {
-                    $rebootcommand = str_replace('{' . $key . '}', $var['value'], $rebootcommand);
+                    $rebootcommand = str_replace('{' . $key . '}', ($var['issecret'] ? Secret::decrypt(base64_decode($var['value'])) : $var['value']), $rebootcommand);
                 }
             }
 
@@ -385,7 +385,7 @@ class JobRepository extends EntityRepository
             $getservicescommand = $job->getData('getservices-command');
             if (!empty($job->getData('vars'))) {
                 foreach ($job->getData('vars') as $key => $var) {
-                    $getservicescommand = str_replace('{' . $key . '}', $var['value'], $job->getData('getservices-command'));
+                    $getservicescommand = str_replace('{' . $key . '}', ($var['issecret'] ? Secret::decrypt(base64_decode($var['value'])) : $var['value']), $job->getData('getservices-command'));
                 }
             }
             try {
