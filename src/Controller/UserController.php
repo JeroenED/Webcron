@@ -18,6 +18,7 @@ class UserController extends AbstractController
 {
 
     #[Route('/', name: 'default')]
+    #[Route('/{_locale}/login', name: 'login')]
     public function loginAction(Request $request, AuthenticationUtils $authenticationUtils): Response
     {
         if($this->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
