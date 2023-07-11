@@ -267,6 +267,7 @@
                     <input type="text" name="var-id[{{ key }}]" class="form-control var-id" placeholder="{{ "job.addedit.variables.name.placeholder" | trans }}" value="{{ id }}">
                     <input type="{% if var.issecret %}password{% else %}text{% endif %}" name="var-value[{{ key }}]" class="form-control var-value" placeholder="{{ "job.addedit.variables.value.placeholder" | trans }}" value="{% if var.issecret %}{{ var.value | decryptsecret }}{% else %}{{ var.value }}{% endif %}">
                 </div>
+                {% set key = key + 1 %}
             {% endfor %}
         {% endif %}
     </div>
