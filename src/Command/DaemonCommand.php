@@ -82,7 +82,7 @@ class DaemonCommand extends Command
                     if((!$async || $pid == -1) || $pid == 0) {
                         $result = $jobRepo->RunJob($job, $manual);
                         if ($result['status'] == 'ran') $jobRepo->setJobRunning($job, false);
-                        if ($pid == 0) exit;
+                        if (isset($pid) && $pid == 0) exit;
                     }
                     unset($jobsToRun[$key]);
                     unset($job);
