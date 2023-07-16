@@ -85,8 +85,8 @@
     },
     "require-dev": {
         "symfony/debug-bundle": "^6.3",
-        "symfony/maker-bundle": "^1.48",
-        "symfony/monolog-bundle": "^3.0",
+        "symfony/maker-bundle": "^1.50",
+        "symfony/monolog-bundle": "^3.8",
         "symfony/stopwatch": "^6.3",
         "symfony/web-profiler-bundle": "^6.3"
     }
