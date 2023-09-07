@@ -9,6 +9,7 @@ document.addEventListener("readystatechange", event => {
     if(event.target.readyState === 'complete') {
         initDeleteButtons();
         initRunButtons();
+        initTimepicker();
         Utils.initTags();
     }
 });
@@ -44,10 +45,6 @@ function initTimepicker() {
 }
 function initRunButtons() {
     document.querySelectorAll('.run').forEach(elem => elem.addEventListener("click", event => {
-        var bsModal = new Modal('#run_selecttime');
-        bsModal.show();
-
-        if(typeof selecttimedatepicker === 'undefined') initTimepicker()
         let me = event.currentTarget;
         let norun = me.closest('tr').classList.contains('norun')
         let maxdate = new DateTime(me.dataset.nextrun)
@@ -68,6 +65,9 @@ function initRunButtons() {
                 maxDate: maxdate
             }
         })
+
+        var bsModal = new Modal('#run_selecttime');
+        bsModal.show();
 
         let schedulefn = event => {
             bsModal.hide();
