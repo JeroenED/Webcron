@@ -38,9 +38,6 @@ function initTimepicker() {
     datepickeroptions = Utils.timepickerOptions;
     datepickeroptions.display.inline = true;
     datepickeroptions.display.sideBySide = true;
-    datepickeroptions.restrictions = {
-        minDate: new Date()
-    };
     selecttimedatepicker = new TempusDominus(document.querySelector('#selecttime_datepicker'), datepickeroptions);
 }
 function initRunButtons() {
@@ -62,7 +59,8 @@ function initRunButtons() {
         }
         selecttimedatepicker.updateOptions({
             restrictions: {
-                maxDate: maxdate
+                maxDate: maxdate,
+                minDate: new Date()
             }
         })
 
