@@ -4,33 +4,33 @@
     "minimum-stability": "stable",
     "prefer-stable": true,
     "require": {
-        "php": ">=8.1",
+        "php": ">=8.2",
         "ext-ctype": "*",
         "ext-iconv": "*",
         "ext-intl": "*",
         "ext-openssl": "*",
         "ext-pcntl": "*",
         "ext-posix": "*",
-        "doctrine/doctrine-bundle": "^2.10",
-        "doctrine/doctrine-migrations-bundle": "^3.2",
-        "doctrine/orm": "^2.16",
+        "doctrine/doctrine-bundle": "^2.11",
+        "doctrine/doctrine-migrations-bundle": "^3.3",
+        "doctrine/orm": "^2.17",
         "guzzlehttp/guzzle": "^7.8",
-        "nelmio/security-bundle": "^v3.0",
+        "nelmio/security-bundle": "^v3.1",
         "phpseclib/phpseclib": "^3.0",
         "scienta/doctrine-json-functions": "^5.3",
-        "symfony/console": "^6.3",
-        "symfony/crowdin-translation-provider": "^6.3",
-        "symfony/dotenv": "^6.3",
+        "symfony/console": "^6.4",
+        "symfony/crowdin-translation-provider": "^6.4",
+        "symfony/dotenv": "^6.4",
         "symfony/flex": "^v2.4",
-        "symfony/framework-bundle": "^6.3",
-        "symfony/mailer": "^6.3",
-        "symfony/proxy-manager-bridge": "^6.3",
-        "symfony/runtime": "^6.3",
-        "symfony/security-bundle": "^6.3",
-        "symfony/translation": "^6.3",
-        "symfony/twig-bundle": "^6.3",
-        "symfony/webpack-encore-bundle": "^v2.1",
-        "symfony/yaml": "^6.3"
+        "symfony/framework-bundle": "^6.4",
+        "symfony/mailer": "^6.4",
+        "symfony/proxy-manager-bridge": "^6.4",
+        "symfony/runtime": "^6.4",
+        "symfony/security-bundle": "^6.4",
+        "symfony/translation": "^6.4",
+        "symfony/twig-bundle": "^6.4",
+        "symfony/webpack-encore-bundle": "^2.1",
+        "symfony/yaml": "^6.4"
     },
     "config": {
         "allow-plugins": {
@@ -80,14 +80,14 @@
     "extra": {
         "symfony": {
             "allow-contrib": true,
-            "require": "^6.1"
+            "require": "^6.4"
         }
     },
     "require-dev": {
-        "symfony/debug-bundle": "^6.3",
-        "symfony/maker-bundle": "^1.50",
-        "symfony/monolog-bundle": "^3.8",
-        "symfony/stopwatch": "^6.3",
-        "symfony/web-profiler-bundle": "^6.3"
+        "symfony/debug-bundle": "^6.4",
+        "symfony/maker-bundle": "^1.52",
+        "symfony/monolog-bundle": "^3.10",
+        "symfony/stopwatch": "^6.4",
+        "symfony/web-profiler-bundle": "^6.4"
     }
 }
