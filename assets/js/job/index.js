@@ -1,4 +1,5 @@
 import {Modal} from 'bootstrap';
+import '../main'
 import image from '/assets/images/ajax-loader.gif'
 import '/assets/scss/job/index.scss';
 import Utils from "./Utils";

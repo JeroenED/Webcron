@@ -9,7 +9,6 @@
     "@eonasdan/tempus-dominus": "^6.7",
     "@popperjs/core": "^2.11",
     "bootstrap": "^5.3",
-    "bootstrap-dark-5": "^1.1",
     "moment": "^2.29"
   },
   "devDependencies": {

@@ -1,4 +1,5 @@
 import 'bootstrap';
+import '../main'
 import {TempusDominus,extend} from "@eonasdan/tempus-dominus";
 import customDateFormat from '@eonasdan/tempus-dominus/dist/plugins/customDateFormat';
 import Utils from "./Utils";

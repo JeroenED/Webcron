@@ -1,4 +1,5 @@
 import 'bootstrap';
+import '../main'
 import '/assets/scss/job/view.scss';
 import Utils from "./Utils";
 
