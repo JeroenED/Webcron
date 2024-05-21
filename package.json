@@ -12,14 +12,14 @@
     "moment": "^2.30"
   },
   "devDependencies": {
-    "@babel/core": "^7.23",
-    "@babel/preset-env": "^7.23",
-    "@symfony/webpack-encore": "^4.5",
-    "core-js": "^3.35",
-    "sass": "^1.69",
-    "sass-loader": "^13.3",
+    "@babel/core": "^7.24",
+    "@babel/preset-env": "^7.24",
+    "@symfony/webpack-encore": "^4.6",
+    "core-js": "^3.37",
+    "sass": "^1.77",
+    "sass-loader": "^14.2",
     "regenerator-runtime": "^0.14",
-    "webpack": "^5.89",
+    "webpack": "^5.91",
     "webpack-cli": "^5.1",
     "webpack-notifier": "^1.15"
   },
