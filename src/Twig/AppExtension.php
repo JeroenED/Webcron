@@ -66,7 +66,7 @@ class AppExtension extends AbstractExtension
             $value = hexdec($value);
         }
 
-        // HSP (Highly Sensitive Poo) equation from http://alienryderflex.com/hsp.html
+        // HSP equation from http://alienryderflex.com/hsp.html
         $hsp = sqrt(
             0.299 * ($color[0] * $color[0]) +
             0.587 * ($color[1] * $color[1]) +
