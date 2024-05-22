@@ -16,8 +16,8 @@ use Symfony\Component\HttpKernel\KernelInterface;
 #[AsCommand(name: 'webcron:daemon', description: 'The master script of Webcron Management')]
 class DaemonCommand extends Command
 {
-    protected $kernel;
-    protected $doctrine;
+    protected KernelInterface $kernel;
+    protected ManagerRegistry $doctrine;
 
     public function __construct(KernelInterface $kernel, ManagerRegistry $doctrine)
     {

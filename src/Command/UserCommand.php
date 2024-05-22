@@ -25,7 +25,6 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 #[AsCommand(name: 'webcron:user', description: 'User stuff')]
 class UserCommand extends Command
 {
-    protected static $defaultName = 'webcron:user';
     protected KernelInterface $kernel;
     protected ManagerRegistry $doctrine;
     protected UserPasswordHasherInterface  $passwordHasher;

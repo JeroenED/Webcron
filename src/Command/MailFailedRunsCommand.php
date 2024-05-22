@@ -23,10 +23,10 @@ use Twig\Environment;
 #[AsCommand(name: 'webcron:mail-failed-runs', description: 'Sends email about failed runs')]
 class MailFailedRunsCommand extends Command
 {
-    protected $kernel;
-    protected $doctrine;
-    protected $templating;
-    protected $mailer;
+    protected KernelInterface $kernel;
+    protected ManagerRegistry $doctrine;
+    protected Environment $templating;
+    protected MailerInterface $mailer;
 
     public function __construct(KernelInterface $kernel, ManagerRegistry $doctrine, Environment $templating, MailerInterface $mailer)
     {

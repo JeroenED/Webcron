@@ -19,9 +19,9 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 #[AsCommand(name: 'webcron:demodata', description: 'Install demo data')]
 class DemoInstallCommand extends Command
 {
-    protected $kernel;
-    protected $doctrine;
-    protected $passwordHasher;
+    protected KernelInterface $kernel;
+    protected ManagerRegistry $doctrine;
+    protected UserPasswordHasherInterface $passwordHasher;
 
     public function __construct(KernelInterface $kernel, ManagerRegistry $doctrine, UserPasswordHasherInterface $passwordHasher)
     {

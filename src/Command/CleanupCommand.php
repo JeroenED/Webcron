@@ -18,8 +18,8 @@ use Symfony\Component\HttpKernel\KernelInterface;
 #[AsCommand(name: 'webcron:cleanup', description: 'Cleanup runs')]
 class CleanupCommand extends Command
 {
-    protected $kernel;
-    protected $doctrine;
+    protected KernelInterface $kernel;
+    protected ManagerRegistry $doctrine;
 
     public function __construct(KernelInterface $kernel, ManagerRegistry $doctrine)
     {

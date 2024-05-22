@@ -14,8 +14,8 @@ use Symfony\Component\HttpKernel\KernelInterface;
 #[AsCommand(name: 'webcron:run', description: 'Run a single cronjob')]
 class RunCommand extends Command
 {
-    protected $kernel;
-    protected $doctrine;
+    protected KernelInterface $kernel;
+    protected ManagerRegistry $doctrine;
 
     public function __construct(KernelInterface $kernel, ManagerRegistry $doctrine)
     {
