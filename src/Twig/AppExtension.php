@@ -8,7 +8,7 @@ use Twig\TwigTest;
 
 class AppExtension extends AbstractExtension
 {
-    public function getFilters()
+    public function getFilters(): array
     {
         return [
             new TwigFilter('interval', [$this, 'parseInterval']),
@@ -18,14 +18,20 @@ class AppExtension extends AbstractExtension
         ];
     }
 
-    public function getTests()
+    public function getTests(): array
     {
         return [
             new TwigTest('ondisk', [$this, 'onDisk'])
         ];
     }
 
-    function parseInterval(int|float $time)
+    /**
+     * Converts seconds to days, hours, minutes and seconds
+     *
+     * @param int|float $time
+     * @return string
+     */
+    function parseInterval(int|float $time): string
     {
         $return = '';
 
@@ -47,19 +53,30 @@ class AppExtension extends AbstractExtension
         return (!empty($return)) ? trim($return) : '0.000s';
     }
 
-    function parseTags(string $text)
+    /**
+     * Converts [tag] to a HTML span element with background color based on the md5 hash of the tag and text color based on whether background color is light or dark
+     * @param string $text
+     * @return string
+     */
+    function parseTags(string $text): string
     {
         $results = [];
         preg_match_all('/\[([A-Za-z0-9 \-]+)\]/', $text, $results);
         foreach ($results[0] as $key=>$result) {
             $background = substr(hash('murmur3a', $results[0][$key]), 0, 6);
-            $color = $this->lightOrDark($background) == 'dark' ? 'ffffff' : '000000';
+            $color = $this->isDark($background) ? 'ffffff' : '000000';
             $text = str_replace($results[0][$key], '<span class="tag" data-background-color="#' . $background . '" data-color="#' . $color . '">' . $results[1][$key] . '</span>', $text);
         }
         return $text;
     }
 
-    private function lightOrDark ($color)
+    /**
+     * Returns true if the color is considered to be dark
+     *
+     * @param string $color
+     * @return bool
+     */
+    private function isDark(string $color): bool
     {
         $color = str_split($color, 2);
         foreach($color as &$value) {
@@ -75,24 +92,36 @@ class AppExtension extends AbstractExtension
 
 
         // Using the HSP value, determine whether the color is light or dark
-        if ($hsp>140) {
-            return 'light';
-        } else {
-            return 'dark';
-        }
+        return ($hsp<150);
     }
 
-    function decryptSecret(string $text)
+    /**
+     * Returns decrypted cipher text
+     *
+     * @param string $text
+     * @return string
+     */
+    function decryptSecret(string $text): string
     {
         return Secret::decrypt(base64_decode($text));
     }
 
-    function getContents(string $file)
+    /**
+     * Returns the content of a file
+     *
+     * @param string $file
+     * @return string
+     */
+    function getContents(string $file): string
     {
         return file_get_contents($file);
     }
 
-    public function onDisk(string $file)
+    /**
+     * @param string $file
+     * @return string
+     */
+    public function onDisk(string $file): string
     {
         return file_exists($file);
     }

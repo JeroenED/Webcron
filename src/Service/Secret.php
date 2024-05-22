@@ -5,7 +5,14 @@ namespace App\Service;
 
 class Secret
 {
-    static function encrypt($plaintext) {
+    /**
+     * Encrypt plaintext string based with password string
+     *
+     * @param $plaintext
+     * @return string
+     */
+    static function encrypt($plaintext): string
+    {
         $password = $_ENV['APP_SECRET'];
         $method = $_ENV['ENCRYPTION_METHOD'];
         $key = hash($_ENV['HASHING_METHOD'], $password, true);
@@ -17,7 +24,14 @@ class Secret
         return $iv . $hash . $ciphertext;
     }
 
-    static function decrypt($ivHashCiphertext) {
+    /**
+     * Decrypt encrypted message
+     *
+     * @param $ivHashCiphertext
+     * @return string
+     */
+    static function decrypt($ivHashCiphertext): string
+    {
         $password = $_ENV['APP_SECRET'];
         $method = $_ENV['ENCRYPTION_METHOD'];
         $iv = substr($ivHashCiphertext, 0, 16);
