@@ -52,7 +52,7 @@ class AppExtension extends AbstractExtension
         $results = [];
         preg_match_all('/\[([A-Za-z0-9 \-]+)\]/', $text, $results);
         foreach ($results[0] as $key=>$result) {
-            $background = substr(md5($results[0][$key]), 0, 6);
+            $background = substr(hash('murmur3a', $results[0][$key]), 0, 6);
             $color = $this->lightOrDark($background) == 'dark' ? 'ffffff' : '000000';
             $text = str_replace($results[0][$key], '<span class="tag" data-background-color="#' . $background . '" data-color="#' . $color . '">' . $results[1][$key] . '</span>', $text);
         }
