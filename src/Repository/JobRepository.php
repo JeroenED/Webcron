@@ -87,7 +87,7 @@ class JobRepository extends EntityRepository
             $job->setData('host-displayname', $jobData['host']);
             $job->setData('host', $jobData['host']);
             $job->setData('service', $jobData['service'] ?? '');
-            $job->setData('norun', $job->getLastrun() !== null && $job->getNextrun() > $job->getLastrun());
+            $job->setData('norun', $job->getLastrun() !== null && $job->getNextrun() >= $job->getLastrun());
             $job->setData('running', $job->getRunning() != 0);
             $failedruns = $runRepo->getRunsForJob($job, true, $jobData['fail-days']);
             $failed = count($failedruns);
