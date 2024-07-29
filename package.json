@@ -13,13 +13,13 @@
   },
   "devDependencies": {
     "@babel/core": "^7.24",
-    "@babel/preset-env": "^7.24",
+    "@babel/preset-env": "^7.25",
     "@symfony/webpack-encore": "^4.6",
     "core-js": "^3.37",
     "sass": "^1.77",
     "sass-loader": "^14.2",
     "regenerator-runtime": "^0.14",
-    "webpack": "^5.91",
+    "webpack": "^5.93",
     "webpack-cli": "^5.1",
     "webpack-notifier": "^1.15"
   },
