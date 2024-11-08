@@ -3,6 +3,10 @@
 ### New
 * Added timed scheduled runs
 
+### Changed
+* The translations are now provided in yaml format
+* User command has been extended to be more usable
+
 ## Version 1.1
 
 ### New
