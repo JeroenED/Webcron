@@ -1,0 +1,159 @@
+title: 'W3bcr0n m4n4g3m3nt'
+header: 'W3bcr0n m4n4g3m3nt'
+demomode.flashnotice: "d1z 4ppL1c4t10n b 1n d3m0 m0d3. Ch4ng3z 1z p3rs1st3d 1n t3h d4t4b4s3, but j0bz 1z n0t b31n' 3x3cut3d"
+demomode.credentials.header: 'L0g1n 4 d3m0 m0d3'
+demomode.credentials.username: Us3rn4m3
+demomode.credentials.password: P4ssw0rd
+menu.overview: 0v3rv13w
+menu.add: '4dd @ n3w cr0nj0b'
+menu.settings: S3tt1ngz
+menu.logout: L0g0ut
+security.login.username.label: Us3rn4m3
+security.login.username.placeholder: j3r03n@h4x0r.L33t
+security.login.password.label: P4ssw0rd
+security.login.password.placeholder: 'C0rr3ct H0rs3 B4tt3ry St4pL3'
+security.login.remember.label: 'D0 n0t f0rg3t'
+security.login.submit-btn.label: 3nt3r
+settings.title: S3tt1ngz
+settings.header: S3tt1ngz
+settings.flashes.inexistinglocale: 'L0c4L3 d03z n0t 3x1st'
+settings.flashes.localesaved: 'L0c4L3 b s4v3d'
+settings.flashes.repeatpasswordnotok: 'P4ssw0rdz 1z n0t 3qu4L'
+settings.flashes.currentpassnotok: 'P4ssw0rd b n0t c0rr3ct'
+settings.flashes.passwordsaved: 'P4ssw0rd b s4v3d'
+settings.password.header: P4ssw0rd
+settings.password.current.label: 'Curr3nt p4ssw0rd'
+settings.password.current.placeholder: qwerty
+settings.password.password.label: 'N3w p4ssw0rd'
+settings.password.password.placeholder: azerty
+settings.password.repeat.label: 'R3p34t p4ssw0rd'
+settings.password.repeat.placeholder: azerty
+settings.other.header: '0th3r s3tt1ngz'
+settings.other.locale.label: L0c4L3
+settings.submit.label: Subm1t
+job.index.title: 0v3rv13w
+job.index.header: '0v3rv13w 0f t3h cr0nj0bz'
+job.index.table.headers.name: N4m3
+job.index.table.headers.host: H0st
+job.index.table.headers.interval: 1nt3rv4L
+job.index.table.headers.nextrun: N3xtrun
+job.index.flashes.jobdeleted: 'Cr0nj0b b succ3ssfuLLy d3L3t3d'
+job.view.title: '0v3rv13w 0f runz 4 _jobname_'
+job.view.header: '0v3rv13w 0f runz 4 _jobname_'
+job.view.edit: '3d1t j0b'
+job.view.show.onlyfailed: '0nLy sh0w f41L3d runz'
+job.view.show.all: 'Sh0w 4LL runz'
+job.view.results.exitcode: '3x1t c0d3'
+job.view.results.runtime: Runt1m3
+job.view.results.manual: 'M4nu4L run'
+job.view.results.noresults.failed: 'N0 f41L3d runz f0und'
+job.view.results.noresults.all: 'N0 runz f0und'
+job.edit.title: '3d1t j0b'
+job.edit.header: '3d1t j0b _jobname_'
+job.edit.flashes.jobedited: 'Cr0nj0b b succ3ssfuLLy d3L3t3d'
+job.add.title: '4dd j0b'
+job.add.header: '4dd n3w j0b'
+job.add.flashes.jobadded: 'Cr0nj0b succ3ssfuLLy 4dd3d'
+job.addedit.generalinfo.header: 'G3n3r4L 1nf0'
+job.addedit.generalinfo.name.label: N4m3
+job.addedit.generalinfo.name.placeholder: 'Syst3m upd4t3'
+job.addedit.generalinfo.name.helptext: "j00 c4n cr34t3 c0L0r3d t4gz by us1n' [t4g]"
+job.addedit.generalinfo.interval.label: '1nt3rv4L (1n s3c0ndz)'
+job.addedit.generalinfo.interval.placeholder: '3600'
+job.addedit.generalinfo.interval.patterns.label: P4tt3rnz
+job.addedit.generalinfo.interval.patterns.minute: '3v3ry m1nut3'
+job.addedit.generalinfo.interval.patterns.hour: '3v3ry h0ur'
+job.addedit.generalinfo.interval.patterns.day: '3v3ry d4y'
+job.addedit.generalinfo.interval.patterns.week: '3v3ry w33k'
+job.addedit.generalinfo.interval.patterns.4week: '3v3ry 4 w33kz'
+job.addedit.generalinfo.nextrun.label: 'N3xt run'
+job.addedit.generalinfo.lastrun.label: 'L4st run'
+job.addedit.generalinfo.lastrun.eternal.label: 3t3rn4L
+job.addedit.generalinfo.retention.label: 'R3t3nt10n (1n d4yz)'
+job.addedit.generalinfo.retention.placeholder: '180'
+job.addedit.generalinfo.retention.helptext: 'H0w m4ny d4yz (4t l34st) 2 k33p runz 0f d1z j0b 1n t3h d4t4b4s3'
+job.addedit.generalinfo.failpercentage.label: 'M4x f41L p3rc3nt4g3'
+job.addedit.generalinfo.faildays.label: 'Numb3r 0f d4yz c4LcuL4t3d 4 f41L p3rc3nt4g3'
+job.addedit.generalinfo.faildays.placeholder: '7'
+job.addedit.generalinfo.hostlabel.label: 'H0st l4b3L'
+job.addedit.generalinfo.hostlabel.placeholder: 'N3wb13 s3rv3r'
+job.addedit.generalinfo.hostlabel.helptext: 'Wh1ch l4b3L 4 t3h h0stn4m3 sh0uLd b d1spL4y3d? 1f 3mpty t3h d1z w1LL b t3h h0stn4m3 pr0v1d3d b3L0w'
+job.addedit.jobdetails.header: 'J0b d3t41Lz'
+job.addedit.crontype.label: 'J0b typ3'
+job.addedit.crontype.command.label: C0mm4nd
+job.addedit.crontype.command.header: 'C0mm4nd d3t41Lz'
+job.addedit.crontype.command.command.label: C0mm4nd
+job.addedit.crontype.command.command.placeholder: 'sudo rm -rf /'
+job.addedit.crontype.command.response.label: '3xp3ct3d 3x1t c0d3'
+job.addedit.crontype.command.response.placeholder: '0'
+job.addedit.crontype.reboot.label: R3b00t
+job.addedit.crontype.reboot.header: 'R3b00t j0b d3t41Lz'
+job.addedit.crontype.reboot.reboot.command.label: 'R3b00t c0mm4nd'
+job.addedit.crontype.reboot.reboot.command.placeholder: 'sudo telinit 6'
+job.addedit.crontype.reboot.reboot.command.helptext: 'Us3 {reboot-delay} 0r {reboot-delay-secs} 2 4dd t3h d3L4y 1n y0 c0mm4nd'
+job.addedit.crontype.reboot.reboot.delay.label: 'R3b00t d3L4y (1n m1nut3z)'
+job.addedit.crontype.reboot.reboot.delay.placeholder: '0'
+job.addedit.crontype.reboot.reboot.delay.helptext: "D3L4y b3tw33n tr1gg3r1n' r3b00t n 4ctu4L r3b00t"
+job.addedit.crontype.reboot.reboot.duration.label: 'R3b00t dur4t10n (1n m1nut3z)'
+job.addedit.crontype.reboot.reboot.duration.placeholder: '10'
+job.addedit.crontype.reboot.reboot.duration.helptext: 't3h 4m0unt 0f t1m3 t3h syst3m t4k3z 2 4ctu4LLy r3b00t'
+job.addedit.crontype.reboot.getservices.command.label: 'G3t s3rv1c3z c0mm4nd'
+job.addedit.crontype.reboot.getservices.command.placeholder: 'ps -aux'
+job.addedit.crontype.reboot.getservices.response.label: 'G3t s3rv1c3z c0mm4nd 3x1t c0d3'
+job.addedit.crontype.reboot.getservices.response.placeholder: '0'
+job.addedit.crontype.http.label: 'HTTP r3qu3st'
+job.addedit.crontype.http.header: 'HTTP r3qu3st d3t41Lz'
+job.addedit.crontype.http.url.label: UrL
+job.addedit.crontype.http.url.placeholder: 'https://www.h4x0r.l33t'
+job.addedit.crontype.http.basic-auth.username.label: 'Us3rn4m3 4 b4s1c 4uth'
+job.addedit.crontype.http.basic-auth.username.placeholder: root
+job.addedit.crontype.http.basic-auth.password.label: 'P4ssw0rd 4 b4s1c 4uth'
+job.addedit.crontype.http.basic-auth.password.placeholder: 'c0rr3ct h0rs3 b4tt3ry st4pL3'
+job.addedit.crontype.http.basic-auth.password.helptext: "d1z f13Ld b b31n' s4v3d 4z @ s3cr3t"
+job.addedit.crontype.http.response.label: '3xp3ct3d http st4tuz c0d3'
+job.addedit.crontype.http.response.placeholder: '503'
+job.addedit.hosttype.label: 'H0st typ3'
+job.addedit.hosttype.local.label: L0c4L
+job.addedit.hosttype.local.header: 'L0c4Lh0st d3t41Lz'
+job.addedit.hosttype.local.nodetails: 'N0 0pt10nz'
+job.addedit.hosttype.ssh.label: SSH
+job.addedit.hosttype.ssh.header: 'SSH h0st d3t41Lz'
+job.addedit.hosttype.ssh.hostname.label: H0stn4m3
+job.addedit.hosttype.ssh.hostname.placeholder: g4t3w4y.n00b.0rg
+job.addedit.hosttype.ssh.username.label: Us3rn4m3
+job.addedit.hosttype.ssh.username.placeholder: anonymous
+job.addedit.hosttype.ssh.privatekey.label: 'Pr1v4t3 k3y'
+job.addedit.hosttype.ssh.privatekey.helptext: "d1z f1L3 b b31n' s4v3z 4z @ s3cr3t"
+job.addedit.hosttype.ssh.privatekey.keep.label: K33p
+job.addedit.hosttype.ssh.passphrase.label: 'P4ssphr4s3 4 pr1v4t3 k3y'
+job.addedit.hosttype.ssh.passphrase.placeholder: 'w00t w00t'
+job.addedit.hosttype.ssh.passphrase.helptext: "1f pr1v4t3 k3y b 3mpty d1z f13Ld b b31n' us3d 4z ssh-p4ssw0rd d1z f13Ld b b31n' s4v3d 4z @ s3cr3t"
+job.addedit.containertype.label: 'C0nt41n3r typ3'
+job.addedit.containertype.none.label: N0n3
+job.addedit.containertype.docker.label: D0ck3r
+job.addedit.containertype.docker.header: 'D0ck3r c0nt41n3r d3t41Lz'
+job.addedit.containertype.docker.service.label: S3rv1c3
+job.addedit.containertype.docker.service.placeholder: gopher
+job.addedit.containertype.docker.username.label: Us3rn4m3
+job.addedit.containertype.docker.username.placeholder: root
+job.addedit.variables.header: V4r14bL3z
+job.addedit.variables.secret.label: S3cr3t
+job.addedit.variables.name.placeholder: N4m3
+job.addedit.variables.value.placeholder: V4Lu3
+job.addedit.variables.helptext: "j00 c4n 4dd v4r14bL3z by us1n' {v4r14bL3-n4m3} 1n j0b d3t41Lz"
+job.addedit.variables.add.label: '4dd variable'
+job.addedit.submit.label: Subm1t!
+footer.title: 'W3bcr0n m4n4g3m3nt'
+footer.source: S0urc3
+job.index.run.selecttime.header: 'Wh3n 2 run d1z j0b?'
+job.index.run.selecttime.description: 'PL34s3 s3L3ct t3h t1m3 2 run d1z j0b'
+job.index.run.selecttime.btnschedule.label: Sch3duL3
+job.index.run.selecttime.btnrunnow.label: 'Run n0w'
+job.index.run.ran.btnclose.label: CL0s3
+job.index.run.deferred.title: 'Cr0nj0b h4z b33n sch3duL3d'
+job.index.run.deferred.message: 'J0b wuz sch3duL3d 2 b run. j00 w1LL f1nd t3h 0utput s00n 1n t3h j0b d3t41Lz'
+job.index.run.ran.title.success: 'Cr0nj0b succ3sfuLLy r4n'
+job.index.run.ran.title.failed: 'Cr0nj0b f41L3d. PL34s3 ch3ck 0utput b3L0w'
+job.index.run.ran.message: 'Cr0nj0b r4n 1n _runtime_ s3c0ndz w1th 3x1t c0d3 _exitcode_'
+job.view.webhookurl: 'W3bh00k URL'
+job.view.results.webhook: 'Tr1gg3r3d run'

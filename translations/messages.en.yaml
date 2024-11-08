@@ -1,0 +1,159 @@
+title: 'Webcron management'
+header: 'Webcron management'
+demomode.flashnotice: 'This application is in demo mode. Changes are persisted in the database, but jobs are not being executed'
+demomode.credentials.header: 'Login for demo mode'
+demomode.credentials.username: Username
+demomode.credentials.password: Password
+menu.overview: Overview
+menu.add: 'Add a new cronjob'
+menu.settings: Settings
+menu.logout: Logout
+security.login.username.label: Username
+security.login.username.placeholder: jeroen@example.com
+security.login.password.label: Password
+security.login.password.placeholder: abc123
+security.login.remember.label: 'Remember, remember'
+security.login.submit-btn.label: Login
+settings.title: Settings
+settings.header: Settings
+settings.flashes.inexistinglocale: 'Locale does not exist'
+settings.flashes.localesaved: 'Locale is saved'
+settings.flashes.repeatpasswordnotok: 'Passwords are not equal'
+settings.flashes.currentpassnotok: 'Password is not correct'
+settings.flashes.passwordsaved: 'Password is saved'
+settings.password.header: Password
+settings.password.current.label: 'Current password'
+settings.password.current.placeholder: abc123
+settings.password.password.label: 'New password'
+settings.password.password.placeholder: password
+settings.password.repeat.label: 'Repeat password'
+settings.password.repeat.placeholder: password
+settings.other.header: 'Other settings'
+settings.other.locale.label: Locale
+settings.submit.label: Submit
+job.index.title: Overview
+job.index.header: 'Overview of the cronjobs'
+job.index.table.headers.name: Name
+job.index.table.headers.host: Host
+job.index.table.headers.interval: Interval
+job.index.table.headers.nextrun: 'Next run'
+job.index.flashes.jobdeleted: 'Cronjob is successfully deleted'
+job.view.title: 'Overview of runs for _jobname_'
+job.view.header: 'Overview of runs for _jobname_'
+job.view.edit: 'Edit job'
+job.view.show.onlyfailed: 'Only show failed runs'
+job.view.show.all: 'Show all runs'
+job.view.results.exitcode: 'Exit code'
+job.view.results.runtime: Runtime
+job.view.results.manual: 'Manual run'
+job.view.results.noresults.failed: 'No failed runs found'
+job.view.results.noresults.all: 'No runs found'
+job.edit.title: 'Edit job'
+job.edit.header: 'Edit job _jobname_'
+job.edit.flashes.jobedited: 'Cronjob successfully edited'
+job.add.title: 'Add job'
+job.add.header: 'Add new job'
+job.add.flashes.jobadded: 'Cronjob successfully added'
+job.addedit.generalinfo.header: 'General info'
+job.addedit.generalinfo.name.label: Name
+job.addedit.generalinfo.name.placeholder: 'System update'
+job.addedit.generalinfo.name.helptext: 'You can create colored tags by using [tag]'
+job.addedit.generalinfo.interval.label: 'Interval (in seconds)'
+job.addedit.generalinfo.interval.placeholder: '3600'
+job.addedit.generalinfo.interval.patterns.label: Patterns
+job.addedit.generalinfo.interval.patterns.minute: 'Every minute'
+job.addedit.generalinfo.interval.patterns.hour: 'Every hour'
+job.addedit.generalinfo.interval.patterns.day: 'Every day'
+job.addedit.generalinfo.interval.patterns.week: 'Every week'
+job.addedit.generalinfo.interval.patterns.4week: 'Every 4 weeks'
+job.addedit.generalinfo.nextrun.label: 'Next run'
+job.addedit.generalinfo.lastrun.label: 'Last run'
+job.addedit.generalinfo.lastrun.eternal.label: Eternal
+job.addedit.generalinfo.retention.label: 'Retention (in days)'
+job.addedit.generalinfo.retention.placeholder: '180'
+job.addedit.generalinfo.retention.helptext: 'How many days (at least) to keep runs of this job in the database'
+job.addedit.generalinfo.failpercentage.label: 'Max fail percentage'
+job.addedit.generalinfo.faildays.label: 'Number of days calculated for fail percentage'
+job.addedit.generalinfo.faildays.placeholder: '7'
+job.addedit.generalinfo.hostlabel.label: 'Host label'
+job.addedit.generalinfo.hostlabel.placeholder: petrosian.jeroened.be
+job.addedit.generalinfo.hostlabel.helptext: 'Which label for the hostname should be displayed? If empty the this will be the hostname provided below'
+job.addedit.jobdetails.header: 'Job details'
+job.addedit.crontype.label: 'Job type'
+job.addedit.crontype.command.label: Command
+job.addedit.crontype.command.header: 'Command details'
+job.addedit.crontype.command.command.label: Command
+job.addedit.crontype.command.command.placeholder: 'sudo apt update'
+job.addedit.crontype.command.response.label: 'Expected exit code'
+job.addedit.crontype.command.response.placeholder: '0'
+job.addedit.crontype.reboot.label: Reboot
+job.addedit.crontype.reboot.header: 'Reboot job details'
+job.addedit.crontype.reboot.reboot.command.label: 'Reboot command'
+job.addedit.crontype.reboot.reboot.command.placeholder: 'systemctl reboot'
+job.addedit.crontype.reboot.reboot.command.helptext: 'Use {reboot-delay} or {reboot-delay-secs} to add the delay in your command'
+job.addedit.crontype.reboot.reboot.delay.label: 'Reboot delay (in minutes)'
+job.addedit.crontype.reboot.reboot.delay.placeholder: '5'
+job.addedit.crontype.reboot.reboot.delay.helptext: 'Delay between triggering reboot and actual reboot'
+job.addedit.crontype.reboot.reboot.duration.label: 'Reboot duration (in minutes)'
+job.addedit.crontype.reboot.reboot.duration.placeholder: '10'
+job.addedit.crontype.reboot.reboot.duration.helptext: 'The amount of time the system takes to actually reboot'
+job.addedit.crontype.reboot.getservices.command.label: 'Get services command'
+job.addedit.crontype.reboot.getservices.command.placeholder: 'systemctl list-units'
+job.addedit.crontype.reboot.getservices.response.label: 'Get services command exit code'
+job.addedit.crontype.reboot.getservices.response.placeholder: '0'
+job.addedit.crontype.http.label: 'HTTP request'
+job.addedit.crontype.http.header: 'HTTP request details'
+job.addedit.crontype.http.url.label: Url
+job.addedit.crontype.http.url.placeholder: 'https://www.example.com'
+job.addedit.crontype.http.basic-auth.username.label: 'Username for basic auth'
+job.addedit.crontype.http.basic-auth.username.placeholder: www-data
+job.addedit.crontype.http.basic-auth.password.label: 'Password for basic auth'
+job.addedit.crontype.http.basic-auth.password.placeholder: 'correct horse battery staple'
+job.addedit.crontype.http.basic-auth.password.helptext: 'This field is being saved as a secret'
+job.addedit.crontype.http.response.label: 'Expected http status code'
+job.addedit.crontype.http.response.placeholder: '418'
+job.addedit.hosttype.label: 'Host type'
+job.addedit.hosttype.local.label: Local
+job.addedit.hosttype.local.header: 'Localhost details'
+job.addedit.hosttype.local.nodetails: 'No options'
+job.addedit.hosttype.ssh.label: SSH
+job.addedit.hosttype.ssh.header: 'SSH host details'
+job.addedit.hosttype.ssh.hostname.label: Hostname
+job.addedit.hosttype.ssh.hostname.placeholder: ssh.abc.xyz
+job.addedit.hosttype.ssh.username.label: Username
+job.addedit.hosttype.ssh.username.placeholder: larry
+job.addedit.hosttype.ssh.privatekey.label: 'Private key'
+job.addedit.hosttype.ssh.privatekey.helptext: 'This file is being saves as a secret'
+job.addedit.hosttype.ssh.privatekey.keep.label: Keep
+job.addedit.hosttype.ssh.passphrase.label: 'Passphrase for private key'
+job.addedit.hosttype.ssh.passphrase.placeholder: 'correct horse battery staple'
+job.addedit.hosttype.ssh.passphrase.helptext: 'If private key is empty this field is being used as ssh-password This field is being saved as a secret'
+job.addedit.containertype.label: 'Container type'
+job.addedit.containertype.none.label: None
+job.addedit.containertype.docker.label: Docker
+job.addedit.containertype.docker.header: 'Docker container details'
+job.addedit.containertype.docker.service.label: Service
+job.addedit.containertype.docker.service.placeholder: mysql
+job.addedit.containertype.docker.username.label: Username
+job.addedit.containertype.docker.username.placeholder: larry
+job.addedit.variables.header: Variables
+job.addedit.variables.secret.label: Secret
+job.addedit.variables.name.placeholder: Name
+job.addedit.variables.value.placeholder: Value
+job.addedit.variables.helptext: 'You can add variables by using {variable-name} in job details'
+job.addedit.variables.add.label: 'Add variable'
+job.addedit.submit.label: Submit!
+footer.title: 'Webcron Management'
+footer.source: Source
+job.index.run.selecttime.header: 'When to run this job?'
+job.index.run.selecttime.description: 'Please select the time to run this job'
+job.index.run.selecttime.btnschedule.label: Schedule
+job.index.run.selecttime.btnrunnow.label: 'Run now'
+job.index.run.ran.btnclose.label: Close
+job.index.run.deferred.title: 'Cronjob has been scheduled'
+job.index.run.deferred.message: 'Job was scheduled to be run. You will find the output soon in the job details'
+job.index.run.ran.title.success: 'Cronjob succesfully ran'
+job.index.run.ran.title.failed: 'Cronjob failed. Please check output below'
+job.index.run.ran.message: 'Cronjob ran in _runtime_ seconds with exit code _exitcode_'
+job.view.webhookurl: 'Webhook URL'
+job.view.results.webhook: 'Triggered run'

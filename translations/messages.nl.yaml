@@ -1,0 +1,159 @@
+title: 'Webcron management'
+header: 'Webcron management'
+demomode.flashnotice: 'Deze applicatie is in demo modus. Alle functies zijn actief, maar taken worden niet uitgevoerd'
+demomode.credentials.header: 'Aanmeldgegevens voor demo modus:'
+demomode.credentials.username: Gebruikersnaam
+demomode.credentials.password: Wachtwoord
+menu.overview: Overzicht
+menu.add: 'Taak toevoegen'
+menu.settings: Instellingen
+menu.logout: Afmelden
+security.login.username.label: Gebruikersnaam
+security.login.username.placeholder: jeroen@example.com
+security.login.password.label: Wachtwoord
+security.login.password.placeholder: abc123
+security.login.remember.label: 'Onthoud mij!'
+security.login.submit-btn.label: Aanmelden
+settings.title: Instellingen
+settings.header: Instellingen
+settings.flashes.inexistinglocale: 'Taal bestaat niet'
+settings.flashes.localesaved: 'Taal werd opgeslagen'
+settings.flashes.repeatpasswordnotok: 'Wachtwoorden zijn niet gelijk'
+settings.flashes.currentpassnotok: 'Wachtwoord is not correct'
+settings.flashes.passwordsaved: 'Wachtwoord werd opgeslagen'
+settings.password.header: Wachtwoord
+settings.password.current.label: 'Huidig wachtwoord'
+settings.password.current.placeholder: abc123
+settings.password.password.label: 'Nieuw wachtwoord'
+settings.password.password.placeholder: 123abc
+settings.password.repeat.label: 'Herhaal wachtwoord'
+settings.password.repeat.placeholder: 123abc
+settings.other.header: 'Andere instellingen'
+settings.other.locale.label: Taal
+settings.submit.label: Verzend!
+job.index.title: Overzicht
+job.index.header: 'Overzicht van de geplande taken'
+job.index.table.headers.name: Naam
+job.index.table.headers.host: Host
+job.index.table.headers.interval: Interval
+job.index.table.headers.nextrun: 'Volgende uitvoering'
+job.index.flashes.jobdeleted: 'Taak werd succesvol verwijderd'
+job.view.title: 'Overzicht van uitvoeringen van _jobname_'
+job.view.header: 'Overzicht van uitvoeringen van _jobname_'
+job.view.edit: 'Bewerk taak'
+job.view.show.onlyfailed: 'Toon alleen gefaalde uitvoeringen'
+job.view.show.all: 'Toon alle uitvoeringen'
+job.view.results.exitcode: Resultaat
+job.view.results.runtime: Duurtijd
+job.view.results.manual: 'Manuele uitvoering'
+job.view.results.noresults.failed: 'Geen gefaalde uitvoeringen gevonden'
+job.view.results.noresults.all: 'Geen uitvoeringen gevonden'
+job.edit.title: 'Bewerk taak'
+job.edit.header: 'Bewerk taak _jobname_'
+job.edit.flashes.jobedited: 'Taak werd succesvol bijgewerkt'
+job.add.title: 'Taak toevoegen'
+job.add.header: 'Nieuwe taak toevoegen'
+job.add.flashes.jobadded: 'Taak werd succesvol toegevoegd'
+job.addedit.generalinfo.header: 'Algemene info'
+job.addedit.generalinfo.name.label: Naam
+job.addedit.generalinfo.name.placeholder: 'Systemen updaten'
+job.addedit.generalinfo.name.helptext: 'Je kan gekleurde tags toevoegen met [tag]'
+job.addedit.generalinfo.interval.label: 'Interval (in seconden)'
+job.addedit.generalinfo.interval.placeholder: '3600'
+job.addedit.generalinfo.interval.patterns.label: Patronen
+job.addedit.generalinfo.interval.patterns.minute: 'Iedere minuut'
+job.addedit.generalinfo.interval.patterns.hour: 'Ieder uur'
+job.addedit.generalinfo.interval.patterns.day: 'Iedere dag'
+job.addedit.generalinfo.interval.patterns.week: 'Iedere week'
+job.addedit.generalinfo.interval.patterns.4week: 'Iedere 4 weken'
+job.addedit.generalinfo.nextrun.label: 'Volgende uitvoering'
+job.addedit.generalinfo.lastrun.label: 'Laatste uitvoering'
+job.addedit.generalinfo.lastrun.eternal.label: Eeuwig
+job.addedit.generalinfo.retention.label: 'Opslag (in dagen)'
+job.addedit.generalinfo.retention.placeholder: '180'
+job.addedit.generalinfo.retention.helptext: 'Hoeveel dagen moeten uitvoeringen van een job bewaard worden'
+job.addedit.generalinfo.failpercentage.label: 'Max faalpercentage'
+job.addedit.generalinfo.faildays.label: 'Aantal dagen berekend voor faalpercentage'
+job.addedit.generalinfo.faildays.placeholder: '7'
+job.addedit.generalinfo.hostlabel.label: 'Host label'
+job.addedit.generalinfo.hostlabel.placeholder: petrosian.jeroened.be
+job.addedit.generalinfo.hostlabel.helptext: 'Geef hier een eenvoudig te herkennen hostnaam. Indien leeg zal hostnaam uit de taak details gebruikt worden'
+job.addedit.jobdetails.header: 'Taak details'
+job.addedit.crontype.label: 'Taak type'
+job.addedit.crontype.command.label: Commando
+job.addedit.crontype.command.header: 'Commando details'
+job.addedit.crontype.command.command.label: Commando
+job.addedit.crontype.command.command.placeholder: 'sudo apt update'
+job.addedit.crontype.command.response.label: 'Verwacht resultaat'
+job.addedit.crontype.command.response.placeholder: '0'
+job.addedit.crontype.reboot.label: Herstart
+job.addedit.crontype.reboot.header: 'Herstart details'
+job.addedit.crontype.reboot.reboot.command.label: 'Herstart commando'
+job.addedit.crontype.reboot.reboot.command.placeholder: 'systemctl reboot'
+job.addedit.crontype.reboot.reboot.command.helptext: 'Gebruik {reboot-delay} of {reboot-delay-secs} om de vertraging toe te voegen in je commando'
+job.addedit.crontype.reboot.reboot.delay.label: 'Herstart vertraging (in minuten)'
+job.addedit.crontype.reboot.reboot.delay.placeholder: '5'
+job.addedit.crontype.reboot.reboot.delay.helptext: 'Tijd tussen het aanroepen van herstart commando en de eigenlijke herstart'
+job.addedit.crontype.reboot.reboot.duration.label: 'Duurtijd van herstart (in minuten)'
+job.addedit.crontype.reboot.reboot.duration.placeholder: '10'
+job.addedit.crontype.reboot.reboot.duration.helptext: 'De tijd dat de effectieve herstart duurt'
+job.addedit.crontype.reboot.getservices.command.label: 'Commando voor ophalen services'
+job.addedit.crontype.reboot.getservices.command.placeholder: 'systemctl list-units'
+job.addedit.crontype.reboot.getservices.response.label: 'Resultaat van commando voor ophalen services'
+job.addedit.crontype.reboot.getservices.response.placeholder: '0'
+job.addedit.crontype.http.label: 'HTTP request'
+job.addedit.crontype.http.header: 'HTTP request details'
+job.addedit.crontype.http.url.label: Url
+job.addedit.crontype.http.url.placeholder: 'https://www.example.com'
+job.addedit.crontype.http.basic-auth.username.label: 'Gebruikersnaam voor basic auth'
+job.addedit.crontype.http.basic-auth.username.placeholder: www-data
+job.addedit.crontype.http.basic-auth.password.label: 'Wachtwoord voor basic auth'
+job.addedit.crontype.http.basic-auth.password.placeholder: 'correct horse battery staple'
+job.addedit.crontype.http.basic-auth.password.helptext: 'Dit veld word opgeslagen als geheime waarde'
+job.addedit.crontype.http.response.label: 'Verwachte http status code'
+job.addedit.crontype.http.response.placeholder: '418'
+job.addedit.hosttype.label: 'Host type'
+job.addedit.hosttype.local.label: Lokaal
+job.addedit.hosttype.local.header: 'Localhost details'
+job.addedit.hosttype.local.nodetails: 'Geen opties'
+job.addedit.hosttype.ssh.label: SSH
+job.addedit.hosttype.ssh.header: 'SSH host details'
+job.addedit.hosttype.ssh.hostname.label: Hostnaam
+job.addedit.hosttype.ssh.hostname.placeholder: ssh.abc.xyz
+job.addedit.hosttype.ssh.username.label: Gebruikersnaam
+job.addedit.hosttype.ssh.username.placeholder: larry
+job.addedit.hosttype.ssh.privatekey.label: Privésleutel
+job.addedit.hosttype.ssh.privatekey.helptext: 'Dit bestand word opgeslagen als geheime waarde'
+job.addedit.hosttype.ssh.privatekey.keep.label: Behoud
+job.addedit.hosttype.ssh.passphrase.label: 'Wachtwoord voor privésleutel'
+job.addedit.hosttype.ssh.passphrase.placeholder: abc123
+job.addedit.hosttype.ssh.passphrase.helptext: 'Indien er geen privésleutel is meegegeven zal dit gebruikt worden als gewoon wachtwoord. Dit veld word opgeslagen als geheime waarde'
+job.addedit.containertype.label: 'Container type'
+job.addedit.containertype.none.label: Geen
+job.addedit.containertype.docker.label: Docker
+job.addedit.containertype.docker.header: 'Docker container details'
+job.addedit.containertype.docker.service.label: Service
+job.addedit.containertype.docker.service.placeholder: mysql
+job.addedit.containertype.docker.username.label: Gebruikersnaam
+job.addedit.containertype.docker.username.placeholder: larry
+job.addedit.variables.header: Variabelen
+job.addedit.variables.secret.label: Geheim
+job.addedit.variables.name.placeholder: Naam
+job.addedit.variables.value.placeholder: Waarde
+job.addedit.variables.helptext: 'Je kan variabelen gebruiken via {variabele-naam} in de taak details'
+job.addedit.variables.add.label: 'Variable toevoegen'
+job.addedit.submit.label: Verzend!
+footer.title: 'Webcron Management'
+footer.source: Broncode
+job.index.run.selecttime.header: 'Wanneer moet deze taak uitgevoerd worden?'
+job.index.run.selecttime.description: 'Gelieve de datum en tijd te selecteren om deze taak uit te voeren'
+job.index.run.selecttime.btnschedule.label: Plan
+job.index.run.selecttime.btnrunnow.label: 'Nu uitvoeren'
+job.index.run.ran.btnclose.label: Sluiten
+job.index.run.deferred.title: 'Taak werd doorgestuurd naar de daemon'
+job.index.run.deferred.message: 'Taak werd doorgestuurd naar de daemon. De output vind u binnenkort in de taakdetails'
+job.index.run.ran.title.success: 'Taak werd succesvol uitgevoerd'
+job.index.run.ran.title.failed: 'Taak faalde. Hieronder vind u de output ter controle'
+job.index.run.ran.message: 'Taak werd in _runtime_ seconden uitgevoerd met resultaat _exitcode_'
+job.view.webhookurl: Webhook-URL
+job.view.results.webhook: 'Getriggerde uitvoering'
