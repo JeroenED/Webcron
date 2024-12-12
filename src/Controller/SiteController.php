@@ -16,18 +16,10 @@ class SiteController extends AbstractController
 {
 
     #[Route('/health', name: 'health')]
-    public function healthAction(Request $request, ManagerRegistry $doctrine, KernelInterface $kernel)
+    public function healthAction(DaemonHelpers $daemonHelpers)
     {
-        $em = $doctrine->getManager();
-        $jobRepo = $em->getRepository(Job::class);
-        $return = [
-            "DaemonRunning" => DaemonHelpers::isProcessRunning($kernel->getCacheDir() . '/daemon-running.lock'),
-            "JobsTotal" => count($jobRepo->getAllJobs()),
-            "JobsDue" => count($jobRepo->getJobsDue()),
-            "JobsRunning" => count($jobRepo->getRunningJobs()),
-            "JobsFailing" => count($jobRepo->getFailingJobs()),
-        ];
-        return new JsonResponse($return, $return['DaemonRunning'] ? 200 : 500);
+        $return = $daemonHelpers->healthCheck();
+        return $this->json($return, $return['DaemonRunning'] ? Response::HTTP_OK : Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 
     #[Route('/favicon.ico', name: 'favicon')]

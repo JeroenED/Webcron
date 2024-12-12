@@ -11,17 +11,18 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
 
 #[AsCommand(name: 'webcron:daemon', description: 'The master script of Webcron Management')]
 class DaemonCommand extends Command
 {
-    protected KernelInterface $kernel;
+    protected ContainerBagInterface $containerBag;
     protected ManagerRegistry $doctrine;
 
-    public function __construct(KernelInterface $kernel, ManagerRegistry $doctrine)
+    public function __construct(ContainerBagInterface $containerBag, ManagerRegistry $doctrine)
     {
-        $this->kernel = $kernel;
+        $this->containerBag = $containerBag;
         $this->doctrine = $doctrine;
 
         parent::__construct();
@@ -49,7 +50,7 @@ class DaemonCommand extends Command
             throw new \InvalidArgumentException('Time limit has incorrect value');
         }
         $jobRepo->unlockJob();
-        file_put_contents($this->kernel->getCacheDir() . '/daemon-running.lock', time());
+        file_put_contents($this->containerBag->get('pidfile'), time());
         while(1) {
             if($endofscript !== false && time() > $endofscript) break;
 
@@ -89,7 +90,7 @@ class DaemonCommand extends Command
                 }
             }
             $this->doctrine->getManager()->clear();
-            file_put_contents($this->kernel->getCacheDir() . '/daemon-running.lock', time());
+            file_put_contents($this->containerBag->get('pidfile'), time());
 
             $maxwait = time() + 30;
             $nextrun = max($jobRepo->getTimeOfNextRun(), time() + 1);
@@ -100,7 +101,7 @@ class DaemonCommand extends Command
         $output->writeln('Ended after ' . $timelimit . ' seconds');
         pcntl_wait($status);
 
-        unlink($this->kernel->getCacheDir() . '/daemon-running.lock');
+        unlink($this->containerBag->get('pidfile'));
         return Command::SUCCESS;
     }
 }

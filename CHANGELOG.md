@@ -1,4 +1,8 @@
 # Changelog
+## NEXT
+### Changed
+* Added new health command for daemon-only instances
+
 ## Version 1.2
 ### New
 * Added timed scheduled runs
