@@ -74,7 +74,7 @@ class JobRepository extends EntityRepository
     {
         $runRepo = $this->getEntityManager()->getRepository(Run::class);
         $return = [];
-        foreach ($jobs as $key=>&$job) {
+        foreach ($jobs as $key=>$job) {
             $jobData = $job->getData();
             $job->setData('host-displayname', $jobData['host']);
             $job->setData('host', $jobData['host']);
