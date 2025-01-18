@@ -25,17 +25,9 @@ class JobRepository extends EntityRepository
      */
     public function getFailingJobs()
     {
-        $runRepo = $this->getEntityManager()->getRepository(Run::class);
         /** @var Job[] $jobs */
-        $jobs = $this->getAllJobs();
-
-        $return = [];
-        foreach($jobs as $job) {
-            if($job->getData('needschecking')) {
-                $return[] = $job;
-            }
-        }
-        return $return;
+        $jobs = $this->getAllJobs(filter: ['filter' => ['needschecking' => true]]);
+        return $jobs;
     }
 
     /**
@@ -53,13 +45,13 @@ class JobRepository extends EntityRepository
      * @param bool $idiskey
      * @return array
      */
-    public function getAllJobs(bool $idiskey = false): array
+    public function getAllJobs(bool $idiskey = false, array $filter = []): array
     {
         $qb = $this->createQueryBuilder('job');
 
         $jobs = $qb->where('job.id = job.id');
 
-        if($idiskey) {
+        if ($idiskey) {
             $jobs = $jobs->orderBy('job.id');
         } else {
             $jobs = $jobs
@@ -71,17 +63,17 @@ class JobRepository extends EntityRepository
         /** @var Job $jobs */
         $jobs = $jobs->getQuery()->getResult();
 
-        return $this->parseJobs($jobs);
+        return $this->parseJobs($jobs, $filter);
     }
 
     /**
      * @param array $jobs
      * @return array
      */
-    public function parseJobs(array $jobs): array
+    public function parseJobs(array $jobs, array $filter = []): array
     {
         $runRepo = $this->getEntityManager()->getRepository(Run::class);
-
+        $return = [];
         foreach ($jobs as $key=>&$job) {
             $jobData = $job->getData();
             $job->setData('host-displayname', $jobData['host']);
@@ -93,13 +85,23 @@ class JobRepository extends EntityRepository
             $failed = count($failedruns);
             $all = count($runRepo->getRunsForJob($job, false, $jobData['fail-days']));
             $job->setData('lastfail', isset($failedruns[0]) ? $failedruns[0]->toArray() : NULL);
-            $job->setData('needschecking', $all > 0  && (($failed / $all) * 100) > $jobData['fail-pct']);
-            if(!empty($jobData['containertype']) && $jobData['containertype'] != 'none') {
+            $job->setData('needschecking', $all > 0 && (($failed / $all) * 100) > $jobData['fail-pct']);
+            if (!empty($jobData['containertype']) && $jobData['containertype'] != 'none') {
                 $job->setData('host-displayname', $jobData['service'] . ' on ' . $jobData['host']);
+            }
+
+            if (!empty($filter)) {
+                foreach ($filter as $key => $value) {
+                    if($job->getData($key) == $value) {
+                        $return[] = $job;
+                    }
+                }
+            } else {
+                $return[] = $job;
             }
         }
 
-        return $jobs;
+        return $return;
     }
 
     /**
