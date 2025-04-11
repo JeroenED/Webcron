@@ -26,7 +26,7 @@ class JobRepository extends EntityRepository
     public function getFailingJobs()
     {
         /** @var Job[] $jobs */
-        $jobs = $this->getAllJobs(filter: ['filter' => ['needschecking' => true]]);
+        $jobs = $this->getAllJobs(filter: ['needschecking' => true]);
         return $jobs;
     }
 
